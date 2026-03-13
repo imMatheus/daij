@@ -20,3 +20,13 @@ export function getProviderImage(provider: string): string {
 
 export const MYSTERY_IMAGE =
   'https://cdn.midjourney.com/c3ba9b43-aa12-45d1-9233-9ac61c824036/0_0.png'
+
+export function formatDuration(seconds: number) {
+  const mins = Math.floor(seconds / 60)
+  const secs = seconds % 60
+  return `${mins}:${secs.toString().padStart(2, '0')}`
+}
+
+export function getSongPath(song: { audioUrl: string }): string {
+  return song.audioUrl.replace(/\.wav$/, '')
+}

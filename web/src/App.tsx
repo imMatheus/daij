@@ -4,6 +4,7 @@ import { Provider } from './pages/provider'
 import { Arena } from './pages/arena'
 import { Leaderboard } from './pages/leaderboard'
 import { Test } from './pages/test'
+import { SongPage } from './pages/song'
 import { Player } from './components/Player'
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
         <Route path="/test" element={<Test />} />
         <Route path="/arena" element={<Arena />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
+        <Route path="/:provider/:slug" element={<SongPage />} />
         <Route path="/:provider" element={<Provider />} />
       </Routes>
       <Player />

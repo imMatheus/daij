@@ -1,6 +1,6 @@
 import { useParams, Link } from 'react-router'
 import { useSongs } from '@/useSongs'
-import { getProviderImage } from '@/lib/utils'
+import { formatDuration, getProviderImage } from '@/lib/utils'
 import { SongRow } from '@/components/SongRow'
 import type { Song } from '@/songs'
 
@@ -23,12 +23,6 @@ const providerMeta: Record<
     description:
       "Sonic experiments produced by Google's Gemini, translating language into layered soundscapes.",
   },
-}
-
-function formatDuration(seconds: number) {
-  const mins = Math.floor(seconds / 60)
-  const secs = seconds % 60
-  return `${mins}:${secs.toString().padStart(2, '0')}`
 }
 
 function formatTotalDuration(seconds: number) {

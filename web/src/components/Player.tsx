@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
+import { Link } from 'react-router'
 import { useSongs } from '@/useSongs'
-import { getProviderImage, MYSTERY_IMAGE } from '@/lib/utils'
+import { getProviderImage, getSongPath, MYSTERY_IMAGE } from '@/lib/utils'
 
 function formatTime(seconds: number) {
   const mins = Math.floor(seconds / 60)
@@ -71,9 +72,17 @@ export const Player = () => {
         />
 
         <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-medium text-black">
-            {anonymous ? '???' : currentSong.name}
-          </p>
+          {anonymous ? (
+            <p className="truncate text-sm font-medium text-black">???</p>
+          ) : (
+            <Link
+              to={getSongPath(currentSong)}
+              className="block truncate text-sm font-medium text-black hover:underline"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {currentSong.name}
+            </Link>
+          )}
           <p className="text-fg-muted text-xs">
             {anonymous ? '???' : providerLabel(currentSong.provider)} &middot;{' '}
             {formatTime(currentTime)} / {formatTime(duration)}
