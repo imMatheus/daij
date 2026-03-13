@@ -1,0 +1,502 @@
+[
+  {
+    "text": "a melancholic song",
+    "category": "mood",
+    "slug": "a-melancholic-song"
+  },
+  {
+    "text": "an uplifting energetic track",
+    "category": "mood",
+    "slug": "an-uplifting-energetic-track"
+  },
+  {
+    "text": "a peaceful ambient piece",
+    "category": "mood",
+    "slug": "a-peaceful-ambient-piece"
+  },
+  {
+    "text": "an anxious and tense composition",
+    "category": "mood",
+    "slug": "an-anxious-and-tense-composition"
+  },
+  {
+    "text": "a dreamy and ethereal song",
+    "category": "mood",
+    "slug": "a-dreamy-and-ethereal-song"
+  },
+  {
+    "text": "a nostalgic track that feels like old memories",
+    "category": "mood",
+    "slug": "a-nostalgic-track-that-feels-like-old-memories"
+  },
+  {
+    "text": "an aggressive and intense beat",
+    "category": "mood",
+    "slug": "an-aggressive-and-intense-beat"
+  },
+  {
+    "text": "a playful and whimsical tune",
+    "category": "mood",
+    "slug": "a-playful-and-whimsical-tune"
+  },
+  {
+    "text": "a mysterious and dark atmosphere",
+    "category": "mood",
+    "slug": "a-mysterious-and-dark-atmosphere"
+  },
+  {
+    "text": "a warm and cozy song for a rainy day",
+    "category": "mood",
+    "slug": "a-warm-and-cozy-song-for-a-rainy-day"
+  },
+  {
+    "text": "a triumphant and victorious anthem",
+    "category": "mood",
+    "slug": "a-triumphant-and-victorious-anthem"
+  },
+  {
+    "text": "a lonely and isolated soundscape",
+    "category": "mood",
+    "slug": "a-lonely-and-isolated-soundscape"
+  },
+  {
+    "text": "a romantic and tender melody",
+    "category": "mood",
+    "slug": "a-romantic-and-tender-melody"
+  },
+  {
+    "text": "a chaotic and unpredictable piece",
+    "category": "mood",
+    "slug": "a-chaotic-and-unpredictable-piece"
+  },
+  {
+    "text": "a serene and meditative track",
+    "category": "mood",
+    "slug": "a-serene-and-meditative-track"
+  },
+  {
+    "text": "a bittersweet song about endings",
+    "category": "mood",
+    "slug": "a-bittersweet-song-about-endings"
+  },
+  {
+    "text": "a euphoric and ecstatic dance track",
+    "category": "mood",
+    "slug": "a-euphoric-and-ecstatic-dance-track"
+  },
+  {
+    "text": "a somber funeral march",
+    "category": "mood",
+    "slug": "a-somber-funeral-march"
+  },
+  {
+    "text": "a carefree summer vibe",
+    "category": "mood",
+    "slug": "a-carefree-summer-vibe"
+  },
+  {
+    "text": "a suspenseful and eerie track",
+    "category": "mood",
+    "slug": "a-suspenseful-and-eerie-track"
+  },
+  {
+    "text": "a lo-fi hip hop beat",
+    "category": "genre",
+    "slug": "a-lo-fi-hip-hop-beat"
+  },
+  {
+    "text": "a jazz ballad with walking bass",
+    "category": "genre",
+    "slug": "a-jazz-ballad-with-walking-bass"
+  },
+  {
+    "text": "an 8-bit chiptune adventure theme",
+    "category": "genre",
+    "slug": "an-8-bit-chiptune-adventure-theme"
+  },
+  {
+    "text": "a bossa nova track",
+    "category": "genre",
+    "slug": "a-bossa-nova-track"
+  },
+  {
+    "text": "a drum and bass roller",
+    "category": "genre",
+    "slug": "a-drum-and-bass-roller"
+  },
+  {
+    "text": "a classical waltz in three-four time",
+    "category": "genre",
+    "slug": "a-classical-waltz-in-three-four-time"
+  },
+  {
+    "text": "a reggae dub track with heavy delay",
+    "category": "genre",
+    "slug": "a-reggae-dub-track-with-heavy-delay"
+  },
+  {
+    "text": "a funk groove with slap bass",
+    "category": "genre",
+    "slug": "a-funk-groove-with-slap-bass"
+  },
+  {
+    "text": "a deep house track with a four on the floor kick",
+    "category": "genre",
+    "slug": "a-deep-house-track-with-a-four-on-the-floor-kick"
+  },
+  {
+    "text": "a blues shuffle with gritty guitar",
+    "category": "genre",
+    "slug": "a-blues-shuffle-with-gritty-guitar"
+  },
+  {
+    "text": "a minimal techno loop",
+    "category": "genre",
+    "slug": "a-minimal-techno-loop"
+  },
+  {
+    "text": "a trap beat with heavy 808s",
+    "category": "genre",
+    "slug": "a-trap-beat-with-heavy-808s"
+  },
+  {
+    "text": "a country folk song with acoustic guitar",
+    "category": "genre",
+    "slug": "a-country-folk-song-with-acoustic-guitar"
+  },
+  {
+    "text": "an ambient drone piece",
+    "category": "genre",
+    "slug": "an-ambient-drone-piece"
+  },
+  {
+    "text": "a disco track with groovy bassline",
+    "category": "genre",
+    "slug": "a-disco-track-with-groovy-bassline"
+  },
+  {
+    "text": "a breakbeat with chopped samples",
+    "category": "genre",
+    "slug": "a-breakbeat-with-chopped-samples"
+  },
+  {
+    "text": "a synthwave retro track",
+    "category": "genre",
+    "slug": "a-synthwave-retro-track"
+  },
+  {
+    "text": "a garage rock song",
+    "category": "genre",
+    "slug": "a-garage-rock-song"
+  },
+  {
+    "text": "a downtempo trip hop beat",
+    "category": "genre",
+    "slug": "a-downtempo-trip-hop-beat"
+  },
+  {
+    "text": "a latin salsa rhythm",
+    "category": "genre",
+    "slug": "a-latin-salsa-rhythm"
+  },
+  {
+    "text": "a song in the style of Billie Eilish with dark, layered vocals",
+    "category": "artist-style",
+    "slug": "a-song-in-the-style-of-billie-eilish-with-dark-layered-vocal"
+  },
+  {
+    "text": "a song in the style of Kendrick Lamar with intricate storytelling",
+    "category": "artist-style",
+    "slug": "a-song-in-the-style-of-kendrick-lamar-with-intricate-storyte"
+  },
+  {
+    "text": "a song in the style of Tyler, The Creator with quirky production",
+    "category": "artist-style",
+    "slug": "a-song-in-the-style-of-tyler-the-creator-with-quirky-product"
+  },
+  {
+    "text": "a song in the style of FKA twigs with experimental art pop elements",
+    "category": "artist-style",
+    "slug": "a-song-in-the-style-of-fka-twigs-with-experimental-art-pop-e"
+  },
+  {
+    "text": "a song in the style of SZA with soulful alt-R&B vibes",
+    "category": "artist-style",
+    "slug": "a-song-in-the-style-of-sza-with-soulful-alt-rb-vibes"
+  },
+  {
+    "text": "a song in the style of Rosalía blending flamenco and modern beats",
+    "category": "artist-style",
+    "slug": "a-song-in-the-style-of-rosala-blending-flamenco-and-modern-b"
+  },
+  {
+    "text": "a song in the style of Fred again.. with emotive sample-based dance music",
+    "category": "artist-style",
+    "slug": "a-song-in-the-style-of-fred-again-with-emotive-sample-based"
+  },
+  {
+    "text": "a song in the style of Drake with introspective rap and melodic hooks",
+    "category": "artist-style",
+    "slug": "a-song-in-the-style-of-drake-with-introspective-rap-and-melo"
+  },
+  {
+    "text": "a song in the style of Arca with glitchy avant-garde electronics",
+    "category": "artist-style",
+    "slug": "a-song-in-the-style-of-arca-with-glitchy-avant-garde-electro"
+  },
+  {
+    "text": "a song in the style of James Blake with sparse, emotional production",
+    "category": "artist-style",
+    "slug": "a-song-in-the-style-of-james-blake-with-sparse-emotional-pro"
+  },
+  {
+    "text": "a song in the style of Doja Cat blending pop, hip hop, and retro sounds",
+    "category": "artist-style",
+    "slug": "a-song-in-the-style-of-doja-cat-blending-pop-hip-hop-and-ret"
+  },
+  {
+    "text": "a song in the style of Rina Sawayama with genre-blending pop maximalism",
+    "category": "artist-style",
+    "slug": "a-song-in-the-style-of-rina-sawayama-with-genre-blending-pop"
+  },
+  {
+    "text": "a song in the style of JID with rapid-fire, clever lyricism",
+    "category": "artist-style",
+    "slug": "a-song-in-the-style-of-jid-with-rapid-fire-clever-lyricism"
+  },
+  {
+    "text": "a song in the style of Caroline Polachek with ethereal art-pop vocals",
+    "category": "artist-style",
+    "slug": "a-song-in-the-style-of-caroline-polachek-with-ethereal-art-p"
+  },
+  {
+    "text": "a song in the style of BADBADNOTGOOD merging jazz and hip-hop",
+    "category": "artist-style",
+    "slug": "a-song-in-the-style-of-badbadnotgood-merging-jazz-and-hip-ho"
+  },
+  {
+    "text": "a song in the style of Tash Sultana with layered live looping",
+    "category": "artist-style",
+    "slug": "a-song-in-the-style-of-tash-sultana-with-layered-live-loopin"
+  },
+  {
+    "text": "a song in the style of Justin Bieber",
+    "category": "artist-style",
+    "slug": "a-song-in-the-style-of-justin-bieber"
+  },
+  {
+    "text": "a song in the style of Yves Tumor with psychedelic experimental rock",
+    "category": "artist-style",
+    "slug": "a-song-in-the-style-of-yves-tumor-with-psychedelic-experimen"
+  },
+  {
+    "text": "a song in the style of Joey Bada$$ with classic boom bap influences",
+    "category": "artist-style",
+    "slug": "a-song-in-the-style-of-joey-bada-with-classic-boom-bap-influ"
+  },
+  {
+    "text": "a song in the style of ODESZA with widescreen electronic beats",
+    "category": "artist-style",
+    "slug": "a-song-in-the-style-of-odesza-with-widescreen-electronic-bea"
+  },
+  {
+    "text": "music for a sunrise on the beach",
+    "category": "scenario",
+    "slug": "music-for-a-sunrise-on-the-beach"
+  },
+  {
+    "text": "soundtrack for a car chase scene",
+    "category": "scenario",
+    "slug": "soundtrack-for-a-car-chase-scene"
+  },
+  {
+    "text": "background music for studying late at night",
+    "category": "scenario",
+    "slug": "background-music-for-studying-late-at-night"
+  },
+  {
+    "text": "music for walking through a forest",
+    "category": "scenario",
+    "slug": "music-for-walking-through-a-forest"
+  },
+  {
+    "text": "soundtrack for a space exploration scene",
+    "category": "scenario",
+    "slug": "soundtrack-for-a-space-exploration-scene"
+  },
+  {
+    "text": "music for a rainy window coffee shop",
+    "category": "scenario",
+    "slug": "music-for-a-rainy-window-coffee-shop"
+  },
+  {
+    "text": "soundtrack for an underwater adventure",
+    "category": "scenario",
+    "slug": "soundtrack-for-an-underwater-adventure"
+  },
+  {
+    "text": "music for a midnight train ride",
+    "category": "scenario",
+    "slug": "music-for-a-midnight-train-ride"
+  },
+  {
+    "text": "soundtrack for a robot coming to life",
+    "category": "scenario",
+    "slug": "soundtrack-for-a-robot-coming-to-life"
+  },
+  {
+    "text": "music for a street market in a foreign city",
+    "category": "scenario",
+    "slug": "music-for-a-street-market-in-a-foreign-city"
+  },
+  {
+    "text": "soundtrack for watching the northern lights",
+    "category": "scenario",
+    "slug": "soundtrack-for-watching-the-northern-lights"
+  },
+  {
+    "text": "music for a skateboard montage",
+    "category": "scenario",
+    "slug": "music-for-a-skateboard-montage"
+  },
+  {
+    "text": "soundtrack for a heist movie",
+    "category": "scenario",
+    "slug": "soundtrack-for-a-heist-movie"
+  },
+  {
+    "text": "music for floating in zero gravity",
+    "category": "scenario",
+    "slug": "music-for-floating-in-zero-gravity"
+  },
+  {
+    "text": "soundtrack for a retro arcade",
+    "category": "scenario",
+    "slug": "soundtrack-for-a-retro-arcade"
+  },
+  {
+    "text": "music for cooking dinner alone",
+    "category": "scenario",
+    "slug": "music-for-cooking-dinner-alone"
+  },
+  {
+    "text": "soundtrack for a snowfall in the city",
+    "category": "scenario",
+    "slug": "soundtrack-for-a-snowfall-in-the-city"
+  },
+  {
+    "text": "music for a sunset rooftop party",
+    "category": "scenario",
+    "slug": "music-for-a-sunset-rooftop-party"
+  },
+  {
+    "text": "soundtrack for an old silent film",
+    "category": "scenario",
+    "slug": "soundtrack-for-an-old-silent-film"
+  },
+  {
+    "text": "music for waking up on a lazy sunday",
+    "category": "scenario",
+    "slug": "music-for-waking-up-on-a-lazy-sunday"
+  },
+  {
+    "text": "a song that gradually speeds up over time",
+    "category": "concept",
+    "slug": "a-song-that-gradually-speeds-up-over-time"
+  },
+  {
+    "text": "a conversation between piano and drums",
+    "category": "concept",
+    "slug": "a-conversation-between-piano-and-drums"
+  },
+  {
+    "text": "minimalist repetition with subtle variations",
+    "category": "concept",
+    "slug": "minimalist-repetition-with-subtle-variations"
+  },
+  {
+    "text": "a song built entirely from vocal samples",
+    "category": "concept",
+    "slug": "a-song-built-entirely-from-vocal-samples"
+  },
+  {
+    "text": "polyrhythmic patterns in five against four",
+    "category": "concept",
+    "slug": "polyrhythmic-patterns-in-five-against-four"
+  },
+  {
+    "text": "a song that deconstructs itself halfway through",
+    "category": "concept",
+    "slug": "a-song-that-deconstructs-itself-halfway-through"
+  },
+  {
+    "text": "layers that enter one by one until full orchestra",
+    "category": "concept",
+    "slug": "layers-that-enter-one-by-one-until-full-orchestra"
+  },
+  {
+    "text": "a song using only percussion instruments",
+    "category": "concept",
+    "slug": "a-song-using-only-percussion-instruments"
+  },
+  {
+    "text": "call and response between two melodic voices",
+    "category": "concept",
+    "slug": "call-and-response-between-two-melodic-voices"
+  },
+  {
+    "text": "a song that sounds like a machine waking up",
+    "category": "concept",
+    "slug": "a-song-that-sounds-like-a-machine-waking-up"
+  },
+  {
+    "text": "music made from reversed and pitch-shifted sounds",
+    "category": "concept",
+    "slug": "music-made-from-reversed-and-pitch-shifted-sounds"
+  },
+  {
+    "text": "a canon where the same melody echoes with delay",
+    "category": "concept",
+    "slug": "a-canon-where-the-same-melody-echoes-with-delay"
+  },
+  {
+    "text": "a song that transitions through four seasons",
+    "category": "concept",
+    "slug": "a-song-that-transitions-through-four-seasons"
+  },
+  {
+    "text": "glitchy and broken digital artifacts as music",
+    "category": "concept",
+    "slug": "glitchy-and-broken-digital-artifacts-as-music"
+  },
+  {
+    "text": "a lullaby that slowly distorts into noise",
+    "category": "concept",
+    "slug": "a-lullaby-that-slowly-distorts-into-noise"
+  },
+  {
+    "text": "two songs playing simultaneously that harmonize",
+    "category": "concept",
+    "slug": "two-songs-playing-simultaneously-that-harmonize"
+  },
+  {
+    "text": "a song with no melody just rhythm and texture",
+    "category": "concept",
+    "slug": "a-song-with-no-melody-just-rhythm-and-texture"
+  },
+  {
+    "text": "a three-act story told through music",
+    "category": "concept",
+    "slug": "a-three-act-story-told-through-music"
+  },
+  {
+    "text": "a song that feels like it's underwater",
+    "category": "concept",
+    "slug": "a-song-that-feels-like-its-underwater"
+  },
+  {
+    "text": "generative music that evolves with randomness",
+    "category": "concept",
+    "slug": "generative-music-that-evolves-with-randomness"
+  }
+]

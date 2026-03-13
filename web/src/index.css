@@ -1,0 +1,109 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Sora', ui-sans-serif, system-ui, sans-serif;
+  --color-bg: var(--bg);
+  --color-bg-secondary: var(--bg-secondary);
+  --color-fg: var(--fg);
+  --color-fg-heading: var(--fg-heading);
+  --color-fg-muted: var(--fg-muted);
+  --color-fg-faint: var(--fg-faint);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+  --color-btn-hover: var(--btn-hover);
+  --color-accent: var(--accent);
+}
+
+:root {
+  --bg: #2702c2;
+  --accent: #8338ec;
+  /* --bg: #e63946; */
+  /* --bg: #ff5400; */
+  /* --bg: #a5be00; */
+  /* --bg: #fb5607; */
+  --bg-secondary: #fff;
+  --fg: rgba(255, 252, 236, 0.75);
+  --fg-heading: #fffcec;
+  --fg-muted: hsl(0, 0%, 56%);
+  --fg-faint: rgba(255, 252, 236, 0.35);
+  --surface: #ffbe0b00;
+  /* --surface: #ebf2fa; */
+  --border: hsla(0, 0%, 92%, 1);
+  --btn-hover: rgba(255, 255, 255, 0.15);
+  /* --body-gradient: linear-gradient(135deg, #2702c2, #3139fb, #5b4cf0); */
+}
+
+* {
+  border-color: var(--border);
+}
+
+body {
+  background-attachment: fixed;
+  /* background: var(--bg); */
+  /* background: var(--body-gradient); */
+  color: var(--fg);
+  font-family: var(--font-sans);
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.noice {
+  background-image: url('/noice.png');
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  /* z-index: 9999; */
+  pointer-events: none;
+}
+
+::selection {
+  @apply bg-bg;
+  color: #fff;
+}
+
+@keyframes wave {
+  0%,
+  100% {
+    height: 4px;
+  }
+  50% {
+    height: 14px;
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fadeUp 0.5s ease-out both;
+}
+
+@keyframes pixelExpand {
+  0%,
+  100% {
+    transform: scaleX(1);
+  }
+  50% {
+    transform: scaleX(1.5);
+  }
+}
+
+@keyframes playingWave {
+  0% {
+    height: 20%;
+  }
+  100% {
+    height: 100%;
+  }
+}

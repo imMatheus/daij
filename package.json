@@ -1,0 +1,17 @@
+{
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "render": "bun scripts/render-song.ts",
+    "batch-render": "bun scripts/batch-render.ts",
+    "generate-prompts": "bun scripts/generate-prompts.ts",
+    "generate-songs": "bun scripts/generate-songs.ts",
+    "import-songs": "bun scripts/import-songs.ts",
+    "build-songs-json": "bun scripts/build-songs-json.ts",
+    "db": "docker compose up -d",
+    "db:stop": "docker compose down"
+  },
+  "devDependencies": {
+    "puppeteer": "^24.0.0"
+  }
+}
