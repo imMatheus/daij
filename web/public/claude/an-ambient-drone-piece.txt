@@ -1,0 +1,54 @@
+// 🌊 "Vast Horizons" — Ambient Drone
+// At 60 BPM: intro(8) + drift(20) + deep(20) + ascend(20) + fade(12) = 80 bars ≈ 5:20
+
+setcpm(60 / 4)
+
+$: s("vinyl:2").gain(.12).room(1).loop(1).lpf(2200)
+
+$: arrange(
+  [8,  note("c1").s("sine").attack(4).decay(2).sustain(.9).release(4).gain(.18).room(.8).roomsize(8).lpf(120)],
+  [20, note("c1").s("sine").attack(3).decay(2).sustain(.9).release(4).gain(.22).room(.8).roomsize(8).lpf(sine.range(80,200).slow(20))],
+  [20, note("c1").s("sine").attack(3).decay(2).sustain(.9).release(4).gain(.25).room(.85).roomsize(8).lpf(sine.range(100,250).slow(16))],
+  [20, note("c1").s("sine").attack(3).decay(2).sustain(.9).release(4).gain(.22).room(.8).roomsize(8).lpf(sine.range(80,200).slow(20))],
+  [12, note("c1").s("sine").attack(4).decay(2).sustain(.8).release(6).gain(saw.slow(12).range(.2,.02)).room(.9).roomsize(8).lpf(120)]
+)
+
+$: arrange(
+  [8,  note("g1").s("sine").attack(5).decay(2).sustain(.85).release(5).gain(.13).room(.85).roomsize(8).lpf(180)],
+  [20, note("<g1 ab1>/8").s("sine").attack(4).decay(2).sustain(.85).release(5).gain(.16).room(.85).roomsize(8).lpf(sine.range(100,220).slow(18))],
+  [20, note("<g1 ab1 f1>/8").s("sine").attack(4).decay(2).sustain(.85).release(5).gain(.18).room(.85).roomsize(8).lpf(sine.range(120,260).slow(14))],
+  [20, note("<g1 ab1>/8").s("sine").attack(4).decay(2).sustain(.85).release(5).gain(.16).room(.85).roomsize(8).lpf(sine.range(100,220).slow(18))],
+  [12, note("g1").s("sine").attack(5).decay(2).sustain(.8).release(6).gain(saw.slow(12).range(.14,.01)).room(.9).roomsize(8).lpf(160)]
+)
+
+$: arrange(
+  [8,  silence],
+  [20, note("eb2").s("triangle").attack(6).decay(3).sustain(.7).release(6).gain(.09).room(.9).roomsize(8).lpf(sine.range(300,800).slow(24)).pan(sine.slow(16))],
+  [20, note("<eb2 d2>/10").s("triangle").attack(5).decay(3).sustain(.7).release(6).gain(.12).room(.9).roomsize(8).lpf(sine.range(400,1000).slow(20)).pan(sine.slow(14))],
+  [20, note("<eb2 d2>/10").s("triangle").attack(5).decay(3).sustain(.7).release(6).gain(.10).room(.9).roomsize(8).lpf(sine.range(300,800).slow(24)).pan(sine.slow(16))],
+  [12, note("eb2").s("triangle").attack(6).decay(3).sustain(.6).release(8).gain(saw.slow(12).range(.09,.01)).room(.95).roomsize(8).lpf(500).pan(sine.slow(20))]
+)
+
+$: arrange(
+  [8,  silence],
+  [20, silence],
+  [20, chord("<Cm Abmaj7>/8").dict('ireal').voicing().s("gm_synth_strings_1").attack(4).decay(3).sustain(.6).release(6).lpf(sine.range(400,1200).slow(20)).room(.9).roomsize(6).gain(.14).pan(sine.slow(18).range(.3,.7))],
+  [20, chord("<Cm Abmaj7 Ebmaj7>/10").dict('ireal').voicing().s("gm_synth_strings_1").attack(4).decay(3).sustain(.6).release(6).lpf(sine.range(500,1400).slow(16)).room(.9).roomsize(6).gain(.16).pan(sine.slow(14).range(.3,.7))],
+  [12, chord("<Cm>/4").dict('ireal').voicing().s("gm_synth_strings_1").attack(5).decay(3).sustain(.5).release(8).lpf(sine.range(300,800).slow(12)).room(.95).roomsize(8).gain(saw.slow(12).range(.12,.01)).pan(.5)]
+)
+
+$: arrange(
+  [8,  silence],
+  [20, n("<[~ ~ 0 ~] [~ ~ ~ ~] [~ 3 ~ ~] [~ ~ ~ ~]>/2").scale("C5:minor:pentatonic").s("gm_flute").attack(.3).decay(.8).sustain(.4).release(2).room(.9).roomsize(6).delay(".5:.4:.6").gain(.15).lpf(sine.range(1000,3000).slow(22)).vib(3).vibmod(.4)],
+  [20, n("<[~ 0 ~ ~] [~ ~ 3 ~] [~ ~ ~ 5] [~ 7 ~ ~]>/2").scale("C5:minor:pentatonic").s("gm_flute").attack(.2).decay(.6).sustain(.45).release(2).room(.85).roomsize(6).delay(".45:.35:.55").gain(.2).lpf(sine.range(1200,3500).slow(18)).vib(3).vibmod(.5).rarely(x => x.add(note(12)).gain(.08))],
+  [20, n("<[~ ~ 0 ~] [~ ~ ~ ~] [~ 3 ~ ~] [~ ~ ~ ~]>/2").scale("C5:minor:pentatonic").s("gm_flute").attack(.3).decay(.8).sustain(.4).release(2).room(.9).roomsize(6).delay(".5:.4:.6").gain(.15).lpf(sine.range(1000,3000).slow(22)).vib(3).vibmod(.4)],
+  [12, silence]
+)
+
+$: arrange(
+  [8,  silence],
+  [20, silence],
+  [20, note("c3").s("sawtooth").attack(6).decay(4).sustain(.5).release(8).lpf(sine.range(200,600).slow(20)).room(.9).roomsize(8).gain(.06).pan(sine.slow(22).range(.2,.8))],
+  [20, note("<c3 g2>/10").s("sawtooth").attack(5).decay(4).sustain(.5).release(8).lpf(sine.range(250,700).slow(16)).room(.9).roomsize(8).gain(.08).pan(sine.slow(18).range(.2,.8))],
+  [12, note("c3").s("sawtooth").attack(6).decay(4).sustain(.4).release(10).lpf(sine.range(150,400).slow(12)).room(.95).roomsize(8).gain(saw.slow(12).range(.06,.0)).pan(.5)]
+)

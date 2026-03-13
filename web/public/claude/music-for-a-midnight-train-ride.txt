@@ -1,0 +1,17 @@
+Song written to `web/public/claude/music-for-a-midnight-train-ride.txt`.
+
+**"Midnight Rail"** — Downtempo Ambient Jazz, 76 BPM, 80 bars (~2:32)
+
+**Key:** Bb minor | **Chords:** Bbm9 → Ebm7 → Gbmaj7 → Ab7b9
+
+**Layers (8 voices):**
+1. **Vinyl texture** — constant lo-fi warmth
+2. **Hi-hats** — 16th-note clacking with perlin-modulated gain, evoking train wheels on tracks
+3. **Kick/snare** — swung broken beat with `bd ~ [~ bd] ~` syncopation mimicking the train's rocking motion
+4. **Acoustic bass** — deep rhythmic pulse like the engine rumbling beneath
+5. **Electric piano chords** — dreamy offbeat voicings with delay, like city lights through foggy windows
+6. **Piano melody** — contemplative Bb minor pentatonic phrases, sparse and reflective
+7. **Clarinet counter-melody** — lonely, distant lines appearing only in the chorus and bridge sections, with vibrato
+8. **Sub bass drone** — deep sine pad cycling through the chord roots, the constant hum of the rails
+
+**Structure:** Intro builds from just vinyl + sparse kick → verse adds bass and chords → chorus brings full drums, clarinet, and brighter filters → verse 2 pulls back with random gain drops → bridge strips to half-time with wide reverb → outro fades the kick to nothing over strings.

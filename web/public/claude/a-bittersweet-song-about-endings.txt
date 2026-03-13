@@ -1,0 +1,88 @@
+Let me just output the code directly:
+
+// 🍂 "Closing Credits" — Bittersweet Cinematic Ballad
+// At 74 BPM: intro(8) + verse(16) + chorus(16) + verse2(16) + chorus2(16) + bridge(8) + outro(8) = 88 bars ≈ 2:51
+
+```
+setcpm(74 / 4)
+
+$: s("vinyl:2").gain(.13).room(1).loop(1).lpf(2400)
+
+$: s("hh*8")
+   .bank("RolandTR808")
+   .gain(perlin.range(.05, .32))
+   .pan(sine.slow(7))
+   .cut(1)
+
+$: arrange(
+  [8,  s("bd ~ ~ ~").bank("RolandTR808").gain(.45).room(.6).lpf(700)],
+  [16, s("bd ~ ~ bd, ~ [sd:1,cp] ~ ~, hh*8").bank("RolandTR808").swing(3).gain(".74 .66").room(.42).cut(1)],
+  [16, s("bd ~ bd ~, ~ [cp,sd:1] ~ [~ cp], [hh hh oh hh]*2").bank("RolandTR808").swing(3).gain(".84 .76").room(.36).cut(1).every(4, x => x.press())],
+  [16, s("bd ~ ~ bd, ~ [sd:1,cp] ~ ~, hh*8").bank("RolandTR808").swing(3).gain(".74 .66").room(.42).cut(1).sometimes(x => x.gain(.28))],
+  [16, s("bd ~ bd ~, ~ [cp,sd:1] ~ [~ cp], [hh hh oh hh]*2").bank("RolandTR808").swing(3).gain(".84 .76").room(.36).cut(1).every(4, x => x.press())],
+  [8,  s("bd ~ ~ ~, ~ ~ [sd:1] ~").bank("RolandTR808").swing(4).gain(".58 .5").room(.6)],
+  [8,  s("bd ~ ~ ~").bank("RolandTR808").gain(saw.slow(8).range(.45, .04)).room(.7)]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, note("<[eb2 ~ ~ eb2] [bb1 ~ ~ ~] [ab1 ~ ~ ab1] [bb1 ~ ~ ~]>").s("gm_acoustic_bass").decay(.38).sustain(.44).room(.22).gain(.76)],
+  [16, note("<[ab1 ~ ab1 ~] [eb2 ~ ~ eb2] [f1 ~ f1 ~] [bb1 ~ ~ bb1]>").s("gm_acoustic_bass").decay(.3).sustain(.5).room(.2).gain(.8)],
+  [16, note("<[eb2 ~ ~ eb2] [bb1 ~ ~ ~] [ab1 ~ ~ ab1] [bb1 ~ ~ ~]>").s("gm_acoustic_bass").decay(.38).sustain(.44).room(.22).gain(.76).sometimes(x => x.add(note(12)).gain(.35))],
+  [16, note("<[ab1 ~ ab1 ~] [eb2 ~ ~ eb2] [f1 ~ f1 ~] [bb1 ~ ~ bb1]>").s("gm_acoustic_bass").decay(.3).sustain(.5).room(.2).gain(.8)],
+  [8,  note("<eb2 ~ bb1 ~ ab1 ~ bb1 ~>/2").s("gm_acoustic_bass").decay(.55).sustain(.35).room(.38).gain(.58).speed(.97)],
+  [8,  note("<eb2 ~ ~ ~>/1").s("gm_acoustic_bass").decay(.8).sustain(.28).room(.45).gain(saw.slow(8).range(.42, .06))]
+)
+
+$: arrange(
+  [8,  chord("<Ebmaj7 Bbm9>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(1).decay(1.2).sustain(.7).release(2.5).lpf(900).room(.8).gain(.28)],
+  [16, chord("<Ebmaj7 Bbm9 Abmaj7 Bb7>").dict('ireal').voicing().s("gm_epiano1").struct("~ [x ~] ~ [x ~]").lpf(1800).room(.52).delay(".25:.15:.3").gain(.46).speed(.98)],
+  [16, chord("<Abmaj7 Eb^7 Fm9 Bb7>").dict('ireal').voicing().s("gm_epiano1").struct("[~ x]*2").lpf(2200).room(.46).delay(".2:.12:.28").gain(.52).speed(.99)],
+  [16, chord("<Ebmaj7 Bbm9 Abmaj7 Bb7>").dict('ireal').voicing().s("gm_epiano1").struct("~ [x ~] ~ [x ~]").lpf(1800).room(.52).delay(".25:.15:.3").gain(.46).speed(.98)],
+  [16, chord("<Abmaj7 Eb^7 Fm9 Bb7>").dict('ireal').voicing().s("gm_epiano1").struct("[~ x]*2").lpf(2200).room(.46).delay(".2:.12:.28").gain(.52).speed(.99)],
+  [8,  chord("<Abmaj7 Fm9 Ebmaj7 Bb7>/2").dict('ireal').voicing().s("gm_epiano1").struct("x ~ ~ ~").lpf(1300).room(.72).delay(".5:.35:.6").gain(.38).speed(.96).crush(13)],
+  [8,  chord("<Ebmaj7 Abmaj7>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(.9).sustain(.55).release(3).lpf(sine.range(300,950).slow(8)).room(.85).gain(saw.slow(8).range(.3,.04))]
+)
+
+$: arrange(
+  [8,  chord("<Ebmaj7 Bbm9>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(1.2).decay(1).sustain(.68).release(2).lpf(800).room(.8).roomsize(6).gain(.22)],
+  [16, chord("<Ebmaj7 Bbm9 Abmaj7 Bb7>").dict('ireal').voicing().s("gm_synth_strings_1").attack(.6).sustain(.64).release(1.5).lpf(1100).room(.7).roomsize(5).gain(.28)],
+  [16, chord("<Abmaj7 Eb^7 Fm9 Bb7>").dict('ireal').voicing().s("gm_synth_strings_1").attack(.5).sustain(.7).release(1.5).lpf(1400).room(.65).roomsize(5).gain(.33)],
+  [16, chord("<Ebmaj7 Bbm9 Abmaj7 Bb7>").dict('ireal').voicing().s("gm_synth_strings_1").attack(.6).sustain(.64).release(1.5).lpf(1100).room(.7).roomsize(5).gain(.28)],
+  [16, chord("<Abmaj7 Eb^7 Fm9 Bb7>").dict('ireal').voicing().s("gm_synth_strings_1").attack(.5).sustain(.7).release(1.5).lpf(1400).room(.65).roomsize(5).gain(.33)],
+  [8,  chord("<Abmaj7 Ebmaj7>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(1).sustain(.58).release(2).lpf(sine.range(500,1250).slow(6)).room(.8).roomsize(7).gain(.24)],
+  [8,  chord("<Ebmaj7>/1").dict('ireal').voicing().s("gm_synth_strings_1").attack(1.5).sustain(.48).release(3.5).lpf(sine.range(280,700).slow(8)).room(.9).roomsize(8).gain(saw.slow(8).range(.26,.0))]
+)
+
+$: arrange(
+  [8,  n("<[~ 0 ~ ~] [~ ~ 2 ~]>/1").scale("Eb5:major").s("gm_epiano2").room(.8).delay(".5:.35:.6").gain(.26).lpf(1300).attack(.18)],
+  [16, n("<[~ 0 ~ 2] [4 ~ 2 ~] [~ 3 ~ 4] [2 ~ ~ 0]>").scale("Eb5:major").s("gm_epiano2").lpf(sine.range(750,2500).slow(11)).room(.6).delay(".32:.22:.45").gain(.36).vib(3).vibmod(.4).rarely(x => x.add(note(12)))],
+  [16, n("<[0 ~ 2 4] [~ 5 4 ~] [2 ~ 4 5] [~ 4 2 0]>").scale("Eb5:major").s("gm_epiano2").lpf(sine.range(1000,3200).slow(8)).room(.54).delay(".28:.18:.38").gain(.44).vib(3).vibmod(.5).sometimes(x => x.add(note(12)))],
+  [16, n("<[~ 0 ~ 2] [4 ~ 2 ~] [~ 3 ~ 4] [2 ~ ~ 0]>").scale("Eb5:major").s("gm_epiano2").lpf(sine.range(750,2500).slow(11)).room(.6).delay(".32:.22:.45").gain(.36).vib(3).vibmod(.4)],
+  [16, n("<[0 ~ 2 4] [~ 5 4 ~] [2 ~ 4 5] [~ 4 2 0]>").scale("Eb5:major").s("gm_epiano2").lpf(sine.range(1000,3200).slow(8)).room(.54).delay(".28:.18:.38").gain(.44).vib(3).vibmod(.5)],
+  [8,  n("<[~ 0 ~ ~] [~ ~ 2 ~] [~ 4 ~ ~] [~ ~ 0 ~]>").scale("Eb5:major").s("gm_epiano2").room(.88).roomsize(7).delay(".65:.45:.75").gain(.24).lpf(sine.range(450,1500).slow(6))],
+  [8,  n("<[~ ~ 0 ~] [~ ~ ~ ~]>/1").scale("Eb5:major").s("gm_epiano2").room(.92).roomsize(8).delay(".75:.55:.85").gain(saw.slow(8).range(.2,.0)).lpf(sine.range(350,1000).slow(8))]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, silence],
+  [16, n("<[~ 2 ~ 4] [5 ~ 4 ~] [~ 2 ~ 0] [~ ~ ~ ~]>").scale("Eb5:major").s("gm_clarinet").room(.62).delay(".42:.3:.52").gain(.25).lpf(4200).vib(5).vibmod(.7).attack(.06).decay(.22).sustain(.55).release(.42)],
+  [16, silence],
+  [16, n("<[~ 2 ~ 4] [5 ~ 4 ~] [~ 2 ~ 0] [~ ~ ~ ~]>").scale("Eb5:major").s("gm_clarinet").room(.62).delay(".42:.3:.52").gain(.25).lpf(4200).vib(5).vibmod(.7).attack(.06).decay(.22).sustain(.55).release(.42)],
+  [8,  n("<[~ 5 ~ ~] [~ ~ 4 ~] [~ 2 ~ ~] [~ ~ 0 ~]>").scale("Eb5:major").s("gm_clarinet").room(.82).delay(".55:.4:.68").gain(.2).lpf(3400).vib(4).vibmod(.6).attack(.1).decay(.3).sustain(.5).release(.55)],
+  [8,  silence]
+)
+
+$: note("<eb1 bb0 ab0 bb0>/4")
+   .s("sine")
+   .attack(2.5).decay(1.5).sustain(.76).release(3)
+   .gain(.17).room(.6)
+   .lpf(170)
+```
+
+**"Closing Credits"** — 88 bars at 74 BPM in Eb major with Bbm9 colorings for that bittersweet quality.
+
+**Layers:** vinyl texture, gentle TR-808 drums with swing, acoustic bass, electric piano chords (Ebmaj7 → Bbm9 → Abmaj7 → Bb7), synth strings pad, epiano2 melody in Eb major scale, clarinet counter-melody in choruses/bridge, and a sine sub-bass drone.
+
+**The ending:** the outro dissolves — drums fade via a descending saw ramp, the melody trails off into a single note swallowed by reverb, strings filter down to near-silence, and the last thing you hear is the vinyl crackle fading over that final Ebmaj7.

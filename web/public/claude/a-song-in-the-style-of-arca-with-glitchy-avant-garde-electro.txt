@@ -1,0 +1,228 @@
+Here's the song:
+
+```
+// 🔮 "Mutant Liturgy" — Glitchy Avant-Garde Electronics (Arca-style)
+// At 108 BPM: intro(8) + sectionA(20) + sectionB(16) + breakdown(12) + sectionC(16) + outro(8) = 80 bars ≈ 2:58
+
+setcpm(108 / 4)
+
+$: note("<eb1 bb0 gb1 db1>/4")
+   .s("sine")
+   .attack(1.5).decay(.5).sustain(.9).release(2)
+   .gain(.28).room(.4)
+   .lpf(120)
+   .distort(.15)
+
+$: arrange(
+  [8,  s("~ ~ [cp:3 ~] ~, hh*8")
+       .bank("RolandTR909").gain(perlin.range(.1,.4)).room(.6).crush(8)
+       .pan(perlin.range(0,1))],
+  [20, s("bd(3,8), ~ [cp:3,sd:2] ~ [~ cp:3], [hh oh hh ~ hh hh oh ~]*2")
+       .bank("RolandTR909").cut(1).swing(2)
+       .gain(perlin.range(.6,.95))
+       .room(.3).crush(10)
+       .every(3, x => x.fast(2).crush(4))
+       .every(5, x => x.rev())
+       .sometimes(x => x.speed(sine.range(.5,2).fast(4)))],
+  [16, s("bd(5,16), [cp:3 ~ sd:2 cp:3]*2, [oh hh ~ hh]*4")
+       .bank("RolandTR909").cut(1)
+       .gain(".95 .7 .85 .6 .9 .75 .88 .65")
+       .room(.25).distort(.2)
+       .every(2, x => x.press())
+       .every(4, x => x.fast(4).gain(.3).crush(3))],
+  [12, s("bd ~ ~ ~, ~ ~ [cp:3 ~] ~")
+       .bank("RolandTR909")
+       .gain(perlin.range(.3,.6)).room(.7).crush(6)
+       .speed(perlin.range(.7,1.3))],
+  [16, s("bd(3,8), ~ [cp:3,sd:2] ~ [~ cp:3], [hh oh hh ~ hh hh oh ~]*2")
+       .bank("RolandTR909").cut(1).swing(2)
+       .gain(perlin.range(.7,.98))
+       .room(.3).crush(8).distort(.15)
+       .every(3, x => x.fast(2).crush(3))
+       .every(7, x => x.rev())
+       .sometimes(x => x.speed(sine.range(.3,2.5).fast(6)))],
+  [8,  s("bd ~ ~ ~")
+       .bank("RolandTR909")
+       .gain(saw.slow(8).range(.7,.05)).room(.8).crush(5)]
+)
+
+$: arrange(
+  [8,  silence],
+  [20, note("<[eb2 ~ ~ eb2] [bb1 ~ db2 ~] [gb1 ~ ~ gb1] [db2 ~ bb1 ~]>")
+       .s("sawtooth")
+       .lpf(sine.range(200,1200).slow(5))
+       .decay(.2).sustain(.6)
+       .gain(.55).room(.2)
+       .distort(.3).crush(10)
+       .speed(perlin.range(.96,1.04))],
+  [16, note("<[eb2 db2 eb2 ~] [bb1 ~ bb1 db2] [gb1 ab1 gb1 ~] [db2 ~ eb2 db2]>")
+       .s("sawtooth")
+       .lpf(sine.range(300,1800).slow(3))
+       .decay(.15).sustain(.7)
+       .gain(.6).room(.15)
+       .distort(.4).crush(8)
+       .every(4, x => x.fast(2).gain(.35))],
+  [12, note("<eb2 ~ bb1 ~>/2")
+       .s("sawtooth")
+       .lpf(600).decay(.4).sustain(.4)
+       .gain(.4).room(.5)
+       .distort(.2)
+       .speed(sine.range(.9,1.1).slow(3))],
+  [16, note("<[eb2 ~ ~ eb2] [bb1 ~ db2 ~] [gb1 ~ ~ gb1] [db2 ~ bb1 ~]>")
+       .s("sawtooth")
+       .lpf(sine.range(200,1400).slow(4))
+       .decay(.2).sustain(.6)
+       .gain(.58).room(.2)
+       .distort(.35).crush(9)
+       .speed(perlin.range(.94,1.06))],
+  [8,  silence]
+)
+
+$: arrange(
+  [8,  chord("<Ebm9 Dbmaj7>/2").dict('ireal').voicing()
+       .s("gm_synth_strings_1")
+       .attack(1.2).sustain(.7).release(2)
+       .lpf(800).room(.8).gain(.25)
+       .speed(.97)],
+  [20, chord("<Ebm9 Bbm7 Gbmaj7 Db7b9>").dict('ireal').voicing()
+       .s("square")
+       .struct("<[x ~ x ~] [~ x ~ ~] [x ~ ~ x] [~ ~ x ~]>")
+       .lpf(sine.range(500,2500).slow(10))
+       .room(.5).delay(".2:.15:.3")
+       .gain(.32).crush(12)
+       .attack(.02).decay(.15).sustain(.3).release(.2)
+       .pan(perlin.range(.2,.8))
+       .every(6, x => x.fast(3).gain(.2))],
+  [16, chord("<Ebm9 Bbm7 Gbmaj7 Db7b9>").dict('ireal').voicing()
+       .s("square")
+       .struct("[x x ~ x]*2")
+       .lpf(sine.range(800,3500).slow(6))
+       .room(.4).delay(".15:.1:.25")
+       .gain(.38).crush(10).distort(.15)
+       .attack(.01).decay(.1).sustain(.4).release(.15)
+       .pan(sine.slow(3))
+       .every(3, x => x.rev().crush(5))],
+  [12, chord("<Ebm9 Db7b9>/2").dict('ireal').voicing()
+       .s("gm_synth_strings_1")
+       .attack(1).sustain(.6).release(2.5)
+       .lpf(sine.range(300,1200).slow(6))
+       .room(.85).roomsize(6).gain(.3)
+       .speed(perlin.range(.94,1.02))],
+  [16, chord("<Ebm9 Bbm7 Gbmaj7 Db7b9>").dict('ireal').voicing()
+       .s("square")
+       .struct("<[x ~ x ~] [~ x ~ ~] [x ~ ~ x] [~ ~ x ~]>")
+       .lpf(sine.range(600,3000).slow(8))
+       .room(.5).delay(".25:.2:.35")
+       .gain(.35).crush(10).distort(.1)
+       .attack(.02).decay(.12).sustain(.35).release(.2)
+       .pan(perlin.range(.15,.85))
+       .sometimes(x => x.fast(4).gain(.15).crush(3))],
+  [8,  chord("<Ebm9>/1").dict('ireal').voicing()
+       .s("gm_synth_strings_1")
+       .attack(1.5).sustain(.5).release(3)
+       .lpf(sine.range(200,800).slow(8))
+       .room(.9).roomsize(8).gain(saw.slow(8).range(.3,.05))]
+)
+
+$: arrange(
+  [8,  silence],
+  [20, n("<[~ 0 ~ 3] [~ ~ 5 ~] [3 ~ ~ 1] [~ 6 ~ ~]>")
+       .scale("Eb5:minor")
+       .s("triangle")
+       .lpf(sine.range(600,4000).slow(7))
+       .room(.6).delay(".4:.3:.5")
+       .gain(.3).crush(11)
+       .pan(perlin.range(0,1))
+       .speed(perlin.range(.85,1.15))
+       .rarely(x => x.add(note(7)).fast(2))],
+  [16, n("<[0 3 5 ~] [~ 6 ~ 3] [5 ~ 1 ~] [~ 3 6 0]>")
+       .scale("Eb5:minor")
+       .s("triangle")
+       .lpf(sine.range(1000,5000).slow(5))
+       .room(.5).delay(".3:.2:.4")
+       .gain(.36).crush(9)
+       .pan(sine.slow(2))
+       .speed(perlin.range(.8,1.2))
+       .every(3, x => x.fast(3).gain(.2).crush(4))
+       .sometimes(x => x.add(note(12)))],
+  [12, n("<[~ 0 ~ ~] [~ ~ 5 ~]>/2")
+       .scale("Eb5:minor")
+       .s("triangle")
+       .room(.8).delay(".6:.4:.7")
+       .gain(.22).crush(8)
+       .lpf(1500)
+       .speed(sine.range(.7,1.3).slow(4))],
+  [16, n("<[~ 0 ~ 3] [~ ~ 5 ~] [3 ~ ~ 1] [~ 6 ~ ~]>")
+       .scale("Eb5:minor")
+       .s("triangle")
+       .lpf(sine.range(600,4000).slow(7))
+       .room(.6).delay(".4:.3:.5")
+       .gain(.33).crush(10)
+       .pan(perlin.range(0,1))
+       .speed(perlin.range(.82,1.18))
+       .sometimes(x => x.add(note(7)).fast(2))],
+  [8,  silence]
+)
+
+$: arrange(
+  [8,  s("hh*16").bank("RolandTR909")
+       .gain(perlin.range(.02,.12))
+       .crush(3).speed(perlin.range(.2,3))
+       .pan(perlin.range(0,1)).room(.9)],
+  [20, s("hh*32").bank("RolandTR909")
+       .gain(perlin.range(.03,.15))
+       .crush(4)
+       .speed(perlin.range(.1,4))
+       .pan(perlin.range(0,1)).room(.5)
+       .every(4, x => x.fast(2))],
+  [16, s("hh*32").bank("RolandTR909")
+       .gain(perlin.range(.05,.2))
+       .crush(3)
+       .speed(perlin.range(.05,5))
+       .pan(perlin.range(0,1)).room(.4)
+       .every(3, x => x.fast(3))
+       .every(5, x => x.rev())],
+  [12, s("hh*8").bank("RolandTR909")
+       .gain(perlin.range(.02,.1))
+       .crush(4).speed(perlin.range(.3,2))
+       .pan(perlin.range(0,1)).room(.8)],
+  [16, s("hh*32").bank("RolandTR909")
+       .gain(perlin.range(.04,.18))
+       .crush(4)
+       .speed(perlin.range(.1,4))
+       .pan(perlin.range(0,1)).room(.45)
+       .every(4, x => x.fast(2))
+       .sometimes(x => x.speed(.05).room(1))],
+  [8,  s("hh*4").bank("RolandTR909")
+       .gain(saw.slow(8).range(.1,.01))
+       .crush(3).speed(perlin.range(.5,1.5))
+       .room(.9).roomsize(8)]
+)
+
+$: arrange(
+  [8,  silence],
+  [20, silence],
+  [16, note("<[eb6 ~ ~ db6] [~ bb5 ~ ~] [gb6 ~ ~ ~] [~ ~ db6 ~]>")
+       .s("sine")
+       .gain(.18)
+       .attack(.005).decay(.08).sustain(.1).release(.05)
+       .crush(7).room(.4)
+       .delay(".15:.1:.2")
+       .speed(perlin.range(.95,1.05))
+       .pan(perlin.range(0,1))
+       .every(4, x => x.fast(4).gain(.08))],
+  [12, silence],
+  [16, note("<[eb6 ~ ~ db6] [~ bb5 ~ ~] [gb6 ~ ~ ~] [~ ~ db6 ~]>")
+       .s("sine")
+       .gain(.15)
+       .attack(.005).decay(.08).sustain(.1).release(.05)
+       .crush(6).room(.5)
+       .delay(".2:.15:.3")
+       .speed(perlin.range(.92,1.08))
+       .pan(perlin.range(0,1))
+       .rarely(x => x.fast(8).gain(.06))],
+  [8,  silence]
+)
+```
+
+Would you like me to save this to the file?

@@ -1,0 +1,89 @@
+Here's the song:
+
+// 🎵 "4AM in the City" — Drake-Style Introspective Rap / Melodic R&B
+// At 78 BPM: intro(8) + verse(16) + hook(12) + verse(16) + hook(12) + bridge(8) + outro(8) = 80 bars ≈ 2:28
+
+```
+setcpm(78 / 4)
+
+$: s("vinyl:2").gain(.13).room(1).loop(1).lpf(2400)
+
+$: arrange(
+  [8,  s("hh*8").bank("RolandTR808").gain(perlin.range(.05,.28)).pan(sine.slow(5)).cut(1)],
+  [16, s("hh*16").bank("RolandTR808").gain(perlin.range(.1,.44)).pan(sine.slow(4)).cut(1).every(4, x => x.struct("[x x [x x x] x]*2").gain(.3))],
+  [12, s("hh*16").bank("RolandTR808").gain(perlin.range(.12,.48)).pan(sine.slow(5)).cut(1)],
+  [16, s("hh*16").bank("RolandTR808").gain(perlin.range(.1,.44)).pan(sine.slow(4)).cut(1).every(3, x => x.fast(1.5).gain(.25))],
+  [12, s("hh*16").bank("RolandTR808").gain(perlin.range(.12,.48)).pan(sine.slow(5)).cut(1)],
+  [8,  s("hh*8").bank("RolandTR808").gain(perlin.range(.06,.32)).pan(sine.slow(6)).cut(1)],
+  [8,  s("hh*8").bank("RolandTR808").gain(saw.slow(8).range(.28,.03)).pan(sine.slow(4)).cut(1)]
+)
+
+$: arrange(
+  [8,  s("bd ~ ~ ~").bank("RolandTR808").gain(.68).room(.45)],
+  [16, s("bd ~ ~ bd, ~ [cp,sd:1] ~ ~").bank("RolandTR808").swing(3).gain(".88 .8").room(.3)],
+  [12, s("bd ~ bd ~, ~ [cp,sd:1] ~ [cp,sd:1]").bank("RolandTR808").swing(3).gain(".92 .84").room(.25).every(4, x => x.fast(2).gain(.45))],
+  [16, s("bd ~ ~ bd, ~ [cp,sd:1] ~ ~").bank("RolandTR808").swing(3).gain(".88 .8").room(.3).sometimes(x => x.gain(.28))],
+  [12, s("bd ~ bd ~, ~ [cp,sd:1] ~ [cp,sd:1]").bank("RolandTR808").swing(3).gain(".92 .84").room(.25).every(4, x => x.fast(2).gain(.45))],
+  [8,  s("bd ~ ~ ~, ~ ~ cp ~").bank("RolandTR808").gain(".72 .65").room(.5)],
+  [8,  s("bd ~ ~ ~").bank("RolandTR808").gain(saw.slow(8).range(.6,.08)).room(.55)]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, note("<[bb1 ~ ~ bb1] [gb1 ~ ~ ~] [db2 ~ ~ db2] [eb2 ~ ~ ~]>").s("sine").decay(.4).sustain(.6).gain(.82).lpf(200).distort(.15)],
+  [12, note("<[bb1 ~ bb1 ~] [gb1 ~ ~ gb1] [db2 ~ db2 ~] [eb2 ~ ~ eb2]>").s("sine").decay(.35).sustain(.65).gain(.88).lpf(220).distort(.18)],
+  [16, note("<[bb1 ~ ~ bb1] [gb1 ~ ~ ~] [db2 ~ ~ db2] [eb2 ~ ~ ~]>").s("sine").decay(.4).sustain(.6).gain(.82).lpf(200).distort(.15)],
+  [12, note("<[bb1 ~ bb1 ~] [gb1 ~ ~ gb1] [db2 ~ db2 ~] [eb2 ~ ~ eb2]>").s("sine").decay(.35).sustain(.65).gain(.88).lpf(220).distort(.18)],
+  [8,  note("<bb1 ~ gb1 ~ db2 ~ eb2 ~>/2").s("sine").decay(.6).sustain(.4).gain(.6).lpf(180)],
+  [8,  silence]
+)
+
+$: arrange(
+  [8,  chord("<Bbm9 Ebm7>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(1).decay(1).sustain(.7).release(2).lpf(900).room(.8).gain(.28)],
+  [16, chord("<Bbm9 Gbmaj7 Dbmaj7 Ebm7>").dict('ireal').voicing().s("gm_epiano2").struct("~ [x ~] ~ [x ~]").lpf(1500).room(.55).delay(".2:.15:.3").gain(.44).speed(.98)],
+  [12, chord("<Bbm9 Gbmaj7 Dbmaj7 Ebm7>").dict('ireal').voicing().s("gm_epiano2").struct("[~ x]*2").lpf(2100).room(.5).delay(".25:.15:.3").gain(.52).speed(.99)],
+  [16, chord("<Bbm9 Gbmaj7 Dbmaj7 Ebm7>").dict('ireal').voicing().s("gm_epiano2").struct("~ [x ~] ~ [x ~]").lpf(1500).room(.55).delay(".2:.15:.3").gain(.44).speed(.98).sometimes(x => x.gain(.2))],
+  [12, chord("<Bbm9 Gbmaj7 Dbmaj7 Ebm7>").dict('ireal').voicing().s("gm_epiano2").struct("[~ x]*2").lpf(2100).room(.5).delay(".25:.15:.3").gain(.52).speed(.99)],
+  [8,  chord("<Bbm9 Gbmaj7 Dbmaj7 Ebm7>/2").dict('ireal').voicing().s("gm_epiano2").struct("x ~ ~ ~").lpf(1200).room(.75).delay(".4:.3:.5").gain(.36).crush(13)],
+  [8,  chord("<Bbm9 Ebm7>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(1).sustain(.6).release(3).lpf(sine.range(350,1000).slow(8)).room(.85).gain(saw.slow(8).range(.28,.04))]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, n("<[~ 0 ~ 2] [3 ~ 5 ~] [~ 3 ~ 2] [0 ~ ~ ~]>").scale("Bb4:minor:pentatonic").s("gm_epiano1").lpf(sine.range(800,2400).slow(10)).room(.6).delay(".3:.2:.4").gain(.34).vib(3).vibmod(.4)],
+  [12, n("<[0 ~ 3 5] [~ 7 5 ~] [3 ~ 0 ~] [~ 5 3 0]>").scale("Bb5:minor:pentatonic").s("gm_epiano1").lpf(sine.range(1000,3200).slow(8)).room(.55).delay(".25:.2:.35").gain(.42).vib(4).vibmod(.5).sometimes(x => x.add(note(12)))],
+  [16, n("<[~ 0 ~ 2] [3 ~ 5 ~] [~ 3 ~ 2] [0 ~ ~ ~]>").scale("Bb4:minor:pentatonic").s("gm_epiano1").lpf(sine.range(800,2400).slow(10)).room(.6).delay(".3:.2:.4").gain(.34).vib(3).vibmod(.4).rarely(x => x.add(note(12)))],
+  [12, n("<[0 ~ 3 5] [~ 7 5 ~] [3 ~ 0 ~] [~ 5 3 0]>").scale("Bb5:minor:pentatonic").s("gm_epiano1").lpf(sine.range(1000,3200).slow(8)).room(.55).delay(".25:.2:.35").gain(.42).vib(4).vibmod(.5).sometimes(x => x.add(note(12)))],
+  [8,  n("<[~ 0 ~ ~] [~ ~ 3 ~] [~ 5 ~ ~] [~ ~ 0 ~]>").scale("Bb4:minor:pentatonic").s("gm_epiano1").room(.85).delay(".5:.4:.6").gain(.26).lpf(1300)],
+  [8,  silence]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, silence],
+  [12, n("<[~ ~ 5 ~] [7 ~ ~ 5] [~ 3 ~ ~] [~ ~ 2 ~]>").scale("Bb4:minor:pentatonic").s("gm_flute").room(.7).delay(".4:.3:.55").gain(.24).lpf(4200).vib(5).vibmod(.7).attack(.05).decay(.2).sustain(.6).release(.4)],
+  [16, silence],
+  [12, n("<[~ ~ 5 ~] [7 ~ ~ 5] [~ 3 ~ ~] [~ ~ 2 ~]>").scale("Bb4:minor:pentatonic").s("gm_flute").room(.7).delay(".4:.3:.55").gain(.24).lpf(4200).vib(5).vibmod(.7).attack(.05).decay(.2).sustain(.6).release(.4)],
+  [8,  n("<[~ 5 ~ 3] [~ ~ 2 ~]>/2").scale("Bb4:minor:pentatonic").s("gm_flute").room(.85).delay(".6:.4:.7").gain(.18).lpf(3000).vib(4).vibmod(.6)],
+  [8,  silence]
+)
+
+$: note("<bb1 gb1 db2 eb2>/4")
+   .s("sine")
+   .attack(2).decay(1).sustain(.8).release(2)
+   .gain(.2).room(.65)
+   .lpf(150)
+```
+
+The song features:
+- **Bb minor** key with **Bbm9 - Gbmaj7 - Dbmaj7 - Ebm7** progression (dark, moody Drake feel)
+- **Heavy 808 sine bass** with distortion for that OVO Sound low-end
+- **Trap hi-hats** (16th notes with perlin-modulated dynamics, triplet fills every few bars)
+- **Sparse kick/clap patterns** with swing for that late-night R&B groove
+- **Atmospheric EP2 chords** with delay and offbeat rhythmic structs
+- **Melodic hooks** on EP1 in Bb minor pentatonic — rises an octave in the hook sections
+- **Flute counter-melody** that appears only during hooks and bridge for that ethereal Drake texture
+- **Sub sine pad** droning underneath for depth
+- **Vinyl crackle** and slow filter sweeps throughout
+
+Would you like me to save it to the project?

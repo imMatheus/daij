@@ -1,0 +1,8 @@
+Song written to `web/public/claude/polyrhythmic-patterns-in-five-against-four.txt`.
+
+The 5:4 polyrhythm is layered at multiple levels:
+- **Percussion**: kick in `bd*4` against rimshot in `rim*5`
+- **Pitched**: bass plays 4-note root patterns per cycle while melody plays 5-note pentatonic runs
+- **Structure**: the rim voice uses `.every(5, ...)` modifiers to create meta-fives
+
+Key: G minor (Gm9 - Cm7 - EbMaj7 - D7b9), 108 BPM, 88 bars across 7 sections.

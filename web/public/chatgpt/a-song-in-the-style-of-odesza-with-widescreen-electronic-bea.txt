@@ -1,0 +1,64 @@
+// 🎵 "Skyline Echoes" — ODESZA-style widescreen cinematic electronic beats
+// At 128 BPM: intro(8) + verse(16) + chorus(16) + verse2(16) + bridge(12) + chorus2(16) + outro(8) = 92 bars ≈ 2:52
+
+setcpm(128 / 4)
+
+$: arrange(
+  [8,  s("vinyl:2").gain(.11).room(1).loop(1).lpf(2400)],
+  [16, s("vinyl:2").gain(.12).room(1).loop(1).lpf(2600)],
+  [16, s("vinyl:2").gain(.14).room(1).loop(1).lpf(2800)],
+  [16, s("vinyl:2").gain(.13).room(1).loop(1).lpf(2700)],
+  [12, s("vinyl:2").gain(.15).room(1).loop(1).lpf(3000)],
+  [16, s("vinyl:2").gain(.16).room(1).loop(1).lpf(3200)],
+  [8,  s("vinyl:2").gain(saw.slow(8).range(.12,.02)).room(1).loop(1).lpf(2200)]
+)
+
+$: arrange(
+  [8,  s("bd ~ ~ ~, ~ ~ cp ~, ~ hh*4 ~ ~").bank("RolandTR909").cut(1).swing(3).room(.25).gain(.72)],
+  [16, s("bd ~ ~ bd, ~ cp ~ ~, hh*8").bank("RolandTR909").cut(1).swing(3).room(.28).gain(.82).every(8, x => x.press())],
+  [16, s("bd ~ [~ bd] ~, ~ [cp,sd] ~ [cp ~], [hh hh oh hh]*2").bank("RolandTR909").cut(1).swing(4).room(.3).gain(.92).every(4, x => x.fast(2).gain(.55))],
+  [16, s("bd ~ ~ bd, ~ cp ~ [~ cp], [hh hh ~ hh]*2").bank("RolandTR909").cut(1).swing(3).room(.28).gain(.84).every(8, x => x.rev())],
+  [12, s("bd ~ ~ ~, ~ ~ cp ~, ~ ~ oh ~").bank("RolandTR909").cut(1).swing(2).room(.35).gain(.76)],
+  [16, s("bd ~ [~ bd] ~, ~ [cp,sd] ~ [cp ~], [hh oh hh hh]*2").bank("RolandTR909").cut(1).swing(4).room(.32).gain(.96).every(4, x => x.fast(2).gain(.6)).every(8, x => x.press())],
+  [8,  s("bd ~ ~ ~, ~ ~ cp ~, ~ hh*2 ~ ~").bank("RolandTR909").cut(1).swing(3).room(.4).gain(saw.slow(8).range(.7,.08))]
+)
+
+$: arrange(
+  [8,  note("<d2 ~ ~ ~ bb1 ~ ~ ~>/2").s("sawtooth").lpf(480).hpf(70).attack(.01).decay(.25).sustain(.35).release(.1).distort(.06).gain(.36)],
+  [16, note("<[d2 ~ ~ d2] [bb1 ~ ~ ~] [f1 ~ ~ f1] [c2 ~ ~ ~]>").s("sawtooth").lpf(520).hpf(70).attack(.01).decay(.24).sustain(.38).release(.1).distort(.08).gain(.44)],
+  [16, note("<[d2 ~ d2 ~] [bb1 ~ bb1 ~] [f1 ~ f1 ~] [c2 ~ c2 ~]>").s("sawtooth").lpf(620).hpf(80).attack(.01).decay(.2).sustain(.4).release(.08).distort(.1).gain(.5)],
+  [16, note("<[d2 ~ ~ d2] [bb1 ~ ~ bb1] [f1 ~ ~ f1] [c2 ~ ~ c2]>").s("sawtooth").lpf(560).hpf(75).attack(.01).decay(.23).sustain(.38).release(.1).distort(.08).gain(.46)],
+  [12, note("<[g1 ~ g1 ~] [bb1 ~ ~ bb1] [d2 ~ d2 ~] [a1 ~ ~ a1]>").s("sawtooth").lpf(500).hpf(70).attack(.02).decay(.28).sustain(.35).release(.12).distort(.07).gain(.42)],
+  [16, note("<[d2 ~ d2 ~] [bb1 ~ bb1 ~] [f1 ~ f1 ~] [c2 ~ c2 ~]>").s("sawtooth").lpf(650).hpf(90).attack(.01).decay(.18).sustain(.45).release(.08).distort(.12).gain(.54).every(8, x => x.fast(2).gain(.65))],
+  [8,  note("<d2 ~ bb1 ~ f1 ~ c2 ~>/2").s("sawtooth").lpf(sine.range(500,180).slow(8)).hpf(60).attack(.03).decay(.4).sustain(.25).release(.2).gain(.28)]
+)
+
+$: arrange(
+  [8,  chord("<Dm9 Bbmaj7>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(1).decay(.8).sustain(.7).release(2).lpf(1800).room(.7).gain(.34)],
+  [16, chord("<Dm9 Bbmaj7 Fmaj7 Cmaj7>").dict('ireal').voicing().s("gm_epiano2").struct("~ [x ~] ~ [x ~]").lpf(3200).room(.5).delay(".2:.15:.25").gain(.5).speed(.99)],
+  [16, chord("<Dm9 Bbmaj7 Fmaj7 Cmaj7>").dict('ireal').voicing().s("gm_synth_strings_1").struct("[x ~ x ~]*2").lpf(4200).room(.65).delay(".28:.2:.33").gain(.58).every(8, x => x.press())],
+  [16, chord("<Dm9 Bbmaj7 Fmaj7 Cmaj7>").dict('ireal').voicing().s("gm_epiano2").struct("[~ x]*2").lpf(3400).room(.48).delay(".18:.12:.2").gain(.52).speed(.99)],
+  [12, chord("<Gm9 Bbmaj7 Dm9 Am7>").dict('ireal').voicing().s("gm_electric_guitar_clean").struct("<x ~ x ~>/2").lpf(3600).room(.52).delay(".24:.18:.28").gain(.5).crush(14)],
+  [16, chord("<Dm9 Bbmaj7 Fmaj7 Cmaj7>").dict('ireal').voicing().s("gm_synth_strings_1").struct("[x ~ x ~]*2").lpf(4600).room(.7).delay(".3:.22:.36").gain(.62).every(4, x => x.fast(2).gain(.55))],
+  [8,  chord("<Dm9 Bbmaj7>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(.9).decay(.9).sustain(.6).release(2.5).lpf(sine.range(1600,700).slow(8)).room(.8).gain(saw.slow(8).range(.36,.05))]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, n("<[~ 0 2 ~] [3 ~ ~ 5] [~ 7 5 ~] [3 ~ 2 0]>").scale("D5:dorian").s("sine").attack(.02).decay(.2).sustain(.45).release(.2).lpf(sine.range(900,2800).slow(10)).room(.55).delay(".3:.22:.35").gain(.34).vib(4).vibmod(.35)],
+  [16, n("<[0 2 3 5] [~ 7 5 ~] [3 5 7 ~] [~ 5 3 2]>").scale("D5:dorian").s("sawtooth").attack(.01).decay(.16).sustain(.4).release(.16).lpf(sine.range(1400,4200).slow(7)).room(.5).delay(".22:.16:.27").gain(.4).vib(5).vibmod(.4).sometimes(x => x.add(note(12)))],
+  [16, n("<[~ 0 2 ~] [3 ~ 5 ~] [~ 7 5 ~] [2 ~ 0 ~]>").scale("D5:dorian").s("sine").attack(.02).decay(.2).sustain(.45).release(.2).lpf(sine.range(1000,3000).slow(9)).room(.55).delay(".28:.2:.32").gain(.36).vib(4).vibmod(.35)],
+  [12, n("<[7 ~ 5 ~] [3 ~ 2 ~] [0 ~ 2 ~] [3 ~ 5 ~]>").scale("D5:dorian").s("gm_flute").attack(.04).decay(.18).sustain(.5).release(.22).lpf(4200).room(.65).delay(".35:.25:.4").gain(.3).vib(6).vibmod(.7)],
+  [16, n("<[0 2 3 5] [~ 7 5 ~] [3 5 7 ~] [~ 5 3 2]>").scale("D5:dorian").s("sawtooth").attack(.01).decay(.14).sustain(.42).release(.14).lpf(sine.range(1600,4600).slow(6)).room(.52).delay(".2:.15:.24").gain(.44).vib(5).vibmod(.45).sometimes(x => x.add(note(12))).every(8, x => x.fast(2).gain(.6))],
+  [8,  n("<[~ 0 ~ ~] [~ ~ 3 ~] [~ 2 ~ ~] [~ ~ 0 ~]>").scale("D5:dorian").s("gm_flute").attack(.08).decay(.24).sustain(.4).release(.35).lpf(2200).room(.85).delay(".55:.35:.6").gain(.2)]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, silence],
+  [16, n("<[0 2 5 7] [~ 7 5 3] [2 3 5 ~] [~ 3 2 0]>").scale("D6:dorian").s("triangle").attack(.01).decay(.12).sustain(.28).release(.1).lpf(5200).room(.45).delay(".14:.1:.18").gain(.22).pan(sine.slow(8))],
+  [16, n("<[~ 0 2 ~] [5 ~ 3 ~] [~ 7 5 ~] [3 ~ 2 ~]>").scale("D6:dorian").s("triangle").attack(.01).decay(.12).sustain(.28).release(.1).lpf(5000).room(.42).delay(".12:.09:.16").gain(.2).pan(sine.slow(7))],
+  [12, silence],
+  [16, n("<[0 2 5 7] [~ 7 5 3] [2 3 5 ~] [~ 3 2 0]>").scale("D6:dorian").s("square").attack(.01).decay(.1).sustain(.3).release(.1).lpf(6200).room(.48).delay(".12:.08:.18").gain(.24).pan(sine.slow(6)).every(4, x => x.fast(2).gain(.55))],
+  [8,  silence]
+)

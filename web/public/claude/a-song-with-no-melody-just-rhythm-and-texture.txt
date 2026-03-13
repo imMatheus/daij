@@ -1,0 +1,66 @@
+// 🥁 "Pulse and Grain" — Rhythmic Texture / Industrial Ambient
+// At 96 BPM: intro(8) + sectionA(16) + sectionB(16) + sectionA2(16) + breakdown(12) + sectionC(16) + outro(8) = 92 bars ≈ 3:50
+
+setcpm(96 / 4)
+
+$: s("vinyl:2").gain(.12).room(1).loop(1).lpf(2200).crush(14)
+
+$: arrange(
+  [8,  s("bd ~ ~ ~, ~ ~ ~ hh").bank("RolandTR808").swing(3).gain(.6).room(.5)],
+  [16, s("bd ~ [~ bd] ~, ~ cp ~ ~, hh*8").bank("RolandTR808").cut(1).swing(4).gain(perlin.range(.75,.95)).room(.3).every(4, x => x.press())],
+  [16, s("bd(5,8), ~ [cp,sd:1] ~ [cp,sd:2], [hh oh hh hh oh hh]*2").bank("RolandTR808").cut(1).swing(3).gain(".9 .82 .88 .8").room(.25).every(3, x => x.fast(2).gain(.5))],
+  [16, s("bd ~ [~ bd] ~, ~ cp ~ ~, hh*8").bank("RolandTR808").cut(1).swing(4).gain(perlin.range(.7,.9)).room(.3).sometimes(x => x.rev())],
+  [12, s("bd(3,16), ~ ~ cp ~, [oh ~ ~ ~]*2").bank("RolandTR808").swing(4).gain(".7 .6 .65 .55").room(.5)],
+  [16, s("bd(7,16), ~ cp ~ [cp sd:1], [hh hh oh]*4, sd:2(5,16,.2)").bank("RolandTR808").cut(1).swing(3).gain(perlin.range(.8,.98)).room(.2).every(5, x => x.press()).every(7, x => x.rev())],
+  [8,  s("bd ~ ~ ~, ~ ~ [cp ~] ~").bank("RolandTR808").swing(4).gain(saw.slow(8).range(.7,.05)).room(.6)]
+)
+
+$: arrange(
+  [8,  s("hh*16").bank("RolandTR909").gain(perlin.range(.04,.2)).pan(sine.slow(4)).hpf(6000)],
+  [16, s("hh*16").bank("RolandTR909").gain(perlin.range(.06,.35)).pan(sine.slow(3)).hpf(5000).every(4, x => x.fast(2).gain(.15))],
+  [16, s("[hh*8, oh(3,8)]").bank("RolandTR909").cut(1).gain(perlin.range(.08,.4)).pan(sine.slow(5)).hpf(4500)],
+  [16, s("hh*16").bank("RolandTR909").gain(perlin.range(.06,.35)).pan(sine.slow(3)).hpf(5000).sometimes(x => x.speed(1.5))],
+  [12, s("hh*8").bank("RolandTR909").gain(perlin.range(.04,.25)).pan(sine.slow(7)).hpf(6000)],
+  [16, s("[hh*16, oh(5,16)]").bank("RolandTR909").cut(1).gain(perlin.range(.1,.42)).pan(sine.slow(2)).hpf(4000).every(3, x => x.rev())],
+  [8,  s("hh*8").bank("RolandTR909").gain(saw.slow(8).range(.2,.02)).pan(sine.slow(6)).hpf(7000)]
+)
+
+$: arrange(
+  [8,  note("c1").s("sine").gain(.3).lpf(80).room(.4).attack(.5).decay(1).sustain(.8).release(2)],
+  [16, note("<c1 c1 eb1 eb1>/4").s("sine").gain(.38).lpf(sine.range(50,120).slow(16)).room(.3).attack(.2).decay(.5).sustain(.9).release(1)],
+  [16, note("<c1 eb1 ab0 g1>/4").s("sine").gain(.42).lpf(sine.range(60,150).slow(12)).room(.25).attack(.1).decay(.4).sustain(.9).release(.8).distort(.15)],
+  [16, note("<c1 c1 eb1 eb1>/4").s("sine").gain(.38).lpf(sine.range(50,120).slow(16)).room(.3).attack(.2).decay(.5).sustain(.9).release(1)],
+  [12, note("c1").s("sine").gain(.3).lpf(60).room(.5).attack(1).decay(2).sustain(.7).release(3)],
+  [16, note("<c1 eb1 ab0 g1>/4").s("sine").gain(.45).lpf(sine.range(70,180).slow(10)).room(.2).attack(.08).decay(.3).sustain(.9).release(.6).distort(.2)],
+  [8,  note("c1").s("sine").gain(saw.slow(8).range(.35,.0)).lpf(sine.range(40,80).slow(8)).room(.6).attack(1).sustain(.8).release(4)]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, s("sawtooth").note("c2").struct("x(3,8)").lpf(sine.range(200,800).slow(8)).gain(.18).room(.6).delay(".3:.2:.4").attack(.01).decay(.15).sustain(.1).release(.1).crush(8)],
+  [16, s("sawtooth").note("<c2 eb2>").struct("x(5,8)").lpf(sine.range(300,1200).slow(6)).gain(.22).room(.5).delay(".25:.15:.35").attack(.01).decay(.12).sustain(.08).release(.08).crush(6).pan(sine.slow(4))],
+  [16, s("sawtooth").note("c2").struct("x(3,8)").lpf(sine.range(200,800).slow(8)).gain(.18).room(.6).delay(".3:.2:.4").attack(.01).decay(.15).sustain(.1).release(.1).crush(8).sometimes(x => x.speed(2))],
+  [12, silence],
+  [16, s("sawtooth").note("<c2 eb2 g2>").struct("x(7,16)").lpf(sine.range(400,1600).slow(5)).gain(.25).room(.45).delay(".2:.1:.3").attack(.005).decay(.1).sustain(.05).release(.05).crush(5).pan(sine.slow(3))],
+  [8,  silence]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, s("square").note("c4").struct("~ x ~ ~").lpf(600).gain(.08).room(.8).roomsize(6).delay(".5:.4:.6").attack(.3).decay(.5).sustain(.2).release(1).pan(perlin.range(.2,.8))],
+  [16, s("square").note("<c4 eb4>").struct("<[~ x ~ ~] [~ ~ x ~]>").lpf(sine.range(400,900).slow(8)).gain(.12).room(.75).roomsize(5).delay(".45:.35:.55").attack(.2).decay(.4).sustain(.25).release(.8).pan(perlin.range(.1,.9))],
+  [16, s("square").note("c4").struct("~ x ~ ~").lpf(600).gain(.08).room(.8).roomsize(6).delay(".5:.4:.6").attack(.3).decay(.5).sustain(.2).release(1).pan(perlin.range(.2,.8))],
+  [12, s("square").note("c4").struct("~ ~ ~ x").lpf(400).gain(.06).room(.9).roomsize(8).delay(".6:.5:.7").attack(.5).decay(.8).sustain(.15).release(2).pan(.5)],
+  [16, s("square").note("<c4 eb4 g4>").struct("<[~ x ~ x] [x ~ x ~]>").lpf(sine.range(500,1100).slow(6)).gain(.14).room(.7).roomsize(5).delay(".4:.3:.5").attack(.15).decay(.3).sustain(.3).release(.6).pan(perlin.range(.0,1))],
+  [8,  silence]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, silence],
+  [16, s("noise").struct("x(3,16)").gain(.06).lpf(sine.range(1000,4000).slow(7)).hpf(800).room(.7).delay(".4:.3:.5").attack(.01).decay(.08).sustain(.02).release(.05).pan(perlin.range(.1,.9))],
+  [16, silence],
+  [12, s("noise").struct("x ~ ~ ~").gain(.04).lpf(2000).hpf(1000).room(.9).roomsize(8).delay(".6:.5:.7").attack(.1).decay(.3).sustain(.05).release(.5)],
+  [16, s("noise").struct("x(5,16)").gain(.08).lpf(sine.range(1500,5000).slow(5)).hpf(600).room(.6).delay(".35:.25:.45").attack(.005).decay(.06).sustain(.01).release(.03).pan(perlin.range(.0,1)).crush(10)],
+  [8,  silence]
+)

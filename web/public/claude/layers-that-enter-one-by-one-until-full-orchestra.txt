@@ -1,0 +1,94 @@
+Here's the song:
+
+```
+// 🎻 "The Gathering" — Orchestral Build / Additive Layers
+// At 96 BPM: solo(8) + duo(8) + trio(8) + quartet(8) + ensemble(16) + tutti(16) + climax(16) + outro(8) = 88 bars ≈ 3:40
+
+setcpm(96 / 4)
+
+// Layer 1: String Pad — the canvas, present throughout
+$: arrange(
+  [8,  chord("<Dmaj7 A7sus4>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(1.5).sustain(.8).release(2).lpf(1000).room(.75).roomsize(6).gain(.32)],
+  [8,  chord("<Dmaj7 A7sus4>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(1.2).sustain(.8).release(1.5).lpf(1400).room(.7).roomsize(5).gain(.36)],
+  [8,  chord("<Dmaj7 Gmaj7>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(1).sustain(.8).release(1.5).lpf(1800).room(.65).gain(.38)],
+  [8,  chord("<Dmaj7 Gmaj7 Em7 A7>").dict('ireal').voicing().s("gm_synth_strings_1").attack(.8).sustain(.8).release(1).lpf(2200).room(.6).gain(.42)],
+  [16, chord("<Dmaj7 Gmaj7 Em7 A7>").dict('ireal').voicing().s("gm_string_ensemble_1").attack(.5).sustain(.85).release(.8).lpf(2800).room(.5).gain(.48)],
+  [16, chord("<Dmaj7 Bm7 Gmaj7 A7>").dict('ireal').voicing().s("gm_string_ensemble_1").attack(.3).sustain(.9).release(.6).lpf(3500).room(.45).gain(.52)],
+  [16, chord("<Dmaj7 Bm7 Gmaj7 A7>").dict('ireal').voicing().s("gm_string_ensemble_1").attack(.2).sustain(.9).release(.5).lpf(4000).room(.4).gain(.56)],
+  [8,  chord("<Dmaj7 A7sus4>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(1.2).sustain(.7).release(3).lpf(sine.range(500,1400).slow(8)).room(.8).roomsize(8).gain(saw.slow(8).range(.45,.05))]
+)
+
+// Layer 2: Flute — solo melody, enters bar 9
+$: arrange(
+  [8,  silence],
+  [8,  n("<[~ 0 ~ 2] [4 ~ 2 ~] [~ 0 ~ 4] [2 ~ ~ ~]>").scale("D5:major").s("gm_flute").room(.65).delay(".3:.2:.35").gain(.28).lpf(3500).vib(4).vibmod(.5).attack(.1)],
+  [8,  n("<[~ 0 ~ 2] [4 ~ 2 ~] [~ 0 ~ 4] [2 ~ ~ ~]>").scale("D5:major").s("gm_flute").room(.6).delay(".25:.15:.3").gain(.32).lpf(4200).vib(4).vibmod(.4)],
+  [8,  n("<[0 ~ 2 4] [~ 5 4 ~] [2 ~ 0 ~] [~ 4 2 0]>").scale("D5:major").s("gm_flute").room(.55).delay(".2:.15:.25").gain(.35).lpf(4800).vib(3).vibmod(.4)],
+  [16, n("<[0 ~ 2 4] [~ 5 4 ~] [2 ~ 0 ~] [~ 4 2 0]>").scale("D5:major").s("gm_flute").room(.5).delay(".15:.1:.2").gain(.38).lpf(5200).vib(3).vibmod(.3)],
+  [16, n("<[0 2 4 5] [~ 7 5 4] [2 4 5 ~] [~ 4 2 0]>").scale("D5:major").s("gm_flute").room(.45).delay(".1:.1:.15").gain(.4).lpf(5800).vib(3).vibmod(.3)],
+  [16, n("<[0 2 4 5] [7 ~ 5 4] [2 ~ 5 7] [5 4 2 0]>").scale("D5:major").s("gm_flute").room(.4).gain(.43).lpf(6000).vib(2).vibmod(.2)],
+  [8,  n("<[~ 4 ~ ~] [~ ~ 2 ~] [~ ~ ~ ~] [~ ~ 0 ~]>").scale("D5:major").s("gm_flute").room(.8).delay(".5:.4:.6").gain(.18).lpf(2500).vib(5).vibmod(.6)]
+)
+
+// Layer 3: Acoustic Bass — harmonic anchor, enters bar 17
+$: arrange(
+  [16, silence],
+  [8,  note("<d2 ~ ~ ~ a1 ~ ~ ~>/2").s("gm_acoustic_bass").decay(.5).sustain(.5).room(.25).gain(.55)],
+  [8,  note("<[d2 ~ ~ d2] [g2 ~ ~ ~] [e2 ~ ~ e2] [a1 ~ ~ ~]>").s("gm_acoustic_bass").decay(.35).sustain(.5).room(.2).gain(.65)],
+  [16, note("<[d2 ~ d2 ~] [g2 ~ ~ g2] [e2 ~ e2 ~] [a1 ~ ~ a1]>").s("gm_acoustic_bass").decay(.3).sustain(.55).room(.2).gain(.72)],
+  [16, note("<[d2 ~ d2 ~] [b1 ~ ~ b1] [g1 ~ g1 ~] [a1 ~ ~ a1]>").s("gm_acoustic_bass").decay(.25).sustain(.6).room(.2).gain(.78)],
+  [16, note("<[d2 d2 ~ d2] [b1 ~ b1 ~] [g1 g1 ~ g1] [a1 ~ a1 a1]>").s("gm_acoustic_bass").decay(.2).sustain(.6).room(.15).gain(.82)],
+  [8,  note("<d2 ~ a1 ~>/2").s("gm_acoustic_bass").decay(.6).sustain(.4).room(.35).gain(saw.slow(8).range(.6,.08))]
+)
+
+// Layer 4: Percussion — gentle rhythm building, enters bar 25
+$: arrange(
+  [24, silence],
+  [8,  s("~ ~ ~ [hh ~]").bank("RolandTR808").gain(.35).room(.5)],
+  [16, s("bd ~ ~ ~, ~ ~ ~ hh, hh*4").bank("RolandTR808").gain(.5).room(.4).cut(1)],
+  [16, s("bd ~ sd ~, hh*8").bank("RolandTR808").gain(".72 .65").room(.35).cut(1)],
+  [16, s("bd ~ [~ bd] sd, ~ cp ~ [~ cp], [hh oh hh hh]*2").bank("RolandTR808").gain(".88 .82").room(.3).cut(1).every(4, x => x.fast(2))],
+  [8,  s("bd ~ ~ ~").bank("RolandTR808").gain(saw.slow(8).range(.6,.05)).room(.5)]
+)
+
+// Layer 5: French Horn — warm brass power, enters bar 33
+$: arrange(
+  [32, silence],
+  [16, chord("<Dmaj7 Gmaj7 Em7 A7>").dict('ireal').voicing().s("gm_french_horn").struct("x ~ ~ ~").attack(.4).sustain(.7).release(.6).lpf(2000).room(.5).gain(.3)],
+  [16, chord("<Dmaj7 Bm7 Gmaj7 A7>").dict('ireal').voicing().s("gm_french_horn").struct("[x ~ x ~]").attack(.25).sustain(.75).release(.4).lpf(2800).room(.45).gain(.38)],
+  [16, chord("<Dmaj7 Bm7 Gmaj7 A7>").dict('ireal').voicing().s("gm_french_horn").struct("[x ~ x x]").attack(.15).sustain(.8).release(.3).lpf(3500).room(.4).gain(.45)],
+  [8,  chord("<Dmaj7>/1").dict('ireal').voicing().s("gm_french_horn").struct("x ~ ~ ~").attack(.5).sustain(.6).release(1.5).lpf(1500).room(.7).gain(saw.slow(8).range(.35,.05))]
+)
+
+// Layer 6: Oboe — counter-melody weaving in, enters bar 49
+$: arrange(
+  [48, silence],
+  [16, n("<[~ ~ 5 ~] [~ 7 ~ ~] [5 ~ ~ 3] [~ ~ 0 ~]>").scale("D4:major").s("gm_oboe").room(.55).delay(".35:.25:.4").gain(.28).lpf(4000).vib(5).vibmod(.6).attack(.08)],
+  [16, n("<[5 ~ 7 ~] [~ 4 ~ 5] [7 ~ 5 ~] [4 ~ 2 0]>").scale("D4:major").s("gm_oboe").room(.5).delay(".25:.2:.3").gain(.34).lpf(4500).vib(4).vibmod(.5)],
+  [8,  n("<[~ ~ 5 ~] [~ ~ ~ ~] [~ 2 ~ ~] [~ ~ 0 ~]>").scale("D4:major").s("gm_oboe").room(.75).delay(".5:.35:.55").gain(.15).lpf(3000).vib(5).vibmod(.7)]
+)
+
+// Layer 7: Choir — the final voice crowns the full orchestra, enters bar 65
+$: arrange(
+  [64, silence],
+  [16, chord("<Dmaj7 Bm7 Gmaj7 A7>").dict('ireal').voicing().s("gm_choir_aahs").attack(.8).sustain(.8).release(1).lpf(3000).room(.6).roomsize(4).gain(.3)],
+  [8,  chord("<Dmaj7>/1").dict('ireal').voicing().s("gm_choir_aahs").attack(1).sustain(.7).release(3).lpf(sine.range(800,2000).slow(8)).room(.8).roomsize(6).gain(saw.slow(8).range(.28,.03))]
+)
+```
+
+The piece is in D major with 7 layers that enter one by one across 88 bars:
+
+| Bar | New Layer | Cumulative |
+|-----|-----------|------------|
+| 1 | String pad | Strings alone |
+| 9 | Flute melody | Strings + Flute |
+| 17 | Acoustic bass | + Bass foundation |
+| 25 | Percussion | + Gentle rhythm |
+| 33 | French horn | + Brass warmth |
+| 49 | Oboe counter-melody | + Woodwind dialogue |
+| 65 | Choir | Full orchestra |
+| 81 | Outro | Layers fade away |
+
+Each layer also evolves internally — filters open, gains increase, rhythms densify — so the crescendo is continuous rather than stepwise. The outro reverses the energy with filter sweeps and decaying gains.
+
+Want me to write it to the file?

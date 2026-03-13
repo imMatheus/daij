@@ -1,0 +1,14 @@
+Song written to `web/public/claude/a-song-in-the-style-of-jid-with-rapid-fire-clever-lyricism.txt`.
+
+**"Syllable Monsoon"** — 88 bars at 140 BPM (~2:31)
+
+Key design choices for the JID style:
+
+- **140 BPM** — fast tempo matching JID's energetic delivery
+- **E minor** key with dark Em9/G^7/Am7/B7b9 progression — moody, Atlanta-influenced
+- **Complex hi-hat programming** — rapid-fire rolls (`hh*6`, double-time triggers via `.every(3, x => x.fast(2))`) mimicking trap production with rhythmic variation
+- **Hard 808 bass** — distorted sawtooth sub-bass with syncopated patterns and slides between E/G/A/B
+- **Rapid melodic runs** — 8-note pentatonic sequences on the melody voice simulate JID's machine-gun flow and syllable density
+- **Boom-bap meets trap drums** — kick patterns alternate between sparse and stuttered (`bd ~ [~ bd] bd`), snares double up in choruses
+- **Sparse string counter-melody** in choruses only — atmospheric tension without cluttering the "vocal space"
+- **Sub-bass drone** anchoring the low end throughout

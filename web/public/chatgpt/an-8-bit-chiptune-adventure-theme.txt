@@ -1,0 +1,64 @@
+// 🎵 "Pixel Quest Overworld" — 8-bit Chiptune Adventure Theme
+// At 126 BPM: intro(8) + verse(16) + chorus(16) + verse2(16) + bridge(12) + final chorus(12) + outro(8) = 88 bars ≈ 2:48
+
+setcpm(126 / 4)
+
+$: arrange(
+  [8,  s("hh*8").bank("RolandTR909").hpf(6500).crush(10).gain(.05).room(.7).pan(sine.slow(12))],
+  [16, s("hh*16").bank("RolandTR909").hpf(7000).crush(10).gain(perlin.range(.03,.08)).pan(sine.slow(10)).room(.5)],
+  [16, s("hh*32").bank("RolandTR909").hpf(7600).crush(9).gain(perlin.range(.04,.1)).pan(sine.slow(8)).room(.45)],
+  [16, s("hh*16").bank("RolandTR909").hpf(7000).crush(10).gain(perlin.range(.03,.08)).pan(sine.slow(10)).room(.5)],
+  [12, s("oh ~ hh ~").bank("RolandTR909").hpf(6200).crush(11).gain(.05).room(.8).delay(".3:.2:.35")],
+  [12, s("hh*32").bank("RolandTR909").hpf(7800).crush(9).gain(perlin.range(.05,.11)).pan(sine.slow(6)).room(.4)],
+  [8,  s("hh*8").bank("RolandTR909").hpf(6000).crush(11).gain(saw.slow(8).range(.05,.01)).room(.9)]
+)
+
+$: arrange(
+  [8,  s("bd ~ ~ ~, ~ ~ sd ~").bank("RolandTR909").swing(3).gain(.72).room(.3)],
+  [16, s("bd ~ bd ~, ~ sd ~ sd, hh*8").bank("RolandTR909").cut(1).swing(4).gain(".9 .82 .65").room(.22)],
+  [16, s("bd [bd ~] bd ~, ~ sd ~ [sd cp], [hh*8 oh*2]").bank("RolandTR909").cut(1).swing(4).gain(".95 .88 .7").room(.2).every(4, x => x.fast(2))],
+  [16, s("bd ~ [bd bd] ~, ~ sd ~ sd, hh*8").bank("RolandTR909").cut(1).swing(4).gain(".9 .84 .66").room(.22).sometimes(x => x.press())],
+  [12, s("bd(3,8), ~ cp ~ ~, hh*8").bank("RolandTR909").cut(1).swing(3).gain(".86 .8 .6").room(.28)],
+  [12, s("bd [bd ~] bd ~, ~ sd ~ [sd cp], [hh*16 oh*2]").bank("RolandTR909").cut(1).swing(4).gain(".98 .9 .75").room(.18).every(3, x => x.fast(2).gain(.6))],
+  [8,  s("bd ~ ~ ~, ~ ~ sd ~").bank("RolandTR909").swing(3).gain(saw.slow(8).range(.7,.1)).room(.4)]
+)
+
+$: arrange(
+  [8,  note("<~ c2 ~ g1 ~ ab1 ~ bb1>").s("triangle").decay(.18).sustain(.45).release(.1).gain(.62).lpf(900)],
+  [16, note("<[c2 ~ c2 ~] [ab1 ~ ab1 ~] [bb1 ~ bb1 ~] [g1 ~ g1 ~]>").s("triangle").decay(.15).sustain(.5).gain(.76).lpf(1100)],
+  [16, note("<[c2 g2 c2 g1] [ab1 eb2 ab1 eb2] [bb1 f2 bb1 f2] [g1 d2 g1 d2]>").s("triangle").decay(.12).sustain(.55).gain(.82).lpf(1300).every(4, x => x.fast(2).gain(.7))],
+  [16, note("<[c2 ~ g1 ~] [ab1 ~ eb2 ~] [bb1 ~ f2 ~] [g1 ~ d2 ~]>").s("triangle").decay(.15).sustain(.5).gain(.78).lpf(1150).sometimes(x => x.add(note(12)).gain(.4))],
+  [12, note("<[eb2 ~ bb1 ~] [f2 ~ c2 ~] [g2 ~ d2 ~] [bb1 ~ f2 ~]>").s("triangle").decay(.16).sustain(.45).gain(.74).lpf(1000)],
+  [12, note("<[c2 g2 c2 g1] [ab1 eb2 ab1 eb2] [bb1 f2 bb1 f2] [g1 d2 g1 d2]>").s("triangle").decay(.12).sustain(.55).gain(.84).lpf(1350)],
+  [8,  note("<c2 ~ ab1 ~ bb1 ~ g1 ~>/2").s("triangle").decay(.3).sustain(.35).gain(.58).lpf(800).speed(.98)]
+)
+
+$: arrange(
+  [8,  note("<[c4 g4 eb4 g4] [ab3 eb4 c4 eb4]>/2").s("square").fast(2).attack(.01).decay(.12).sustain(.35).release(.05).gain(.28).lpf(2400).crush(9)],
+  [16, note("<[c4 g4 eb4 g4] [ab3 eb4 c4 eb4] [bb3 f4 d4 f4] [g3 d4 bb3 d4]>").s("square").fast(2).attack(.01).decay(.1).sustain(.4).release(.05).gain(.34).lpf(2800).pan(sine.slow(12)).crush(8)],
+  [16, note("<[c4 eb4 g4 c5] [ab3 c4 eb4 ab4] [bb3 d4 f4 bb4] [g3 bb3 d4 g4]>").s("square").fast(4).attack(.01).decay(.08).sustain(.35).release(.04).gain(.3).lpf(3400).delay(".12:.08:.2").crush(7)],
+  [16, note("<[c4 g4 eb4 g4] [ab3 eb4 c4 eb4] [bb3 f4 d4 f4] [g3 d4 bb3 d4]>").s("square").fast(2).attack(.01).decay(.1).sustain(.4).release(.05).gain(.35).lpf(2900).crush(8).every(4, x => x.rev())],
+  [12, note("<[eb4 bb4 g4 bb4] [f4 c5 a4 c5] [g4 d5 bb4 d5] [bb3 f4 d4 f4]>").s("square").fast(2).attack(.01).decay(.11).sustain(.36).release(.05).gain(.32).lpf(2600).delay(".2:.12:.25").crush(8)],
+  [12, note("<[c4 eb4 g4 c5] [ab3 c4 eb4 ab4] [bb3 d4 f4 bb4] [g3 bb3 d4 g4]>").s("square").fast(4).attack(.01).decay(.08).sustain(.35).release(.04).gain(.33).lpf(3600).delay(".1:.06:.18").crush(7)],
+  [8,  note("<[c4 g4 eb4 g4] [ab3 eb4 c4 eb4]>/2").s("square").fast(2).attack(.01).decay(.14).sustain(.25).release(.08).gain(saw.slow(8).range(.24,.04)).lpf(1800).crush(10)]
+)
+
+$: arrange(
+  [8,  n("<~ ~ 0 ~ 3 ~ 5 ~>").scale("C5:minor:pentatonic").s("square").attack(.01).decay(.15).sustain(.3).release(.08).gain(.32).lpf(2200).crush(8).delay(".2:.1:.18")],
+  [16, n("<[0 ~ 3 5] [~ 7 ~ 5] [3 ~ 2 ~] [0 ~ ~ ~]>").scale("C5:minor:pentatonic").s("square").attack(.01).decay(.14).sustain(.35).release(.08).gain(.4).lpf(sine.range(1800,3400).slow(8)).delay(".16:.1:.2").vib(5).vibmod(.3).crush(7)],
+  [16, n("<[0 3 5 7] [8 7 5 3] [5 7 10 7] [3 2 0 ~]>").scale("C5:minor").s("square").attack(.01).decay(.1).sustain(.32).release(.06).gain(.48).lpf(sine.range(2200,4200).slow(6)).delay(".12:.08:.16").vib(6).vibmod(.35).crush(6).sometimes(x => x.add(note(12)))],
+  [16, n("<[0 ~ 3 5] [~ 7 5 ~] [3 ~ 0 ~] [~ 2 3 0]>").scale("C5:minor:pentatonic").s("square").attack(.01).decay(.14).sustain(.35).release(.08).gain(.42).lpf(sine.range(1800,3400).slow(7)).delay(".16:.1:.2").vib(5).vibmod(.3).crush(7).rarely(x => x.rev())],
+  [12, n("<[7 ~ 8 10] [12 ~ 10 8] [7 5 3 ~] [5 ~ 3 ~]>").scale("C5:minor").s("square").attack(.01).decay(.12).sustain(.3).release(.07).gain(.4).lpf(2600).delay(".2:.14:.24").vib(4).vibmod(.25).crush(7)],
+  [12, n("<[0 3 5 7] [8 7 5 3] [5 7 10 12] [10 8 7 5]>").scale("C5:minor").s("square").attack(.01).decay(.1).sustain(.32).release(.06).gain(.5).lpf(sine.range(2400,4400).slow(5)).delay(".1:.07:.15").vib(6).vibmod(.4).crush(6).sometimes(x => x.add(note(12)))],
+  [8,  n("<[7 ~ 5 ~] [3 ~ 2 ~] [0 ~ ~ ~] [~ ~ ~ ~]>").scale("C5:minor:pentatonic").s("square").attack(.02).decay(.2).sustain(.25).release(.12).gain(.28).lpf(1800).delay(".28:.18:.32").crush(9)]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, silence],
+  [16, n("<[~ 5 ~ 7] [8 ~ 7 ~] [~ 5 ~ 3] [2 ~ ~ ~]>").scale("C5:minor").s("sawtooth").attack(.02).decay(.18).sustain(.35).release(.1).gain(.24).lpf(3000).pan(sine.slow(9)).delay(".24:.16:.3").crush(8)],
+  [16, n("<[~ 3 ~ 5] [7 ~ 5 ~] [~ 3 ~ 2] [0 ~ ~ ~]>").scale("C5:minor").s("sawtooth").attack(.02).decay(.18).sustain(.35).release(.1).gain(.22).lpf(2800).pan(sine.slow(11)).delay(".24:.16:.3").crush(8)],
+  [12, n("<[10 ~ 8 ~] [7 ~ 5 ~] [8 ~ 7 ~] [5 ~ 3 ~]>").scale("C5:minor").s("sawtooth").attack(.02).decay(.2).sustain(.3).release(.12).gain(.26).lpf(3200).pan(sine.slow(7)).delay(".22:.14:.28").crush(7)],
+  [12, n("<[~ 5 7 8] [10 ~ 8 7] [~ 5 7 10] [8 ~ 7 5]>").scale("C5:minor").s("sawtooth").attack(.02).decay(.16).sustain(.35).release(.1).gain(.28).lpf(3400).pan(sine.slow(8)).delay(".2:.12:.24").crush(7).sometimes(x => x.fast(2).gain(.7))],
+  [8,  silence]
+)

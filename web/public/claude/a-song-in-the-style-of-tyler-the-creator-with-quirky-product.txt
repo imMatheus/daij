@@ -1,0 +1,160 @@
+Here's the song — "Sunflower Syndrome", a Tyler, The Creator-style quirky neo-soul rap track:
+
+```
+// 🌻 "Sunflower Syndrome" — Tyler, The Creator-style Quirky Neo-Soul Rap
+// At 86 BPM: intro(8) + verse(16) + hook(12) + verse(16) + bridge(12) + hook(16) + outro(8) = 88 bars ≈ 2:27
+
+setcpm(86 / 4)
+
+$: s("vinyl:2").gain(.13).room(1).loop(1).lpf(2400)
+
+$: arrange(
+  [8,  s("bd ~ ~ ~, ~ ~ ~ ~, hh*4").bank("RolandTR808").gain(".7 .5").room(.35)],
+  [16, s("bd ~ ~ [~ bd], ~ [cp,sd:1] ~ ~, hh*8, ~ ~ ~ [oh ~]")
+       .bank("RolandTR808").cut(1).gain(".95 .82 .88 .82").room(.25)
+       .swing(3).every(4, x => x.struct("bd bd ~ [~ bd], ~ [cp,sd:1] ~ cp, hh*16").gain(.7))],
+  [12, s("bd ~ [~ bd] ~, ~ [cp,sd:1] ~ [~ cp], [hh hh oh hh]*2, ~ ~ ~ [sd:2 sd:2 ~ ~]")
+       .bank("RolandTR808").cut(1).gain(".95 .85").room(.2)
+       .every(3, x => x.fast(2).gain(.45))],
+  [16, s("bd ~ ~ [~ bd], ~ [cp,sd:1] ~ ~, hh*8, ~ ~ ~ [oh ~]")
+       .bank("RolandTR808").cut(1).gain(".9 .8 .85 .8").room(.25)
+       .swing(3).sometimes(x => x.press())],
+  [12, s("bd(3,8), ~ cp ~ ~, [hh oh]*4")
+       .bank("RolandTR808").cut(1).swing(4).gain(".82 .72").room(.4)],
+  [16, s("bd ~ [~ bd] ~, ~ [cp,sd:1] ~ [~ cp], [hh hh oh hh]*2")
+       .bank("RolandTR808").cut(1).gain(".95 .85").room(.2)
+       .every(3, x => x.fast(2).gain(.45))],
+  [8,  s("bd ~ ~ ~, ~ ~ cp ~")
+       .bank("RolandTR808").gain(saw.slow(8).range(.65,.08)).room(.5)]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, note("<[bb1 ~ ~ bb1] [~ g1 ~ ~] [eb1 ~ ~ eb1] [f1 ~ ~ ~]>")
+       .s("sine").decay(.4).sustain(.6).gain(.88)
+       .lpf(110).distort(.06)],
+  [12, note("<[bb1 ~ bb1 ~] [g1 ~ ~ g1] [eb1 ~ eb1 ~] [f1 ~ ~ f1]>")
+       .s("sine").decay(.3).sustain(.7).gain(.92)
+       .lpf(125).distort(.08)],
+  [16, note("<[bb1 ~ ~ bb1] [~ g1 ~ ~] [eb1 ~ ~ eb1] [f1 ~ ~ ~]>")
+       .s("sine").decay(.4).sustain(.6).gain(.85)
+       .lpf(110).distort(.06)],
+  [12, note("<[bb1 ~ ~ ~] [g1 ~ ~ ~] [eb1 ~ ~ ~] [f1 ~ ~ ~]>")
+       .s("sine").decay(.6).sustain(.4).gain(.7)
+       .lpf(95).room(.2)],
+  [16, note("<[bb1 ~ bb1 ~] [g1 ~ ~ g1] [eb1 ~ eb1 ~] [f1 ~ ~ f1]>")
+       .s("sine").decay(.3).sustain(.7).gain(.9)
+       .lpf(125).distort(.08)],
+  [8,  note("<bb1 ~ eb1 ~ f1 ~>/2")
+       .s("sine").decay(.8).sustain(.3).gain(.5)
+       .lpf(85)]
+)
+
+$: arrange(
+  [8,  chord("<Bbmaj7 Ebmaj7>/2").dict('ireal').voicing()
+       .s("gm_epiano1").attack(.4).decay(.6).sustain(.6).release(1.5)
+       .lpf(1600).room(.65).gain(.32)],
+  [16, chord("<Bbmaj7 Gm9 Ebmaj7 F7>").dict('ireal').voicing()
+       .s("gm_epiano1").struct("~ [x ~] ~ [x ~]")
+       .lpf(2400).room(.45).delay(".2:.12:.22").gain(.52)
+       .speed(.98)],
+  [12, chord("<Bbmaj7 Gm9 Ebmaj7 F7>").dict('ireal').voicing()
+       .s("gm_epiano1").struct("[x ~ x ~]")
+       .lpf(2800).room(.4).delay(".15:.1:.2").gain(.56)
+       .every(4, x => x.crush(10))],
+  [16, chord("<Bbmaj7 Gm9 Ebmaj7 F7>").dict('ireal').voicing()
+       .s("gm_epiano1").struct("~ [x ~] ~ [x ~]")
+       .lpf(2400).room(.45).delay(".2:.12:.22").gain(.5)
+       .speed(.98).sometimes(x => x.add(note(5)))],
+  [12, chord("<Bbmaj7 Gm7 Ebmaj7 Dm7>").dict('ireal').voicing()
+       .s("gm_epiano1").struct("x ~ ~ ~")
+       .lpf(1800).room(.6).delay(".4:.25:.45").gain(.4)
+       .attack(.25)],
+  [16, chord("<Bbmaj7 Gm9 Ebmaj7 F7>").dict('ireal').voicing()
+       .s("gm_epiano1").struct("[x ~ x ~]")
+       .lpf(2800).room(.4).delay(".15:.1:.2").gain(.56)],
+  [8,  chord("<Bbmaj7 Gm9>/2").dict('ireal').voicing()
+       .s("gm_synth_strings_1").attack(.8).sustain(.5).release(3)
+       .lpf(sine.range(500,1300).slow(8)).room(.75).gain(saw.slow(8).range(.32,.05))]
+)
+
+$: arrange(
+  [8,  n("<~ 0 ~ 4>").scale("Bb5:major").s("gm_celesta")
+       .room(.7).delay(".5:.35:.6").gain(.28).lpf(4000)],
+  [16, n("<[0 ~ 4 ~] [~ 5 ~ 7] [4 ~ 2 ~] [~ 0 ~ ~]>")
+       .scale("Bb5:major")
+       .s("gm_celesta")
+       .lpf(sine.range(2000,5000).slow(10))
+       .room(.55).delay(".3:.2:.4").gain(.38)
+       .pan(sine.slow(5))
+       .every(3, x => x.add(note(12)).gain(.2))],
+  [12, n("<[~ 7 5 ~] [4 ~ ~ 2] [5 ~ 7 ~] [~ 9 7 5]>")
+       .scale("Bb5:major")
+       .s("gm_celesta")
+       .lpf(sine.range(2500,6000).slow(7))
+       .room(.5).delay(".25:.15:.35").gain(.42)
+       .pan(sine.slow(4))
+       .sometimes(x => x.add(note(12)))],
+  [16, n("<[0 ~ 4 ~] [~ 5 ~ 7] [4 ~ 2 ~] [~ 0 ~ ~]>")
+       .scale("Bb5:major")
+       .s("gm_celesta")
+       .lpf(sine.range(2000,5000).slow(10))
+       .room(.55).delay(".3:.2:.4").gain(.36)
+       .pan(sine.slow(5))
+       .rarely(x => x.rev())],
+  [12, n("<[~ 0 ~ ~] [~ ~ 4 ~] [~ 5 ~ ~] [~ ~ 7 ~]>")
+       .scale("Bb5:major")
+       .s("gm_celesta")
+       .room(.8).delay(".6:.4:.65").gain(.26)
+       .lpf(3000).crush(12)],
+  [16, n("<[~ 7 5 ~] [4 ~ ~ 2] [5 ~ 7 ~] [~ 9 7 5]>")
+       .scale("Bb5:major")
+       .s("gm_celesta")
+       .lpf(sine.range(2500,6000).slow(7))
+       .room(.5).delay(".25:.15:.35").gain(.4)
+       .pan(sine.slow(4))],
+  [8,  silence]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, silence],
+  [12, n("<[~ 2 ~ 5] [7 ~ 5 ~] [~ 3 ~ 2] [0 ~ ~ ~]>")
+       .scale("Bb5:major")
+       .s("gm_flute")
+       .room(.6).delay(".4:.3:.5").gain(.3)
+       .lpf(5500).vib(5).vibmod(.7)
+       .attack(.05).decay(.2).sustain(.6).release(.4)],
+  [16, silence],
+  [12, n("<[~ 5 ~ 7] [9 ~ 7 ~] [~ 5 ~ 4] [2 ~ ~ ~]>")
+       .scale("Bb5:major")
+       .s("gm_flute")
+       .room(.65).delay(".45:.35:.55").gain(.28)
+       .lpf(5000).vib(4).vibmod(.6)
+       .attack(.08).decay(.25).sustain(.55).release(.35)],
+  [16, n("<[~ 2 ~ 5] [7 ~ 5 ~] [~ 3 ~ 2] [0 ~ ~ ~]>")
+       .scale("Bb5:major")
+       .s("gm_flute")
+       .room(.6).delay(".4:.3:.5").gain(.3)
+       .lpf(5500).vib(5).vibmod(.7)
+       .attack(.05).decay(.2).sustain(.6).release(.4)],
+  [8,  silence]
+)
+
+$: note("<bb1 g1 eb1 f1>/4")
+   .s("sawtooth")
+   .attack(2).decay(1).sustain(.7).release(2)
+   .gain(.15).room(.6)
+   .lpf(400)
+```
+
+It looks like write permissions aren't enabled for that directory. The song is above — key design choices:
+
+- **88 bars at 86 BPM** — Tyler's bouncy mid-tempo sweet spot
+- **Bb major / Gm** with jazz voicings (Bbmaj7 → Gm9 → Ebmaj7 → F7) — that warm IGOR/Flower Boy harmonic palette
+- **Deep 808 sine bass** with subtle distortion — Tyler's signature boomy low end
+- **Celesta melody** — playful, childlike, off-kilter with octave jumps via `.every(3, x => x.add(note(12)))` and `.rarely(x => x.rev())`
+- **Rhodes piano chords** with detuned `.speed(.98)` and occasional `.crush(10)` bit-crushing for quirkiness
+- **Flute counter-melody** appearing only in hooks — "See You Again" vibes
+- **Bouncy 808 drums** with syncopated kicks (`bd ~ ~ [~ bd]`), swing, and `.sometimes(x => x.press())` for that off-kilter groove
+- **Warm sawtooth sub-pad** underneath everything for body

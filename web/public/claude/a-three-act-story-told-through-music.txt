@@ -1,0 +1,82 @@
+// 🎭 "The Arc" — Cinematic Narrative Electronica
+// At 90 BPM: Act I - Hope (intro 4 + rising 16 + peak 8 = 28) + Act II - Conflict (tension 16 + climax 12 = 28) + Act III - Resolution (reflection 16 + epilogue 8 = 24) = 80 bars ≈ 3:33
+
+setcpm(90 / 4)
+
+// vinyl warmth throughout
+$: s("vinyl:2").gain(.13).room(1).loop(1).lpf(2400)
+
+// drums — sparse hope → aggressive conflict → gentle resolution
+$: arrange(
+  [4,  s("bd ~ ~ ~").bank("RolandTR808").gain(.5).room(.6)],
+  [16, s("bd ~ sd ~, hh*8").bank("RolandTR808").swing(4).gain(".8 .7").room(.35).cut(1)],
+  [8,  s("bd ~ sd ~, ~ [cp,sd:1] ~ cp, hh*8").bank("RolandTR808").swing(4).gain(".88 .82").room(.3).cut(1)],
+  [16, s("bd(5,8), ~ [cp sd:2] ~ [cp ~ cp ~], [oh hh hh oh]*2").bank("RolandTR808").cut(1).gain(perlin.range(.8,.98)).room(.25).every(3, x => x.fast(2).gain(.55))],
+  [12, s("bd(7,16), [cp ~ cp ~]*2, [hh oh]*4").bank("RolandTR808").cut(1).gain(".95 .88 .92 .85").room(.2).every(4, x => x.rev())],
+  [16, s("bd ~ sd ~, hh*4").bank("RolandTR808").swing(4).gain(".72 .65").room(.45).cut(1).sometimes(x => x.gain(.3))],
+  [8,  s("bd ~ ~ ~").bank("RolandTR808").swing(4).gain(saw.slow(8).range(.6,.05)).room(.7)]
+)
+
+// bass — bright major → dark minor → resolved
+$: arrange(
+  [4,  silence],
+  [16, note("<[g2 ~ ~ g2] [a2 ~ ~ ~] [b2 ~ ~ b2] [d2 ~ ~ ~]>").s("gm_acoustic_bass").decay(.3).sustain(.5).room(.2).gain(.78)],
+  [8,  note("<[g2 ~ g2 ~] [a2 ~ ~ a2] [b2 ~ b2 ~] [d2 ~ ~ d2]>").s("gm_acoustic_bass").decay(.25).sustain(.55).room(.2).gain(.82)],
+  [16, note("<[e2 ~ g2 ~] [a1 ~ ~ a1] [c2 ~ d2 ~] [e2 ~ ~ e2]>").s("gm_acoustic_bass").decay(.2).sustain(.6).room(.2).gain(.88)],
+  [12, note("<[e2 g2 a2 ~] [~ c2 d2 ~] [e2 ~ g2 a2] [c2 ~ ~ e2]>").s("gm_acoustic_bass").decay(.15).sustain(.5).room(.15).gain(.92)],
+  [16, note("<[c2 ~ ~ c2] [e2 ~ ~ ~] [g2 ~ ~ g2] [d2 ~ ~ ~]>").s("gm_acoustic_bass").decay(.35).sustain(.45).room(.3).gain(.72)],
+  [8,  note("<c2 ~ e2 ~ g2 ~ d2 ~>/2").s("gm_acoustic_bass").decay(.6).sustain(.3).room(.4).gain(.55).speed(.97)]
+)
+
+// chords — hopeful major → tense minor → warm resolution
+$: arrange(
+  [4,  chord("<Gmaj7 Em7>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(1).decay(1).sustain(.7).release(2).lpf(1000).room(.8).gain(.3)],
+  [16, chord("<Gmaj7 Am7 Bm7 D7>").dict('ireal').voicing().s("gm_epiano1").struct("~ [x ~] ~ [x ~]").lpf(2200).room(.5).delay(".2:.125:.3").gain(.5).speed(.98)],
+  [8,  chord("<Gmaj7 Am7 Bm7 D7>").dict('ireal').voicing().s("gm_epiano1").struct("[~ x]*2").lpf(2800).room(.45).delay(".15:.1:.2").gain(.58)],
+  [16, chord("<Em7 Am7 Cm7 D7b9>").dict('ireal').voicing().s("gm_epiano2").struct("[x ~ x ~]*2").lpf(1800).room(.4).delay(".2:.15:.3").gain(.55).crush(13)],
+  [12, chord("<Em7 Am7 Cm7 D7b9>").dict('ireal').voicing().s("gm_epiano2").struct("x*4").lpf(sine.range(1200,3500).slow(6)).room(.35).delay(".15:.1:.2").gain(.62)],
+  [16, chord("<Cmaj7 Em7 Am7 Gmaj7>").dict('ireal').voicing().s("gm_epiano1").struct("~ [x ~] ~ [x ~]").lpf(2000).room(.55).delay(".25:.15:.35").gain(.48).speed(.99)],
+  [8,  chord("<Cmaj7 Gmaj7>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(1).sustain(.6).release(3).lpf(sine.range(400,1400).slow(8)).room(.85).gain(saw.slow(8).range(.38,.08))]
+)
+
+// melody — innocent theme → fragmented struggle → theme returns transformed
+$: arrange(
+  [4,  silence],
+  [16, n("<[~ 0 ~ 2] [4 ~ 2 ~] [~ 0 ~ 4] [2 ~ ~ 0]>").scale("G4:major:pentatonic").s("gm_epiano1").lpf(sine.range(1000,3200).slow(10)).room(.55).delay(".3:.2:.4").gain(.4).rarely(x => x.add(note(12)))],
+  [8,  n("<[0 2 4 ~] [~ 5 4 ~] [2 ~ 0 ~] [~ 4 2 0]>").scale("G5:major:pentatonic").s("gm_epiano1").lpf(2800).room(.5).delay(".25:.15:.35").gain(.46).sometimes(x => x.add(note(12)))],
+  [16, n("<[~ 0 ~ ~] [2 ~ ~ 0] [~ ~ 3 ~] [0 ~ ~ ~]>").scale("E4:minor:pentatonic").s("gm_epiano2").lpf(sine.range(600,2200).slow(8)).room(.6).delay(".4:.3:.5").gain(.38).vib(5).vibmod(.6)],
+  [12, n("<[0 2 3 5] [~ 3 5 7] [5 3 2 0] [3 5 7 ~]>").scale("E5:minor:pentatonic").s("gm_epiano2").lpf(sine.range(1500,4000).slow(5)).room(.5).delay(".2:.15:.3").gain(.5).vib(4).vibmod(.8).every(4, x => x.rev())],
+  [16, n("<[~ 0 ~ 2] [4 ~ 2 ~] [~ 0 ~ 4] [2 ~ ~ 0]>").scale("C4:major:pentatonic").s("gm_epiano1").lpf(sine.range(800,2600).slow(12)).room(.6).delay(".35:.25:.45").gain(.38).vib(3).vibmod(.4)],
+  [8,  silence]
+)
+
+// strings — emotional underscore per act
+$: arrange(
+  [4,  silence],
+  [16, note("<g3 a3 b3 d4>/4").s("gm_synth_strings_1").attack(1.5).decay(1).sustain(.7).release(2).lpf(1400).room(.7).gain(.25)],
+  [8,  note("<g3 b3>/2").s("gm_synth_strings_1").attack(1).sustain(.8).release(2).lpf(1800).room(.65).gain(.3)],
+  [16, note("<e3 a3 c4 d4>/4").s("gm_synth_strings_1").attack(.5).decay(.8).sustain(.6).release(1.5).lpf(sine.range(800,2400).slow(8)).room(.5).gain(.35).distort(.15)],
+  [12, note("<e3 c4>/2").s("gm_synth_strings_1").attack(.3).sustain(.7).release(1).lpf(2800).room(.45).gain(.4)],
+  [16, note("<c3 e3 g3 d3>/4").s("gm_synth_strings_1").attack(1.5).decay(1.2).sustain(.75).release(2.5).lpf(1200).room(.75).gain(.28)],
+  [8,  note("<c3 g3>/2").s("gm_synth_strings_1").attack(2).sustain(.6).release(3).lpf(sine.range(300,1000).slow(8)).room(.9).gain(saw.slow(8).range(.3,.05))]
+)
+
+// counter melody — appears in transitions and climax
+$: arrange(
+  [4,  silence],
+  [16, silence],
+  [8,  n("<[~ ~ 4 ~] [~ 5 ~ ~] [4 ~ ~ 2] [~ ~ 0 ~]>").scale("G4:major:pentatonic").s("gm_flute").room(.65).delay(".45:.3:.55").gain(.28).lpf(4500).vib(5).vibmod(.7).attack(.05).decay(.2).sustain(.6).release(.4)],
+  [16, silence],
+  [12, n("<[~ 3 ~ 5] [7 ~ 5 ~] [~ 3 ~ 2] [0 ~ ~ ~]>").scale("E5:minor:pentatonic").s("gm_flute").room(.55).delay(".35:.25:.45").gain(.34).lpf(5000).vib(6).vibmod(.9).attack(.03).decay(.15).sustain(.7).release(.3)],
+  [16, n("<[~ ~ 2 ~] [~ 4 ~ ~] [2 ~ ~ 0] [~ ~ ~ ~]>").scale("C5:major:pentatonic").s("gm_flute").room(.7).delay(".5:.35:.6").gain(.24).lpf(3800).vib(4).vibmod(.5).attack(.08).decay(.25).sustain(.5).release(.5)],
+  [8,  silence]
+)
+
+// sub bass drone — anchors each act
+$: arrange(
+  [4,  note("g1").s("sine").attack(2).sustain(.8).release(2).gain(.2).lpf(150).room(.4)],
+  [24, note("<g1 d1>/8").s("sine").attack(1.5).sustain(.8).release(1.5).gain(.22).lpf(180).room(.35)],
+  [28, note("<e1 a1>/8").s("sine").attack(1).sustain(.7).release(1).gain(.25).lpf(160).room(.3)],
+  [24, note("<c1 g1>/8").s("sine").attack(2).sustain(.8).release(2.5).gain(.2).lpf(140).room(.45)],
+  [4,  silence]
+)

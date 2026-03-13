@@ -1,0 +1,60 @@
+// 🔥 "Wrath Machine" — Aggressive Industrial Techno
+// At 138 BPM: intro(8) + verse(16) + chorus(16) + verse2(16) + chorus2(16) + breakdown(8) + finale(8) = 88 bars ≈ 2:33
+
+setcpm(138 / 4)
+
+$: arrange(
+  [8,  s("bd*4").bank("RolandTR909").gain(saw.slow(8).range(.4,.95)).distort(.3).room(.2)],
+  [16, s("bd*4, [~ sd]*2, [hh hh hh hh]*4").bank("RolandTR909").gain(".95 .88 .92 .88").room(.2).distort(.2).every(4, x => x.fast(2).gain(.7))],
+  [16, s("bd*4, [~ [sd sd] ~ sd]*2, [hh oh hh hh]*4, cp*8").bank("RolandTR909").cut(1).gain(".98 .9 .95 .9").room(.25).distort(.25).every(3, x => x.rev())],
+  [16, s("bd*4, [~ sd]*2, [hh hh oh hh]*4").bank("RolandTR909").gain(".95 .88 .92 .88").room(.2).distort(.2).sometimes(x => x.press()).every(4, x => x.fast(2).gain(.7))],
+  [16, s("bd*4, [~ [sd sd] ~ sd]*2, [hh oh hh hh]*4, cp*8").bank("RolandTR909").cut(1).gain(".98 .9 .95 .9").room(.25).distort(.3).every(3, x => x.rev()).every(5, x => x.fast(2))],
+  [8,  s("bd(7,8), [sd sd ~ sd]*2, oh*16").bank("RolandTR909").cut(1).gain(".95 .85").room(.3).distort(.35)],
+  [8,  s("bd*4, ~ sd ~ sd, [hh oh]*8").bank("RolandTR909").cut(1).gain(saw.slow(8).range(.95,.1)).room(.4).distort(.2)]
+)
+
+$: arrange(
+  [8,  note("c1*4").s("sawtooth").lpf(saw.slow(8).range(100,800)).gain(.6).distort(.4).decay(.15).sustain(.1)],
+  [16, note("<[c1 c1 ~ c1] [c1 ~ c1 ~] [eb1 eb1 ~ eb1] [eb1 ~ f1 ~]>").s("sawtooth").lpf(1200).gain(.75).distort(.45).decay(.12).sustain(.1).room(.15)],
+  [16, note("<[c1 c1 c1 ~] [eb1 ~ eb1 eb1] [f1 f1 ~ f1] [eb1 ~ c1 c1]>").s("sawtooth").lpf(1600).gain(.82).distort(.5).decay(.1).sustain(.15).room(.15)],
+  [16, note("<[c1 c1 ~ c1] [c1 ~ c1 ~] [eb1 eb1 ~ eb1] [eb1 ~ f1 ~]>").s("sawtooth").lpf(1200).gain(.75).distort(.45).decay(.12).sustain(.1).room(.15).every(4, x => x.fast(2))],
+  [16, note("<[c1 c1 c1 ~] [eb1 ~ eb1 eb1] [f1 f1 ~ f1] [eb1 ~ c1 c1]>").s("sawtooth").lpf(1800).gain(.85).distort(.55).decay(.1).sustain(.15).room(.15)],
+  [8,  note("c1*8").s("sawtooth").lpf(sine.range(400,2000).slow(4)).gain(.7).distort(.5).decay(.08).sustain(.05)],
+  [8,  note("<c1 ~ eb1 ~>/2").s("sawtooth").lpf(saw.slow(8).range(800,200)).gain(saw.slow(8).range(.7,.1)).distort(.4).decay(.3).sustain(.2)]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, note("<c3 eb3 f3 eb3>").s("square").struct("[x ~ x ~]*2").lpf(2400).gain(.4).distort(.3).room(.3).delay(".15:.1:.2").crush(8)],
+  [16, note("<[c3,eb3,g3] [eb3,g3,bb3] [f3,ab3,c4] [eb3,g3,bb3]>").s("square").struct("[x x ~ x]*2").lpf(3200).gain(.48).distort(.35).room(.25).delay(".1:.1:.15").crush(7)],
+  [16, note("<c3 eb3 f3 eb3>").s("square").struct("[x ~ x ~]*2").lpf(2400).gain(.4).distort(.3).room(.3).delay(".15:.1:.2").crush(8).sometimes(x => x.add(note(12)))],
+  [16, note("<[c3,eb3,g3] [eb3,g3,bb3] [f3,ab3,c4] [eb3,g3,bb3]>").s("square").struct("[x x x ~]*2").lpf(3600).gain(.52).distort(.4).room(.25).delay(".1:.1:.15").crush(6)],
+  [8,  note("<[c3,eb3,g3] [f3,ab3,c4]>/2").s("square").lpf(sine.range(800,3000).slow(4)).gain(.38).distort(.3).room(.5).crush(8)],
+  [8,  silence]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, n("<[0 ~ 3 ~] [5 ~ 3 0] [~ 3 5 7] [5 3 ~ 0]>").scale("C5:minor:pentatonic").s("sawtooth").lpf(sine.range(1500,4500).slow(6)).gain(.35).distort(.25).room(.4).delay(".2:.15:.3").decay(.15).sustain(.2)],
+  [16, n("<[0 3 5 7] [~ 10 7 5] [3 5 ~ 7] [10 7 5 3]>").scale("C5:minor:pentatonic").s("sawtooth").lpf(sine.range(2000,5000).slow(5)).gain(.42).distort(.3).room(.35).delay(".15:.1:.25").decay(.12).sustain(.25).every(4, x => x.add(note(12)).gain(.25))],
+  [16, n("<[0 ~ 3 ~] [5 ~ 3 0] [~ 3 5 7] [5 3 ~ 0]>").scale("C5:minor:pentatonic").s("sawtooth").lpf(sine.range(1500,4500).slow(6)).gain(.35).distort(.25).room(.4).delay(".2:.15:.3").decay(.15).sustain(.2).rarely(x => x.fast(2))],
+  [16, n("<[0 3 5 7] [~ 10 7 5] [3 5 ~ 7] [10 7 5 3]>").scale("C5:minor:pentatonic").s("sawtooth").lpf(sine.range(2000,5000).slow(5)).gain(.42).distort(.3).room(.35).delay(".15:.1:.25").decay(.12).sustain(.25).every(3, x => x.rev())],
+  [8,  n("<[0 3 5 ~] [7 ~ 5 3]>").scale("C5:minor:pentatonic").s("sawtooth").lpf(3000).gain(.38).distort(.35).room(.5).delay(".3:.2:.4")],
+  [8,  silence]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, silence],
+  [16, note("c2*16").s("sine").gain(perlin.range(.1,.35)).lpf(sine.range(80,400).slow(4)).distort(.6).room(.2)],
+  [16, silence],
+  [16, note("c2*16").s("sine").gain(perlin.range(.15,.4)).lpf(sine.range(80,500).slow(3)).distort(.65).room(.2)],
+  [8,  note("c2*16").s("sine").gain(.3).lpf(sine.range(100,600).slow(2)).distort(.7).room(.3)],
+  [8,  silence]
+)
+
+$: note("<c1 eb1 f1 c1>/4")
+   .s("sawtooth")
+   .attack(1).decay(2).sustain(.6).release(2)
+   .gain(.2).room(.4)
+   .lpf(300).distort(.3)

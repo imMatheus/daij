@@ -1,0 +1,90 @@
+Here's the song — "Insert Coin", a retro arcade chiptune at 132 BPM in A minor:
+
+```
+// 🕹️ "Insert Coin" — Retro Arcade Chiptune
+// At 132 BPM: intro(8) + verseA(16) + chorus(16) + verseB(16) + chorus2(16) + bridge(8) + outro(8) = 88 bars ≈ 2:40
+
+setcpm(132 / 4)
+
+$: arrange(
+  [8,  s("bd ~ ~ ~, ~ ~ hh ~").bank("RolandTR808").gain(.6).room(.15).crush(8)],
+  [16, s("bd ~ sd ~, hh*8").bank("RolandTR808").gain(".88 .75").room(.15).crush(8).every(4, x => x.fast(2).gain(.45))],
+  [16, s("bd bd ~ bd, ~ sd ~ [sd sd], hh*16, ~ ~ ~ oh").bank("RolandTR808").cut(1).gain(".92 .8").room(.2).crush(8).every(3, x => x.press())],
+  [16, s("bd ~ sd ~, hh*8, ~ ~ oh ~").bank("RolandTR808").gain(".88 .75").room(.15).crush(8).sometimes(x => x.rev())],
+  [16, s("bd bd ~ bd, ~ sd ~ [sd sd], hh*16, ~ ~ ~ oh").bank("RolandTR808").cut(1).gain(".92 .8").room(.2).crush(8).every(4, x => x.fast(2).gain(.5))],
+  [8,  s("bd(3,8), ~ ~ sd ~").bank("RolandTR808").gain(".7 .6").room(.3).crush(8)],
+  [8,  s("bd ~ ~ ~").bank("RolandTR808").gain(saw.slow(8).range(.65, .1)).room(.2).crush(8)]
+)
+
+$: arrange(
+  [8,  note("<a1 ~ e2 ~>").s("square").crush(6).gain(.5).decay(.25).sustain(.3).lpf(1000)],
+  [16, note("<[a1 ~ a1 a2] [d2 ~ d2 d3] [e2 ~ e2 e3] [g2 ~ g2 g3]>").s("square").crush(6).gain(.58).decay(.15).sustain(.35).lpf(1300)],
+  [16, note("<[a1 a2 a1 a2] [d2 d3 d2 d3] [e2 e3 e2 e3] [g2 g3 g2 g3]>").s("square").crush(6).gain(.62).decay(.12).sustain(.4).lpf(1500)],
+  [16, note("<[a1 ~ a1 a2] [d2 ~ d2 d3] [e2 ~ e2 e3] [g2 ~ g2 g3]>").s("square").crush(6).gain(.58).decay(.15).sustain(.35).lpf(1300).sometimes(x => x.add(note(12)).gain(.3))],
+  [16, note("<[a1 a2 a1 a2] [d2 d3 d2 d3] [e2 e3 e2 e3] [g2 g3 g2 g3]>").s("square").crush(6).gain(.62).decay(.12).sustain(.4).lpf(1500)],
+  [8,  note("<a1 ~ d2 ~ e2 ~ g2 ~>/2").s("square").crush(6).gain(.48).decay(.3).sustain(.3).lpf(900)],
+  [8,  note("<a1 ~ ~ ~>").s("square").crush(6).gain(saw.slow(8).range(.48, .05)).decay(.5).sustain(.2).lpf(700)]
+)
+
+$: arrange(
+  [8,  note("<[a3,c4,e4] [d4,f4,a4]>/2").s("square").crush(5).gain(.28).decay(.4).sustain(.3).lpf(1800).room(.2)],
+  [16, note("<[a3,c4,e4] [d4,f4,a4] [e4,g4,b4] [g3,b3,d4]>").s("square").struct("~ x ~ x").crush(5).gain(.33).decay(.3).sustain(.4).lpf(2000).room(.15)],
+  [16, note("<[a3,c4,e4] [d4,f4,a4] [e4,g4,b4] [g3,b3,d4]>").s("square").struct("[~ x]*2").crush(5).gain(.38).decay(.25).sustain(.45).lpf(2400).room(.15).every(4, x => x.fast(2).gain(.22))],
+  [16, note("<[a3,c4,e4] [d4,f4,a4] [e4,g4,b4] [g3,b3,d4]>").s("square").struct("~ x ~ x").crush(5).gain(.33).decay(.3).sustain(.4).lpf(2000).room(.15)],
+  [16, note("<[a3,c4,e4] [d4,f4,a4] [e4,g4,b4] [g3,b3,d4]>").s("square").struct("[~ x]*2").crush(5).gain(.38).decay(.25).sustain(.45).lpf(2400).room(.15).every(4, x => x.fast(2).gain(.22))],
+  [8,  note("<[a3,c4,e4] [e4,g4,b4]>/2").s("square").crush(5).gain(.28).decay(.5).sustain(.3).lpf(1600).room(.3)],
+  [8,  silence]
+)
+
+$: arrange(
+  [8,  n("<0 ~ 4 ~ 7 ~ 4 ~>").scale("A4:minor").s("triangle").crush(5).gain(.32).decay(.2).sustain(.3).lpf(2800).room(.2)],
+  [16, n("<[0 2 4 7] [5 4 2 0] [7 ~ 9 7] [4 2 0 ~]>").scale("A4:minor").s("triangle").crush(5).gain(.4).decay(.15).sustain(.35).lpf(3200).room(.2).delay(".15:.1:.15")],
+  [16, n("<[7 9 11 12] [11 ~ 9 7] [5 7 9 12] [9 7 5 ~]>").scale("A4:minor").s("triangle").crush(5).gain(.46).decay(.12).sustain(.4).lpf(3800).room(.2).delay(".15:.1:.15").every(4, x => x.add(note(12)).gain(.28))],
+  [16, n("<[0 2 4 7] [5 4 2 0] [7 ~ 9 7] [4 2 0 ~]>").scale("A4:minor").s("triangle").crush(5).gain(.4).decay(.15).sustain(.35).lpf(3200).room(.2).delay(".15:.1:.15").rarely(x => x.add(note(7)))],
+  [16, n("<[7 9 11 12] [11 ~ 9 7] [5 7 9 12] [9 7 5 ~]>").scale("A4:minor").s("triangle").crush(5).gain(.46).decay(.12).sustain(.4).lpf(3800).room(.2).delay(".15:.1:.15").sometimes(x => x.add(note(12)).gain(.28))],
+  [8,  n("<[0 4 7 4] [2 5 9 5] [0 4 7 11] [0 ~ ~ ~]>").scale("A4:minor").s("triangle").crush(5).gain(.36).decay(.2).sustain(.3).lpf(sine.range(1800, 3600).slow(8)).room(.3)],
+  [8,  n("<0 ~ 4 ~ 7 ~ 12 ~>/2").scale("A4:minor").s("triangle").crush(5).gain(saw.slow(8).range(.36, .05)).decay(.3).sustain(.2).lpf(sine.range(1200, 2800).slow(4)).room(.4)]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, silence],
+  [16, n("<[~ ~ 12 ~] [~ 11 ~ ~] [9 ~ ~ 7] [~ ~ 12 ~]>").scale("A5:minor").s("square").crush(4).gain(.2).decay(.08).sustain(.2).lpf(4500).room(.25).delay(".2:.15:.2")],
+  [16, silence],
+  [16, n("<[~ ~ 12 ~] [~ 11 ~ ~] [9 ~ ~ 7] [~ ~ 12 ~]>").scale("A5:minor").s("square").crush(4).gain(.2).decay(.08).sustain(.2).lpf(4500).room(.25).delay(".2:.15:.2")],
+  [8,  n("<[12 ~ 9 ~] [7 ~ 4 ~] [2 ~ 0 ~] [~ ~ ~ ~]>").scale("A5:minor").s("square").crush(4).gain(.18).decay(.1).sustain(.15).lpf(3800).room(.35).delay(".3:.2:.3")],
+  [8,  silence]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, n("<[0 4 7 11]*2>").scale("A5:minor:pentatonic").s("square").crush(4).gain(.12).lpf(5000).room(.2).pan(sine.slow(3))],
+  [16, n("<[0 4 7 11]*4>").scale("A5:minor:pentatonic").s("square").crush(4).gain(.15).lpf(5500).room(.2).pan(sine.slow(2)).every(4, x => x.rev())],
+  [16, n("<[0 4 7 11]*2>").scale("A5:minor:pentatonic").s("square").crush(4).gain(.12).lpf(5000).room(.2).pan(sine.slow(3))],
+  [16, n("<[0 4 7 11]*4>").scale("A5:minor:pentatonic").s("square").crush(4).gain(.15).lpf(5500).room(.2).pan(sine.slow(2)).every(4, x => x.rev())],
+  [8,  n("<[0 4 7 ~]*2>").scale("A5:minor:pentatonic").s("square").crush(4).gain(.1).lpf(4000).room(.3)],
+  [8,  silence]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, s("square").note(sine.range(33, 36).slow(16)).crush(3).gain(.07).lpf(350)],
+  [16, s("square").note(sine.range(33, 40).slow(12)).crush(3).gain(.09).lpf(450)],
+  [16, s("square").note(sine.range(33, 36).slow(16)).crush(3).gain(.07).lpf(350)],
+  [16, s("square").note(sine.range(33, 40).slow(12)).crush(3).gain(.09).lpf(450)],
+  [8,  s("square").note(sine.range(30, 42).slow(8)).crush(3).gain(.1).lpf(500).room(.3)],
+  [8,  s("square").note(sine.range(33, 36).slow(4)).crush(3).gain(saw.slow(8).range(.08, .01)).lpf(250).room(.4)]
+)
+```
+
+It looks like I don't have write permissions to save the file. The song uses 8 parallel voices:
+
+- **Drums**: Bit-crushed TR-808 with fills every 3-4 bars
+- **Bass**: Square wave octave jumps (Am-Dm-Em-G progression)
+- **Chords**: Stacked triads with offbeat rhythms
+- **Lead melody**: Triangle wave running through A minor scale
+- **Counter-melody**: Sparse high register accents in choruses
+- **Arpeggio**: Fast pentatonic arps panning L/R
+- **Sub drone**: Slow sine sweep for low-end warmth
+
+88 bars at 132 BPM, all square/triangle waves with heavy bit-crushing for that authentic 8-bit arcade feel. Want me to try saving it again?

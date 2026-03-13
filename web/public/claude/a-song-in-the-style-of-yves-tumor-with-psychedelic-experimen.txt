@@ -1,0 +1,74 @@
+// 🌀 "Kerosene Halo" — Psychedelic Experimental Rock (Yves Tumor style)
+// At 108 BPM: intro(8) + verse(16) + chorus(16) + verse(16) + bridge(8) + chorus(16) + outro(8) = 88 bars ≈ 3:15
+
+setcpm(108 / 4)
+
+$: s("vinyl:2").gain(.13).room(1).loop(1).lpf(3200).distort(.15)
+
+$: s("hh*16")
+   .bank("RolandTR909")
+   .gain(perlin.range(.05, .35))
+   .pan(sine.slow(4))
+   .cut(1)
+   .room(.3)
+   .distort(.1)
+
+$: arrange(
+  [8,  s("bd ~ ~ ~, ~ ~ ~ sd:1").bank("RolandTR909").gain(.7).room(.5).distort(.2)],
+  [16, s("bd ~ [~ bd] ~, ~ sd ~ sd:1, [hh oh]*4").bank("RolandTR909").cut(1).gain(".92 .85").room(.3).distort(.15).every(4, x=>x.fast(2).gain(.5))],
+  [16, s("bd [~ bd] bd ~, ~ [sd cp] ~ [sd:1 cp], [oh hh hh oh]*2").bank("RolandTR909").cut(1).gain(".95 .88").room(.25).distort(.2).every(3, x=>x.press())],
+  [16, s("bd ~ [~ bd] ~, ~ sd ~ sd:1, [hh oh]*4").bank("RolandTR909").cut(1).gain(".92 .85").room(.3).distort(.15).sometimes(x=>x.gain(.3))],
+  [8,  s("bd(5,8), ~ cp ~ ~, oh*8").bank("RolandTR909").cut(1).gain(".8 .7").room(.5).crush(8).distort(.3)],
+  [16, s("bd [~ bd] bd ~, ~ [sd cp] ~ [sd:1 cp], [oh hh hh oh]*2").bank("RolandTR909").cut(1).gain(".95 .88").room(.25).distort(.25).every(3, x=>x.press()).every(5, x=>x.rev())],
+  [8,  s("bd ~ ~ ~, ~ ~ sd ~").bank("RolandTR909").gain(saw.slow(8).range(.7,.05)).room(.7).distort(.1)]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, note("<[e2 ~ ~ e2] [c2 ~ ~ ~] [bb1 ~ ~ bb1] [d2 ~ ~ ~]>").s("sawtooth").lpf(400).gain(.7).distort(.3).room(.2).decay(.3).sustain(.5)],
+  [16, note("<[e2 ~ e2 ~] [c2 ~ ~ c2] [bb1 ~ bb1 ~] [d2 ~ ~ d2]>").s("sawtooth").lpf(500).gain(.75).distort(.35).room(.2).decay(.25).sustain(.55)],
+  [16, note("<[e2 ~ ~ e2] [c2 ~ ~ ~] [bb1 ~ ~ bb1] [d2 ~ ~ ~]>").s("sawtooth").lpf(400).gain(.7).distort(.3).room(.2).decay(.3).sustain(.5)],
+  [8,  note("<e2 ~ bb1 ~ c2 ~ d2 ~>/2").s("sawtooth").lpf(350).gain(.6).distort(.4).room(.35).decay(.5).sustain(.4)],
+  [16, note("<[e2 ~ e2 ~] [c2 ~ ~ c2] [bb1 ~ bb1 ~] [d2 ~ ~ d2]>").s("sawtooth").lpf(sine.range(300,600).slow(8)).gain(.78).distort(.4).room(.2).decay(.25).sustain(.55)],
+  [8,  silence]
+)
+
+$: arrange(
+  [8,  chord("<Em7 Bb^7>/2").dict('ireal').voicing().s("gm_electric_guitar_clean").attack(1).sustain(.7).release(2).lpf(1400).room(.8).roomsize(6).gain(.25).distort(.4)],
+  [16, chord("<Em7 Cmaj7 Bb^7 D7>").dict('ireal').voicing().s("gm_electric_guitar_clean").struct("x ~ [~ x] ~").lpf(2200).room(.6).delay(".2:.15:.3").gain(.48).distort(.35).crush(14)],
+  [16, chord("<Em7 Cmaj7 Bb^7 D7>").dict('ireal').voicing().s("gm_electric_guitar_clean").struct("[x ~ x ~]*2").lpf(2800).room(.5).delay(".15:.1:.25").gain(.55).distort(.45).every(4, x=>x.crush(6).gain(.7))],
+  [16, chord("<Em7 Cmaj7 Bb^7 D7>").dict('ireal').voicing().s("gm_electric_guitar_clean").struct("x ~ [~ x] ~").lpf(2200).room(.6).delay(".2:.15:.3").gain(.48).distort(.35).crush(14)],
+  [8,  chord("<Em7 Bb^7 Cmaj7 D7>/2").dict('ireal').voicing().s("gm_electric_guitar_clean").struct("x ~ ~ ~").lpf(sine.range(800,3500).slow(4)).room(.85).roomsize(8).delay(".5:.4:.6").gain(.42).distort(.5).crush(8)],
+  [16, chord("<Em7 Cmaj7 Bb^7 D7>").dict('ireal').voicing().s("gm_electric_guitar_clean").struct("[x ~ x ~]*2").lpf(3200).room(.5).delay(".15:.1:.25").gain(.58).distort(.5).every(3, x=>x.crush(5).gain(.75))],
+  [8,  chord("<Em7 Bb^7>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(1).sustain(.5).release(3).lpf(sine.range(300,1400).slow(8)).room(.9).roomsize(8).gain(saw.slow(8).range(.3,.02)).distort(.2)]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, n("<[~ 0 ~ 3] [5 ~ 7 ~] [~ 6 ~ 3] [5 ~ ~ 0]>").scale("E5:phrygian").s("gm_electric_guitar_clean").lpf(sine.range(1000,4000).slow(10)).room(.6).delay(".35:.25:.5").gain(.38).distort(.3).vib(5).vibmod(.7).rarely(x=>x.add(note(12)))],
+  [16, n("<[0 ~ 3 5] [~ 7 6 ~] [5 ~ 3 ~] [~ 7 5 0]>").scale("E5:phrygian").s("gm_electric_guitar_clean").lpf(sine.range(1500,5000).slow(7)).room(.55).delay(".3:.2:.45").gain(.46).distort(.35).vib(6).vibmod(.8).sometimes(x=>x.add(note(12)))],
+  [16, n("<[~ 0 ~ 3] [5 ~ 7 ~] [~ 6 ~ 3] [5 ~ ~ 0]>").scale("E5:phrygian").s("gm_electric_guitar_clean").lpf(sine.range(1000,4000).slow(10)).room(.6).delay(".35:.25:.5").gain(.38).distort(.3).vib(5).vibmod(.7)],
+  [8,  n("<[~ ~ 7 ~] [~ 5 ~ ~] [3 ~ ~ ~] [~ 0 ~ ~]>").scale("E5:phrygian").s("gm_electric_guitar_clean").room(.85).roomsize(6).delay(".6:.45:.7").gain(.3).distort(.5).crush(10).lpf(sine.range(600,3000).slow(4))],
+  [16, n("<[0 ~ 3 5] [~ 7 6 ~] [5 ~ 3 ~] [~ 7 5 0]>").scale("E5:phrygian").s("gm_electric_guitar_clean").lpf(sine.range(1500,5000).slow(7)).room(.55).delay(".3:.2:.45").gain(.46).distort(.4).vib(6).vibmod(.8).sometimes(x=>x.add(note(12)))],
+  [8,  silence]
+)
+
+$: arrange(
+  [8,  note("e1").s("sine").attack(2).sustain(.8).release(3).gain(.18).room(.7).lpf(300)],
+  [16, note("<e1 c2>/8").s("sine").attack(1).sustain(.7).release(2).gain(.15).room(.5).lpf(250).distort(.2)],
+  [16, note("<e1 bb1 c2 d2>/4").s("sine").attack(.5).sustain(.8).release(1).gain(.2).room(.6).lpf(sine.range(150,400).slow(8)).distort(.3)],
+  [16, note("<e1 c2>/8").s("sine").attack(1).sustain(.7).release(2).gain(.15).room(.5).lpf(250).distort(.2)],
+  [8,  note("<e1 bb1>/4").s("sine").attack(2).sustain(.9).release(3).gain(.22).room(.9).roomsize(8).lpf(200).distort(.4)],
+  [16, note("<e1 bb1 c2 d2>/4").s("sine").attack(.5).sustain(.8).release(1).gain(.22).room(.6).lpf(sine.range(150,500).slow(6)).distort(.35)],
+  [8,  note("e1").s("sine").attack(2).sustain(.6).release(4).gain(saw.slow(8).range(.2,.02)).room(.95).roomsize(10).lpf(sine.range(100,300).slow(8))]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, silence],
+  [16, n("<[~ ~ 5 ~] [7 ~ ~ ~] [~ 3 ~ ~] [~ ~ 7 5]>").scale("E4:phrygian").s("gm_epiano2").room(.7).delay(".4:.35:.55").gain(.3).lpf(2400).crush(10).distort(.25)],
+  [16, silence],
+  [8,  silence],
+  [16, n("<[~ ~ 5 ~] [7 ~ ~ ~] [~ 3 ~ ~] [~ ~ 7 5]>").scale("E4:phrygian").s("gm_epiano2").room(.7).delay(".4:.35:.55").gain(.34).lpf(2800).crush(8).distort(.3).every(4, x=>x.fast(2).gain(.2))],
+  [8,  silence]
+)
