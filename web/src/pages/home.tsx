@@ -6,6 +6,8 @@ import { useSongs } from '@/useSongs'
 import { PlayingWave } from '@/components/PlayingWave'
 import type { Song } from '@/songs'
 import { Button } from '@/components/button'
+import { Dropdown } from '@/components/dropdown'
+import { useTheme, THEME_COLORS } from '@/useTheme'
 
 const PROVIDER_CARDS = [
   {
@@ -29,11 +31,54 @@ const PROVIDER_CARDS = [
 ]
 
 export const Home = () => {
+  const { theme, setTheme, themes } = useTheme()
+
   return (
     <div className="min-h-screen bg-white py-10">
       <div className="mx-auto w-full max-w-6xl">
-        {/* header-emphasized: 700 34px/1.176 */}
-        <h1 className="text-primary mb-2 text-5xl font-bold">DAIJ</h1>
+        <div className="mb-2 flex items-start justify-between">
+          {/* header-emphasized: 700 34px/1.176 */}
+          <h1 className="text-primary text-5xl font-bold">DAIJ</h1>
+          <Dropdown
+            trigger={
+              <span className="flex items-center gap-1">
+                <span
+                  className="inline-block size-3 rounded-full"
+                  style={{ background: THEME_COLORS[theme] }}
+                />
+                Theme
+                <svg
+                  className="h-3 w-3"
+                  viewBox="0 0 12 12"
+                  fill="currentColor"
+                >
+                  <path d="M2.5 4.5L6 8l3.5-3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                </svg>
+              </span>
+            }
+            items={themes.map((t) => ({
+              label: (
+                <span className="flex items-center gap-2">
+                  <span
+                    className="inline-block size-3 shrink-0 rounded-full"
+                    style={{
+                      background: THEME_COLORS[t],
+                      // boxShadow: `inset 0 0 3px 1px rgba(255, 255, 255, 0.22), inset 0 0 6px 0px rgba(255, 255, 255, 0.06), 0 1px 5px ${THEME_COLORS[t].replace('rgb(', 'rgba(').replace(')', ', 0.27)')}, 0 1px 8px ${THEME_COLORS[t].replace('rgb(', 'rgba(').replace(')', ', 0.14)')}`,
+                      // boxShadow: `0 1px 3px ${THEME_COLORS[t].replace('rgb(', 'rgba(').replace(')', ', 0.27)')}, 0 0 6px ${THEME_COLORS[t].replace('rgb(', 'rgba(').replace(')', ', 0.2)')}, inset 0 0.5px 1px rgba(255,255,255,0.35)`,
+                    }}
+                  />
+                  <span className="capitalize">{t}</span>
+                  {t === theme && (
+                    <svg className="ml-auto h-3.5 w-3.5 text-secondary" viewBox="0 0 16 16" fill="none">
+                      <path d="M3 8.5l3.5 3.5L13 4.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  )}
+                </span>
+              ),
+              onClick: () => setTheme(t),
+            }))}
+          />
+        </div>
 
         <h3 className="text-secondary mb-3 text-xl font-medium">
           DAIJ is a platform for ranking and voting on AI-generated music.
