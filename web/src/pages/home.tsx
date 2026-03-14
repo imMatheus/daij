@@ -41,7 +41,7 @@ export const Home = () => {
   return (
     <div className="min-h-screen pb-10">
       <HeroArcs />
-      <div className="mt-14 mb-3">
+      <div className="mt-14 mb-5">
         <HeroTitle />
       </div>
 
