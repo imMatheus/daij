@@ -15,6 +15,14 @@
       rel="stylesheet"
     />
     <title>web</title>
+    <script>
+      ;(function () {
+        var t = localStorage.getItem('daij-theme')
+        if (t && ['pink', 'green', 'blue', 'yellow', 'orange'].includes(t)) {
+          document.documentElement.classList.add('theme-' + t)
+        }
+      })()
+    </script>
   </head>
   <body>
     <div id="root"></div>

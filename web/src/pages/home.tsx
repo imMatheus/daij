@@ -9,6 +9,7 @@ import { Button } from '@/components/button'
 import { Dropdown } from '@/components/dropdown'
 import { useTheme, THEME_COLORS } from '@/useTheme'
 import { ClaudeAI, OpenAI, Gemini } from '@/components/icons'
+import { Loader } from '@/components/Loader'
 
 const PROVIDER_ICONS = {
   claude: ClaudeAI,
@@ -40,7 +41,7 @@ export const Home = () => {
   return (
     <div className="min-h-screen pb-10">
       <HeroArcs />
-      <div className="mt-10 mb-6">
+      <div className="mt-14 mb-3">
         <HeroTitle />
       </div>
 
@@ -61,6 +62,7 @@ export const Home = () => {
         <div className="mt-20 space-y-20">
           <FeaturedSection />
           <LatestSongs />
+          <AboutSection />
         </div>
 
         <footer className="pt-20 pb-52">
@@ -184,7 +186,7 @@ function HeroTitle() {
   const delay = ARCS.length * 0.1 + 0.3
   return (
     <h1
-      className="font-panchang text-center text-8xl font-black uppercase tracking-widest"
+      className="font-panchang text-center text-9xl font-black uppercase tracking-widest"
       style={{
         animation: `heroTitle 1s cubic-bezier(0.16, 1, 0.3, 1) ${delay}s both`,
       }}
@@ -207,6 +209,82 @@ function HeroTitle() {
       </style>
       daij
     </h1>
+  )
+}
+
+const STEPS = [
+  {
+    number: '01',
+    title: 'Listen blind',
+    description: 'Two AI-generated songs play head-to-head. No labels, no bias — just music.',
+    icon: (
+      <svg className="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M9 18V5l12-2v13" />
+        <circle cx="6" cy="18" r="3" />
+        <circle cx="18" cy="16" r="3" />
+      </svg>
+    ),
+  },
+  {
+    number: '02',
+    title: 'Cast your vote',
+    description: 'Pick the track that moves you. Every vote updates the ELO rankings in real time.',
+    icon: (
+      <svg className="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M14 9V5a3 3 0 0 0-6 0v4" />
+        <path d="M5 9h14l1 12H4L5 9z" />
+        <path d="M9 14l2 2 4-4" />
+      </svg>
+    ),
+  },
+  {
+    number: '03',
+    title: 'See who leads',
+    description: 'The leaderboard reveals which AI models consistently produce the best music.',
+    icon: (
+      <svg className="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M18 20V10" />
+        <path d="M12 20V4" />
+        <path d="M6 20v-6" />
+      </svg>
+    ),
+  },
+]
+
+function AboutSection() {
+  return (
+    <section>
+      <h2 className="text-primary mb-8 text-center text-[22px] font-bold leading-tight">
+        How it works
+      </h2>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        {STEPS.map((step) => (
+          <div
+            key={step.number}
+            className="relative overflow-hidden rounded-2xl p-6"
+            style={{
+              background: 'linear-gradient(180deg, var(--surface) 0%, rgba(255,255,255,0) 100%)',
+              boxShadow: 'inset 0 0 0 0.5px rgba(0,0,0,0.06)',
+            }}
+          >
+            <div className="mb-4 flex items-center justify-between">
+              <span
+                className="font-panchang text-key text-xs font-bold"
+              >
+                {step.number}
+              </span>
+              <span className="text-tertiary">{step.icon}</span>
+            </div>
+            <h3 className="text-primary mb-1 text-base font-semibold">
+              {step.title}
+            </h3>
+            <p className="text-secondary text-sm leading-relaxed">
+              {step.description}
+            </p>
+          </div>
+        ))}
+      </div>
+    </section>
   )
 }
 
@@ -270,9 +348,7 @@ function LatestSongs() {
       </div>
 
       {!displaySongs ? (
-        <p className="text-secondary py-8 text-center text-[13px]">
-          Loading...
-        </p>
+        <Loader />
       ) : (
         <div className="grid grid-cols-1 gap-x-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {displaySongs.map((song) => (
