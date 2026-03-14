@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useSongs } from '@/useSongs'
 import { Button } from '@/components/button'
+import { PlayIcon, PauseIcon } from '@/components/icons'
 
 type StrudelEditorEl = HTMLElement & {
   editor: {
@@ -102,28 +103,12 @@ export function StrudelEditor({ code }: { code: string }) {
       <div className="sticky top-0 mb-3 flex items-center gap-2">
         {playing ? (
           <Button onClick={handleStop}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="12"
-              height="12"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-            >
-              <rect x="4" y="4" width="16" height="16" />
-            </svg>
+            <PauseIcon className="size-3" />
             Stop
           </Button>
         ) : (
           <Button onClick={handlePlay} disabled={!ready}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="12"
-              height="12"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-            >
-              <polygon points="6,4 20,12 6,20" />
-            </svg>
+            <PlayIcon className="size-3" />
             Play
           </Button>
         )}

@@ -3,6 +3,7 @@ import { useSongs } from '@/useSongs'
 import { formatDuration, getProviderImage } from '@/lib/utils'
 import { SongRow } from '@/components/SongRow'
 import { Button } from '@/components/button'
+import { PlayIcon, ShuffleIcon } from '@/components/icons'
 import type { Song } from '@/songs'
 
 const providerMeta: Record<
@@ -121,6 +122,7 @@ export const Provider = () => {
         {providerSongs.length > 0 && (
           <div className="flex items-center gap-3 px-5 pb-6">
             <Button onClick={() => play(providerSongs[0], providerSongs)}>
+              <PlayIcon className="size-3.5" />
               Play all
             </Button>
             <Button
@@ -131,6 +133,7 @@ export const Provider = () => {
                 play(shuffled[0], shuffled)
               }}
             >
+              <ShuffleIcon className="size-3.5" />
               Shuffle
             </Button>
           </div>

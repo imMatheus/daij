@@ -4,6 +4,7 @@ import { useSongs } from '@/useSongs'
 import { formatDuration, getProviderImage } from '@/lib/utils'
 import { StrudelEditor } from '@/components/StrudelEditor'
 import { Button } from '@/components/button'
+import { PlayIcon, PauseIcon } from '@/components/icons'
 
 function providerLabel(provider: string) {
   switch (provider) {
@@ -143,6 +144,7 @@ export const SongPage = () => {
             {/* Actions */}
             <div className="flex items-center gap-3 px-5 pb-6">
               <Button onClick={handlePlay}>
+                {isActive ? <PauseIcon className="size-3.5" /> : <PlayIcon className="size-3.5" />}
                 {isActive ? 'Pause' : 'Play'}
               </Button>
             </div>
