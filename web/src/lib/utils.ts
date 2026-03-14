@@ -17,7 +17,7 @@ const PROVIDER_IMAGES: Record<string, string> = {
   gemini:
     // 'https://cdn.midjourney.com/5388af7c-a870-449b-b96e-dbbbc696595f/0_0.png',
     // 'https://cdn.midjourney.com/8755c041-3a75-457b-9a5d-9a2101a3c289/0_0.png'
-    'https://cdn.midjourney.com/1904adb1-18bb-4008-a0da-aeb48e6fe84a/0_0.png'
+    'https://cdn.midjourney.com/1904adb1-18bb-4008-a0da-aeb48e6fe84a/0_0.png',
 }
 
 export function getProviderImage(provider: string): string {

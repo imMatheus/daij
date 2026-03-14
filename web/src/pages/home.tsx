@@ -42,7 +42,9 @@ export const Home = () => {
       <div className="mx-auto w-full max-w-7xl">
         <div className="mb-2 flex items-start justify-between">
           {/* header-emphasized: 700 34px/1.176 */}
-          <h1 className="text-primary text-5xl font-bold">DAIJ</h1>
+          <h1 className="text-primary font-panchang text-7xl font-black tracking-widest">
+            DAIJ
+          </h1>
           <Dropdown
             trigger={
               <span className="flex items-center gap-1">
@@ -114,7 +116,7 @@ export const Home = () => {
           </Link>
         </div>
 
-        <div className="space-y-20 mt-20">
+        <div className="mt-20 space-y-20">
           <FeaturedSection />
           <LatestSongs />
         </div>
@@ -132,37 +134,37 @@ export const Home = () => {
 function FeaturedSection() {
   return (
     <section className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-      {
-        PROVIDER_CARDS.map((card) => (
-          <Link
-            key={card.provider}
-            to={`/${card.provider}`}
-            className="group block"
-          >
-            <div className="mb-2">
-              <p className="text-secondary flex items-center gap-1 text-[11px] leading-tight font-semibold uppercase">
-                {(() => {
-                  const Icon = PROVIDER_ICONS[card.provider]
-                  return <Icon className="size-3" />
-                })()}
-                {card.eyebrow}
-              </p>
-              <p className="text-primary font-normal">{card.title}</p>
-            </div>
+      {PROVIDER_CARDS.map((card) => (
+        <Link
+          key={card.provider}
+          to={`/${card.provider}`}
+          className="group block"
+        >
+          <div className="mb-2">
+            <p className="text-secondary flex items-center gap-1 text-[11px] leading-tight font-medium tracking-wider uppercase">
+              {(() => {
+                const Icon = PROVIDER_ICONS[card.provider]
+                return <Icon className="size-3" />
+              })()}
+              {card.eyebrow}
+            </p>
+            <p className="text-primary font-medium tracking-wider">
+              {card.title}
+            </p>
+          </div>
 
-            <div className="relative overflow-hidden rounded-2xl">
-              <img
-                src={getProviderImage(card.provider)}
-                alt={card.title}
-                className="aspect-[1.74/1] w-full object-cover"
-              />
-              <div className="pointer-events-none absolute inset-0 rounded-2xl ring-[0.5px] ring-black/15 ring-inset" />
-              <div className="pointer-events-none absolute inset-0 rounded-2xl bg-[rgba(51,51,51,0.2)] opacity-0 transition-opacity duration-100 ease-in group-hover:opacity-100" />
-            </div>
-          </Link>
-        ))
-      }
-    </section >
+          <div className="relative overflow-hidden rounded-2xl">
+            <img
+              src={getProviderImage(card.provider)}
+              alt={card.title}
+              className="aspect-[1.74/1] w-full object-cover"
+            />
+            <div className="pointer-events-none absolute inset-0 rounded-2xl ring-[0.5px] ring-black/15 ring-inset" />
+            <div className="pointer-events-none absolute inset-0 rounded-2xl bg-[rgba(51,51,51,0.2)] opacity-0 transition-opacity duration-100 ease-in group-hover:opacity-100" />
+          </div>
+        </Link>
+      ))}
+    </section>
   )
 }
 
@@ -179,7 +181,7 @@ function LatestSongs() {
       <div className="mb-3">
         <Link
           to="/leaderboard"
-          className="text-primary hover:text-secondary inline-flex items-center gap-1 text-[22px] leading-tight font-bold transition-colors"
+          className="text-primary hover:text-secondary inline-flex items-center gap-1 text-[22px] leading-tight font-medium transition-colors"
         >
           Top songs
           <svg className="size-4" viewBox="0 0 64 64" fill="currentColor">
@@ -252,7 +254,7 @@ function SongCell({ song, queue }: { song: Song; queue: Song[] }) {
         )}
       </div>
 
-      <div className="min-w-0 flex-1">
+      <div className="min-w-0 flex-1 tracking-wider font-medium">
         <p className="text-primary truncate text-xs">{song.name}</p>
         <p className="text-secondary truncate text-xs">
           {providerLabel(song.provider)}

@@ -106,8 +106,7 @@ export const Player = () => {
                 {providerLabel(currentSong.provider)}
               </Link>
             )}{' '}
-            &middot;{' '}
-            {formatTime(currentTime)} / {formatTime(duration)}
+            &middot; {formatTime(currentTime)} / {formatTime(duration)}
           </p>
         </div>
 
