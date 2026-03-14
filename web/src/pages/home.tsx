@@ -38,76 +38,14 @@ export const Home = () => {
   const { theme, setTheme, themes } = useTheme()
 
   return (
-    <div className="min-h-screen py-10">
+    <div className="min-h-screen pb-10">
+      <HeroArcs />
+      <div className="mt-10 mb-6">
+        <HeroTitle />
+      </div>
+
       <div className="mx-auto w-full max-w-7xl">
-        <div className="mb-2 flex items-start justify-between">
-          {/* header-emphasized: 700 34px/1.176 */}
-          <h1 className="text-primary font-panchang text-7xl font-black tracking-widest">
-            DAIJ
-          </h1>
-          <Dropdown
-            trigger={
-              <span className="flex items-center gap-1">
-                <span
-                  className="inline-block size-3 rounded-full"
-                  style={{ background: THEME_COLORS[theme] }}
-                />
-                Theme
-                <svg
-                  className="h-3 w-3"
-                  viewBox="0 0 12 12"
-                  fill="currentColor"
-                >
-                  <path
-                    d="M2.5 4.5L6 8l3.5-3.5"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    fill="none"
-                  />
-                </svg>
-              </span>
-            }
-            items={themes.map((t) => ({
-              label: (
-                <span className="flex items-center gap-2">
-                  <span
-                    className="inline-block size-3 shrink-0 rounded-full"
-                    style={{
-                      background: THEME_COLORS[t],
-                      // boxShadow: `inset 0 0 3px 1px rgba(255, 255, 255, 0.22), inset 0 0 6px 0px rgba(255, 255, 255, 0.06), 0 1px 5px ${THEME_COLORS[t].replace('rgb(', 'rgba(').replace(')', ', 0.27)')}, 0 1px 8px ${THEME_COLORS[t].replace('rgb(', 'rgba(').replace(')', ', 0.14)')}`,
-                      // boxShadow: `0 1px 3px ${THEME_COLORS[t].replace('rgb(', 'rgba(').replace(')', ', 0.27)')}, 0 0 6px ${THEME_COLORS[t].replace('rgb(', 'rgba(').replace(')', ', 0.2)')}, inset 0 0.5px 1px rgba(255,255,255,0.35)`,
-                    }}
-                  />
-                  <span className="capitalize">{t}</span>
-                  {t === theme && (
-                    <svg
-                      className="text-secondary ml-auto h-3.5 w-3.5"
-                      viewBox="0 0 16 16"
-                      fill="none"
-                    >
-                      <path
-                        d="M3 8.5l3.5 3.5L13 4.5"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  )}
-                </span>
-              ),
-              onClick: () => setTheme(t),
-            }))}
-          />
-        </div>
-
-        <h3 className="text-secondary mb-3 text-xl font-medium">
-          DAIJ is a platform for ranking and voting on AI-generated music.
-        </h3>
-
-        <div className="mb-10 flex gap-3">
+        <div className="mb-4 w-max mx-auto flex gap-3">
           <Link to="/arena">
             <Button>Rank songs</Button>
           </Link>
@@ -116,18 +54,159 @@ export const Home = () => {
           </Link>
         </div>
 
+        <h3 className="text-secondary text-center mb-3 text-xl font-medium">
+          DAIJ is a platform for ranking and voting on AI-generated music.
+        </h3>
+
         <div className="mt-20 space-y-20">
           <FeaturedSection />
           <LatestSongs />
         </div>
 
-        <footer className="py-20">
+        <footer className="pt-20 pb-52">
           <p className="text-tertiary text-center text-[10px]">
             daij — AI-generated music experiment
           </p>
+
+          <div className="mb-2 flex items-start justify-between">
+            <Dropdown
+              trigger={
+                <span className="flex items-center gap-1">
+                  <span
+                    className="inline-block size-3 rounded-full"
+                    style={{ background: THEME_COLORS[theme] }}
+                  />
+                  Theme
+                  <svg
+                    className="h-3 w-3"
+                    viewBox="0 0 12 12"
+                    fill="currentColor"
+                  >
+                    <path
+                      d="M2.5 4.5L6 8l3.5-3.5"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      fill="none"
+                    />
+                  </svg>
+                </span>
+              }
+              items={themes.map((t) => ({
+                label: (
+                  <span className="flex items-center gap-2">
+                    <span
+                      className="inline-block size-3 shrink-0 rounded-full"
+                      style={{
+                        background: THEME_COLORS[t],
+                      }}
+                    />
+                    <span className="capitalize">{t}</span>
+                    {t === theme && (
+                      <svg
+                        className="text-secondary ml-auto h-3.5 w-3.5"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                      >
+                        <path
+                          d="M3 8.5l3.5 3.5L13 4.5"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    )}
+                  </span>
+                ),
+                onClick: () => setTheme(t),
+              }))}
+            />
+          </div>
         </footer>
       </div>
     </div>
+  )
+}
+
+const ARCS = [
+  { width: '100%', height: 48 },
+  { width: '85%', height: 42 },
+  { width: '70%', height: 34 },
+  { width: '55%', height: 26 },
+  { width: '40%', height: 18 },
+]
+
+function HeroArcs() {
+  return (
+    <div className="mx-auto relative w-3/5 mb-6 flex max-w-7xl flex-col items-center gap-0 overflow-hidden">
+      {ARCS.map((arc, i) => (
+        <div
+          key={i}
+          className="flex items-end justify-center rounded-full"
+          style={{
+            width: arc.width,
+            height: arc.height,
+            background:
+              'linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 100%), rgb(var(--key-color-base))',
+            boxShadow: `inset 0 0 3px 1px rgba(255, 255, 255, 0.22), inset 0 0 6px 0px rgba(255, 255, 255, 0.06), 0 1px 5px rgba(var(--key-color-base) / 0.29), 0 1px 8px rgba(var(--key-color-base) / 0.14)`,
+            zIndex: ARCS.length - i,
+            animation: `heroArc-${i} 1.2s cubic-bezier(0.16, 1, 0.3, 1) ${i * 0.1}s both`,
+          }}
+        />
+      ))}
+      <style>
+        {ARCS.map((arc, i) => {
+          const offsetAbove = ARCS.slice(0, i).reduce((sum, a) => sum + a.height, 0)
+          const startY = -(offsetAbove + arc.height)
+          return `
+            @keyframes heroArc-${i} {
+              0% { 
+                transform: translateY(${startY}px) scale(0.9); 
+                opacity: 0.9;
+                filter: blur(8px);
+              }
+              100% { 
+                transform: translateY(0) scale(1); 
+                opacity: 1;
+                filter: blur(0px);
+              }
+            }
+          `
+        }).join('')}
+      </style>
+    </div >
+  )
+}
+
+function HeroTitle() {
+  const delay = ARCS.length * 0.1 + 0.3
+  return (
+    <h1
+      className="font-panchang text-center text-8xl font-black uppercase tracking-widest"
+      style={{
+        animation: `heroTitle 1s cubic-bezier(0.16, 1, 0.3, 1) ${delay}s both`,
+      }}
+    >
+      <style>
+        {`
+          @keyframes heroTitle {
+            0% {
+              opacity: 0;
+              transform: translateY(16px);
+              filter: blur(6px);
+            }
+            100% {
+              opacity: 1;
+              transform: translateY(0);
+              filter: blur(0px);
+            }
+          }
+        `}
+      </style>
+      daij
+    </h1>
   )
 }
 
