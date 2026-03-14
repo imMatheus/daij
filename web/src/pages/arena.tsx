@@ -5,6 +5,7 @@ import { fetchJson, postJson } from '@/lib/api'
 import { useSongs } from '@/useSongs'
 import type { Song } from '@/songs'
 import { cn, getProviderImage, MYSTERY_IMAGE } from '@/lib/utils'
+import { Button } from '@/components/button'
 
 type VoteOutcome = 'left_wins' | 'right_wins' | 'tie' | 'both_bad'
 
@@ -40,34 +41,49 @@ function SongCard({
 
   return (
     <div className="flex flex-1 flex-col items-center gap-4 p-6">
-      <p className="text-fg-muted text-xs font-medium tracking-widest uppercase">
+      <p
+        className="text-secondary uppercase"
+        style={{ font: '600 11px/1.27 var(--font-sans)' }}
+      >
         {label}
       </p>
       <img
         src={revealed ? getProviderImage(song.provider) : MYSTERY_IMAGE}
         alt={revealed ? song.name : label}
-        className="size-32 object-cover"
+        className="size-32 rounded-xl object-cover"
       />
       {revealed ? (
         <>
-          <p className="text-center text-lg font-bold text-black">
+          <p
+            className="text-primary text-center"
+            style={{ font: '700 17px/1.29 var(--font-sans)' }}
+          >
             {song.name}
           </p>
-          <p className="text-fg-muted text-sm">
+          <p
+            className="text-secondary"
+            style={{ font: '400 12px/1.25 var(--font-sans)' }}
+          >
             {providerLabel(song.provider)}
           </p>
         </>
       ) : (
-        <p className="text-center text-lg font-bold text-black">???</p>
+        <p
+          className="text-primary text-center"
+          style={{ font: '700 17px/1.29 var(--font-sans)' }}
+        >
+          ???
+        </p>
       )}
-      <button
+      <Button
         onClick={() =>
-          isActive ? pause() : play(song, pair, { anonymous: !revealed, loop: true })
+          isActive
+            ? pause()
+            : play(song, pair, { anonymous: !revealed, loop: true })
         }
-        className="border border-black bg-black px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-transparent hover:text-black"
       >
         {isActive ? 'Pause' : 'Play'}
-      </button>
+      </Button>
     </div>
   )
 }
@@ -115,79 +131,94 @@ export const Arena = () => {
   ]
 
   return (
-    <div className="min-h-screen">
-      <div className="mx-auto w-full max-w-6xl border-x">
-        <header className="border-b p-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Link
-                to="/"
-                className="text-fg-muted text-sm transition-colors hover:text-black"
-              >
-                &larr; Home
-              </Link>
-              <span className="text-fg-muted">/</span>
-              <h1 className="font-serif text-2xl font-extrabold tracking-tight text-black">
-                Arena
-              </h1>
-            </div>
-            <Link
-              to="/leaderboard"
-              className="text-fg-muted text-sm transition-colors hover:text-black"
-            >
-              Leaderboard &rarr;
-            </Link>
-          </div>
-          <p className="text-fg-muted mt-2 text-sm">
+    <div className="min-h-screen bg-white">
+      <div className="mx-auto w-full max-w-6xl">
+        <header className="px-5 pt-6 pb-4">
+          <Link
+            to="/"
+            className="text-secondary hover:text-primary transition-colors"
+            style={{ font: '400 12px/1.25 var(--font-sans)' }}
+          >
+            &larr; Home
+          </Link>
+          <h1
+            className="text-primary mt-2"
+            style={{ font: '700 34px/1.176 var(--font-sans)' }}
+          >
+            Arena
+          </h1>
+          <p
+            className="text-secondary mt-1"
+            style={{ font: '400 13px/1.23 var(--font-sans)' }}
+          >
             Listen to two songs and pick your favorite
           </p>
         </header>
 
-        <div className="p-6">
+        <div className="px-5 pb-8">
           {isLoading ? (
-            <p className="text-fg-muted py-12 text-center text-sm">
+            <p
+              className="text-secondary py-12 text-center"
+              style={{ font: '400 13px/1.23 var(--font-sans)' }}
+            >
               Loading matchup...
             </p>
           ) : !pair || pair?.length < 2 ? (
-            <p className="text-fg-muted py-12 text-center text-sm">
+            <p
+              className="text-secondary py-12 text-center"
+              style={{ font: '400 13px/1.23 var(--font-sans)' }}
+            >
               Need songs from at least 2 different models to start.
             </p>
           ) : (
             <>
-              <div className="mb-6 border p-4 text-center">
-                <p className="text-fg-muted mb-1 text-xs font-medium tracking-widest uppercase">
+              <div className="bg-surface mb-6 rounded-xl p-4 text-center">
+                <p
+                  className="text-secondary mb-1 uppercase"
+                  style={{ font: '600 11px/1.27 var(--font-sans)' }}
+                >
                   Prompt
                 </p>
-                <p className="font-serif text-lg text-black">
+                <p
+                  className="text-primary"
+                  style={{ font: '400 16px/1.375 var(--font-sans)' }}
+                >
                   &ldquo;{prompt}&rdquo;
                 </p>
               </div>
-              <div className="grid gap-px sm:grid-cols-2 border max-sm:divide-y sm:divide-x">
-                <SongCard song={pair![0]} label="Song A" revealed={voted} pair={pair!} />
-                <SongCard song={pair![1]} label="Song B" revealed={voted} pair={pair!} />
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="border-divider rounded-xl border">
+                  <SongCard
+                    song={pair![0]}
+                    label="Song A"
+                    revealed={voted}
+                    pair={pair!}
+                  />
+                </div>
+                <div className="border-divider rounded-xl border">
+                  <SongCard
+                    song={pair![1]}
+                    label="Song B"
+                    revealed={voted}
+                    pair={pair!}
+                  />
+                </div>
               </div>
 
-              <div className="mt-8 flex flex-wrap justify-center gap-3 border-t pt-8">
+              <div className="mt-8 flex flex-wrap justify-center gap-3">
                 {voted ? (
-                  <button
-                    onClick={nextMatchup}
-                    className="border border-black bg-black px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-transparent hover:text-black"
-                  >
+                  <Button onClick={nextMatchup}>
                     Next matchup
-                  </button>
+                  </Button>
                 ) : (
                   voteButtons.map((btn) => (
-                    <button
+                    <Button
                       key={btn.outcome}
                       onClick={() => voteMutation.mutate(btn.outcome)}
                       disabled={voteMutation.isPending}
-                      className={cn(
-                        'border px-5 py-2.5 text-sm font-medium text-black transition-colors hover:bg-black hover:text-white',
-                        voteMutation.isPending && 'opacity-50',
-                      )}
                     >
                       {btn.label}
-                    </button>
+                    </Button>
                   ))
                 )}
               </div>

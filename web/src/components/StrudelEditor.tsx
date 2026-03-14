@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useSongs } from '@/useSongs'
+import { Button } from '@/components/button'
 
 type StrudelEditorEl = HTMLElement & {
   editor: {
@@ -98,12 +99,9 @@ export function StrudelEditor({ code }: { code: string }) {
 
   return (
     <div>
-      <div className="mb-3 sticky top-0 flex items-center gap-2">
+      <div className="sticky top-0 mb-3 flex items-center gap-2">
         {playing ? (
-          <button
-            onClick={handleStop}
-            className="flex items-center gap-1.5 border border-black bg-black px-4 py-1.5 text-sm font-medium text-white transition-colors hover:bg-transparent hover:text-black"
-          >
+          <Button onClick={handleStop}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="12"
@@ -114,13 +112,9 @@ export function StrudelEditor({ code }: { code: string }) {
               <rect x="4" y="4" width="16" height="16" />
             </svg>
             Stop
-          </button>
+          </Button>
         ) : (
-          <button
-            onClick={handlePlay}
-            disabled={!ready}
-            className="flex items-center gap-1.5 border border-black bg-black px-4 py-1.5 text-sm font-medium text-white transition-colors hover:bg-transparent hover:text-black disabled:cursor-default disabled:opacity-30"
-          >
+          <Button onClick={handlePlay} disabled={!ready}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="12"
@@ -131,16 +125,18 @@ export function StrudelEditor({ code }: { code: string }) {
               <polygon points="6,4 20,12 6,20" />
             </svg>
             Play
-          </button>
+          </Button>
         )}
-        <span className="text-fg-muted text-xs">
+        <span
+          className="text-tertiary"
+          style={{ font: '400 11px/1.27 var(--font-sans)' }}
+        >
           ctrl+enter to play &middot; ctrl+. to stop
         </span>
       </div>
       <div
         ref={wrapperRef}
-        // className="overflow-hidden border border-black/10 [&_.cm-editor]:max-h-[600px] [&_.cm-editor]:text-sm"
-        className="overflow-hidden border border-black/10 [&_.cm-editor]:text-sm"
+        className="border-divider overflow-hidden rounded-lg border [&_.cm-editor]:text-sm"
       />
     </div>
   )

@@ -47,44 +47,51 @@ export function SongRow({
   return (
     <div
       onClick={handleClick}
-      className="group flex cursor-pointer items-center gap-4 border-b px-6 py-3 transition-colors hover:bg-black/[0.02]"
+      className="group border-divider hover:bg-surface flex cursor-pointer items-center gap-3 border-b px-5 py-[5px] transition-colors"
     >
-      <span className="w-6 shrink-0 text-center text-sm font-bold">
+      <span
+        className="w-6 shrink-0 text-center"
+        style={{ font: '400 12px/1.25 var(--font-sans)' }}
+      >
         {isActive ? (
           <>
             <span className="group-hover:hidden">
               <PlayingWave />
             </span>
-            <span className="hidden text-black group-hover:inline">❚❚</span>
+            <span className="text-primary hidden group-hover:inline">❚❚</span>
           </>
         ) : isCurrent ? (
           <>
-            <span className="text-black group-hover:hidden">❚❚</span>
-            <span className="hidden text-black group-hover:inline">▶</span>
+            <span className="text-primary group-hover:hidden">❚❚</span>
+            <span className="text-primary hidden group-hover:inline">▶</span>
           </>
         ) : (
           <>
-            <span className="text-fg-muted group-hover:hidden">{index}</span>
-            <span className="hidden text-black group-hover:inline">▶</span>
+            <span className="text-secondary group-hover:hidden">{index}</span>
+            <span className="text-primary hidden group-hover:inline">▶</span>
           </>
         )}
       </span>
       <img
         src={getProviderImage(song.provider)}
         alt={song.name}
-        className="size-10 object-cover"
+        className="size-10 rounded-md object-cover"
       />
       <div className="min-w-0 flex-1">
         <p
           className={cn(
-            'truncate text-sm font-medium',
-            isCurrent ? 'font-bold text-black' : 'text-black',
+            'text-primary truncate',
+            isCurrent ? 'font-medium' : '',
           )}
+          style={{ font: '400 12px/1.25 var(--font-sans)' }}
         >
           {song.name}
         </p>
         {showProvider && (
-          <p className="text-fg-muted text-xs">
+          <p
+            className="text-secondary truncate"
+            style={{ font: '400 12px/1.25 var(--font-sans)' }}
+          >
             {providerLabel(song.provider)}
           </p>
         )}

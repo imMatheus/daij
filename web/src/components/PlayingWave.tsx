@@ -5,51 +5,35 @@ export function PlayingWave() {
       style={{ height: 14 }}
     >
       <div
-        className="flex w-[3px] flex-col"
+        className="w-[3px]"
         style={{
-          backgroundColor: 'var(--bg)',
+          backgroundColor: 'var(--key-color)',
           animation: `playingWave 800ms ease-in-out -1s infinite alternate`,
         }}
-      >
-        <div className="bg-bg w-full flex-1" />
-        <div className="bg-accent w-full flex-1" />
-        <div className="bg-bg w-full flex-1" />
-      </div>
-
+      />
       <div
-        className="flex w-[3px] flex-col"
+        className="w-[3px]"
         style={{
-          backgroundColor: 'var(--bg)',
+          backgroundColor: 'var(--key-color)',
+          opacity: 0.7,
           animation: `playingWave 800ms ease-in-out -0.3s infinite alternate`,
         }}
-      >
-        <div className="bg-bg w-full flex-1" />
-        <div className="bg-accent w-full flex-1" />
-      </div>
-
+      />
       <div
-        className="flex w-[3px] flex-col"
+        className="w-[3px]"
         style={{
-          backgroundColor: 'var(--bg)',
+          backgroundColor: 'var(--key-color)',
           animation: `playingWave 800ms ease-in-out -2s infinite alternate`,
         }}
-      >
-        <div className="bg-accent w-full flex-1" />
-        <div className="bg-bg w-full flex-1" />
-        <div className="bg-accent w-full flex-1" />
-        <div className="bg-bg w-full flex-1" />
-      </div>
-
+      />
       <div
-        className="flex w-[3px] flex-col"
+        className="w-[3px]"
         style={{
-          backgroundColor: 'var(--bg)',
+          backgroundColor: 'var(--key-color)',
+          opacity: 0.7,
           animation: `playingWave 800ms ease-in-out -1.4s infinite alternate`,
         }}
-      >
-        <div className="bg-accent w-full flex-1" />
-        <div className="bg-bg w-full flex-1" />
-      </div>
+      />
     </div>
   )
 }

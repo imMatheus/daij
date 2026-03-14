@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { useSongs } from '@/useSongs'
 import { formatDuration, getProviderImage } from '@/lib/utils'
 import { StrudelEditor } from '@/components/StrudelEditor'
+import { Button } from '@/components/button'
 
 function providerLabel(provider: string) {
   switch (provider) {
@@ -54,62 +55,80 @@ export const SongPage = () => {
   }
 
   return (
-    <div className="min-h-screen">
-      <div className="mx-auto w-full max-w-6xl border-x">
-        <header className="border-b p-6">
-          <div className="flex items-center gap-4">
+    <div className="min-h-screen bg-white">
+      <div className="mx-auto w-full max-w-6xl">
+        <header className="px-5 pt-6 pb-4">
+          <div className="flex items-center gap-2">
             <Link
               to="/"
-              className="text-fg-muted text-sm transition-colors hover:text-black"
+              className="text-secondary hover:text-primary transition-colors"
+              style={{ font: '400 12px/1.25 var(--font-sans)' }}
             >
-              &larr; Home
+              Home
             </Link>
             {song && (
               <>
-                <span className="text-fg-muted">/</span>
+                <span className="text-tertiary">/</span>
                 <Link
                   to={`/${provider}`}
-                  className="text-fg-muted text-sm transition-colors hover:text-black"
+                  className="text-secondary hover:text-primary transition-colors"
+                  style={{ font: '400 12px/1.25 var(--font-sans)' }}
                 >
                   {providerLabel(provider!)}
                 </Link>
-                <span className="text-fg-muted">/</span>
-                <h1 className="truncate font-serif text-2xl font-extrabold tracking-tight text-black">
-                  {song.name}
-                </h1>
               </>
             )}
           </div>
         </header>
 
         {!songs ? (
-          <p className="text-fg-muted py-12 text-center text-sm">Loading...</p>
+          <p
+            className="text-secondary px-5 py-12 text-center"
+            style={{ font: '400 13px/1.23 var(--font-sans)' }}
+          >
+            Loading...
+          </p>
         ) : !song ? (
-          <p className="text-fg-muted py-12 text-center text-sm">
+          <p
+            className="text-secondary px-5 py-12 text-center"
+            style={{ font: '400 13px/1.23 var(--font-sans)' }}
+          >
             Song not found.
           </p>
         ) : (
           <>
             {/* Hero */}
-            <div className="flex gap-6 border-b p-6">
+            <div className="flex gap-5 px-5 pb-6">
               <img
                 src={getProviderImage(song.provider)}
                 alt={song.name}
-                className="size-36 shrink-0 object-cover sm:size-44"
+                className="size-36 shrink-0 rounded-xl object-cover sm:size-44"
               />
               <div className="flex flex-col justify-end">
-                <p className="text-fg-muted text-xs font-medium tracking-widest uppercase">
+                <p
+                  className="text-secondary uppercase"
+                  style={{ font: '600 11px/1.27 var(--font-sans)' }}
+                >
                   {providerLabel(song.provider)}
                 </p>
-                <h2 className="mt-1 font-serif text-3xl font-extrabold text-black sm:text-4xl">
+                <h1
+                  className="text-primary mt-1"
+                  style={{ font: '700 26px/1.23 var(--font-sans)' }}
+                >
                   {song.name}
-                </h2>
+                </h1>
                 {song.prompt && (
-                  <p className="text-fg-muted mt-2 text-sm italic">
+                  <p
+                    className="text-secondary mt-2 italic"
+                    style={{ font: '400 13px/1.38 var(--font-sans)' }}
+                  >
                     &ldquo;{song.prompt}&rdquo;
                   </p>
                 )}
-                <div className="text-fg-muted mt-2 flex items-center gap-3 text-sm">
+                <div
+                  className="text-tertiary mt-2 flex items-center gap-2"
+                  style={{ font: '400 12px/1.25 var(--font-sans)' }}
+                >
                   <span>{formatDuration(song.duration)}</span>
                   <span>&middot;</span>
                   <span>ELO {Math.round(song.eloRating)}</span>
@@ -122,26 +141,34 @@ export const SongPage = () => {
             </div>
 
             {/* Actions */}
-            <div className="flex items-center gap-3 border-b p-6">
-              <button
-                onClick={handlePlay}
-                className="border border-black bg-black px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-transparent hover:text-black"
-              >
+            <div className="flex items-center gap-3 px-5 pb-6">
+              <Button onClick={handlePlay}>
                 {isActive ? 'Pause' : 'Play'}
-              </button>
+              </Button>
             </div>
 
             {/* Strudel editor */}
-            <div className="border-b p-6">
-              <h3 className="mb-4 font-serif text-lg font-bold text-black">
+            <div className="border-divider border-t px-5 py-6">
+              <h3
+                className="text-primary mb-4"
+                style={{ font: '700 17px/1.29 var(--font-sans)' }}
+              >
                 Strudel Code
               </h3>
               {loading ? (
-                <p className="text-fg-muted text-sm">Loading code...</p>
+                <p
+                  className="text-secondary"
+                  style={{ font: '400 13px/1.23 var(--font-sans)' }}
+                >
+                  Loading code...
+                </p>
               ) : strudelCode ? (
                 <StrudelEditor code={strudelCode} />
               ) : (
-                <p className="text-fg-muted text-sm">
+                <p
+                  className="text-secondary"
+                  style={{ font: '400 13px/1.23 var(--font-sans)' }}
+                >
                   No strudel code available for this song.
                 </p>
               )}

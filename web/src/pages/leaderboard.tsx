@@ -5,6 +5,7 @@ import { fetchJson } from '@/lib/api'
 import type { Song } from '@/songs'
 import { cn } from '@/lib/utils'
 import { SongRow } from '@/components/SongRow'
+import { Button } from '@/components/button'
 
 type ModelStats = {
   provider: string
@@ -43,64 +44,57 @@ export const Leaderboard = () => {
   })
 
   return (
-    <div className="min-h-screen">
-      <div className="mx-auto w-full max-w-6xl border-x">
-        <header className="border-b p-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Link
-                to="/"
-                className="text-fg-muted text-sm transition-colors hover:text-black"
-              >
-                &larr; Home
-              </Link>
-              <span className="text-fg-muted">/</span>
-              <h1 className="font-serif text-2xl font-extrabold tracking-tight text-black">
-                Leaderboard
-              </h1>
-            </div>
-            <Link
-              to="/arena"
-              className="text-fg-muted text-sm transition-colors hover:text-black"
-            >
-              Arena &rarr;
-            </Link>
-          </div>
-          <p className="text-fg-muted mt-2 text-sm">
+    <div className="min-h-screen bg-white">
+      <div className="mx-auto w-full max-w-6xl">
+        <header className="px-5 pt-6 pb-4">
+          <Link
+            to="/"
+            className="text-secondary hover:text-primary transition-colors"
+            style={{ font: '400 12px/1.25 var(--font-sans)' }}
+          >
+            &larr; Home
+          </Link>
+          <h1
+            className="text-primary mt-2"
+            style={{ font: '700 34px/1.176 var(--font-sans)' }}
+          >
+            Leaderboard
+          </h1>
+          <p
+            className="text-secondary mt-1"
+            style={{ font: '400 13px/1.23 var(--font-sans)' }}
+          >
             Rankings based on ELO scores
           </p>
         </header>
 
-        <div className="border-b p-6">
+        <div className="px-5 pb-4">
           <div className="flex gap-2">
             {(['songs', 'models'] as const).map((t) => (
-              <button
-                key={t}
-                onClick={() => setTab(t)}
-                className={cn(
-                  'px-5 py-2 text-sm font-medium transition-colors',
-                  tab === t
-                    ? 'border border-black bg-black text-white'
-                    : 'border text-black hover:bg-black hover:text-white',
-                )}
-              >
+              <Button key={t} onClick={() => setTab(t)}>
                 {t === 'songs' ? 'Top Songs' : 'Top Models'}
-              </button>
+              </Button>
             ))}
           </div>
         </div>
 
         {tab === 'songs' && (
           <div>
-            <div className="text-fg-muted flex items-center border-b px-6 py-2.5 text-xs font-medium">
+            <div
+              className="border-divider text-secondary flex items-center border-b px-5 py-2"
+              style={{ font: '400 11px/1.27 var(--font-sans)' }}
+            >
               <span className="w-8 shrink-0 text-center">#</span>
-              <span className="ml-4 flex-1">Title</span>
-              <span className="w-20 shrink-0 text-right">Wins</span>
-              <span className="w-20 shrink-0 text-right">Win Rate</span>
-              <span className="w-16 shrink-0 text-right">ELO</span>
+              <span className="ml-3 flex-1">Title</span>
+              <span className="w-16 shrink-0 text-right">Wins</span>
+              <span className="w-16 shrink-0 text-right">Win Rate</span>
+              <span className="w-14 shrink-0 text-right">ELO</span>
             </div>
             {songsQuery.isLoading ? (
-              <p className="text-fg-muted py-12 text-center text-sm">
+              <p
+                className="text-secondary py-12 text-center"
+                style={{ font: '400 13px/1.23 var(--font-sans)' }}
+              >
                 Loading...
               </p>
             ) : (
@@ -111,14 +105,23 @@ export const Leaderboard = () => {
                   index={i + 1}
                   queue={songsQuery.data}
                   trailing={
-                    <div className="flex items-center text-sm">
-                      <span className="w-20 shrink-0 text-right text-fg-muted">
+                    <div
+                      className="flex items-center"
+                      style={{ font: '400 12px/1.25 var(--font-sans)' }}
+                    >
+                      <span className="text-secondary w-16 shrink-0 text-right">
                         {song.wins}
                       </span>
-                      <span className="w-20 shrink-0 text-right text-fg-muted">
-                        {song.totalVotes > 0 ? Math.round((song.wins / song.totalVotes) * 100) : 0}%
+                      <span className="text-secondary w-16 shrink-0 text-right">
+                        {song.totalVotes > 0
+                          ? Math.round((song.wins / song.totalVotes) * 100)
+                          : 0}
+                        %
                       </span>
-                      <span className="w-16 shrink-0 text-right font-semibold text-black">
+                      <span
+                        className="text-primary w-14 shrink-0 text-right"
+                        style={{ fontWeight: 600 }}
+                      >
                         {Math.round(song.eloRating)}
                       </span>
                     </div>
@@ -131,49 +134,71 @@ export const Leaderboard = () => {
 
         {tab === 'models' && (
           <div>
-            <div className="text-fg-muted flex items-center border-b px-6 py-2.5 text-xs font-medium">
+            <div
+              className="border-divider text-secondary flex items-center border-b px-5 py-2"
+              style={{ font: '400 11px/1.27 var(--font-sans)' }}
+            >
               <span className="w-8 shrink-0 text-center">#</span>
-              <span className="ml-4 flex-1">Model</span>
-              <span className="w-20 shrink-0 text-right">Wins</span>
-              <span className="w-20 shrink-0 text-right">Win Rate</span>
-              <span className="w-20 shrink-0 text-right">Avg ELO</span>
+              <span className="ml-3 flex-1">Model</span>
+              <span className="w-16 shrink-0 text-right">Wins</span>
+              <span className="w-16 shrink-0 text-right">Win Rate</span>
+              <span className="w-16 shrink-0 text-right">Avg ELO</span>
             </div>
             {modelsQuery.isLoading ? (
-              <p className="text-fg-muted py-12 text-center text-sm">
+              <p
+                className="text-secondary py-12 text-center"
+                style={{ font: '400 13px/1.23 var(--font-sans)' }}
+              >
                 Loading...
               </p>
             ) : (
               modelsQuery.data?.map((model, i) => (
                 <div
                   key={model.provider}
-                  className="flex items-center gap-4 border-b px-6 py-4"
+                  className="border-divider hover:bg-surface flex items-center gap-3 border-b px-5 py-3 transition-colors"
                 >
                   <span
                     className={cn(
-                      'w-8 text-center text-sm font-bold',
-                      i === 0 ? 'text-accent' : 'text-fg-muted',
+                      'w-8 text-center',
+                      i === 0 ? 'text-key' : 'text-secondary',
                     )}
+                    style={{ font: '800 12px/1.25 var(--font-sans)' }}
                   >
                     {i + 1}
                   </span>
                   <div className="min-w-0 flex-1">
-                    <p className="text-sm font-medium text-black">
+                    <p
+                      className="text-primary"
+                      style={{ font: '400 12px/1.25 var(--font-sans)' }}
+                    >
                       {providerLabel(model.provider)}
                     </p>
-                    <p className="text-fg-muted text-xs">
+                    <p
+                      className="text-secondary"
+                      style={{ font: '400 11px/1.27 var(--font-sans)' }}
+                    >
                       {model.songCount}{' '}
                       {model.songCount === 1 ? 'song' : 'songs'}
                     </p>
                   </div>
-                  <div className="flex items-center text-sm">
-                    <span className="w-20 shrink-0 text-right text-fg-muted">
+                  <div
+                    className="flex items-center"
+                    style={{ font: '400 12px/1.25 var(--font-sans)' }}
+                  >
+                    <span className="text-secondary w-16 shrink-0 text-right">
                       {model.wins}
                     </span>
-                    <span className="w-20 shrink-0 text-right text-fg-muted">
-                      {model.totalVotes > 0 ? Math.round((model.wins / model.totalVotes) * 100) : 0}%
+                    <span className="text-secondary w-16 shrink-0 text-right">
+                      {model.totalVotes > 0
+                        ? Math.round((model.wins / model.totalVotes) * 100)
+                        : 0}
+                      %
                     </span>
-                    <span className="w-20 shrink-0 text-right">
-                      <span className="border-accent/20 bg-accent/5 text-accent border px-2 py-0.5 text-xs font-semibold">
+                    <span className="w-16 shrink-0 text-right">
+                      <span
+                        className="bg-key/10 text-key rounded-md px-2 py-0.5"
+                        style={{ font: '600 11px/1.27 var(--font-sans)' }}
+                      >
                         {Math.round(model.avgElo)}
                       </span>
                     </span>

@@ -139,15 +139,13 @@ export const SongsProvider = ({ children }: { children: ReactNode }) => {
 
   const playNext = () => {
     if (!hasNext) return
-    const nextIndex =
-      currentIndex < queue.length - 1 ? currentIndex + 1 : 0
+    const nextIndex = currentIndex < queue.length - 1 ? currentIndex + 1 : 0
     playInternal(queue[nextIndex])
   }
 
   const playPrev = () => {
     if (!hasPrev) return
-    const prevIndex =
-      currentIndex > 0 ? currentIndex - 1 : queue.length - 1
+    const prevIndex = currentIndex > 0 ? currentIndex - 1 : queue.length - 1
     playInternal(queue[prevIndex])
   }
 

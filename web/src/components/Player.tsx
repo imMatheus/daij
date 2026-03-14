@@ -63,27 +63,38 @@ export const Player = () => {
   }
 
   return (
-    <div className="fixed bottom-4 left-1/2 z-50 w-96 -translate-x-1/2 border border-black/10 bg-white shadow-[0_4px_24px_rgba(0,0,0,0.12)]">
+    <div className="border-divider fixed bottom-4 left-1/2 z-50 w-96 -translate-x-1/2 rounded-xl border bg-white shadow-[0_4px_24px_rgba(0,0,0,0.12)]">
       <div className="flex items-center gap-3 p-3">
         <img
-          src={anonymous ? MYSTERY_IMAGE : getProviderImage(currentSong.provider)}
+          src={
+            anonymous ? MYSTERY_IMAGE : getProviderImage(currentSong.provider)
+          }
           alt={anonymous ? '???' : currentSong.name}
-          className="size-10 object-cover"
+          className="size-10 rounded-md object-cover"
         />
 
         <div className="min-w-0 flex-1">
           {anonymous ? (
-            <p className="truncate text-sm font-medium text-black">???</p>
+            <p
+              className="text-primary truncate"
+              style={{ font: '400 12px/1.25 var(--font-sans)' }}
+            >
+              ???
+            </p>
           ) : (
             <Link
               to={getSongPath(currentSong)}
-              className="block truncate text-sm font-medium text-black hover:underline"
+              className="text-primary block truncate hover:underline"
+              style={{ font: '400 12px/1.25 var(--font-sans)' }}
               onClick={(e) => e.stopPropagation()}
             >
               {currentSong.name}
             </Link>
           )}
-          <p className="text-fg-muted text-xs">
+          <p
+            className="text-secondary"
+            style={{ font: '400 11px/1.27 var(--font-sans)' }}
+          >
             {anonymous ? '???' : providerLabel(currentSong.provider)} &middot;{' '}
             {formatTime(currentTime)} / {formatTime(duration)}
           </p>
@@ -93,7 +104,7 @@ export const Player = () => {
           <button
             onClick={playPrev}
             disabled={!hasPrev}
-            className="flex size-8 cursor-pointer items-center justify-center border text-black transition-colors hover:bg-black hover:text-white disabled:cursor-default disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-black"
+            className="text-primary hover:bg-surface flex size-8 cursor-pointer items-center justify-center rounded-md transition-colors disabled:cursor-default disabled:opacity-30 disabled:hover:bg-transparent"
             aria-label="Previous"
           >
             <svg
@@ -110,7 +121,7 @@ export const Player = () => {
 
           <button
             onClick={isPlaying ? pause : resume}
-            className="flex size-8 cursor-pointer items-center justify-center border text-black transition-colors hover:bg-black hover:text-white"
+            className="text-primary hover:bg-surface flex size-8 cursor-pointer items-center justify-center rounded-md transition-colors"
             aria-label={isPlaying ? 'Pause' : 'Play'}
           >
             {isPlaying ? (
@@ -140,7 +151,7 @@ export const Player = () => {
           <button
             onClick={playNext}
             disabled={!hasNext}
-            className="flex size-8 cursor-pointer items-center justify-center border text-black transition-colors hover:bg-black hover:text-white disabled:cursor-default disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-black"
+            className="text-primary hover:bg-surface flex size-8 cursor-pointer items-center justify-center rounded-md transition-colors disabled:cursor-default disabled:opacity-30 disabled:hover:bg-transparent"
             aria-label="Next"
           >
             <svg
@@ -164,7 +175,7 @@ export const Player = () => {
           onClick={handleProgressClick}
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
-          className="relative h-1 w-full cursor-pointer overflow-hidden bg-black/10"
+          className="relative h-1 w-full cursor-pointer overflow-hidden rounded-full bg-black/10"
         >
           {hoverProgress !== null && (
             <div
@@ -173,7 +184,7 @@ export const Player = () => {
             />
           )}
           <div
-            className="bg-bg relative h-full transition-[width] duration-75"
+            className="bg-key relative h-full rounded-full transition-[width] duration-75"
             style={{ width: `${progress}%` }}
           />
         </div>

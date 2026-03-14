@@ -2,6 +2,7 @@ import { useParams, Link } from 'react-router'
 import { useSongs } from '@/useSongs'
 import { formatDuration, getProviderImage } from '@/lib/utils'
 import { SongRow } from '@/components/SongRow'
+import { Button } from '@/components/button'
 import type { Song } from '@/songs'
 
 const providerMeta: Record<
@@ -40,17 +41,23 @@ export const Provider = () => {
 
   if (!meta) {
     return (
-      <div className="min-h-screen">
-        <div className="mx-auto w-full max-w-6xl border-x">
-          <header className="border-b p-6">
+      <div className="min-h-screen bg-white">
+        <div className="mx-auto w-full max-w-6xl">
+          <header className="px-5 pt-6 pb-4">
             <Link
               to="/"
-              className="text-fg-muted text-sm transition-colors hover:text-black"
+              className="text-secondary hover:text-primary transition-colors"
+              style={{ font: '400 12px/1.25 var(--font-sans)' }}
             >
               &larr; Home
             </Link>
           </header>
-          <p className="text-fg-muted p-6 text-sm">Provider not found.</p>
+          <p
+            className="text-secondary px-5 pb-6"
+            style={{ font: '400 13px/1.23 var(--font-sans)' }}
+          >
+            Provider not found.
+          </p>
         </div>
       </div>
     )
@@ -61,41 +68,48 @@ export const Provider = () => {
   const coverImage = getProviderImage(provider)
 
   return (
-    <div className="min-h-screen">
-      <div className="mx-auto w-full max-w-6xl border-x">
-        <header className="border-b p-6">
-          <div className="flex items-center gap-4">
-            <Link
-              to="/"
-              className="text-fg-muted text-sm transition-colors hover:text-black"
-            >
-              &larr; Home
-            </Link>
-            <span className="text-fg-muted">/</span>
-            <h1 className="font-serif text-2xl font-extrabold tracking-tight text-black">
-              {meta.label}
-            </h1>
-          </div>
+    <div className="min-h-screen bg-white">
+      <div className="mx-auto w-full max-w-6xl">
+        <header className="px-5 pt-6 pb-4">
+          <Link
+            to="/"
+            className="text-secondary hover:text-primary transition-colors"
+            style={{ font: '400 12px/1.25 var(--font-sans)' }}
+          >
+            &larr; Home
+          </Link>
         </header>
 
         {/* Hero */}
-        <div className="flex gap-6 border-b p-6">
+        <div className="flex gap-5 px-5 pb-6">
           <img
             src={coverImage}
             alt={meta.label}
-            className="size-36 shrink-0 object-cover sm:size-44"
+            className="size-36 shrink-0 rounded-xl object-cover sm:size-44"
           />
           <div className="flex flex-col justify-end">
-            <p className="text-fg-muted text-xs font-medium tracking-widest uppercase">
+            <p
+              className="text-secondary uppercase"
+              style={{ font: '600 11px/1.27 var(--font-sans)' }}
+            >
               Collection
             </p>
-            <h2 className="mt-1 font-serif text-3xl font-extrabold text-black sm:text-4xl">
+            <h1
+              className="text-primary mt-1"
+              style={{ font: '700 34px/1.176 var(--font-sans)' }}
+            >
               {meta.label}
-            </h2>
-            <p className="text-fg-muted mt-2 max-w-md text-sm leading-relaxed">
+            </h1>
+            <p
+              className="text-secondary mt-2 max-w-md"
+              style={{ font: '400 13px/1.38 var(--font-sans)' }}
+            >
               {meta.description}
             </p>
-            <p className="text-fg-muted mt-2 text-sm">
+            <p
+              className="text-tertiary mt-2"
+              style={{ font: '400 12px/1.25 var(--font-sans)' }}
+            >
               {providerSongs.length}{' '}
               {providerSongs.length === 1 ? 'song' : 'songs'} &middot;{' '}
               {formatTotalDuration(totalDuration)}
@@ -105,44 +119,48 @@ export const Provider = () => {
 
         {/* Actions */}
         {providerSongs.length > 0 && (
-          <div className="flex items-center gap-3 border-b p-6">
-            <button
-              onClick={() => play(providerSongs[0], providerSongs)}
-              className="border border-black bg-black px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-transparent hover:text-black"
-            >
+          <div className="flex items-center gap-3 px-5 pb-6">
+            <Button onClick={() => play(providerSongs[0], providerSongs)}>
               Play all
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={() => {
                 const shuffled = [...providerSongs].sort(
                   () => Math.random() - 0.5,
                 )
                 play(shuffled[0], shuffled)
               }}
-              className="border px-5 py-2 text-sm font-medium text-black transition-colors hover:bg-black hover:text-white"
             >
               Shuffle
-            </button>
+            </Button>
           </div>
         )}
 
         {/* Song list */}
-        <div>
-          {/* Table header */}
-          <div className="text-fg-muted flex items-center border-b px-6 py-2.5 text-xs font-medium">
+        <div className="border-divider border-t">
+          <div
+            className="border-divider text-secondary flex items-center border-b px-5 py-2"
+            style={{ font: '400 11px/1.27 var(--font-sans)' }}
+          >
             <span className="w-8 shrink-0 text-center">#</span>
-            <span className="ml-4 flex-1">Title</span>
-            <span className="w-16 shrink-0 text-right">Wins</span>
-            <span className="w-16 shrink-0 text-right">ELO</span>
-            <span className="w-16 shrink-0 text-right">Duration</span>
+            <span className="ml-3 flex-1">Title</span>
+            <span className="w-14 shrink-0 text-right">Wins</span>
+            <span className="w-14 shrink-0 text-right">ELO</span>
+            <span className="w-14 shrink-0 text-right">Time</span>
           </div>
 
           {!songs ? (
-            <p className="text-fg-muted py-12 text-center text-sm">
+            <p
+              className="text-secondary py-12 text-center"
+              style={{ font: '400 13px/1.23 var(--font-sans)' }}
+            >
               Loading...
             </p>
           ) : providerSongs.length === 0 ? (
-            <p className="text-fg-muted py-12 text-center text-sm">
+            <p
+              className="text-secondary py-12 text-center"
+              style={{ font: '400 13px/1.23 var(--font-sans)' }}
+            >
               No tracks yet.
             </p>
           ) : (
@@ -154,14 +172,20 @@ export const Provider = () => {
                 showProvider={false}
                 queue={providerSongs}
                 trailing={
-                  <div className="flex items-center text-sm">
-                    <span className="w-16 shrink-0 text-right text-fg-muted">
+                  <div
+                    className="flex items-center"
+                    style={{ font: '400 12px/1.25 var(--font-sans)' }}
+                  >
+                    <span className="text-secondary w-14 shrink-0 text-right">
                       {song.wins}
                     </span>
-                    <span className="w-16 shrink-0 text-right font-semibold text-black">
+                    <span
+                      className="text-primary w-14 shrink-0 text-right"
+                      style={{ fontWeight: 600 }}
+                    >
                       {Math.round(song.eloRating)}
                     </span>
-                    <span className="w-16 shrink-0 text-right text-fg-muted">
+                    <span className="text-secondary w-14 shrink-0 text-right">
                       {formatDuration(song.duration)}
                     </span>
                   </div>
