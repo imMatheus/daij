@@ -34,13 +34,11 @@ export const Leaderboard = () => {
   const songsQuery = useQuery({
     queryKey: ['leaderboard-songs'],
     queryFn: () => fetchJson<Song[]>('/leaderboard/songs'),
-    enabled: tab === 'songs',
   })
 
   const modelsQuery = useQuery({
     queryKey: ['leaderboard-models'],
     queryFn: () => fetchJson<ModelStats[]>('/leaderboard/models'),
-    enabled: tab === 'models',
   })
 
   return (
@@ -153,7 +151,8 @@ export const Leaderboard = () => {
               </p>
             ) : (
               modelsQuery.data?.map((model, i) => (
-                <div
+                <Link
+                  to={`/${model.provider}`}
                   key={model.provider}
                   className="border-divider hover:bg-surface flex items-center gap-3 border-b px-5 py-3 transition-colors"
                 >
@@ -203,7 +202,7 @@ export const Leaderboard = () => {
                       </span>
                     </span>
                   </div>
-                </div>
+                </Link>
               ))
             )}
           </div>

@@ -95,7 +95,18 @@ export const Player = () => {
             className="text-secondary"
             style={{ font: '400 11px/1.27 var(--font-sans)' }}
           >
-            {anonymous ? '???' : providerLabel(currentSong.provider)} &middot;{' '}
+            {anonymous ? (
+              '???'
+            ) : (
+              <Link
+                to={`/${currentSong.provider}`}
+                className="hover:underline"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {providerLabel(currentSong.provider)}
+              </Link>
+            )}{' '}
+            &middot;{' '}
             {formatTime(currentTime)} / {formatTime(duration)}
           </p>
         </div>

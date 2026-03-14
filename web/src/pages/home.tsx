@@ -8,6 +8,13 @@ import type { Song } from '@/songs'
 import { Button } from '@/components/button'
 import { Dropdown } from '@/components/dropdown'
 import { useTheme, THEME_COLORS } from '@/useTheme'
+import { ClaudeAI, OpenAI, Gemini } from '@/components/icons'
+
+const PROVIDER_ICONS = {
+  claude: ClaudeAI,
+  chatgpt: OpenAI,
+  gemini: Gemini,
+} as const
 
 const PROVIDER_CARDS = [
   {
@@ -31,7 +38,7 @@ export const Home = () => {
   const { theme, setTheme, themes } = useTheme()
 
   return (
-    <div className="min-h-screen bg-white py-10">
+    <div className="min-h-screen py-10">
       <div className="mx-auto w-full max-w-7xl">
         <div className="mb-2 flex items-start justify-between">
           {/* header-emphasized: 700 34px/1.176 */}
@@ -107,12 +114,12 @@ export const Home = () => {
           </Link>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-20 mt-20">
           <FeaturedSection />
           <LatestSongs />
         </div>
 
-        <footer className="">
+        <footer className="py-20">
           <p className="text-tertiary text-center text-[10px]">
             daij — AI-generated music experiment
           </p>
@@ -124,32 +131,38 @@ export const Home = () => {
 
 function FeaturedSection() {
   return (
-    <section className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-      {PROVIDER_CARDS.map((card) => (
-        <Link
-          key={card.provider}
-          to={`/${card.provider}`}
-          className="group block"
-        >
-          <div className="mb-2">
-            <p className="text-secondary text-[11px] leading-tight font-semibold uppercase">
-              {card.eyebrow}
-            </p>
-            <p className="text-primary font-normal">{card.title}</p>
-          </div>
+    <section className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        PROVIDER_CARDS.map((card) => (
+          <Link
+            key={card.provider}
+            to={`/${card.provider}`}
+            className="group block"
+          >
+            <div className="mb-2">
+              <p className="text-secondary flex items-center gap-1 text-[11px] leading-tight font-semibold uppercase">
+                {(() => {
+                  const Icon = PROVIDER_ICONS[card.provider]
+                  return <Icon className="size-3" />
+                })()}
+                {card.eyebrow}
+              </p>
+              <p className="text-primary font-normal">{card.title}</p>
+            </div>
 
-          <div className="relative overflow-hidden rounded-2xl">
-            <img
-              src={getProviderImage(card.provider)}
-              alt={card.title}
-              className="aspect-[1.74/1] w-full object-cover"
-            />
-            <div className="pointer-events-none absolute inset-0 rounded-2xl ring-[0.5px] ring-black/15 ring-inset" />
-            <div className="pointer-events-none absolute inset-0 rounded-2xl bg-[rgba(51,51,51,0.2)] opacity-0 transition-opacity duration-100 ease-in group-hover:opacity-100" />
-          </div>
-        </Link>
-      ))}
-    </section>
+            <div className="relative overflow-hidden rounded-2xl">
+              <img
+                src={getProviderImage(card.provider)}
+                alt={card.title}
+                className="aspect-[1.74/1] w-full object-cover"
+              />
+              <div className="pointer-events-none absolute inset-0 rounded-2xl ring-[0.5px] ring-black/15 ring-inset" />
+              <div className="pointer-events-none absolute inset-0 rounded-2xl bg-[rgba(51,51,51,0.2)] opacity-0 transition-opacity duration-100 ease-in group-hover:opacity-100" />
+            </div>
+          </Link>
+        ))
+      }
+    </section >
   )
 }
 
@@ -168,7 +181,7 @@ function LatestSongs() {
           to="/leaderboard"
           className="text-primary hover:text-secondary inline-flex items-center gap-1 text-[22px] leading-tight font-bold transition-colors"
         >
-          Top Rated
+          Top songs
           <svg className="size-4" viewBox="0 0 64 64" fill="currentColor">
             <path d="M19.817 61.863c1.48 0 2.672-.515 3.702-1.546l24.243-23.63c1.352-1.385 1.996-2.737 2.028-4.443 0-1.674-.644-3.09-2.028-4.443L23.519 4.138c-1.03-.998-2.253-1.513-3.702-1.513-2.994 0-5.409 2.382-5.409 5.344 0 1.481.612 2.833 1.739 3.96l20.99 20.347-20.99 20.283c-1.127 1.126-1.739 2.478-1.739 3.96 0 2.93 2.415 5.344 5.409 5.344Z" />
           </svg>
