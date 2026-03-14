@@ -144,7 +144,11 @@ export const SongPage = () => {
             {/* Actions */}
             <div className="flex items-center gap-3 px-5 pb-6">
               <Button onClick={handlePlay}>
-                {isActive ? <PauseIcon className="size-3.5" /> : <PlayIcon className="size-3.5" />}
+                {isActive ? (
+                  <PauseIcon className="size-3.5" />
+                ) : (
+                  <PlayIcon className="size-3.5" />
+                )}
                 {isActive ? 'Pause' : 'Play'}
               </Button>
             </div>

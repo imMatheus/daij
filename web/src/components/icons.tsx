@@ -199,7 +199,16 @@ const PauseIcon = (props: SVGProps<SVGSVGElement>) => (
 )
 
 const ShuffleIcon = (props: SVGProps<SVGSVGElement>) => (
-  <svg {...props} viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={iconStyle}>
+  <svg
+    {...props}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="white"
+    strokeWidth="2.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    style={iconStyle}
+  >
     <polyline points="16 3 21 3 21 8" />
     <line x1="4" y1="20" x2="21" y2="3" />
     <polyline points="21 16 21 21 16 21" />

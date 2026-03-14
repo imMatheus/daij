@@ -46,7 +46,7 @@ export const Home = () => {
       </div>
 
       <div className="mx-auto w-full max-w-7xl">
-        <div className="mb-4 w-max mx-auto flex gap-3">
+        <div className="mx-auto mb-4 flex w-max gap-3">
           <Link to="/arena">
             <Button>Rank songs</Button>
           </Link>
@@ -55,7 +55,7 @@ export const Home = () => {
           </Link>
         </div>
 
-        <h3 className="text-secondary text-center mb-3 text-xl font-medium">
+        <h3 className="text-secondary mb-3 text-center text-xl font-medium">
           DAIJ is a platform for ranking and voting on AI-generated music.
         </h3>
 
@@ -142,7 +142,7 @@ const ARCS = [
 
 function HeroArcs() {
   return (
-    <div className="mx-auto relative w-3/5 mb-6 flex max-w-7xl flex-col items-center gap-0 overflow-hidden">
+    <div className="relative mx-auto mb-6 flex w-3/5 max-w-7xl flex-col items-center gap-0 overflow-hidden">
       {ARCS.map((arc, i) => (
         <div
           key={i}
@@ -160,7 +160,10 @@ function HeroArcs() {
       ))}
       <style>
         {ARCS.map((arc, i) => {
-          const offsetAbove = ARCS.slice(0, i).reduce((sum, a) => sum + a.height, 0)
+          const offsetAbove = ARCS.slice(0, i).reduce(
+            (sum, a) => sum + a.height,
+            0,
+          )
           const startY = -(offsetAbove + arc.height)
           return `
             @keyframes heroArc-${i} {
@@ -178,7 +181,7 @@ function HeroArcs() {
           `
         }).join('')}
       </style>
-    </div >
+    </div>
   )
 }
 
@@ -186,7 +189,7 @@ function HeroTitle() {
   const delay = ARCS.length * 0.1 + 0.3
   return (
     <h1
-      className="font-panchang text-center text-9xl font-black uppercase tracking-widest"
+      className="font-panchang text-center text-9xl font-black tracking-widest uppercase"
       style={{
         animation: `heroTitle 1s cubic-bezier(0.16, 1, 0.3, 1) ${delay}s both`,
       }}
@@ -216,9 +219,18 @@ const STEPS = [
   {
     number: '01',
     title: 'Listen blind',
-    description: 'Two AI-generated songs play head-to-head. No labels, no bias — just music.',
+    description:
+      'Two AI-generated songs play head-to-head. No labels, no bias — just music.',
     icon: (
-      <svg className="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <svg
+        className="size-6"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
         <path d="M9 18V5l12-2v13" />
         <circle cx="6" cy="18" r="3" />
         <circle cx="18" cy="16" r="3" />
@@ -228,9 +240,18 @@ const STEPS = [
   {
     number: '02',
     title: 'Cast your vote',
-    description: 'Pick the track that moves you. Every vote updates the ELO rankings in real time.',
+    description:
+      'Pick the track that moves you. Every vote updates the ELO rankings in real time.',
     icon: (
-      <svg className="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <svg
+        className="size-6"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
         <path d="M14 9V5a3 3 0 0 0-6 0v4" />
         <path d="M5 9h14l1 12H4L5 9z" />
         <path d="M9 14l2 2 4-4" />
@@ -240,9 +261,18 @@ const STEPS = [
   {
     number: '03',
     title: 'See who leads',
-    description: 'The leaderboard reveals which AI models consistently produce the best music.',
+    description:
+      'The leaderboard reveals which AI models consistently produce the best music.',
     icon: (
-      <svg className="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <svg
+        className="size-6"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
         <path d="M18 20V10" />
         <path d="M12 20V4" />
         <path d="M6 20v-6" />
@@ -254,7 +284,7 @@ const STEPS = [
 function AboutSection() {
   return (
     <section>
-      <h2 className="text-primary mb-8 text-center text-[22px] font-bold leading-tight">
+      <h2 className="text-primary mb-8 text-center text-[22px] leading-tight font-bold">
         How it works
       </h2>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
@@ -263,14 +293,13 @@ function AboutSection() {
             key={step.number}
             className="relative overflow-hidden rounded-2xl p-6"
             style={{
-              background: 'linear-gradient(180deg, var(--surface) 0%, rgba(255,255,255,0) 100%)',
+              background:
+                'linear-gradient(180deg, var(--surface) 0%, rgba(255,255,255,0) 100%)',
               boxShadow: 'inset 0 0 0 0.5px rgba(0,0,0,0.06)',
             }}
           >
             <div className="mb-4 flex items-center justify-between">
-              <span
-                className="font-panchang text-key text-xs font-bold"
-              >
+              <span className="font-panchang text-key text-xs font-bold">
                 {step.number}
               </span>
               <span className="text-tertiary">{step.icon}</span>
@@ -409,7 +438,7 @@ function SongCell({ song, queue }: { song: Song; queue: Song[] }) {
         )}
       </div>
 
-      <div className="min-w-0 flex-1 tracking-wider font-medium">
+      <div className="min-w-0 flex-1 font-medium tracking-wider">
         <p className="text-primary truncate text-xs">{song.name}</p>
         <p className="text-secondary truncate text-xs">
           {providerLabel(song.provider)}
