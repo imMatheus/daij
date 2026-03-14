@@ -207,9 +207,7 @@ export const Arena = () => {
 
               <div className="mt-8 flex flex-wrap justify-center gap-3">
                 {voted ? (
-                  <Button onClick={nextMatchup}>
-                    Next matchup
-                  </Button>
+                  <Button onClick={nextMatchup}>Next matchup</Button>
                 ) : (
                   voteButtons.map((btn) => (
                     <Button

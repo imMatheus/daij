@@ -2,9 +2,16 @@ import { cn } from '@/lib/utils'
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode
+  variant?: 'primary' | 'secondary'
 }
 
-export const Button = ({ children, className, disabled, ...props }: ButtonProps) => {
+export const Button = ({
+  children,
+  className,
+  disabled,
+  variant = 'primary',
+  ...props
+}: ButtonProps) => {
   return (
     <button
       className={cn(
@@ -14,6 +21,11 @@ export const Button = ({ children, className, disabled, ...props }: ButtonProps)
       )}
       disabled={disabled}
       style={{
+        ...(variant === 'secondary'
+          ? {
+              // "--key-color-base": "255 32 2"
+            }
+          : {}),
         background:
           'linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 100%), rgb(var(--key-color-base))',
         color: 'rgba(var(--key-color-base) / 1)',

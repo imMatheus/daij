@@ -14,19 +14,16 @@ const PROVIDER_CARDS = [
     provider: 'claude' as const,
     eyebrow: 'ANTHROPIC',
     title: 'Claude',
-    subtitle: 'Melodic patterns through code-driven synthesis',
   },
   {
     provider: 'chatgpt' as const,
     eyebrow: 'OPENAI',
     title: 'ChatGPT',
-    subtitle: 'Creative prompting meets algorithmic composition',
   },
   {
     provider: 'gemini' as const,
     eyebrow: 'GOOGLE',
     title: 'Gemini',
-    subtitle: 'Language translated into layered soundscapes',
   },
 ]
 
@@ -35,7 +32,7 @@ export const Home = () => {
 
   return (
     <div className="min-h-screen bg-white py-10">
-      <div className="mx-auto w-full max-w-6xl">
+      <div className="mx-auto w-full max-w-7xl">
         <div className="mb-2 flex items-start justify-between">
           {/* header-emphasized: 700 34px/1.176 */}
           <h1 className="text-primary text-5xl font-bold">DAIJ</h1>
@@ -52,7 +49,14 @@ export const Home = () => {
                   viewBox="0 0 12 12"
                   fill="currentColor"
                 >
-                  <path d="M2.5 4.5L6 8l3.5-3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                  <path
+                    d="M2.5 4.5L6 8l3.5-3.5"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    fill="none"
+                  />
                 </svg>
               </span>
             }
@@ -69,8 +73,18 @@ export const Home = () => {
                   />
                   <span className="capitalize">{t}</span>
                   {t === theme && (
-                    <svg className="ml-auto h-3.5 w-3.5 text-secondary" viewBox="0 0 16 16" fill="none">
-                      <path d="M3 8.5l3.5 3.5L13 4.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    <svg
+                      className="text-secondary ml-auto h-3.5 w-3.5"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                    >
+                      <path
+                        d="M3 8.5l3.5 3.5L13 4.5"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
                     </svg>
                   )}
                 </span>
@@ -93,8 +107,10 @@ export const Home = () => {
           </Link>
         </div>
 
-        <FeaturedSection />
-        <LatestSongs />
+        <div className="space-y-4">
+          <FeaturedSection />
+          <LatestSongs />
+        </div>
 
         <footer className="">
           <p className="text-tertiary text-center text-[10px]">
@@ -115,29 +131,11 @@ function FeaturedSection() {
           to={`/${card.provider}`}
           className="group block"
         >
-          {/* description: margin-bottom 15px, min-height 60px */}
-          <div className="mb-[15px] min-h-[60px]">
-            {/* eyebrow: subhead-emphasized = 600 11px/1.27 */}
-            <p
-              className="text-secondary uppercase"
-              style={{ font: '600 11px/1.27 var(--font-sans)' }}
-            >
+          <div className="mb-2">
+            <p className="text-secondary text-[11px] leading-tight font-semibold uppercase">
               {card.eyebrow}
             </p>
-            {/* title: title-2 = 400 16px/1.375 */}
-            <p
-              className="text-primary line-clamp-2"
-              style={{ font: '400 16px/1.375 var(--font-sans)' }}
-            >
-              {card.title}
-            </p>
-            {/* subtitle: title-2 = 400 16px/1.375, systemSecondary */}
-            <p
-              className="text-secondary line-clamp-1"
-              style={{ font: '400 16px/1.375 var(--font-sans)' }}
-            >
-              {card.subtitle}
-            </p>
+            <p className="text-primary font-normal">{card.title}</p>
           </div>
 
           <div className="relative overflow-hidden rounded-2xl">
@@ -147,24 +145,7 @@ function FeaturedSection() {
               className="aspect-[1.74/1] w-full object-cover"
             />
             <div className="pointer-events-none absolute inset-0 rounded-2xl ring-[0.5px] ring-black/15 ring-inset" />
-            {/* hover overlay: rgba(51,51,51,.3) */}
-            <div className="pointer-events-none absolute inset-0 rounded-2xl bg-[rgba(51,51,51,0.3)] opacity-0 transition-opacity duration-100 ease-in group-hover:opacity-100" />
-            {/* artwork description: padding 24px 16px 16px */}
-            <div
-              className="absolute right-0 bottom-0 left-0 min-h-[100px] rounded-b-2xl px-4 pt-6 pb-4"
-              style={{
-                backgroundImage:
-                  'linear-gradient(transparent, rgba(0,0,0,0.4))',
-              }}
-            >
-              {/* callout: 400 12px/1.25 */}
-              <p
-                className="line-clamp-3 text-white"
-                style={{ font: '400 12px/1.25 var(--font-sans)' }}
-              >
-                {card.subtitle}
-              </p>
-            </div>
+            <div className="pointer-events-none absolute inset-0 rounded-2xl bg-[rgba(51,51,51,0.2)] opacity-0 transition-opacity duration-100 ease-in group-hover:opacity-100" />
           </div>
         </Link>
       ))}
@@ -182,33 +163,24 @@ function LatestSongs() {
 
   return (
     <section className="">
-      {/* Section header with chevron link */}
       <div className="mb-3">
         <Link
           to="/leaderboard"
-          className="text-primary hover:text-secondary inline-flex items-center gap-1 transition-colors"
-          style={{ font: '700 22px/1.18 var(--font-sans)' }}
+          className="text-primary hover:text-secondary inline-flex items-center gap-1 text-[22px] leading-tight font-bold transition-colors"
         >
           Latest Songs
-          <svg
-            className="h-[18px] w-[18px]"
-            viewBox="0 0 64 64"
-            fill="currentColor"
-          >
+          <svg className="size-4" viewBox="0 0 64 64" fill="currentColor">
             <path d="M19.817 61.863c1.48 0 2.672-.515 3.702-1.546l24.243-23.63c1.352-1.385 1.996-2.737 2.028-4.443 0-1.674-.644-3.09-2.028-4.443L23.519 4.138c-1.03-.998-2.253-1.513-3.702-1.513-2.994 0-5.409 2.382-5.409 5.344 0 1.481.612 2.833 1.739 3.96l20.99 20.347-20.99 20.283c-1.127 1.126-1.739 2.478-1.739 3.96 0 2.93 2.415 5.344 5.409 5.344Z" />
           </svg>
         </Link>
       </div>
 
       {!displaySongs ? (
-        <p
-          className="text-secondary py-8 text-center"
-          style={{ font: '400 13px/1.23 var(--font-sans)' }}
-        >
+        <p className="text-secondary py-8 text-center text-[13px]">
           Loading...
         </p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="grid grid-cols-1 gap-x-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {displaySongs.map((song) => (
             <SongCell key={song.id} song={song} queue={displaySongs} />
           ))}
@@ -245,9 +217,9 @@ function SongCell({ song, queue }: { song: Song; queue: Song[] }) {
   return (
     <div
       onClick={handleClick}
-      className="group border-divider hover:bg-surface flex cursor-pointer items-center gap-3 border-b py-[5px] transition-colors"
+      className="group hover:bg-surface relative flex cursor-pointer items-center gap-3 py-[8px] pr-2 transition-colors"
     >
-      {/* Thumbnail — 40px, border-radius 6px, subtle shadow */}
+      <div className="absolute right-0 bottom-0 left-0 h-[0.5px] bg-[rgba(0,0,0,0.15)]"></div>
       <div className="relative size-10 shrink-0 overflow-hidden rounded-md">
         <img
           src={getProviderImage(song.provider)}
@@ -267,33 +239,12 @@ function SongCell({ song, queue }: { song: Song; queue: Song[] }) {
         )}
       </div>
 
-      {/* Song info — callout: 400 12px/1.25 */}
       <div className="min-w-0 flex-1">
-        <p
-          className="text-primary truncate"
-          style={{ font: '400 12px/1.25 var(--font-sans)' }}
-        >
-          {song.name}
-        </p>
-        <p
-          className="text-secondary truncate"
-          style={{ font: '400 12px/1.25 var(--font-sans)' }}
-        >
+        <p className="text-primary truncate text-xs">{song.name}</p>
+        <p className="text-secondary truncate text-xs">
           {providerLabel(song.provider)}
         </p>
       </div>
-
-      {/* More button — keyColor #fa233b */}
-      <button
-        className="shrink-0 px-1 transition-opacity hover:opacity-70"
-        style={{
-          color: 'var(--key-color)',
-          font: '800 16px/1 var(--font-sans)',
-        }}
-        onClick={(e) => e.stopPropagation()}
-      >
-        &middot;&middot;&middot;
-      </button>
     </div>
   )
 }

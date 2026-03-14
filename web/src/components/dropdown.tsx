@@ -64,7 +64,7 @@ export const Dropdown = ({ trigger, items, className }: DropdownProps) => {
                 item.onClick?.()
                 setOpen(false)
               }}
-              className="w-full cursor-pointer px-4 py-2 text-left text-sm text-primary transition-colors hover:bg-surface focus:outline-none"
+              className="text-primary hover:bg-surface w-full cursor-pointer px-4 py-2 text-left text-sm transition-colors focus:outline-none"
             >
               {item.label}
             </button>
