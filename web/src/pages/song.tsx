@@ -2,6 +2,7 @@ import { useParams, Link } from 'react-router'
 import { useEffect, useState } from 'react'
 import { useSongs } from '@/useSongs'
 import { formatDuration, getProviderImage } from '@/lib/utils'
+import { StrudelEditor } from '@/components/StrudelEditor'
 
 function providerLabel(provider: string) {
   switch (provider) {
@@ -130,7 +131,7 @@ export const SongPage = () => {
               </button>
             </div>
 
-            {/* Strudel code */}
+            {/* Strudel editor */}
             <div className="border-b p-6">
               <h3 className="mb-4 font-serif text-lg font-bold text-black">
                 Strudel Code
@@ -138,9 +139,7 @@ export const SongPage = () => {
               {loading ? (
                 <p className="text-fg-muted text-sm">Loading code...</p>
               ) : strudelCode ? (
-                <pre className="overflow-x-auto bg-black/3 p-4 text-sm leading-relaxed text-black">
-                  <code>{strudelCode}</code>
-                </pre>
+                <StrudelEditor code={strudelCode} />
               ) : (
                 <p className="text-fg-muted text-sm">
                   No strudel code available for this song.
