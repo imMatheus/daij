@@ -1,6 +1,6 @@
 import { Link } from 'react-router'
 import { useQuery } from '@tanstack/react-query'
-import { getProviderImage } from '@/lib/utils'
+import { getProviderImage, providerLabel } from '@/lib/utils'
 import { fetchJson } from '@/lib/api'
 import { useSongs } from '@/useSongs'
 import { PlayingWave } from '@/components/PlayingWave'
@@ -83,7 +83,7 @@ export function Test() {
         </div>
       </div>
 
-      <section className="my-32">
+      <section className="mt-16">
         <h3 className="text-center text-5xl font-semibold tracking-wide uppercase">
           See s
           <ClaudeAI className="inline-block size-7 -translate-y-1" />
@@ -130,19 +130,6 @@ export function Test() {
       <LatestSongs />
     </div>
   )
-}
-
-function providerLabel(provider: string) {
-  switch (provider) {
-    case 'claude':
-      return 'Claude'
-    case 'chatgpt':
-      return 'ChatGPT'
-    case 'gemini':
-      return 'Gemini'
-    default:
-      return provider
-  }
 }
 
 function LatestSongs() {
