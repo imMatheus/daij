@@ -1,6 +1,6 @@
 import { Link } from 'react-router'
 import { useQuery } from '@tanstack/react-query'
-import { getProviderImage } from '@/lib/utils'
+import { getProviderImage, providerLabel } from '@/lib/utils'
 import { fetchJson } from '@/lib/api'
 import { useSongs } from '@/useSongs'
 import { PlayingWave } from '@/components/PlayingWave'
@@ -387,19 +387,6 @@ function LatestSongs() {
       )}
     </section>
   )
-}
-
-function providerLabel(provider: string) {
-  switch (provider) {
-    case 'claude':
-      return 'Claude'
-    case 'chatgpt':
-      return 'ChatGPT'
-    case 'gemini':
-      return 'Gemini'
-    default:
-      return provider
-  }
 }
 
 function SongCell({ song, queue }: { song: Song; queue: Song[] }) {

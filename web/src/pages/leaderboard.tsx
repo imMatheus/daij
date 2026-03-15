@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 import { Link } from 'react-router'
 import { fetchJson } from '@/lib/api'
 import type { Song } from '@/songs'
-import { cn } from '@/lib/utils'
+import { cn, providerLabel } from '@/lib/utils'
 import { SongRow } from '@/components/SongRow'
 import { Button } from '@/components/button'
 
@@ -13,19 +13,6 @@ type ModelStats = {
   songCount: number
   wins: number
   totalVotes: number
-}
-
-function providerLabel(provider: string) {
-  switch (provider) {
-    case 'claude':
-      return 'Claude'
-    case 'chatgpt':
-      return 'ChatGPT'
-    case 'gemini':
-      return 'Gemini'
-    default:
-      return provider
-  }
 }
 
 export const Leaderboard = () => {

@@ -1,23 +1,12 @@
 import { useRef, useState } from 'react'
 import { Link } from 'react-router'
 import { useSongs } from '@/useSongs'
-import { getProviderImage, getSongPath, MYSTERY_IMAGE } from '@/lib/utils'
+import { getProviderImage, getSongPath, MYSTERY_IMAGE, providerLabel } from '@/lib/utils'
 
 function formatTime(seconds: number) {
   const mins = Math.floor(seconds / 60)
   const secs = Math.floor(seconds % 60)
   return `${mins}:${secs.toString().padStart(2, '0')}`
-}
-
-function providerLabel(provider: 'claude' | 'chatgpt' | 'gemini') {
-  switch (provider) {
-    case 'claude':
-      return 'Claude'
-    case 'chatgpt':
-      return 'ChatGPT'
-    case 'gemini':
-      return 'Gemini'
-  }
 }
 
 export const Player = () => {

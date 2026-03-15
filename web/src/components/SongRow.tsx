@@ -1,21 +1,8 @@
 import type { ReactNode } from 'react'
-import { cn, getProviderImage } from '@/lib/utils'
+import { cn, getProviderImage, providerLabel } from '@/lib/utils'
 import { useSongs } from '@/useSongs'
 import { PlayingWave } from '@/components/PlayingWave'
 import type { Song } from '@/songs'
-
-function providerLabel(provider: string) {
-  switch (provider) {
-    case 'claude':
-      return 'Claude'
-    case 'chatgpt':
-      return 'ChatGPT'
-    case 'gemini':
-      return 'Gemini'
-    default:
-      return provider
-  }
-}
 
 export function SongRow({
   song,

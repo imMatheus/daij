@@ -40,3 +40,16 @@ export function formatDuration(seconds: number) {
 export function getSongPath(song: { audioUrl: string }): string {
   return song.audioUrl.replace(/\.wav$/, '')
 }
+
+export function providerLabel(provider: string) {
+  switch (provider) {
+    case 'claude':
+      return 'Claude'
+    case 'chatgpt':
+      return 'ChatGPT'
+    case 'gemini':
+      return 'Gemini'
+    default:
+      return provider
+  }
+}

@@ -4,7 +4,7 @@ import { Link } from 'react-router'
 import { fetchJson, postJson } from '@/lib/api'
 import { useSongs } from '@/useSongs'
 import type { Song } from '@/songs'
-import { cn, getProviderImage, MYSTERY_IMAGE } from '@/lib/utils'
+import { cn, getProviderImage, MYSTERY_IMAGE, providerLabel } from '@/lib/utils'
 import { Button } from '@/components/button'
 
 type VoteOutcome = 'left_wins' | 'right_wins' | 'tie' | 'both_bad'
@@ -12,17 +12,6 @@ type VoteOutcome = 'left_wins' | 'right_wins' | 'tie' | 'both_bad'
 type ArenaPair = {
   songs: Song[]
   prompt: string
-}
-
-function providerLabel(provider: Song['provider']) {
-  switch (provider) {
-    case 'claude':
-      return 'Claude'
-    case 'chatgpt':
-      return 'ChatGPT'
-    case 'gemini':
-      return 'Gemini'
-  }
 }
 
 function SongCard({

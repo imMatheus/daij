@@ -1,23 +1,10 @@
 import { useParams, Link } from 'react-router'
 import { useEffect, useState } from 'react'
 import { useSongs } from '@/useSongs'
-import { formatDuration, getProviderImage } from '@/lib/utils'
+import { formatDuration, getProviderImage, providerLabel } from '@/lib/utils'
 import { StrudelEditor } from '@/components/StrudelEditor'
 import { Button } from '@/components/button'
 import { PlayIcon, PauseIcon } from '@/components/icons'
-
-function providerLabel(provider: string) {
-  switch (provider) {
-    case 'claude':
-      return 'Claude'
-    case 'chatgpt':
-      return 'ChatGPT'
-    case 'gemini':
-      return 'Gemini'
-    default:
-      return provider
-  }
-}
 
 export const SongPage = () => {
   const { provider, slug } = useParams<{ provider: string; slug: string }>()
