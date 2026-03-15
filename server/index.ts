@@ -38,7 +38,7 @@ app.get('/arena/pair', async (c) => {
       byProvider.get(s.provider)!.push(s)
     }
 
-    const providers = [...byProvider.keys()]
+    const providers = [...byProvider.keys()].sort(() => Math.random() - 0.5)
     const listA = byProvider.get(providers[0])!
     const listB = byProvider.get(providers[1])!
     const songA = listA[Math.floor(Math.random() * listA.length)]

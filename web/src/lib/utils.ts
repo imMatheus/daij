@@ -29,7 +29,7 @@ export function getProviderImage(provider: string): string {
 }
 
 export const MYSTERY_IMAGE =
-  'https://cdn.midjourney.com/c3ba9b43-aa12-45d1-9233-9ac61c824036/0_0.png'
+  'https://cdn.midjourney.com/08c3727e-bd48-48bb-9328-cd7b5db6921a/0_0.png'
 
 export function formatDuration(seconds: number) {
   const mins = Math.floor(seconds / 60)
