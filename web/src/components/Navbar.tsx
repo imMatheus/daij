@@ -33,14 +33,15 @@ export function Navbar() {
       className={cn(
         'border-divider top-0 z-1 border-[0.5px] border-dashed bg-white/80 backdrop-blur-xl transition-all duration-300',
         isHome ? 'fixed w-full' : 'sticky',
-        scrolled
-          ? 'translate-y-0 opacity-100'
-          : '-translate-y-full opacity-0',
+        scrolled ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0',
       )}
     >
       <div className="px-5">
         <div className="mx-auto flex h-11 max-w-7xl items-center gap-6">
-          <Link to="/" className="text-primary text-sm font-bold tracking-wider">
+          <Link
+            to="/"
+            className="text-primary text-sm font-bold tracking-wider"
+          >
             DAIJ
           </Link>
           <div className="flex items-center gap-1">

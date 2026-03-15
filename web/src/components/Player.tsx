@@ -1,7 +1,12 @@
 import { useRef, useState } from 'react'
 import { Link } from 'react-router'
 import { useSongs } from '@/useSongs'
-import { getProviderImage, getSongPath, MYSTERY_IMAGE, providerLabel } from '@/lib/utils'
+import {
+  getProviderImage,
+  getSongPath,
+  MYSTERY_IMAGE,
+  providerLabel,
+} from '@/lib/utils'
 
 function formatTime(seconds: number) {
   const mins = Math.floor(seconds / 60)

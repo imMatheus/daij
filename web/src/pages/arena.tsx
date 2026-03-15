@@ -123,9 +123,7 @@ export const Arena = () => {
     <div className="min-h-screen bg-white">
       <div className="mx-auto w-full max-w-6xl">
         <header className="px-5 pt-6 pb-4">
-          <h1 className="text-primary text-3xl font-bold">
-            Arena
-          </h1>
+          <h1 className="text-primary text-3xl font-bold">Arena</h1>
           <p className="text-secondary mt-1 text-sm">
             Listen to two songs and pick your favorite
           </p>

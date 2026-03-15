@@ -40,9 +40,17 @@ export function Home() {
           src="https://cdn.midjourney.com/99c9da35-4609-4211-a78b-4bf70359c8b8/0_0.png"
           alt=""
           className="absolute inset-0 size-full object-cover"
-          style={{ animation: 'heroUnblur 2.4s cubic-bezier(0.16, 1, 0.3, 1) both' }}
+          style={{
+            animation: 'heroUnblur 2.4s cubic-bezier(0.16, 1, 0.3, 1) both',
+          }}
         />
-        <div className="pointer-events-none absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.1) 50%, transparent 100%)' }} />
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              'linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.1) 50%, transparent 100%)',
+          }}
+        />
         <style>
           {`
             @keyframes heroUnblur {
@@ -55,7 +63,10 @@ export function Home() {
           DAIJ
         </h1>
         <div className="relative flex gap-2">
-          <Link to="/arena" className="flex items-center gap-2 rounded-full bg-black px-5 py-3 text-lg font-medium text-white">
+          <Link
+            to="/arena"
+            className="flex items-center gap-2 rounded-full bg-black px-5 py-3 text-lg font-medium text-white"
+          >
             <svg
               className="size-5"
               viewBox="0 0 24 24"
@@ -71,7 +82,10 @@ export function Home() {
             </svg>
             Rank songs
           </Link>
-          <Link to="/leaderboard" className="flex items-center gap-2 rounded-full bg-black px-5 py-3 text-lg font-medium text-white">
+          <Link
+            to="/leaderboard"
+            className="flex items-center gap-2 rounded-full bg-black px-5 py-3 text-lg font-medium text-white"
+          >
             <svg
               className="size-5"
               viewBox="0 0 24 24"
@@ -94,7 +108,8 @@ export function Home() {
         <h3 className="text-center text-5xl font-semibold tracking-wide uppercase">
           See s
           <ClaudeAI className="inline-block size-7 -translate-y-1" />
-          ngs <br />fr
+          ngs <br />
+          fr
           <OpenAI className="inline-block size-7 -translate-y-1" />m m
           <Gemini className="inline-block size-7 -translate-y-1" />
           dels
@@ -148,7 +163,7 @@ function LatestSongs() {
   const displaySongs = songs?.slice(0, 16)
 
   return (
-    <section className="mt-20">
+    <section className="mt-10">
       <div className="mb-3">
         <Link
           to="/leaderboard"

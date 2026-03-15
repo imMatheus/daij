@@ -16,7 +16,9 @@ type ModelStats = {
 
 export const Leaderboard = () => {
   const [searchParams, setSearchParams] = useSearchParams()
-  const tab = (searchParams.get('tab') === 'models' ? 'models' : 'songs') as 'songs' | 'models'
+  const tab = (searchParams.get('tab') === 'models' ? 'models' : 'songs') as
+    | 'songs'
+    | 'models'
   const setTab = (t: 'songs' | 'models') => setSearchParams({ tab: t })
 
   const songsQuery = useQuery({
@@ -33,9 +35,7 @@ export const Leaderboard = () => {
     <div className="min-h-screen bg-white">
       <div className="mx-auto w-full max-w-6xl">
         <header className="px-5 pt-6 pb-4">
-          <h1 className="text-primary text-3xl font-bold">
-            Leaderboard
-          </h1>
+          <h1 className="text-primary text-3xl font-bold">Leaderboard</h1>
           <p className="text-secondary mt-1 text-sm">
             Rankings based on ELO scores
           </p>

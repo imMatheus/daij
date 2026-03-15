@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router'
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router'
 import { Home } from './pages/home'
 import { Provider } from './pages/provider'
 import { Arena } from './pages/arena'
@@ -7,10 +7,14 @@ import { Test } from './pages/test'
 import { SongPage } from './pages/song'
 import { Player } from './components/Player'
 import { Navbar } from './components/Navbar'
+import { Footer } from './components/Footer'
 
-function App() {
+function AppContent() {
+  const { pathname } = useLocation()
+  const showFooter = pathname !== '/arena'
+
   return (
-    <BrowserRouter>
+    <>
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -20,7 +24,16 @@ function App() {
         <Route path="/:provider/:slug" element={<SongPage />} />
         <Route path="/:provider" element={<Provider />} />
       </Routes>
+      {showFooter && <Footer />}
       <Player />
+    </>
+  )
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <AppContent />
     </BrowserRouter>
   )
 }

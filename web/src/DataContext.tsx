@@ -74,7 +74,9 @@ export const SongsProvider = ({ children }: { children: ReactNode }) => {
         currentSongRef.current
       ) {
         listenSentRef.current = true
-        postJson(`/songs/${currentSongRef.current.id}/listen`, {}).catch(() => {})
+        postJson(`/songs/${currentSongRef.current.id}/listen`, {}).catch(
+          () => {},
+        )
       }
     }
     const onLoadedMetadata = () => setDuration(audio.duration)
