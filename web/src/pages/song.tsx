@@ -46,27 +46,18 @@ export const SongPage = () => {
     <div className="min-h-screen bg-white">
       <div className="mx-auto w-full max-w-6xl">
         <header className="px-5 pt-6 pb-4">
-          <div className="flex items-center gap-2">
-            <Link
-              to="/"
-              className="text-secondary hover:text-primary transition-colors"
-              style={{ font: '400 12px/1.25 var(--font-sans)' }}
-            >
-              Home
-            </Link>
-            {song && (
-              <>
-                <span className="text-tertiary">/</span>
-                <Link
-                  to={`/${provider}`}
-                  className="text-secondary hover:text-primary transition-colors"
-                  style={{ font: '400 12px/1.25 var(--font-sans)' }}
-                >
-                  {providerLabel(provider!)}
-                </Link>
-              </>
-            )}
-          </div>
+          {song && (
+            <div className="flex items-center gap-2 text-xs">
+              <Link
+                to={`/${provider}`}
+                className="text-secondary hover:text-primary transition-colors"
+              >
+                {providerLabel(provider!)}
+              </Link>
+              <span className="text-tertiary">/</span>
+              <span className="text-primary">{song.name}</span>
+            </div>
+          )}
         </header>
 
         {!songs ? (

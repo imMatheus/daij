@@ -1,6 +1,5 @@
-import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { Link } from 'react-router'
+import { Link, useSearchParams } from 'react-router'
 import { fetchJson } from '@/lib/api'
 import type { Song } from '@/songs'
 import { cn, providerLabel } from '@/lib/utils'
@@ -16,7 +15,9 @@ type ModelStats = {
 }
 
 export const Leaderboard = () => {
-  const [tab, setTab] = useState<'songs' | 'models'>('songs')
+  const [searchParams, setSearchParams] = useSearchParams()
+  const tab = (searchParams.get('tab') === 'models' ? 'models' : 'songs') as 'songs' | 'models'
+  const setTab = (t: 'songs' | 'models') => setSearchParams({ tab: t })
 
   const songsQuery = useQuery({
     queryKey: ['leaderboard-songs'],
@@ -32,23 +33,10 @@ export const Leaderboard = () => {
     <div className="min-h-screen bg-white">
       <div className="mx-auto w-full max-w-6xl">
         <header className="px-5 pt-6 pb-4">
-          <Link
-            to="/"
-            className="text-secondary hover:text-primary transition-colors"
-            style={{ font: '400 12px/1.25 var(--font-sans)' }}
-          >
-            &larr; Home
-          </Link>
-          <h1
-            className="text-primary mt-2"
-            style={{ font: '700 34px/1.176 var(--font-sans)' }}
-          >
+          <h1 className="text-primary text-3xl font-bold">
             Leaderboard
           </h1>
-          <p
-            className="text-secondary mt-1"
-            style={{ font: '400 13px/1.23 var(--font-sans)' }}
-          >
+          <p className="text-secondary mt-1 text-sm">
             Rankings based on ELO scores
           </p>
         </header>

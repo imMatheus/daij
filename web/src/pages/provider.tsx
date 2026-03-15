@@ -42,21 +42,9 @@ export const Provider = () => {
 
   if (!meta) {
     return (
-      <div className="min-h-screen bg-white">
-        <div className="mx-auto w-full max-w-6xl">
-          <header className="px-5 pt-6 pb-4">
-            <Link
-              to="/"
-              className="text-secondary hover:text-primary transition-colors"
-              style={{ font: '400 12px/1.25 var(--font-sans)' }}
-            >
-              &larr; Home
-            </Link>
-          </header>
-          <p
-            className="text-secondary px-5 pb-6"
-            style={{ font: '400 13px/1.23 var(--font-sans)' }}
-          >
+      <div className="min-h-screen px-5 pt-12">
+        <div className="mx-auto w-full max-w-7xl">
+          <p className="text-secondary px-5 py-12 text-center text-sm">
             Provider not found.
           </p>
         </div>
@@ -69,20 +57,10 @@ export const Provider = () => {
   const coverImage = getProviderImage(provider)
 
   return (
-    <div className="min-h-screen bg-white">
-      <div className="mx-auto w-full max-w-6xl">
-        <header className="px-5 pt-6 pb-4">
-          <Link
-            to="/"
-            className="text-secondary hover:text-primary transition-colors"
-            style={{ font: '400 12px/1.25 var(--font-sans)' }}
-          >
-            &larr; Home
-          </Link>
-        </header>
-
+    <div className="min-h-screen px-5 pt-12">
+      <div className="mx-auto w-full max-w-7xl">
         {/* Hero */}
-        <div className="flex gap-5 px-5 pb-6">
+        <div className="flex gap-5 pb-6">
           <img
             src={coverImage}
             alt={meta.label}
@@ -120,7 +98,7 @@ export const Provider = () => {
 
         {/* Actions */}
         {providerSongs.length > 0 && (
-          <div className="flex items-center gap-3 px-5 pb-6">
+          <div className="flex items-center gap-3 pb-6">
             <Button onClick={() => play(providerSongs[0], providerSongs)}>
               <PlayIcon className="size-3.5" />
               Play all

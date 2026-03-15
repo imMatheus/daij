@@ -123,23 +123,10 @@ export const Arena = () => {
     <div className="min-h-screen bg-white">
       <div className="mx-auto w-full max-w-6xl">
         <header className="px-5 pt-6 pb-4">
-          <Link
-            to="/"
-            className="text-secondary hover:text-primary transition-colors"
-            style={{ font: '400 12px/1.25 var(--font-sans)' }}
-          >
-            &larr; Home
-          </Link>
-          <h1
-            className="text-primary mt-2"
-            style={{ font: '700 34px/1.176 var(--font-sans)' }}
-          >
+          <h1 className="text-primary text-3xl font-bold">
             Arena
           </h1>
-          <p
-            className="text-secondary mt-1"
-            style={{ font: '400 13px/1.23 var(--font-sans)' }}
-          >
+          <p className="text-secondary mt-1 text-sm">
             Listen to two songs and pick your favorite
           </p>
         </header>

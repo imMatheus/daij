@@ -6,10 +6,12 @@ import { Leaderboard } from './pages/leaderboard'
 import { Test } from './pages/test'
 import { SongPage } from './pages/song'
 import { Player } from './components/Player'
+import { Navbar } from './components/Navbar'
 
 function App() {
   return (
     <BrowserRouter>
+      <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/test" element={<Test />} />
