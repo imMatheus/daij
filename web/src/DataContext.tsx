@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import type { Song } from './songs'
 import { SongsContext } from './useSongs'
+import { postJson } from './lib/api'
 
 export const SongsProvider = ({ children }: { children: ReactNode }) => {
   const [songs, setSongs] = useState<Song[] | null>(null)
@@ -15,6 +16,8 @@ export const SongsProvider = ({ children }: { children: ReactNode }) => {
   const queueRef = useRef<Song[]>([])
   const currentSongRef = useRef<Song | null>(null)
   const loopRef = useRef(false)
+  const listenSentRef = useRef(false)
+  const continuousStartRef = useRef<number | null>(null)
 
   useEffect(() => {
     queueRef.current = queue
@@ -47,6 +50,9 @@ export const SongsProvider = ({ children }: { children: ReactNode }) => {
     const audio = audioRef.current
     if (!audio) return
 
+    listenSentRef.current = false
+    continuousStartRef.current = Date.now()
+
     setCurrentTime(0)
     setDuration(0)
     audio.src = song.audioUrl
@@ -59,7 +65,18 @@ export const SongsProvider = ({ children }: { children: ReactNode }) => {
     const audio = new Audio()
     audioRef.current = audio
 
-    const onTimeUpdate = () => setCurrentTime(audio.currentTime)
+    const onTimeUpdate = () => {
+      setCurrentTime(audio.currentTime)
+      if (
+        !listenSentRef.current &&
+        continuousStartRef.current !== null &&
+        Date.now() - continuousStartRef.current >= 3000 &&
+        currentSongRef.current
+      ) {
+        listenSentRef.current = true
+        postJson(`/songs/${currentSongRef.current.id}/listen`, {}).catch(() => {})
+      }
+    }
     const onLoadedMetadata = () => setDuration(audio.duration)
     const onEnded = () => {
       const q = queueRef.current
@@ -107,11 +124,15 @@ export const SongsProvider = ({ children }: { children: ReactNode }) => {
 
   const pause = () => {
     audioRef.current?.pause()
+    continuousStartRef.current = null
     setIsPlaying(false)
   }
 
   const resume = () => {
     audioRef.current?.play()
+    if (!listenSentRef.current) {
+      continuousStartRef.current = Date.now()
+    }
     setIsPlaying(true)
   }
 

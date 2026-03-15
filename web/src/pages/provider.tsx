@@ -125,6 +125,7 @@ export const Provider = () => {
           >
             <span className="w-8 shrink-0 text-center">#</span>
             <span className="ml-3 flex-1">Title</span>
+            <span className="w-14 shrink-0 text-right">Listens</span>
             <span className="w-14 shrink-0 text-right">Wins</span>
             <span className="w-14 shrink-0 text-right">ELO</span>
             <span className="w-14 shrink-0 text-right">Time</span>
@@ -157,6 +158,9 @@ export const Provider = () => {
                     className="flex items-center"
                     style={{ font: '400 12px/1.25 var(--font-sans)' }}
                   >
+                    <span className="text-secondary w-14 shrink-0 text-right">
+                      {song.listens}
+                    </span>
                     <span className="text-secondary w-14 shrink-0 text-right">
                       {song.wins}
                     </span>

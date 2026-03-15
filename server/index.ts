@@ -1,8 +1,9 @@
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 import { db } from './db'
-import { songs, votes } from './db/schema'
-import { eq, ne, sql, desc, isNotNull, sum, count, avg } from 'drizzle-orm'
+import { songs, votes, listens } from './db/schema'
+import { eq, ne, sql, desc, isNotNull, sum, count, avg, and, gte } from 'drizzle-orm'
+import { getConnInfo } from 'hono/bun'
 
 const app = new Hono()
 
@@ -97,6 +98,37 @@ app.post('/arena/vote', async (c) => {
     .where(eq(songs.id, songBId))
 
   await db.insert(votes).values({ songAId, songBId, outcome })
+
+  return c.json({ ok: true })
+})
+
+app.post('/songs/:id/listen', async (c) => {
+  const songId = Number(c.req.param('id'))
+  const ip = c.req.header('x-forwarded-for')?.split(',')[0]?.trim()
+    || getConnInfo(c).remote.address
+    || 'unknown'
+
+  const oneMinuteAgo = new Date(Date.now() - 60 * 1000)
+  const [result] = await db
+    .select({ recentCount: sql`COUNT(*)`.mapWith(Number) })
+    .from(listens)
+    .where(
+      and(
+        eq(listens.songId, songId),
+        eq(listens.ip, ip),
+        gte(listens.createdAt, oneMinuteAgo),
+      ),
+    )
+
+  if (result?.recentCount && result.recentCount >= 5) {
+    return c.json({ error: 'Rate limited' }, 429)
+  }
+
+  await db.insert(listens).values({ songId, ip })
+  await db
+    .update(songs)
+    .set({ listens: sql`${songs.listens} + 1` })
+    .where(eq(songs.id, songId))
 
   return c.json({ ok: true })
 })

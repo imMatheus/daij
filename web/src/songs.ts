@@ -8,4 +8,5 @@ export type Song = {
   totalVotes: number
   wins: number
   prompt: string | null
+  listens: number
 }
