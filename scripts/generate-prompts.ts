@@ -1,3 +1,10 @@
+// generate-prompts.ts
+// Generates 100 music composition prompts across 5 categories (mood, genre,
+// artist-style, scenario, concept) and writes them to data/prompts.json.
+// These prompts are used by generate-songs.ts to feed AI providers.
+//
+// Usage: bun scripts/generate-prompts.ts
+
 import { resolve, dirname } from "path"
 
 const PROJECT_ROOT = resolve(dirname(new URL(import.meta.url).pathname), "..")

@@ -1,3 +1,9 @@
+// renderer.ts
+// Core rendering engine. Opens strudel.cc in a headless browser via Puppeteer,
+// injects Strudel code through the CodeMirror API, captures audio output by
+// monkey-patching AudioNode, and encodes the result as a 48kHz stereo WAV file.
+// Also exports estimateDuration() to guess song length from code comments/BPM.
+
 import puppeteer, { type Page } from "puppeteer"
 import { writeFileSync } from "fs"
 

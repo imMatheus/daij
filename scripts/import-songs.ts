@@ -1,3 +1,10 @@
+// import-songs.ts
+// Imports song metadata into the database (Drizzle ORM). Scans provider
+// directories for .wav files, extracts duration and song name, and inserts
+// new entries. Skips songs that already exist in the database.
+//
+// Usage: bun scripts/import-songs.ts
+
 import { resolve, dirname, basename } from "path"
 import { existsSync, readdirSync } from "fs"
 import { eq, and } from "drizzle-orm"

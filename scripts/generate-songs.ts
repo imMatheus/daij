@@ -1,3 +1,10 @@
+// generate-songs.ts
+// Takes prompts from data/prompts.json, combines them with the Strudel system
+// prompt, and sends them to AI providers (Claude, ChatGPT, Gemini) to generate
+// Strudel.cc music code. Outputs .txt files to web/public/{provider}/.
+//
+// Usage: bun scripts/generate-songs.ts --provider claude|chatgpt|gemini|all [--concurrency 3] [--start 0] [--dry-run]
+
 import { resolve, dirname } from "path"
 import { existsSync, mkdirSync } from "fs"
 
@@ -24,8 +31,8 @@ function parseArgs() {
 
   const dryRun = args.includes("--dry-run")
 
-  if (!["claude", "chatgpt", "all"].includes(provider)) {
-    console.error("--provider must be claude, chatgpt, or all")
+  if (!["claude", "chatgpt", "gemini", "all"].includes(provider)) {
+    console.error("--provider must be claude, chatgpt, gemini, or all")
     process.exit(1)
   }
 
@@ -56,6 +63,11 @@ async function generateWithProvider(
     } else {
       throw new Error("Codex did not create the output file")
     }
+  } else if (provider === "gemini") {
+    const result =
+      await Bun.$`gemini -p ${fullPrompt}`.text()
+    const cleaned = cleanOutput(result)
+    await Bun.write(outputPath, cleaned)
   } else {
     throw new Error(`Unknown provider: ${provider}`)
   }
@@ -82,7 +94,7 @@ async function main() {
   )
   const systemPrompt = await Bun.file(SYSTEM_PROMPT_PATH).text()
 
-  const providers = provider === "all" ? ["claude", "chatgpt"] : [provider]
+  const providers = provider === "all" ? ["claude", "chatgpt", "gemini"] : [provider]
 
   // Build list of all tasks to run
   type Task = { prov: string; prompt: Prompt; outputPath: string; fullPrompt: string }

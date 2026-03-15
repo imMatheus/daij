@@ -1,3 +1,9 @@
+// render-song.ts
+// Renders a single Strudel .txt file to .wav audio using Puppeteer + strudel.cc.
+// Useful for re-rendering individual songs or testing.
+//
+// Usage: bun scripts/render-song.ts <song-name> [--provider claude|chatgpt|gemini] [--duration <seconds>]
+
 import { readFileSync, existsSync } from "fs"
 import { resolve, dirname } from "path"
 import { renderSong, estimateDuration } from "./lib/renderer"

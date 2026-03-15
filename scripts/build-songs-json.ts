@@ -1,3 +1,10 @@
+// build-songs-json.ts
+// Builds a metadata manifest (data/songs.json) from rendered songs. Finds all
+// .wav files across provider directories, extracts song names from code comments,
+// reads WAV duration, and maps slugs back to prompt text.
+//
+// Usage: bun scripts/build-songs-json.ts
+
 import { resolve, dirname, basename } from "path"
 import { existsSync, readdirSync } from "fs"
 
@@ -5,7 +12,7 @@ const PROJECT_ROOT = resolve(dirname(new URL(import.meta.url).pathname), "..")
 const PROMPTS_PATH = resolve(PROJECT_ROOT, "data/prompts.json")
 const PUBLIC_DIR = resolve(PROJECT_ROOT, "web/public")
 const OUTPUT_PATH = resolve(PROJECT_ROOT, "data/songs.json")
-const PROVIDERS = ["claude", "chatgpt"] as const
+const PROVIDERS = ["claude", "chatgpt", "gemini"] as const
 
 type PromptEntry = { slug: string; text: string; category: string }
 
@@ -54,8 +61,8 @@ async function main() {
         .map((f) => basename(f, ".wav")),
     )
   })
-  const commonSlugs = [...slugsByProvider[0]].filter((s) => slugsByProvider[1].has(s)).sort()
-  console.log(`Found ${commonSlugs.length} songs present in both providers`)
+  const commonSlugs = [...slugsByProvider[0]].filter((s) => slugsByProvider.every((set) => set.has(s))).sort()
+  console.log(`Found ${commonSlugs.length} songs present in all ${PROVIDERS.length} providers`)
 
   const songs: SongEntry[] = []
 

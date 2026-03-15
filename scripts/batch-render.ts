@@ -1,3 +1,9 @@
+// batch-render.ts
+// Finds all Strudel .txt files that don't have a corresponding .wav and renders
+// them to audio using Puppeteer + strudel.cc. Processes in parallel batches.
+//
+// Usage: bun scripts/batch-render.ts [--provider claude|chatgpt|gemini] [--concurrency 3]
+
 import { existsSync, readdirSync } from "fs"
 import { readFileSync } from "fs"
 import { resolve, dirname, basename } from "path"
@@ -12,14 +18,24 @@ function parseArgs() {
   const args = process.argv.slice(2)
   const ci = args.indexOf("--concurrency")
   const concurrency = ci !== -1 ? parseInt(args[ci + 1], 10) : DEFAULT_CONCURRENCY
-  return { concurrency }
+
+  const pi = args.indexOf("--provider")
+  const provider = pi !== -1 ? args[pi + 1] : undefined
+
+  if (provider && !PROVIDERS.includes(provider)) {
+    console.error(`--provider must be one of: ${PROVIDERS.join(", ")}`)
+    process.exit(1)
+  }
+
+  return { concurrency, provider }
 }
 
 async function main() {
-  const { concurrency } = parseArgs()
+  const { concurrency, provider } = parseArgs()
   const toRender: { provider: string; slug: string; txtPath: string; wavPath: string }[] = []
+  const providers = provider ? [provider] : PROVIDERS
 
-  for (const provider of PROVIDERS) {
+  for (const provider of providers) {
     const provDir = resolve(PUBLIC_DIR, provider)
     if (!existsSync(provDir)) continue
 
