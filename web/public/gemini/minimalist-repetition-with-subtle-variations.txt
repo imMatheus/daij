@@ -1,0 +1,47 @@
+// 🎵 "Steady State" — Minimalist Electronic
+// At 105 BPM: intro(8) + building(16) + core(24) + variation(24) + outro(8) = 80 bars ≈ 3:03
+
+setcpm(105 / 4)
+
+$: s("vinyl:1").gain(.12).room(1).loop(1).lpf(sine.range(600, 1800).slow(16))
+
+$: arrange(
+  [8,  s("hh*4").gain(perlin.range(.2, .4))],
+  [16, s("bd ~ ~ ~, hh*8").bank("RolandTR808").gain(".8 .3").room(.2)],
+  [24, s("bd ~ bd ~, hh*16, ~ sd:2 ~ ~").bank("RolandTR808").gain(".85 .3 .7").cut(1).swing(2)],
+  [24, s("bd ~ bd ~, hh*16, ~ sd:2 ~ sd:2").bank("RolandTR808").gain(".9 .35 .8").cut(1).every(8, x=>x.fast(2))],
+  [8,  s("hh*4").gain(saw.slow(8).range(.3, 0))]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, note("<c2 g1>").s("gm_acoustic_bass").decay(.4).gain(.7)],
+  [24, note("<c2 g1 f1 g1>").s("gm_acoustic_bass").struct("x ~ x ~").decay(.3).gain(.75)],
+  [24, note("<c2 g1 f1 g1>").s("gm_acoustic_bass").struct("x x ~ x").decay(.2).gain(.8).sometimes(x=>x.add(note(12)))],
+  [8,  note("c2").s("gm_acoustic_bass").decay(1).gain(saw.slow(8).range(.6, 0))]
+)
+
+$: arrange(
+  [8,  n("c4 e4 g4 b4").s("gm_marimba").gain(.4).room(.5).delay(".4:.2:.3")],
+  [16, n("c4 e4 g4 b4").s("gm_marimba").struct("x x x x").gain(.5).room(.4).delay(".3:.2:.3")],
+  [24, n("c4 e4 g4 b4").s("gm_marimba").struct("x x x x").fast(2).gain(.55).room(.3).every(6, x=>x.rev())],
+  [24, n("c4 e4 g4 b4").s("gm_marimba").struct("x x x x").fast(2).gain(.6).room(.3).sometimes(x=>x.add(note(12)))],
+  [8,  n("c4").s("gm_marimba").gain(saw.slow(8).range(.4, 0)).room(.8)]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, chord("<Cmaj9 G13>").dict('ireal').voicing().s("gm_synth_strings_1").attack(2).gain(.2).room(.8)],
+  [24, chord("<Cmaj9 G13 Fmaj9 G7>").dict('ireal').voicing().s("gm_synth_strings_1").attack(1.5).gain(.25).lpf(sine.range(800, 2000).slow(12))],
+  [24, chord("<Cmaj9 G13 Fmaj9 G7>").dict('ireal').voicing().s("gm_synth_strings_1").attack(1).gain(.3).room(.6)],
+  [8,  chord("Cmaj9").dict('ireal').voicing().s("gm_synth_strings_1").attack(3).gain(saw.slow(8).range(.2, 0))]
+)
+
+$: arrange(
+  [24, silence],
+  [24, n("c6 d6 e6 g6").scale("C5:major").s("gm_glockenspiel").struct("~ ~ ~ x").gain(.3).room(.9).delay(".5:.5:.6")],
+  [24, n("c6 d6 e6 g6").scale("C5:major").s("gm_glockenspiel").struct("~ x ~ x").gain(.35).room(.8).delay(".4:.4:.5").sometimes(x=>x.fast(2))],
+  [8,  silence]
+)
+
+$: n("<c1 g0 f0 g0>/4").s("sine").attack(2).sustain(1).release(2).gain(.2).lpf(150)

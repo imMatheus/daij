@@ -1,0 +1,43 @@
+// 🎵 "The Empty Horizon" — Dark Ambient Soundscape
+// At 84 BPM: intro(8) + voidA(24) + transition(16) + voidB(24) + fading(12) = 84 bars ≈ 4:00
+
+setcpm(84 / 4)
+
+$: s("vinyl:2").gain(.12).room(1).loop(1).lpf(1800).pan(sine.slow(12))
+
+$: arrange(
+  [8,  silence],
+  [24, s("bd(1,16)").bank("RolandTR808").lpf(150).room(.9).gain(.3)],
+  [16, s("bd(1,8)").bank("RolandTR808").lpf(120).room(.8).gain(.25)],
+  [24, s("bd(1,16)").bank("RolandTR808").lpf(150).room(.9).gain(.3)],
+  [12, silence]
+)
+
+$: arrange(
+  [8,  note("c1").s("sine").attack(4).release(4).gain(.15).room(.7)],
+  [76, note("<c1 g0 eb1 c0>/2").s("sine").attack(6).release(6).gain(.2).room(.8).lpf(300)]
+)
+
+$: arrange(
+  [8,  silence],
+  [24, chord("<Cm9 Abmaj7#11>/4").dict('ireal').voicing().s("gm_synth_strings_1").attack(4).release(6).gain(.25).room(.9).lpf(sine.range(400,1200).slow(16))],
+  [16, chord("<Cm9 Dm7b5 G7alt Cm9>/4").dict('ireal').voicing().s("gm_synth_strings_1").attack(2).release(4).gain(.3).room(.8).lpf(1500)],
+  [24, chord("<Cm9 Abmaj7#11>/4").dict('ireal').voicing().s("gm_synth_strings_1").attack(4).release(6).gain(.2).room(.9).lpf(sine.range(300,1000).slow(16))],
+  [12, silence]
+)
+
+$: arrange(
+  [12, silence],
+  [20, n("<[~ 0 ~ ~] [~ ~ 7 ~] [~ 3 ~ ~] [~ ~ ~ 10]>").scale("C5:minor").s("gm_celesta").gain(.2).room(.9).delay(".5:.4:.6").lpf(3000)],
+  [16, silence],
+  [24, n("<[~ 12 ~ ~] [~ ~ 15 ~] [~ 10 ~ ~] [~ ~ ~ 7]>").scale("C5:minor").s("gm_celesta").gain(.15).room(.95).delay(".6:.5:.7").lpf(2500)],
+  [12, silence]
+)
+
+$: arrange(
+  [16, silence],
+  [16, note("<c4 eb4 g4 f4>/4").s("gm_flute").attack(3).release(3).room(1).delay(".8:.7:.8").gain(.1).lpf(1200)],
+  [52, silence]
+)
+
+$: s("sine").freq(sine.range(40, 42).slow(32)).gain(.08).room(.9).lpf(80)

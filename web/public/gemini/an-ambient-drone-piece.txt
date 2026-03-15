@@ -1,0 +1,43 @@
+// 🎵 "Timeless Void" — Ambient Drone
+// At 120 BPM: intro(16) + expansion(24) + core(24) + drift(16) + resolution(8) = 88 bars ≈ 2:56
+
+setcpm(120 / 4)
+
+$: s("vinyl:2").gain(.1).room(1).loop(1).lpf(sine.slow(20).range(800, 2500))
+
+$: arrange(
+  [16, note("<f1 ~ ~ ~>/4").s("sine").lpf(150).attack(8).release(8).gain(.2).room(1).roomsize(10)],
+  [24, note("<f1 g1 f1 eb1>/4").s("sine").lpf(sine.slow(12).range(120, 300)).attack(4).release(4).gain(.25).room(1).roomsize(12)],
+  [24, note("<f1 g1 f1 eb1>/4").s("sine").lpf(sine.slow(12).range(120, 300)).attack(4).release(4).gain(.28).room(1).roomsize(12)],
+  [16, note("<f1 ~ ~ ~>/4").s("sine").lpf(150).attack(8).release(8).gain(.2).room(1).roomsize(10)],
+  [8,  note("f1").s("sine").lpf(100).attack(4).release(12).gain(saw.slow(8).range(.15, 0)).room(1)]
+)
+
+$: arrange(
+  [16, silence],
+  [24, chord("<Fm9 G7sus4 Fm9 Ebmaj7>/4").dict('ireal').voicing().s("gm_synth_strings_1").attack(10).release(10).gain(.15).lpf(800).room(1)],
+  [24, chord("<Fm9 G7sus4 Fm9 Ebmaj7>/4").dict('ireal').voicing().s("gm_synth_strings_1").attack(8).release(8).gain(.2).lpf(sine.slow(16).range(600, 1500)).room(1).roomsize(8)],
+  [16, chord("<Fm9 ~ ~ ~>/4").dict('ireal').voicing().s("gm_synth_strings_1").attack(12).release(12).gain(.12).lpf(600).room(1)],
+  [8,  silence]
+)
+
+$: arrange(
+  [16, silence],
+  [24, n("<[~ 0 ~ 3] [~ 7 ~ 5] [~ 3 ~ 0] [~ -2 ~ ~]>/2").scale("F3:minor").s("gm_flute").attack(6).release(10).gain(.1).room(1).delay(".8:.6:.5")],
+  [24, n("<[~ 7 ~ 10] [~ 12 ~ 7] [~ 5 ~ 3] [~ 0 ~ ~]>/2").scale("F4:minor").s("gm_flute").attack(5).release(8).gain(.12).room(1).delay(".9:.7:.6")],
+  [16, n("<[~ 0 ~ ~] [~ ~ ~ ~] [~ ~ ~ ~] [~ ~ ~ ~]>/2").scale("F3:minor").s("gm_flute").attack(10).release(15).gain(.08).room(1)],
+  [8,  silence]
+)
+
+$: arrange(
+  [40, silence],
+  [24, n("0*8").scale("F5:minor").sometimes(x => x.add(note("<7 12 15>"))).s("gm_epiano2").struct("x ~ ~ ~ ~ ~ ~ ~").gain(perlin.range(0, .08)).room(1).delay("1.2:0.8:0.8").lpf(2500)],
+  [24, silence]
+)
+
+$: arrange(
+  [16, silence],
+  [24, s("sine").gain(perlin.range(0, .15)).lpf(sine.slow(30).range(50, 4000)).room(.9).detune(sine.slow(10).range(-10, 10))],
+  [24, s("sine").gain(perlin.range(0, .2)).lpf(sine.slow(25).range(100, 5000)).room(.9).detune(sine.slow(12).range(-20, 20))],
+  [24, silence]
+)

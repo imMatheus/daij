@@ -1,0 +1,50 @@
+// 🎵 "The Accelerator" — Progressive Techno
+// At 90-225 BPM: intro(8) + verse1(16) + chorus1(16) + verse2(16) + chorus2(16) + climax(16) + outro(8) = 96 bars ≈ 2:15
+
+setcpm(90 / 4)
+
+$: arrange(
+  [8,  s("bd ~ ~ ~").bank("RolandTR909").gain(.8)],
+  [16, s("bd ~ sd ~").bank("RolandTR909").gain(.8)],
+  [16, s("bd ~ sd ~, hh*4").bank("RolandTR909").gain(".8 .7")],
+  [16, s("bd ~ sd ~, hh*8").bank("RolandTR909").gain(".8 .6")],
+  [16, s("bd bd sd sd, [hh oh]*4").bank("RolandTR909").cut(1).gain(".9 .8")],
+  [16, s("bd*4, [~ sd]*2, [hh oh]*8").bank("RolandTR909").cut(1).gain(".9 .85")],
+  [8,  s("bd ~ ~ ~").bank("RolandTR909").gain(saw.slow(8).range(.8, 0))]
+).fast(saw.range(1, 2.5).slow(96))
+
+$: arrange(
+  [8,  silence],
+  [16, n("<e1 g1 a1 b1>").s("gm_synth_bass_1").gain(.7).decay(.1)],
+  [16, n("<e1 g1 a1 b1>").s("gm_synth_bass_1").struct("x(3,8)").gain(.75).decay(.1)],
+  [16, n("<e1 g1 a1 b1>").s("gm_synth_bass_1").struct("x*4").gain(.8).decay(.1)],
+  [16, n("<e1 g1 a1 b1>").s("gm_synth_bass_1").struct("x*8").gain(.85).decay(.1)],
+  [16, n("<e1 g1 a1 b1>").s("gm_synth_bass_1").struct("x*16").gain(.9).decay(.1)],
+  [8,  n("e1").s("gm_synth_bass_1").gain(saw.slow(8).range(.7, 0))]
+).fast(saw.range(1, 2.5).slow(96))
+
+$: arrange(
+  [24, silence],
+  [16, chord("<Em7 Am7 Dm7 G7>").s("gm_epiano2").struct("x ~ ~ ~").gain(.5).room(.5)],
+  [16, chord("<Em7 Am7 Dm7 G7>").s("gm_epiano2").struct("x ~ x ~").gain(.55).room(.4)],
+  [16, chord("<Em7 Am7 Dm7 G7>").s("gm_epiano2").struct("x x x x").gain(.6).room(.3)],
+  [16, chord("<Em7 Am7 Dm7 G7>").s("gm_epiano2").struct("x*8").gain(.65).room(.2)],
+  [8,  silence]
+).fast(saw.range(1, 2.5).slow(96))
+
+$: arrange(
+  [40, silence],
+  [16, n("0 3 7 10").scale("E4:minor").s("sawtooth").gain(.3).jux(rev).delay(".1:.1:.2")],
+  [16, n("0 3 7 10 12 15 19 22").scale("E4:minor").s("sawtooth").gain(.4).jux(rev).delay(".1:.1:.3")],
+  [16, n("0 3 7 10 12 15 19 22").scale("E4:minor").s("sawtooth").fast(2).gain(.5).jux(rev).delay(".1:.1:.4")],
+  [8,  silence]
+).fast(saw.range(1, 2.5).slow(96))
+
+$: arrange(
+  [56, silence],
+  [16, n("e3*16").s("square").lpf(saw.range(400, 4000).slow(1)).gain(.25).room(.5)],
+  [16, n("e3*16").s("square").lpf(saw.range(1000, 8000).slow(0.5)).gain(.35).room(.4)],
+  [8,  silence]
+).fast(saw.range(1, 2.5).slow(96))
+
+$: s("noise").gain(saw.range(0.05, 0.15).slow(96)).lpf(saw.range(1000, 6000).slow(96)).fast(saw.range(1, 2.5).slow(96))

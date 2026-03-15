@@ -1,0 +1,56 @@
+// 🎵 "Midnight Blue" — Jazz Ballad with Walking Bass
+// At 70 BPM: intro(8) + verse(16) + chorus(16) + verse2(16) + bridge(12) + chorus2(16) + outro(8) = 92 bars ≈ 5:15
+
+setcpm(70 / 4)
+
+$: s("vinyl:2").gain(.12).room(1).loop(1).lpf(2500)
+
+$: arrange(
+  [8,  s("~ [hh,oh] ~ hh").bank("RolandTR909").gain(perlin.range(.1, .3)).room(.6).swing(4)],
+  [16, s("bd ~ ~ ~, ~ ~ sd:1 ~, [hh hh hh oh]").bank("RolandTR909").gain(".6 .5 .4 .5").room(.4).swing(6)],
+  [16, s("bd ~ bd ~, ~ sd:1 ~ sd:1, [hh oh hh hh]*2").bank("RolandTR909").gain(".7 .6 .65 .6").room(.35).swing(6)],
+  [16, s("bd ~ ~ ~, ~ ~ sd:1 ~, [hh hh hh oh]").bank("RolandTR909").gain(".6 .5 .4 .5").room(.4).swing(6)],
+  [12, s("bd(3,8), ~ [sd:1,cp] ~ ~, [hh hh oh]*2").bank("RolandTR909").gain(".75 .65").room(.3).swing(5)],
+  [16, s("bd ~ bd ~, ~ sd:1 ~ sd:1, [hh oh hh hh]*2").bank("RolandTR909").gain(".7 .6 .65 .6").room(.35).swing(6)],
+  [8,  s("~ ~ ~ ~, ~ ~ sd:1 ~").bank("RolandTR909").gain(saw.slow(8).range(.4,.05)).room(.8)]
+)
+
+$: arrange(
+  [8,  note("<f1 a1 c2 e2>").s("gm_acoustic_bass").decay(.6).gain(.7).room(.3)],
+  [16, note("<f1 g1 a1 bb1> <c2 d2 eb2 e2> <f1 a1 d2 g1> <c2 bb1 a1 g1>").s("gm_acoustic_bass").decay(.4).sustain(.5).gain(.85).room(.2)],
+  [16, note("<f1 a1 d2 g1> <c2 e2 f2 g2> <a2 g2 f2 e2> <d2 c2 bb1 a1>").s("gm_acoustic_bass").decay(.35).sustain(.55).gain(.9).room(.2)],
+  [16, note("<f1 g1 a1 bb1> <c2 d2 eb2 e2> <f1 a1 d2 g1> <c2 bb1 a1 g1>").s("gm_acoustic_bass").decay(.4).sustain(.5).gain(.85).room(.2)],
+  [12, note("<d2 e2 f2 g2> <a2 g2 f2 e2> <eb2 d2 db2 c2>").s("gm_acoustic_bass").decay(.3).sustain(.6).gain(.9).room(.2)],
+  [16, note("<f1 a1 d2 g1> <c2 e2 f2 g2> <a2 g2 f2 e2> <d2 c2 bb1 a1>").s("gm_acoustic_bass").decay(.35).sustain(.55).gain(.9).room(.2)],
+  [8,  note("f1").s("gm_acoustic_bass").decay(4).gain(.7).room(.5)]
+)
+
+$: arrange(
+  [8,  chord("<Fmaj9 Dm11>/2").dict('ireal').voicing().s("gm_epiano2").attack(.5).room(.7).gain(.4)],
+  [16, chord("<Fmaj9 Dm11 Gm9 C7b9>").dict('ireal').voicing().s("gm_epiano2").struct("~ x ~ [~ x]").room(.5).delay(".3:.2:.3").gain(.55).speed(.99)],
+  [16, chord("<Fmaj9 D7b9 Gm9 C13>").dict('ireal').voicing().s("gm_epiano2").struct("[~ x] x ~ x").room(.45).delay(".2:.15:.25").gain(.6).speed(.98)],
+  [16, chord("<Fmaj9 Dm11 Gm9 C7b9>").dict('ireal').voicing().s("gm_epiano2").struct("~ x ~ [~ x]").room(.5).delay(".3:.2:.3").gain(.55).speed(.99)],
+  [12, chord("<Bbmaj7 Bdim7 Fmaj7/A D7b9>").dict('ireal').voicing().s("gm_epiano2").struct("x ~ x ~").room(.5).delay(".4:.3:.4").gain(.55)],
+  [16, chord("<Fmaj9 D7b9 Gm9 C13>").dict('ireal').voicing().s("gm_epiano2").struct("[~ x] x ~ x").room(.45).delay(".2:.15:.25").gain(.6).speed(.98)],
+  [8,  chord("Fmaj9").dict('ireal').voicing().s("gm_epiano2").attack(1).release(4).room(.8).gain(.45)]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, n("<[0 2 4 7] [9 7 4 2] [0 ~ 4 ~] [~ 7 ~ ~]>").scale("F4:major").s("gm_flute").room(.7).delay(".4:.3:.5").gain(.35).vib(4).vibmod(.4)],
+  [16, n("<[7 9 11 12] [14 12 11 9] [7 4 2 0] [~ ~ ~ ~]>").scale("F4:major").s("gm_flute").room(.6).delay(".3:.2:.4").gain(.4).vib(3).vibmod(.6)],
+  [16, n("<[0 2 4 7] [9 7 4 2] [0 ~ 4 ~] [~ 7 ~ ~]>").scale("F4:major").s("gm_flute").room(.7).delay(".4:.3:.5").gain(.35).vib(4).vibmod(.4)],
+  [12, n("<[12 11 9 7] [5 4 2 0] [~ ~ ~ ~]>").scale("F4:major").s("gm_flute").room(.7).delay(".5:.4:.6").gain(.38)],
+  [16, n("<[7 9 11 12] [14 12 11 9] [7 4 2 0] [~ ~ ~ ~]>").scale("F4:major").s("gm_flute").room(.6).delay(".3:.2:.4").gain(.4).vib(3).vibmod(.6)],
+  [8,  silence]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, silence],
+  [16, chord("<Fmaj9 D7b9 Gm9 C13>").dict('ireal').voicing().s("gm_string_ensemble_1").attack(2).release(3).room(.8).gain(.25).lpf(1200)],
+  [16, silence],
+  [12, chord("<Bbmaj7 Bdim7 Fmaj7/A D7b9>").dict('ireal').voicing().s("gm_string_ensemble_1").attack(1.5).release(2).room(.8).gain(.22).lpf(1000)],
+  [16, chord("<Fmaj9 D7b9 Gm9 C13>").dict('ireal').voicing().s("gm_string_ensemble_1").attack(2).release(3).room(.8).gain(.25).lpf(1200)],
+  [8,  silence]
+)

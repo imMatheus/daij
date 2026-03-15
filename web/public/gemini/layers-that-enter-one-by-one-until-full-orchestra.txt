@@ -1,0 +1,59 @@
+// 🎻 "The Rising Tide" — Orchestral Build-up
+// At 115 BPM: intro(8) + rhythm(8) + foundation(16) + harmonics(16) + woodwinds(16) + strings(16) + full_orchestra(8) + outro(8) = 96 bars ≈ 3:20
+
+setcpm(115 / 4)
+
+$: s("vinyl:2").gain(.12).room(1).loop(1).lpf(2400)
+
+$: arrange(
+  [8,  silence],
+  [8,  s("hh*8").bank("RolandTR808").gain(perlin.range(.1, .3))],
+  [16, s("bd ~ ~ ~, [hh*8]").bank("RolandTR808").gain(".8 .3").room(.2)],
+  [16, s("bd ~ sd ~, [hh*16]").bank("RolandTR808").gain(".85 .7 .4").room(.25)],
+  [16, s("bd ~ [sd,cp] ~, [hh oh hh hh]*2").bank("RolandTR808").gain(".9 .8 .5").room(.3)],
+  [16, s("bd(3,8), [sd,cp] ~ [sd,cp] ~, [hh oh hh oh]*2").bank("RolandTR808").gain(".95 .85 .6").room(.35)],
+  [8,  s("bd*4, [sd,cp]*2, oh*8").bank("RolandTR808").gain(1).room(.4).distort(.1)],
+  [8,  s("bd ~ ~ ~").bank("RolandTR808").gain(saw.slow(8).range(.7, 0)).room(.6)]
+)
+
+$: arrange(
+  [16, silence],
+  [16, note("<d2 f2 c2 g1>").s("gm_acoustic_bass").decay(.4).sustain(.5).gain(.75).room(.2)],
+  [16, note("<d2 f2 c2 g1>").s("gm_acoustic_bass").struct("x(3,8)").decay(.3).sustain(.4).gain(.8).room(.2)],
+  [16, note("<d2 f2 c2 g1>").s("gm_acoustic_bass").struct("x(5,8)").decay(.25).sustain(.45).gain(.85).room(.2)],
+  [16, note("<d2 f2 c2 g1>").s("gm_acoustic_bass").struct("x*8").decay(.2).sustain(.5).gain(.9).room(.2)],
+  [8,  note("<d1 f1 c1 g0>").s("gm_acoustic_bass").struct("x*16").gain(.95).room(.3)],
+  [8,  note("d1").s("gm_acoustic_bass").gain(saw.slow(8).range(.8, 0)).room(.5)]
+)
+
+$: arrange(
+  [32, silence],
+  [16, chord("<Dm9 Fmaj7 Cmaj7 G7>").dict('ireal').voicing().s("gm_epiano2").struct("x ~ ~ ~").gain(.5).room(.5).lpf(1500)],
+  [16, chord("<Dm9 Fmaj7 Cmaj7 G7>").dict('ireal').voicing().s("gm_epiano2").struct("x ~ x ~").gain(.55).room(.4).lpf(2000)],
+  [16, chord("<Dm9 Fmaj7 Cmaj7 G7>").dict('ireal').voicing().s("gm_epiano2").struct("[x ~ x ~]*2").gain(.6).room(3).lpf(3000)],
+  [8,  chord("<Dm9 Fmaj7 Cmaj7 G7>").dict('ireal').voicing().s("gm_epiano2").struct("x*8").gain(.7).room(.2)],
+  [8,  silence]
+)
+
+$: arrange(
+  [48, silence],
+  [16, n("<[0 2 3 5] [7 5 3 2] [0 3 5 7] [10 7 5 3]>").scale("D4:minor").s("gm_flute").gain(.4).room(.6).delay(".3:.2:.4").vib(4).vibmod(.5)],
+  [16, n("<[0 2 3 5] [7 5 3 2] [0 3 5 7] [10 7 5 3]>").scale("D5:minor").s("gm_flute").gain(.45).room(.5).delay(".2:.1:.3").vib(5).vibmod(.6)],
+  [8,  n("<12 10 9 7 5 3 2 0>").scale("D5:minor").s("gm_flute").fast(2).gain(.5).room(.4)],
+  [8,  silence]
+)
+
+$: arrange(
+  [64, silence],
+  [16, chord("<Dm F C G>").dict('ireal').voicing().s("gm_string_ensemble_1").attack(1).release(1).gain(.35).room(.8).lpf(sine.range(800, 2000).slow(4))],
+  [8,  chord("<Dm F C G>").dict('ireal').voicing().s("gm_string_ensemble_1").attack(.1).gain(.5).room(.6).lpf(4000)],
+  [8,  chord("Dm").dict('ireal').voicing().s("gm_string_ensemble_1").attack(2).gain(saw.slow(8).range(.4, 0)).room(.9)]
+)
+
+$: arrange(
+  [80, silence],
+  [8,  note("<d3 f3 c3 g2>").s("gm_brass_section").struct("x x x x").gain(.6).room(.5).distort(.2)],
+  [8,  silence]
+)
+
+$: note("d1").s("sine").gain(saw.slow(96).range(0, .25)).lpf(200).room(1)

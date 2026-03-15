@@ -1,0 +1,53 @@
+// 🎵 "Dialogue in Ebony & Chrome" — Jazz-Fusion Conversation
+// At 110 BPM: intro(8) + call(16) + response(16) + dialogue(20) + argument(20) + coda(12) = 92 bars ≈ 3:20
+
+setcpm(110 / 4)
+
+$: s("vinyl:1").gain(.14).loop(1).lpf(2400).room(.8)
+
+$: arrange(
+  [8,  s("hh*16").bank("RolandTR808").gain(perlin.range(.1, .35)).cut(1).pan(sine.slow(4))],
+  [16, s("[bd ~ bd ~, ~ sd ~ ~]").bank("RolandTR909").gain(.8).room(.2).swing(2)],
+  [16, s("bd(3,8), ~ [sd,cp] ~ [~ sd], [hh hh oh hh]*2").bank("RolandTR909").gain(.95).cut(1).swing(4).every(4, x=>x.fast(2))],
+  [20, s("bd(5,8), ~ [sd:2,cp] ~ [sd:2,cp], [hh oh hh oh]*2").bank("RolandTR909").gain(.9).room(.3).every(3, x=>x.press())],
+  [20, s("[bd [bd bd] bd bd, sd cp sd [cp sd]]").bank("RolandTR909").gain(.98).room(.2).every(2, x=>x.sometimes(y=>y.fast(2)))],
+  [12, s("bd ~ ~ ~, ~ ~ sd ~").bank("RolandTR808").gain(saw.slow(12).range(.8, 0)).room(.6)]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, note("<c2 f1 bb1 g1>").s("gm_acoustic_bass").gain(.75).decay(.4).sustain(.3).room(.2)],
+  [16, note("<c2 f1 bb1 g1>").s("gm_acoustic_bass").gain(.85).decay(.3).sustain(.4).every(4, x=>x.rev())],
+  [20, note("<c2 [f1 g1] bb1 [eb1 d1]>").s("gm_acoustic_bass").gain(.8).decay(.2).sustain(.5).press()],
+  [20, note("c2*4").s("gm_acoustic_bass").gain(.9).decay(.1).sustain(.6).lpf(800)],
+  [12, note("c1").s("gm_acoustic_bass").gain(saw.slow(12).range(.7, 0)).room(.5)]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, chord("<Cm9 F13 Bbmaj9 G7alt>").dict('ireal').voicing().s("gm_epiano1").struct("x ~ ~ ~").gain(.6).room(.6).delay(".3:.2:.4")],
+  [16, silence],
+  [20, chord("<Cm9 F13 Bbmaj9 G7alt>").dict('ireal').voicing().s("gm_epiano1").struct("<[x ~ x ~] [~ x ~ x]>").gain(.65).lpf(sine.range(1200, 3200).slow(10)).room(.4)],
+  [20, chord("<Cm9 F13 Bbmaj9 G7alt>").dict('ireal').voicing().s("gm_epiano1").struct("x x ~ x").gain(.72).room(.3).crush(14)],
+  [12, chord("Cm9").dict('ireal').voicing().s("gm_epiano1").gain(saw.slow(12).range(.55, 0)).room(.9).attack(1)]
+)
+
+$: arrange(
+  [8,  n("<0 2 3 5 7 8 10 12>/8").scale("C4:minor").s("gm_epiano2").gain(.35).room(.8).attack(.8)],
+  [16, n("<[0 3 5 7] [~ 10 7 5] [3 5 ~ 0] [~ -2 0 3]>").scale("C5:minor").s("gm_epiano2").gain(.6).room(.4).delay(".25:.15:.35")],
+  [16, n("<[7 ~ ~ ~] [~ 10 ~ ~] [~ ~ 12 ~] [~ ~ ~ ~]>").scale("C5:minor").s("gm_epiano2").gain(.45).room(.7).delay(".5:.4:.6")],
+  [20, n("<[0 7 12 7] [10 5 3 5] [7 3 0 -2] [0 3 5 10]>").scale("C5:minor").s("gm_epiano2").gain(.65).room(.3).sometimes(x=>x.add(note(12)))],
+  [20, n("0 3 5 7 8 10 12 15").scale("C6:minor").s("gm_epiano2").fast(4).gain(.55).room(.4).vib(5).vibmod(.6)],
+  [12, silence]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, silence],
+  [16, n("<[12 10 7 5] [7 5 3 0]>").scale("C6:minor").s("gm_epiano1").gain(.4).room(.6).delay(".4:.3:.5").lpf(1800)],
+  [20, silence],
+  [20, n("<[0 3 5 7]*2>").scale("C4:minor").s("gm_clavinet").gain(perlin.range(0, .45)).lpf(2000).room(.3)],
+  [12, silence]
+)
+
+$: note("<c1 f0 bb0 g0>/4").s("sine").attack(2).decay(2).sustain(.5).release(4).gain(.2).lpf(150).room(.8)

@@ -1,0 +1,53 @@
+// 🎵 "Eternal Calm" — Peaceful Ambient
+// At 110 BPM: intro(8) + verse(32) + bridge(16) + verse2(24) + outro(8) = 88 bars ≈ 3:12
+
+setcpm(110 / 4)
+
+$: s("vinyl:1").gain(.1).room(1).loop(1).lpf(1200).pan(sine.slow(8).range(-0.5, 0.5))
+
+$: arrange(
+  [8,  silence],
+  [32, note("<c1 f0 a0 g0>").s("sine").attack(2).sustain(.8).release(4).gain(.18).lpf(200)],
+  [16, note("<f1 g1 a1 e1>").s("sine").attack(3).sustain(.7).release(3).gain(.2).lpf(250)],
+  [24, note("<c1 f0 a0 g0>").s("sine").attack(2).sustain(.8).release(4).gain(.18).lpf(200)],
+  [8,  note("c1").s("sine").attack(4).sustain(.5).release(8).gain(saw.slow(8).range(.15, 0)).lpf(150)]
+)
+
+$: arrange(
+  [8,  chord("Cmaj9").dict('ireal').voicing().s("gm_synth_strings_1").attack(4).release(4).gain(.25).lpf(800).room(1)],
+  [32, chord("<Cmaj9 Fmaj7 Am9 G7sus4>").dict('ireal').voicing().s("gm_synth_strings_1").attack(3).release(3).gain(.3).lpf(sine.range(600, 1500).slow(16)).room(.8)],
+  [16, chord("<Fmaj9 G11 Cmaj9 Em7>").dict('ireal').voicing().s("gm_synth_strings_1").attack(2).release(4).gain(.35).lpf(1200).room(.9)],
+  [24, chord("<Cmaj9 Fmaj7 Am9 G7sus4>").dict('ireal').voicing().s("gm_synth_strings_1").attack(3).release(3).gain(.3).lpf(1000).room(.8)],
+  [8,  chord("Cmaj9").dict('ireal').voicing().s("gm_synth_strings_1").attack(4).release(8).gain(saw.slow(8).range(.25, 0)).lpf(600)]
+)
+
+$: arrange(
+  [8,  silence],
+  [32, chord("<Cmaj9 Fmaj7 Am9 G7sus4>").dict('ireal').voicing().s("gm_epiano1").struct("x ~ ~ ~").attack(.5).release(4).gain(.38).room(.6).delay(".5:.4:.3")],
+  [16, chord("<Fmaj9 G11 Cmaj9 Em7>").dict('ireal').voicing().s("gm_epiano1").struct("x ~ x ~").attack(.3).release(3).gain(.42).room(.5).delay(".25:.3:.4")],
+  [24, chord("<Cmaj9 Fmaj7 Am9 G7sus4>").dict('ireal').voicing().s("gm_epiano1").struct("x ~ ~ ~").attack(.5).release(4).gain(.38).room(.6).delay(".5:.4:.3")],
+  [8,  silence]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, silence],
+  [16, n("<[~ 0 2 4] [7 ~ 9 ~] [~ 7 4 2] [0 ~ ~ ~]>").scale("C5:major").s("gm_flute").attack(.8).release(1.5).gain(.28).room(.9).delay(".6:.5:.4").vib(3)],
+  [16, n("<[7 9 11 12] [14 ~ 12 ~] [9 ~ 7 ~] [4 ~ ~ ~]>").scale("C5:major").s("gm_flute").attack(.6).release(1.2).gain(.32).room(.8).delay(".4:.4:.5").vib(4)],
+  [24, n("<[~ 0 2 4] [7 ~ 9 ~] [~ 7 4 2] [0 ~ ~ ~]>").scale("C5:major").s("gm_flute").attack(.8).release(1.5).gain(.28).room(.9).delay(".6:.5:.4").vib(3)],
+  [8,  n("0").scale("C5:major").s("gm_flute").attack(2).release(6).gain(saw.slow(8).range(.2, 0)).room(1)]
+)
+
+$: arrange(
+  [8,  silence],
+  [32, n("0 4 7 11").scale("C6:major").s("gm_celesta").struct("~ ~ ~ x").gain(perlin.range(.1, .3)).room(1).delay(".8:.6:.5")],
+  [16, n("0 2 4 7 9 12").scale("C6:major").s("gm_celesta").struct("x(3,8)").gain(perlin.range(.2, .4)).room(.8).delay(".4:.5:.6")],
+  [24, n("0 4 7 11").scale("C6:major").s("gm_celesta").struct("~ ~ ~ x").gain(perlin.range(.1, .3)).room(1).delay(".8:.6:.5")],
+  [8,  silence]
+)
+
+$: arrange(
+  [40, silence],
+  [16, s("bd(1,8)").bank("RolandTR808").gain(.3).room(.5).lpf(150)],
+  [32, silence]
+)

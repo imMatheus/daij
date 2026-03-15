@@ -1,0 +1,64 @@
+// 🌊 "Abyssal Discovery" — Underwater Adventure Soundtrack
+// At 92 BPM: intro(8) + verse1(16) + chorus1(16) + verse2(16) + bridge(12) + chorus2(16) + outro(8) = 92 bars ≈ 4:00
+
+setcpm(92 / 4)
+
+$: s("vinyl:2").gain(.12).room(1).loop(1).lpf(sine.range(800, 1500).slow(16))
+
+$: arrange(
+  [8,  silence],
+  [16, s("bd(3,8), ~ [sd:2 ~] ~ [~ sd:2], hh*8").bank("RolandTR808").lpf(1200).gain(".8 .6 .7").room(.4)],
+  [16, s("bd(3,8), ~ [sd:2 ~] ~ [~ sd:2], [hh oh hh hh]*2").bank("RolandTR808").lpf(1500).gain(".9 .7 .8").room(.3)],
+  [16, s("bd(3,8), ~ [sd:2 ~] ~ [~ sd:2], hh*8").bank("RolandTR808").lpf(1100).gain(".8 .6 .7").room(.4).sometimes(x=>x.fast(2))],
+  [12, s("bd ~ ~ ~, ~ ~ [sd:2 ~] ~, hh*4").bank("RolandTR808").lpf(800).gain(".6 .5").room(.6)],
+  [16, s("bd(3,8), ~ [sd:2 ~] ~ [~ sd:2], [hh oh hh hh]*2").bank("RolandTR808").lpf(1600).gain(".95 .75 .85").room(.3)],
+  [8,  s("bd ~ ~ ~").bank("RolandTR808").gain(saw.slow(8).range(.6, 0)).lpf(500).room(.8)]
+)
+
+$: arrange(
+  [8,  note("<c1 f0 bb0 g0>/2").s("sine").attack(1).release(2).gain(.3).lpf(400)],
+  [16, note("<c1 c1 f0 bb0>").s("gm_acoustic_bass").lpf(600).decay(.4).sustain(.4).room(.2).gain(.8)],
+  [16, note("<c1 f0 bb0 g0>").s("gm_acoustic_bass").lpf(800).decay(.3).sustain(.5).room(.2).gain(.85)],
+  [16, note("<c1 c1 f0 bb0>").s("gm_acoustic_bass").lpf(600).decay(.4).sustain(.4).room(.2).gain(.8)],
+  [12, note("<c1 [~ f0] [~ bb0] [~ g0]>").s("gm_acoustic_bass").lpf(400).decay(.6).sustain(.3).gain(.7)],
+  [16, note("<c1 f0 bb0 g0>").s("gm_acoustic_bass").lpf(900).decay(.3).sustain(.5).room(.2).gain(.85)],
+  [8,  note("c1/2").s("sine").attack(2).release(4).gain(saw.slow(8).range(.3, 0)).lpf(300)]
+)
+
+$: arrange(
+  [8,  chord("<Cm9 F9 Bbmaj7 G7b9>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(2).release(2).gain(.35).lpf(1200).room(.8)],
+  [16, chord("<Cm9 F9 Bbmaj7 G7b9>").dict('ireal').voicing().s("gm_epiano2").struct("x ~ x ~").lpf(1800).room(.6).gain(.45).delay(".3:.2:.4")],
+  [16, chord("<Cm9 F9 Bbmaj7 G7b9>").dict('ireal').voicing().s("gm_epiano2").struct("x [~ x] x [~ x]").lpf(2200).room(.5).gain(.5).delay(".25:.15:.3")],
+  [16, chord("<Cm9 F9 Bbmaj7 G7b9>").dict('ireal').voicing().s("gm_epiano2").struct("x ~ x ~").lpf(1800).room(.6).gain(.45).delay(".3:.2:.4")],
+  [12, chord("<Cm9 F9 Bbmaj7 G7b9>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(1).release(3).gain(.3).lpf(sine.range(600, 1400).slow(6)).room(1)],
+  [16, chord("<Cm9 F9 Bbmaj7 G7b9>").dict('ireal').voicing().s("gm_epiano2").struct("x [~ x] x [~ x]").lpf(2400).room(.5).gain(.55).delay(".2:.1:.25")],
+  [8,  chord("Cm9/4").dict('ireal').voicing().s("gm_synth_strings_1").attack(3).release(5).gain(saw.slow(8).range(.3, 0)).lpf(800)]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, n("<0 2 3 5 7 5 3 2>/2").scale("C5:minor").s("gm_flute").attack(.5).release(.5).room(.7).gain(.35).delay(".4:.3:.5").vib(4).vibmod(.5)],
+  [16, n("<7 8 10 12 10 8 7 5>").scale("C5:minor").s("gm_flute").attack(.2).release(.3).room(.6).gain(.42).delay(".3:.2:.4").vib(5).vibmod(.7)],
+  [16, n("<0 2 3 5 7 5 3 2>/2").scale("C5:minor").s("gm_flute").attack(.5).release(.5).room(.7).gain(.35).delay(".4:.3:.5")],
+  [12, silence],
+  [16, n("<7 8 10 12 10 8 7 15>").scale("C5:minor").s("gm_flute").attack(.2).release(.3).room(.6).gain(.45).delay(".2:.1:.3").vib(6).vibmod(.8)],
+  [8,  silence]
+)
+
+$: arrange(
+  [8,  n("0*16").scale("C6:minor").s("sine").gain(perlin.range(0, .2)).room(.9).lpf(3000)],
+  [16, n("0 3 5 7 10 12 15 17").scale("C6:minor").s("sine").struct("x(5,8)").gain(.18).room(.8).delay(".1:.1:.5").lpf(4000)],
+  [16, n("12 10 7 5 3 0 -2 -5").scale("C6:minor").s("sine").struct("x(7,16)*2").gain(.22).room(.7).delay(".05:.1:.4").lpf(5000)],
+  [16, n("0 3 5 7 10 12 15 17").scale("C6:minor").s("sine").struct("x(5,8)").gain(.18).room(.8).delay(".1:.1:.5").lpf(4000)],
+  [12, n("0*32").scale("C7:minor").s("sine").gain(perlin.range(.05, .25)).room(1).lpf(sine.range(1000, 6000).slow(4))],
+  [16, n("12 10 7 5 3 0 -2 -5").scale("C6:minor").s("sine").struct("x(7,16)*2").gain(.25).room(.7).delay(".05:.1:.4").lpf(5500)],
+  [8,  n("0*8").scale("C6:minor").s("sine").gain(saw.slow(8).range(.15, 0)).room(.9)]
+)
+
+$: arrange(
+  [24, silence],
+  [16, s("bubble:1(3,8)").gain(.2).room(.8).speed(perlin.range(.8, 1.2)).delay(".4:.4:.6")],
+  [16, silence],
+  [28, s("bubble:2(2,8)").gain(.15).room(.9).speed(perlin.range(.5, .9)).delay(".5:.5:.7")],
+  [8,  silence]
+)
