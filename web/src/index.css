@@ -46,6 +46,10 @@
   border-color: var(--divider);
 }
 
+button {
+  @apply cursor-pointer;
+}
+
 body {
   background: #fff;
   color: var(--primary);
