@@ -5,9 +5,6 @@ import { fetchJson } from '@/lib/api'
 import { useSongs } from '@/useSongs'
 import { PlayingWave } from '@/components/PlayingWave'
 import type { Song } from '@/songs'
-import { Button } from '@/components/button'
-import { Dropdown } from '@/components/dropdown'
-import { useTheme, THEME_COLORS } from '@/useTheme'
 import { ClaudeAI, OpenAI, Gemini } from '@/components/icons'
 import { Loader } from '@/components/Loader'
 
@@ -35,322 +32,103 @@ const PROVIDER_CARDS = [
   },
 ]
 
-export const Home = () => {
-  const { theme, setTheme, themes } = useTheme()
-
+export function Home() {
   return (
-    <div className="min-h-screen pb-10">
-      <HeroArcs />
-      <div className="mt-14 mb-5">
-        <HeroTitle />
+    <div className="mx-auto max-w-7xl py-7">
+      <div
+        className="flex aspect-7/3 w-full flex-col justify-end rounded-3xl px-12 pb-6"
+        style={{
+          backgroundSize: 'cover',
+          // backgroundImage: "url(https://cdn.midjourney.com/eb1d1de6-d0b5-49dd-a3c9-ed1775f62e5a/0_0.png)",
+          backgroundImage:
+            'url(https://cdn.midjourney.com/99c9da35-4609-4211-a78b-4bf70359c8b8/0_0.png)',
+        }}
+      >
+        <h1 className="mb-2 text-8xl font-semibold tracking-wide text-white">
+          DAIJ
+        </h1>
+        <div className="flex gap-2">
+          <button className="flex items-center gap-2 rounded-full bg-black px-5 py-3 text-lg font-medium text-white">
+            <svg
+              className="size-5"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M9 18V5l12-2v13" />
+              <circle cx="6" cy="18" r="3" />
+              <circle cx="18" cy="16" r="3" />
+            </svg>
+            Rank songs
+          </button>
+          <button className="flex items-center gap-2 rounded-full bg-black px-5 py-3 text-lg font-medium text-white">
+            <svg
+              className="size-5"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M18 20V10" />
+              <path d="M12 20V4" />
+              <path d="M6 20v-6" />
+            </svg>
+            Leaderboard
+          </button>
+        </div>
       </div>
 
-      <div className="mx-auto w-full max-w-7xl">
-        <div className="mx-auto mb-4 flex w-max gap-3">
-          <Link to="/arena">
-            <Button>Rank songs</Button>
-          </Link>
-          <Link to="/leaderboard">
-            <Button>Leaderboard</Button>
-          </Link>
-        </div>
-
-        <h3 className="text-secondary mb-3 text-center text-xl font-medium">
-          DAIJ is a platform for ranking and voting on AI-generated music.
+      <section className="mt-16">
+        <h3 className="text-center text-5xl font-semibold tracking-wide uppercase">
+          See s
+          <ClaudeAI className="inline-block size-7 -translate-y-1" />
+          ngs <br />fr
+          <OpenAI className="inline-block size-7 -translate-y-1" />m m
+          <Gemini className="inline-block size-7 -translate-y-1" />
+          dels
         </h3>
 
-        <div className="mt-20 space-y-20">
-          <FeaturedSection />
-          <LatestSongs />
-          <AboutSection />
+        <div className="mt-10 grid grid-cols-3 gap-4">
+          {PROVIDER_CARDS.map((card) => (
+            <Link
+              key={card.provider}
+              to={`/${card.provider}`}
+              className="group block"
+            >
+              <div className="mb-2">
+                <p className="text-secondary flex items-center gap-1 text-[11px] leading-tight font-medium tracking-wider uppercase">
+                  {(() => {
+                    const Icon = PROVIDER_ICONS[card.provider]
+                    return <Icon className="size-3" />
+                  })()}
+                  {card.eyebrow}
+                </p>
+                <p className="text-primary font-medium tracking-wider">
+                  {card.title}
+                </p>
+              </div>
+
+              <div className="relative overflow-hidden rounded-2xl">
+                <img
+                  src={getProviderImage(card.provider)}
+                  alt={card.title}
+                  className="aspect-square w-full object-cover"
+                />
+                <div className="pointer-events-none absolute inset-0 rounded-2xl ring-[0.5px] ring-black/15 ring-inset" />
+                <div className="pointer-events-none absolute inset-0 rounded-2xl bg-[rgba(51,51,51,0.2)] opacity-0 transition-opacity duration-100 ease-in group-hover:opacity-100" />
+              </div>
+            </Link>
+          ))}
         </div>
+      </section>
 
-        <footer className="pt-20 pb-52">
-          <p className="text-tertiary text-center text-[10px]">
-            daij — AI-generated music experiment
-          </p>
-
-          <div className="mb-2 flex items-start justify-between">
-            <Dropdown
-              trigger={
-                <span className="flex items-center gap-1">
-                  <span
-                    className="inline-block size-3 rounded-full"
-                    style={{ background: THEME_COLORS[theme] }}
-                  />
-                  Theme
-                  <svg
-                    className="h-3 w-3"
-                    viewBox="0 0 12 12"
-                    fill="currentColor"
-                  >
-                    <path
-                      d="M2.5 4.5L6 8l3.5-3.5"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      fill="none"
-                    />
-                  </svg>
-                </span>
-              }
-              items={themes.map((t) => ({
-                label: (
-                  <span className="flex items-center gap-2">
-                    <span
-                      className="inline-block size-3 shrink-0 rounded-full"
-                      style={{
-                        background: THEME_COLORS[t],
-                      }}
-                    />
-                    <span className="capitalize">{t}</span>
-                    {t === theme && (
-                      <svg
-                        className="text-secondary ml-auto h-3.5 w-3.5"
-                        viewBox="0 0 16 16"
-                        fill="none"
-                      >
-                        <path
-                          d="M3 8.5l3.5 3.5L13 4.5"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    )}
-                  </span>
-                ),
-                onClick: () => setTheme(t),
-              }))}
-            />
-          </div>
-        </footer>
-      </div>
+      <LatestSongs />
     </div>
-  )
-}
-
-const ARCS = [
-  { width: '100%', height: 48 },
-  { width: '85%', height: 42 },
-  { width: '70%', height: 34 },
-  { width: '55%', height: 26 },
-  { width: '40%', height: 18 },
-]
-
-function HeroArcs() {
-  return (
-    <div className="relative mx-auto mb-6 flex w-3/5 max-w-7xl flex-col items-center gap-0 overflow-hidden">
-      {ARCS.map((arc, i) => (
-        <div
-          key={i}
-          className="flex items-end justify-center rounded-full"
-          style={{
-            width: arc.width,
-            height: arc.height,
-            background:
-              'linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 100%), rgb(var(--key-color-base))',
-            boxShadow: `inset 0 0 3px 1px rgba(255, 255, 255, 0.22), inset 0 0 6px 0px rgba(255, 255, 255, 0.06), 0 1px 5px rgba(var(--key-color-base) / 0.29), 0 1px 8px rgba(var(--key-color-base) / 0.14)`,
-            zIndex: ARCS.length - i,
-            animation: `heroArc-${i} 1.2s cubic-bezier(0.16, 1, 0.3, 1) ${i * 0.1}s both`,
-          }}
-        />
-      ))}
-      <style>
-        {ARCS.map((arc, i) => {
-          const offsetAbove = ARCS.slice(0, i).reduce(
-            (sum, a) => sum + a.height,
-            0,
-          )
-          const startY = -(offsetAbove + arc.height)
-          return `
-            @keyframes heroArc-${i} {
-              0% { 
-                transform: translateY(${startY}px) scale(0.9); 
-                opacity: 0.9;
-                filter: blur(8px);
-              }
-              100% { 
-                transform: translateY(0) scale(1); 
-                opacity: 1;
-                filter: blur(0px);
-              }
-            }
-          `
-        }).join('')}
-      </style>
-    </div>
-  )
-}
-
-function HeroTitle() {
-  const delay = ARCS.length * 0.1 + 0.3
-  return (
-    <h1
-      className="font-panchang text-center text-9xl font-black tracking-widest uppercase"
-      style={{
-        animation: `heroTitle 1s cubic-bezier(0.16, 1, 0.3, 1) ${delay}s both`,
-      }}
-    >
-      <style>
-        {`
-          @keyframes heroTitle {
-            0% {
-              opacity: 0;
-              transform: translateY(16px);
-              filter: blur(6px);
-            }
-            100% {
-              opacity: 1;
-              transform: translateY(0);
-              filter: blur(0px);
-            }
-          }
-        `}
-      </style>
-      daij
-    </h1>
-  )
-}
-
-const STEPS = [
-  {
-    number: '01',
-    title: 'Listen blind',
-    description:
-      'Two AI-generated songs play head-to-head. No labels, no bias — just music.',
-    icon: (
-      <svg
-        className="size-6"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M9 18V5l12-2v13" />
-        <circle cx="6" cy="18" r="3" />
-        <circle cx="18" cy="16" r="3" />
-      </svg>
-    ),
-  },
-  {
-    number: '02',
-    title: 'Cast your vote',
-    description:
-      'Pick the track that moves you. Every vote updates the ELO rankings in real time.',
-    icon: (
-      <svg
-        className="size-6"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M14 9V5a3 3 0 0 0-6 0v4" />
-        <path d="M5 9h14l1 12H4L5 9z" />
-        <path d="M9 14l2 2 4-4" />
-      </svg>
-    ),
-  },
-  {
-    number: '03',
-    title: 'See who leads',
-    description:
-      'The leaderboard reveals which AI models consistently produce the best music.',
-    icon: (
-      <svg
-        className="size-6"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M18 20V10" />
-        <path d="M12 20V4" />
-        <path d="M6 20v-6" />
-      </svg>
-    ),
-  },
-]
-
-function AboutSection() {
-  return (
-    <section>
-      <h2 className="text-primary mb-8 text-center text-[22px] leading-tight font-bold">
-        How it works
-      </h2>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        {STEPS.map((step) => (
-          <div
-            key={step.number}
-            className="relative overflow-hidden rounded-2xl p-6"
-            style={{
-              background:
-                'linear-gradient(180deg, var(--surface) 0%, rgba(255,255,255,0) 100%)',
-              boxShadow: 'inset 0 0 0 0.5px rgba(0,0,0,0.06)',
-            }}
-          >
-            <div className="mb-4 flex items-center justify-between">
-              <span className="font-panchang text-key text-xs font-bold">
-                {step.number}
-              </span>
-              <span className="text-tertiary">{step.icon}</span>
-            </div>
-            <h3 className="text-primary mb-1 text-base font-semibold">
-              {step.title}
-            </h3>
-            <p className="text-secondary text-sm leading-relaxed">
-              {step.description}
-            </p>
-          </div>
-        ))}
-      </div>
-    </section>
-  )
-}
-
-function FeaturedSection() {
-  return (
-    <section className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-      {PROVIDER_CARDS.map((card) => (
-        <Link
-          key={card.provider}
-          to={`/${card.provider}`}
-          className="group block"
-        >
-          <div className="mb-2">
-            <p className="text-secondary flex items-center gap-1 text-[11px] leading-tight font-medium tracking-wider uppercase">
-              {(() => {
-                const Icon = PROVIDER_ICONS[card.provider]
-                return <Icon className="size-3" />
-              })()}
-              {card.eyebrow}
-            </p>
-            <p className="text-primary font-medium tracking-wider">
-              {card.title}
-            </p>
-          </div>
-
-          <div className="relative overflow-hidden rounded-2xl">
-            <img
-              src={getProviderImage(card.provider)}
-              alt={card.title}
-              className="aspect-[1.74/1] w-full object-cover"
-            />
-            <div className="pointer-events-none absolute inset-0 rounded-2xl ring-[0.5px] ring-black/15 ring-inset" />
-            <div className="pointer-events-none absolute inset-0 rounded-2xl bg-[rgba(51,51,51,0.2)] opacity-0 transition-opacity duration-100 ease-in group-hover:opacity-100" />
-          </div>
-        </Link>
-      ))}
-    </section>
   )
 }
 
@@ -363,7 +141,7 @@ function LatestSongs() {
   const displaySongs = songs?.slice(0, 16)
 
   return (
-    <section className="">
+    <section className="mt-20">
       <div className="mb-3">
         <Link
           to="/leaderboard"
@@ -413,7 +191,6 @@ function SongCell({ song, queue }: { song: Song; queue: Song[] }) {
           className="size-full object-cover"
         />
         <div className="pointer-events-none absolute inset-0 rounded-md ring-[0.5px] ring-black/10 ring-inset" />
-        {/* Hover play overlay */}
         {isActive ? (
           <div className="absolute inset-0 flex items-center justify-center bg-black/30">
             <PlayingWave />
@@ -433,305 +210,4 @@ function SongCell({ song, queue }: { song: Song; queue: Song[] }) {
       </div>
     </div>
   )
-}
-
-{
-  /* <div className="p-10 flex gap-3">
-
-
-          <button className="mt-6 px-5 rounded-full hover:opacity-90 transition-opacity cursor-pointer focus:outline-none focus:ring-0 focus:border-0"
-            style={{
-              fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-              fontSize: '12pt',
-              fontWeight: 500,
-              paddingTop: '9px',
-              paddingBottom: '9px',
-              background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 100%), color(display-p3 0.29 0.025 0.3)',
-              color: 'color(display-p3 0.29 0.025 1)',
-              // #ff0054
-              boxShadow: `inset 0 0 3px 1px rgba(255, 255, 255, 0.22),
-              inset 0 0 6px 0px rgba(255, 255, 255, 0.06)`,
-              // boxShadow: `inset 0 0 3px 1px rgba(255, 255, 255, 0.22),
-              // inset 0 0 6px 0px rgba(255, 255, 255, 0.06),
-              // 0 1px 5px color(display-p3 0.29 0.025 1 / 0.29),
-              // 0 1px 8px color(display-p3 0.29 0.025 1 / 0.14)`,
-              outline: 'none',
-              border: 'none',
-            }}>
-            <span
-              style={{
-                background: 'linear-gradient(180deg, color(display-p3 1 1 1 / 0.94) 0%, color(display-p3 1 1 1 / 0.76) 100%)',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                color: 'transparent',
-                textShadow: `inset 0 0 0 rgba(255, 255, 255, 0.15),
-              0 4px 13px rgba(0, 0, 0, 0.08),
-              0 0.5px 2px rgba(0, 0, 0, 0.13)`,
-                display: 'flex',
-                alignItems: 'center',
-                gap: '4px',
-              }}
-            >
-              <svg width="14" height="14" viewBox="0 0 16.2891 16.416"
-                style={{
-                  filter: 'drop-shadow(0 4px 13px rgba(0, 0, 0, 0.08)) drop-shadow(0 0.5px 2px rgba(0, 0, 0, 0.13))'
-                }}
-
-              >
-                <title>Play trailer</title><defs data-sentry-element="defs" data-sentry-source-file="PreviewButton.tsx"><linearGradient id="playGradient" x1="0%" y1="0%" x2="0%" y2="100%" data-sentry-element="linearGradient" data-sentry-source-file="PreviewButton.tsx"><stop offset="0%" stopColor="color(display-p3 1 1 1 / 0.94)" data-sentry-element="stop" data-sentry-source-file="PreviewButton.tsx"></stop><stop offset="100%" stop-color="color(display-p3 1 1 1 / 0.76)"></stop></linearGradient></defs><path d="M1.70898 14.9805C1.70898 15.9473 2.26562 16.4062 2.92969 16.4062C3.22266 16.4062 3.52539 16.3086 3.82812 16.1523L15.2051 9.50195C16.0156 9.0332 16.2891 8.71094 16.2891 8.20312C16.2891 7.68555 16.0156 7.37305 15.2051 6.9043L3.82812 0.253906C3.52539 0.0878906 3.22266 0 2.92969 0C2.26562 0 1.70898 0.458984 1.70898 1.42578Z" fill="url(#playGradient)"></path></svg>
-              Trailer</span>
-          </button>
-
-
-          <button className="mt-6 px-5 rounded-full hover:opacity-90 transition-opacity cursor-pointer focus:outline-none focus:ring-0 focus:border-0"
-            style={{
-              fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-              fontSize: '12pt',
-              fontWeight: 500,
-              paddingTop: '9px',
-              paddingBottom: '9px',
-              background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 100%), #ff0054',
-              color: '#ff0054',
-              // #ff0054
-              // boxShadow: `inset 0 0 3px 1px rgba(255, 255, 255, 0.22),
-              // inset 0 0 6px 0px rgba(255, 255, 255, 0.06)`,
-              boxShadow: `inset 0 0 3px 1px rgba(255, 255, 255, 0.22),
-              inset 0 0 6px 0px rgba(255, 255, 255, 0.06),
-              0 1px 5px rgba(255, 0, 84, 0.29),
-              0 1px 8px rgba(255, 0, 84, 0.14)`,
-              outline: 'none',
-              border: 'none',
-            }}>
-            <span
-              style={{
-                background: 'linear-gradient(180deg, color(display-p3 1 1 1 / 0.94) 0%, color(display-p3 1 1 1 / 0.76) 100%)',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                color: 'transparent',
-                textShadow: `inset 0 0 0 rgba(255, 255, 255, 0.15),
-              0 4px 13px rgba(0, 0, 0, 0.08),
-              0 0.5px 2px rgba(0, 0, 0, 0.13)`,
-                display: 'flex',
-                alignItems: 'center',
-                gap: '4px',
-              }}
-            >
-              <svg width="14" height="14" viewBox="0 0 16.2891 16.416"
-                style={{
-                  filter: 'drop-shadow(0 4px 13px rgba(0, 0, 0, 0.08)) drop-shadow(0 0.5px 2px rgba(0, 0, 0, 0.13))'
-                }}
-
-              >
-                <title>Play trailer</title><defs data-sentry-element="defs" data-sentry-source-file="PreviewButton.tsx"><linearGradient id="playGradient" x1="0%" y1="0%" x2="0%" y2="100%" data-sentry-element="linearGradient" data-sentry-source-file="PreviewButton.tsx"><stop offset="0%" stopColor="color(display-p3 1 1 1 / 0.94)" data-sentry-element="stop" data-sentry-source-file="PreviewButton.tsx"></stop><stop offset="100%" stop-color="color(display-p3 1 1 1 / 0.76)"></stop></linearGradient></defs><path d="M1.70898 14.9805C1.70898 15.9473 2.26562 16.4062 2.92969 16.4062C3.22266 16.4062 3.52539 16.3086 3.82812 16.1523L15.2051 9.50195C16.0156 9.0332 16.2891 8.71094 16.2891 8.20312C16.2891 7.68555 16.0156 7.37305 15.2051 6.9043L3.82812 0.253906C3.52539 0.0878906 3.22266 0 2.92969 0C2.26562 0 1.70898 0.458984 1.70898 1.42578Z" fill="url(#playGradient)"></path></svg>
-              Trailer</span>
-          </button>
-
-
-
-          <button className="mt-6 px-5 rounded-full hover:opacity-90 transition-opacity cursor-pointer focus:outline-none focus:ring-0 focus:border-0"
-            style={{
-              fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-              fontSize: '12pt',
-              fontWeight: 500,
-              paddingTop: '9px',
-              paddingBottom: '9px',
-              background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 100%), rgb(214, 34, 70)',
-              color: 'rgb(214, 34, 70)',
-              // #ff0054
-              // boxShadow: `inset 0 0 3px 1px rgba(255, 255, 255, 0.22),
-              // inset 0 0 6px 0px rgba(255, 255, 255, 0.06)`,
-              boxShadow: `inset 0 0 3px 1px rgba(255, 255, 255, 0.22),
-              inset 0 0 6px 0px rgba(255, 255, 255, 0.06),
-              0 1px 5px rgba(214, 34, 70, 0.29),
-              0 1px 8px rgba(214, 34, 70, 0.14)`,
-              outline: 'none',
-              border: 'none',
-            }}>
-            <span
-              style={{
-                background: 'linear-gradient(180deg, color(display-p3 1 1 1 / 0.94) 0%, color(display-p3 1 1 1 / 0.76) 100%)',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                color: 'transparent',
-                textShadow: `inset 0 0 0 rgba(255, 255, 255, 0.15),
-              0 4px 13px rgba(0, 0, 0, 0.08),
-              0 0.5px 2px rgba(0, 0, 0, 0.13)`,
-                display: 'flex',
-                alignItems: 'center',
-                gap: '4px',
-              }}
-            >
-              <svg width="14" height="14" viewBox="0 0 16.2891 16.416"
-                style={{
-                  filter: 'drop-shadow(0 4px 13px rgba(0, 0, 0, 0.08)) drop-shadow(0 0.5px 2px rgba(0, 0, 0, 0.13))'
-                }}
-
-              >
-                <title>Play trailer</title><defs data-sentry-element="defs" data-sentry-source-file="PreviewButton.tsx"><linearGradient id="playGradient" x1="0%" y1="0%" x2="0%" y2="100%" data-sentry-element="linearGradient" data-sentry-source-file="PreviewButton.tsx"><stop offset="0%" stopColor="color(display-p3 1 1 1 / 0.94)" data-sentry-element="stop" data-sentry-source-file="PreviewButton.tsx"></stop><stop offset="100%" stop-color="color(display-p3 1 1 1 / 0.76)"></stop></linearGradient></defs><path d="M1.70898 14.9805C1.70898 15.9473 2.26562 16.4062 2.92969 16.4062C3.22266 16.4062 3.52539 16.3086 3.82812 16.1523L15.2051 9.50195C16.0156 9.0332 16.2891 8.71094 16.2891 8.20312C16.2891 7.68555 16.0156 7.37305 15.2051 6.9043L3.82812 0.253906C3.52539 0.0878906 3.22266 0 2.92969 0C2.26562 0 1.70898 0.458984 1.70898 1.42578Z" fill="url(#playGradient)"></path></svg>
-              Trailer</span>
-          </button>
-
-
-          <button className="mt-6 px-5 rounded-full hover:opacity-90 transition-opacity cursor-pointer focus:outline-none focus:ring-0 focus:border-0"
-            style={{
-              fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-              fontSize: '12pt',
-              fontWeight: 500,
-              paddingTop: '9px',
-              paddingBottom: '9px',
-              background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 100%), rgb(41, 191, 18)',
-              color: 'rgb(41, 191, 18)',
-              boxShadow: `inset 0 0 3px 1px rgba(255, 255, 255, 0.22),
-              inset 0 0 6px 0px rgba(255, 255, 255, 0.06),
-              0 1px 5px rgba(41, 191, 18, 0.29),
-              0 1px 8px rgba(41, 191, 18, 0.14)`,
-              outline: 'none',
-              border: 'none',
-            }}>
-            <span
-              style={{
-                background: 'linear-gradient(180deg, color(display-p3 1 1 1 / 0.94) 0%, color(display-p3 1 1 1 / 0.76) 100%)',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                color: 'transparent',
-                textShadow: `inset 0 0 0 rgba(255, 255, 255, 0.15),
-              0 4px 13px rgba(0, 0, 0, 0.08),
-              0 0.5px 2px rgba(0, 0, 0, 0.13)`,
-                display: 'flex',
-                alignItems: 'center',
-                gap: '4px',
-              }}
-            >
-              <svg width="14" height="14" viewBox="0 0 16.2891 16.416"
-                style={{
-                  filter: 'drop-shadow(0 4px 13px rgba(0, 0, 0, 0.08)) drop-shadow(0 0.5px 2px rgba(0, 0, 0, 0.13))'
-                }}
-
-              >
-                <title>Play trailer</title><defs data-sentry-element="defs" data-sentry-source-file="PreviewButton.tsx"><linearGradient id="playGradient" x1="0%" y1="0%" x2="0%" y2="100%" data-sentry-element="linearGradient" data-sentry-source-file="PreviewButton.tsx"><stop offset="0%" stopColor="color(display-p3 1 1 1 / 0.94)" data-sentry-element="stop" data-sentry-source-file="PreviewButton.tsx"></stop><stop offset="100%" stop-color="color(display-p3 1 1 1 / 0.76)"></stop></linearGradient></defs><path d="M1.70898 14.9805C1.70898 15.9473 2.26562 16.4062 2.92969 16.4062C3.22266 16.4062 3.52539 16.3086 3.82812 16.1523L15.2051 9.50195C16.0156 9.0332 16.2891 8.71094 16.2891 8.20312C16.2891 7.68555 16.0156 7.37305 15.2051 6.9043L3.82812 0.253906C3.52539 0.0878906 3.22266 0 2.92969 0C2.26562 0 1.70898 0.458984 1.70898 1.42578Z" fill="url(#playGradient)"></path></svg>
-              Trailer</span>
-          </button>
-
-          <button className="mt-6 px-5 rounded-full hover:opacity-90 transition-opacity cursor-pointer focus:outline-none focus:ring-0 focus:border-0"
-            style={{
-              fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-              fontSize: '12pt',
-              fontWeight: 500,
-              paddingTop: '9px',
-              paddingBottom: '9px',
-              background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 100%), rgb(7, 42, 200)',
-              color: 'rgb(7, 42, 200)',
-              boxShadow: `inset 0 0 3px 1px rgba(255, 255, 255, 0.22),
-              inset 0 0 6px 0px rgba(255, 255, 255, 0.06),
-              0 1px 5px rgba(7, 42, 200, 0.29),
-              0 1px 8px rgba(7, 42, 200, 0.14)`,
-              outline: 'none',
-              border: 'none',
-            }}>
-            <span
-              style={{
-                background: 'linear-gradient(180deg, color(display-p3 1 1 1 / 0.94) 0%, color(display-p3 1 1 1 / 0.76) 100%)',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                color: 'transparent',
-                textShadow: `inset 0 0 0 rgba(255, 255, 255, 0.15),
-              0 4px 13px rgba(0, 0, 0, 0.08),
-              0 0.5px 2px rgba(0, 0, 0, 0.13)`,
-                display: 'flex',
-                alignItems: 'center',
-                gap: '4px',
-              }}
-            >
-              <svg width="14" height="14" viewBox="0 0 16.2891 16.416"
-                style={{
-                  filter: 'drop-shadow(0 4px 13px rgba(0, 0, 0, 0.08)) drop-shadow(0 0.5px 2px rgba(0, 0, 0, 0.13))'
-                }}
-
-              >
-                <title>Play trailer</title><defs data-sentry-element="defs" data-sentry-source-file="PreviewButton.tsx"><linearGradient id="playGradient" x1="0%" y1="0%" x2="0%" y2="100%" data-sentry-element="linearGradient" data-sentry-source-file="PreviewButton.tsx"><stop offset="0%" stopColor="color(display-p3 1 1 1 / 0.94)" data-sentry-element="stop" data-sentry-source-file="PreviewButton.tsx"></stop><stop offset="100%" stop-color="color(display-p3 1 1 1 / 0.76)"></stop></linearGradient></defs><path d="M1.70898 14.9805C1.70898 15.9473 2.26562 16.4062 2.92969 16.4062C3.22266 16.4062 3.52539 16.3086 3.82812 16.1523L15.2051 9.50195C16.0156 9.0332 16.2891 8.71094 16.2891 8.20312C16.2891 7.68555 16.0156 7.37305 15.2051 6.9043L3.82812 0.253906C3.52539 0.0878906 3.22266 0 2.92969 0C2.26562 0 1.70898 0.458984 1.70898 1.42578Z" fill="url(#playGradient)"></path></svg>
-              Trailer</span>
-          </button>
-
-          <button className="mt-6 px-5 rounded-full hover:opacity-90 transition-opacity cursor-pointer focus:outline-none focus:ring-0 focus:border-0"
-            style={{
-              fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-              fontSize: '12pt',
-              fontWeight: 500,
-              paddingTop: '9px',
-              paddingBottom: '9px',
-              background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 100%), rgb(255, 189, 0)',
-              color: 'rgb(255, 189, 0)',
-              boxShadow: `inset 0 0 3px 1px rgba(255, 255, 255, 0.22),
-              inset 0 0 6px 0px rgba(255, 255, 255, 0.06),
-              0 1px 5px rgba(255, 189, 0, 0.29),
-              0 1px 8px rgba(255, 189, 0, 0.14)`,
-              outline: 'none',
-              border: 'none',
-            }}>
-            <span
-              style={{
-                background: 'linear-gradient(180deg, color(display-p3 1 1 1 / 0.94) 0%, color(display-p3 1 1 1 / 0.76) 100%)',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                color: 'transparent',
-                textShadow: `inset 0 0 0 rgba(255, 255, 255, 0.15),
-              0 4px 13px rgba(0, 0, 0, 0.08),
-              0 0.5px 2px rgba(0, 0, 0, 0.13)`,
-                display: 'flex',
-                alignItems: 'center',
-                gap: '4px',
-              }}
-            >
-              <svg width="14" height="14" viewBox="0 0 16.2891 16.416"
-                style={{
-                  filter: 'drop-shadow(0 4px 13px rgba(0, 0, 0, 0.08)) drop-shadow(0 0.5px 2px rgba(0, 0, 0, 0.13))'
-                }}
-
-              >
-                <title>Play trailer</title><defs data-sentry-element="defs" data-sentry-source-file="PreviewButton.tsx"><linearGradient id="playGradient" x1="0%" y1="0%" x2="0%" y2="100%" data-sentry-element="linearGradient" data-sentry-source-file="PreviewButton.tsx"><stop offset="0%" stopColor="color(display-p3 1 1 1 / 0.94)" data-sentry-element="stop" data-sentry-source-file="PreviewButton.tsx"></stop><stop offset="100%" stop-color="color(display-p3 1 1 1 / 0.76)"></stop></linearGradient></defs><path d="M1.70898 14.9805C1.70898 15.9473 2.26562 16.4062 2.92969 16.4062C3.22266 16.4062 3.52539 16.3086 3.82812 16.1523L15.2051 9.50195C16.0156 9.0332 16.2891 8.71094 16.2891 8.20312C16.2891 7.68555 16.0156 7.37305 15.2051 6.9043L3.82812 0.253906C3.52539 0.0878906 3.22266 0 2.92969 0C2.26562 0 1.70898 0.458984 1.70898 1.42578Z" fill="url(#playGradient)"></path></svg>
-              Trailer</span>
-          </button>
-
-
-          <button className="mt-6 px-5 rounded-full hover:opacity-90 transition-opacity cursor-pointer focus:outline-none focus:ring-0 focus:border-0"
-            style={{
-              fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-              fontSize: '12pt',
-              fontWeight: 500,
-              paddingTop: '9px',
-              paddingBottom: '9px',
-              background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 100%), rgb(251, 86, 7)',
-              color: 'rgb(251, 86, 7)',
-              boxShadow: `inset 0 0 3px 1px rgba(255, 255, 255, 0.22),
-              inset 0 0 6px 0px rgba(255, 255, 255, 0.06),
-              0 1px 5px rgba(251, 86, 7, 0.29),
-              0 1px 8px rgba(251, 86, 7, 0.14)`,
-              outline: 'none',
-              border: 'none',
-            }}>
-            <span
-              style={{
-                background: 'linear-gradient(180deg, color(display-p3 1 1 1 / 0.94) 0%, color(display-p3 1 1 1 / 0.76) 100%)',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                color: 'transparent',
-                textShadow: `inset 0 0 0 rgba(255, 255, 255, 0.15),
-              0 4px 13px rgba(0, 0, 0, 0.08),
-              0 0.5px 2px rgba(0, 0, 0, 0.13)`,
-                display: 'flex',
-                alignItems: 'center',
-                gap: '4px',
-              }}
-            >
-              <svg width="14" height="14" viewBox="0 0 16.2891 16.416"
-                style={{
-                  filter: 'drop-shadow(0 4px 13px rgba(0, 0, 0, 0.08)) drop-shadow(0 0.5px 2px rgba(0, 0, 0, 0.13))'
-                }}
-
-              >
-                <title>Play trailer</title><defs data-sentry-element="defs" data-sentry-source-file="PreviewButton.tsx"><linearGradient id="playGradient" x1="0%" y1="0%" x2="0%" y2="100%" data-sentry-element="linearGradient" data-sentry-source-file="PreviewButton.tsx"><stop offset="0%" stopColor="color(display-p3 1 1 1 / 0.94)" data-sentry-element="stop" data-sentry-source-file="PreviewButton.tsx"></stop><stop offset="100%" stop-color="color(display-p3 1 1 1 / 0.76)"></stop></linearGradient></defs><path d="M1.70898 14.9805C1.70898 15.9473 2.26562 16.4062 2.92969 16.4062C3.22266 16.4062 3.52539 16.3086 3.82812 16.1523L15.2051 9.50195C16.0156 9.0332 16.2891 8.71094 16.2891 8.20312C16.2891 7.68555 16.0156 7.37305 15.2051 6.9043L3.82812 0.253906C3.52539 0.0878906 3.22266 0 2.92969 0C2.26562 0 1.70898 0.458984 1.70898 1.42578Z" fill="url(#playGradient)"></path></svg>
-              Trailer</span>
-          </button>
-
-        </div> */
 }
