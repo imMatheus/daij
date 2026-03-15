@@ -35,20 +35,27 @@ const PROVIDER_CARDS = [
 export function Home() {
   return (
     <div className="mx-auto max-w-7xl py-7">
-      <div
-        className="flex aspect-7/3 w-full flex-col justify-end rounded-3xl px-12 pb-6"
-        style={{
-          backgroundSize: 'cover',
-          // backgroundImage: "url(https://cdn.midjourney.com/eb1d1de6-d0b5-49dd-a3c9-ed1775f62e5a/0_0.png)",
-          backgroundImage:
-            'url(https://cdn.midjourney.com/99c9da35-4609-4211-a78b-4bf70359c8b8/0_0.png)',
-        }}
-      >
-        <h1 className="mb-2 text-8xl font-semibold tracking-wide text-white">
+      <div className="relative flex aspect-7/3 w-full flex-col justify-end overflow-hidden rounded-3xl px-12 pb-6">
+        <img
+          src="https://cdn.midjourney.com/99c9da35-4609-4211-a78b-4bf70359c8b8/0_0.png"
+          alt=""
+          className="absolute inset-0 size-full object-cover"
+          style={{ animation: 'heroUnblur 2.4s cubic-bezier(0.16, 1, 0.3, 1) both' }}
+        />
+        <div className="pointer-events-none absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.1) 50%, transparent 100%)' }} />
+        <style>
+          {`
+            @keyframes heroUnblur {
+              0% { filter: blur(20px) saturate(1.2); transform: scale(1.15); }
+              100% { filter: blur(0px) saturate(1); transform: scale(1); }
+            }
+          `}
+        </style>
+        <h1 className="relative mb-2 text-8xl font-semibold tracking-wide text-white">
           DAIJ
         </h1>
-        <div className="flex gap-2">
-          <button className="flex items-center gap-2 rounded-full bg-black px-5 py-3 text-lg font-medium text-white">
+        <div className="relative flex gap-2">
+          <Link to="/arena" className="flex items-center gap-2 rounded-full bg-black px-5 py-3 text-lg font-medium text-white">
             <svg
               className="size-5"
               viewBox="0 0 24 24"
@@ -63,8 +70,8 @@ export function Home() {
               <circle cx="18" cy="16" r="3" />
             </svg>
             Rank songs
-          </button>
-          <button className="flex items-center gap-2 rounded-full bg-black px-5 py-3 text-lg font-medium text-white">
+          </Link>
+          <Link to="/leaderboard" className="flex items-center gap-2 rounded-full bg-black px-5 py-3 text-lg font-medium text-white">
             <svg
               className="size-5"
               viewBox="0 0 24 24"
@@ -79,7 +86,7 @@ export function Home() {
               <path d="M6 20v-6" />
             </svg>
             Leaderboard
-          </button>
+          </Link>
         </div>
       </div>
 
