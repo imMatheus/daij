@@ -58,7 +58,7 @@ export const Provider = () => {
 
   const meta = providerMeta[provider as Song['provider']]
 
-  if (!meta) {
+  if (!meta || !provider) {
     return (
       <div className="mx-auto max-w-7xl px-4 py-7">
         <p className="text-secondary py-12 text-center text-sm">
@@ -81,7 +81,7 @@ export const Provider = () => {
         <img
           src={coverImage}
           alt={meta.label}
-          className="aspect-[3/1] w-full object-cover"
+          className="aspect-3/1 w-full object-cover"
         />
         <div
           className="pointer-events-none absolute inset-0"
