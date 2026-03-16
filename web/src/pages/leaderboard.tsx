@@ -34,22 +34,24 @@ export const Leaderboard = () => {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-7">
-      <header className="pb-4">
-        <h1 className="text-primary text-3xl font-bold">Leaderboard</h1>
-        <p className="text-secondary mt-1 text-sm">
-          Rankings based on ELO scores
+      <header className="pt-6 pb-8 text-center">
+        <p className="text-secondary mb-2 text-xs font-semibold tracking-widest uppercase">
+          Rankings
         </p>
-      </header>
-
-      <div className="pb-4">
-        <div className="flex gap-2">
+        <h1 className="font-panchang text-primary text-5xl font-black tracking-wide uppercase">
+          Leaderboard
+        </h1>
+        <p className="text-secondary mx-auto mt-2 max-w-sm text-sm">
+          See which AI models and songs are winning, ranked by ELO score.
+        </p>
+        <div className="mt-5 flex justify-center gap-2">
           {(['songs', 'models'] as const).map((t) => (
             <Button key={t} onClick={() => setTab(t)}>
               {t === 'songs' ? 'Top Songs' : 'Top Models'}
             </Button>
           ))}
         </div>
-      </div>
+      </header>
 
       {tab === 'songs' && (
         <div>

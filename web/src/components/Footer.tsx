@@ -38,21 +38,32 @@ export const Footer = () => {
     >
       {/* <footer className="pt-20 pb-40 mt-10" style={{ background: 'url(https://cdn.midjourney.com/a837b61a-df36-44ab-a6c3-7f5f6c6e0064/0_0.png) no-repeat center center', backgroundSize: 'cover', }}> */}
       <div className="mx-auto w-full max-w-4xl px-5">
-        <div className="rounded-t-full bg-black/40 px-10 py-10 text-white">
+        <div
+          className="rounded-full px-10 py-6"
+          style={{
+            background: 'rgba(255, 255, 255, 0.45)',
+            backdropFilter: 'blur(20px) saturate(1.4)',
+            WebkitBackdropFilter: 'blur(20px) saturate(1.4)',
+            boxShadow:
+              'inset 0 0 0 0.5px rgba(255, 255, 255, 0.6), 0 4px 20px rgba(0, 0, 0, 0.08)',
+          }}
+        >
           <div className="flex items-center justify-between">
-            <p className="">daij — AI-generated music experiment</p>
-            <div className="flex gap-4">
+            <p className="text-sm font-medium text-black/70">
+              daij — AI-generated music experiment
+            </p>
+            <div className="flex gap-4 text-sm font-medium text-black/50">
               <a
                 href="https://x.com/whosmatu"
                 target="_blank"
-                className="hover:text-secondary transition-colors"
+                className="transition-colors hover:text-black/80"
               >
                 Twitter
               </a>
               <a
                 href="https://github.com/immatheus/daij"
                 target="_blank"
-                className="hover:text-secondary transition-colors"
+                className="transition-colors hover:text-black/80"
               >
                 GitHub
               </a>

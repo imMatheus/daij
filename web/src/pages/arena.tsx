@@ -140,10 +140,16 @@ export const Arena = () => {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-7">
-      <header className="pb-4">
-        <h1 className="text-primary text-3xl font-bold">Arena</h1>
-        <p className="text-secondary mt-1 text-sm">
-          Listen to two songs and pick your favorite
+      <header className="pt-6 pb-8 text-center">
+        <p className="text-secondary mb-2 text-xs font-semibold tracking-widest uppercase">
+          Head to head
+        </p>
+        <h1 className="font-panchang text-primary text-5xl font-black tracking-wide uppercase">
+          Arena
+        </h1>
+        <p className="text-secondary mx-auto mt-2 max-w-sm text-sm">
+          Two AI-generated songs go head-to-head. Listen blind, then cast your
+          vote.
         </p>
       </header>
 

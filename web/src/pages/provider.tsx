@@ -3,8 +3,26 @@ import { useSongs } from '@/useSongs'
 import { formatDuration, getProviderImage } from '@/lib/utils'
 import { SongRow } from '@/components/SongRow'
 import { Button } from '@/components/button'
-import { PlayIcon, ShuffleIcon } from '@/components/icons'
+import {
+  PlayIcon,
+  ShuffleIcon,
+  ClaudeAI,
+  OpenAI,
+  Gemini,
+} from '@/components/icons'
 import type { Song } from '@/songs'
+
+const PROVIDER_ICONS: Record<string, typeof ClaudeAI> = {
+  claude: ClaudeAI,
+  chatgpt: OpenAI,
+  gemini: Gemini,
+}
+
+const PROVIDER_EYEBROWS: Record<string, string> = {
+  claude: 'ANTHROPIC',
+  chatgpt: 'OPENAI',
+  gemini: 'GOOGLE',
+}
 
 const providerMeta: Record<
   Song['provider'],
@@ -50,42 +68,40 @@ export const Provider = () => {
     )
   }
 
-  const providerSongs = songs?.filter((s) => s.provider === provider) ?? []
+  const providerSongs = (
+    songs?.filter((s) => s.provider === provider) ?? []
+  ).sort((a, b) => b.eloRating - a.eloRating)
   const totalDuration = providerSongs.reduce((sum, s) => sum + s.duration, 0)
   const coverImage = getProviderImage(provider)
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-7">
       {/* Hero */}
-      <div className="flex gap-5 pb-6">
+      <div className="relative mb-6 overflow-hidden rounded-3xl">
         <img
           src={coverImage}
           alt={meta.label}
-          className="size-36 shrink-0 rounded-xl object-cover sm:size-44"
+          className="aspect-[3/1] w-full object-cover"
         />
-        <div className="flex flex-col justify-end">
-          <p
-            className="text-secondary uppercase"
-            style={{ font: '600 11px/1.27 var(--font-sans)' }}
-          >
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.15) 50%, transparent 100%)',
+          }}
+        />
+        <div className="pointer-events-none absolute inset-0 rounded-3xl ring-[0.5px] ring-black/15 ring-inset" />
+        <div className="absolute bottom-0 left-0 p-8">
+          <p className="mb-1 text-xs font-semibold tracking-widest text-white/60 uppercase">
             Collection
           </p>
-          <h1
-            className="text-primary mt-1"
-            style={{ font: '700 34px/1.176 var(--font-sans)' }}
-          >
+          <h1 className="font-panchang text-4xl font-black tracking-wide text-white uppercase sm:text-5xl">
             {meta.label}
           </h1>
-          <p
-            className="text-secondary mt-2 max-w-md"
-            style={{ font: '400 13px/1.38 var(--font-sans)' }}
-          >
+          <p className="mt-2 max-w-md text-sm text-white/70">
             {meta.description}
           </p>
-          <p
-            className="text-tertiary mt-2"
-            style={{ font: '400 12px/1.25 var(--font-sans)' }}
-          >
+          <p className="mt-2 text-xs text-white/50">
             {providerSongs.length}{' '}
             {providerSongs.length === 1 ? 'song' : 'songs'} &middot;{' '}
             {formatTotalDuration(totalDuration)}
@@ -176,6 +192,42 @@ export const Provider = () => {
           ))
         )}
       </div>
+
+      {/* Other providers */}
+      <section className="mt-16">
+        <h3 className="text-secondary mb-4 text-xs font-semibold tracking-widest uppercase">
+          Other models
+        </h3>
+        <div className="flex flex-wrap gap-4">
+          {(Object.keys(providerMeta) as Song['provider'][])
+            .filter((p) => p !== provider)
+            .map((p) => {
+              const Icon = PROVIDER_ICONS[p]
+              return (
+                <Link key={p} to={`/${p}`} className="group block w-80">
+                  <div className="mb-2">
+                    <p className="text-secondary flex items-center gap-1 text-[11px] leading-tight font-medium tracking-wider uppercase">
+                      {Icon && <Icon className="size-3" />}
+                      {PROVIDER_EYEBROWS[p]}
+                    </p>
+                    <p className="text-primary font-medium tracking-wider">
+                      {providerMeta[p].label}
+                    </p>
+                  </div>
+
+                  <div className="relative overflow-hidden rounded-2xl">
+                    <img
+                      src={getProviderImage(p)}
+                      alt={providerMeta[p].label}
+                      className="aspect-square w-full object-cover transition-all duration-500 ease-out group-hover:scale-[1.05] group-hover:blur-[3px]"
+                    />
+                    <div className="pointer-events-none absolute inset-0 rounded-2xl ring-[0.5px] ring-black/15 ring-inset" />
+                  </div>
+                </Link>
+              )
+            })}
+        </div>
+      </section>
     </div>
   )
 }

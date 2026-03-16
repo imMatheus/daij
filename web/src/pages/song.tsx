@@ -44,21 +44,6 @@ export const SongPage = () => {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-7">
-      <header className="pb-4">
-        {song && (
-          <div className="flex items-center gap-2 text-xs">
-            <Link
-              to={`/${provider}`}
-              className="text-secondary hover:text-primary transition-colors"
-            >
-              {providerLabel(provider!)}
-            </Link>
-            <span className="text-tertiary">/</span>
-            <span className="text-primary">{song.name}</span>
-          </div>
-        )}
-      </header>
-
       {!songs ? (
         <p
           className="text-secondary py-12 text-center"
@@ -76,37 +61,40 @@ export const SongPage = () => {
       ) : (
         <>
           {/* Hero */}
-          <div className="flex gap-5 pb-6">
+          <div className="relative mb-6 overflow-hidden rounded-3xl">
             <img
               src={getProviderImage(song.provider)}
               alt={song.name}
-              className="size-36 shrink-0 rounded-xl object-cover sm:size-44"
+              className="aspect-3/1 w-full object-cover"
             />
-            <div className="flex flex-col justify-end">
-              <p
-                className="text-secondary uppercase"
-                style={{ font: '600 11px/1.27 var(--font-sans)' }}
-              >
-                {providerLabel(song.provider)}
-              </p>
-              <h1
-                className="text-primary mt-1"
-                style={{ font: '700 26px/1.23 var(--font-sans)' }}
-              >
+            <div
+              className="pointer-events-none absolute inset-0"
+              style={{
+                background:
+                  'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.15) 50%, transparent 100%)',
+              }}
+            />
+            <div className="pointer-events-none absolute inset-0 rounded-3xl ring-[0.5px] ring-black/15 ring-inset" />
+            <div className="absolute bottom-0 left-0 p-8">
+              <div className="mb-2 flex items-center gap-2 text-xs text-white/50">
+                <Link
+                  to={`/${provider}`}
+                  className="transition-colors hover:text-white/80"
+                >
+                  {providerLabel(provider!)}
+                </Link>
+                <span>/</span>
+                <span className="text-white/70">{song.name}</span>
+              </div>
+              <h1 className="text-3xl font-bold text-white sm:text-4xl">
                 {song.name}
               </h1>
               {song.prompt && (
-                <p
-                  className="text-secondary mt-2 italic"
-                  style={{ font: '400 13px/1.38 var(--font-sans)' }}
-                >
+                <p className="mt-2 max-w-md text-sm text-white/60 italic">
                   &ldquo;{song.prompt}&rdquo;
                 </p>
               )}
-              <div
-                className="text-tertiary mt-2 flex items-center gap-2"
-                style={{ font: '400 12px/1.25 var(--font-sans)' }}
-              >
+              <div className="mt-2 flex items-center gap-2 text-xs text-white/50">
                 <span>{formatDuration(song.duration)}</span>
                 <span>&middot;</span>
                 <span>ELO {Math.round(song.eloRating)}</span>
