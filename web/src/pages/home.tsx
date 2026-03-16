@@ -193,61 +193,61 @@ function LatestSongs() {
   )
 }
 
-function AboutSection() {
-  return (
-    <section className="mt-24 mb-10">
-      <div className="grid grid-cols-1 items-center gap-12 sm:grid-cols-2">
-        <div>
-          <p className="text-secondary mb-3 text-xs font-semibold tracking-widest uppercase">
-            What is this
-          </p>
-          <h2 className="text-primary text-4xl leading-tight font-bold">
-            Same prompt.
-            <br />
-            Different AI.
-            <br />
-            <span className="text-secondary">You pick the winner.</span>
-          </h2>
-        </div>
+// function AboutSection() {
+//   return (
+//     <section className="mt-24 mb-10">
+//       <div className="grid grid-cols-1 items-center gap-12 sm:grid-cols-2">
+//         <div>
+//           <p className="text-secondary mb-3 text-xs font-semibold tracking-widest uppercase">
+//             What is this
+//           </p>
+//           <h2 className="text-primary text-4xl leading-tight font-bold">
+//             Same prompt.
+//             <br />
+//             Different AI.
+//             <br />
+//             <span className="text-secondary">You pick the winner.</span>
+//           </h2>
+//         </div>
 
-        <div className="text-secondary space-y-4 text-[15px] leading-relaxed">
-          <p>
-            Every model gets the same creative brief — compose a song using{' '}
-            <a
-              href="https://strudel.cc"
-              target="_blank"
-              className="text-primary underline decoration-black/20 underline-offset-2 transition-colors hover:decoration-black/50"
-            >
-              Strudel.cc
-            </a>
-            , a live-coding music tool. The result is 100 prompts across mood,
-            genre, artist style, and more — each interpreted by Claude, ChatGPT,
-            and Gemini.
-          </p>
-          <p>
-            In the arena, songs play back-to-back with no labels. You vote on
-            sound alone. Wins and losses feed an ELO system that ranks every
-            track and every model over time.
-          </p>
-          <div className="flex gap-3 pt-2">
-            <Link
-              to="/arena"
-              className="flex items-center gap-2 rounded-full bg-black px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-black/80"
-            >
-              Try the arena
-            </Link>
-            <Link
-              to="/leaderboard"
-              className="text-primary ring-inset flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium ring-1 ring-black/10 transition-colors hover:bg-black/5"
-            >
-              See rankings
-            </Link>
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-}
+//         <div className="text-secondary space-y-4 text-[15px] leading-relaxed">
+//           <p>
+//             Every model gets the same creative brief — compose a song using{' '}
+//             <a
+//               href="https://strudel.cc"
+//               target="_blank"
+//               className="text-primary underline decoration-black/20 underline-offset-2 transition-colors hover:decoration-black/50"
+//             >
+//               Strudel.cc
+//             </a>
+//             , a live-coding music tool. The result is 100 prompts across mood,
+//             genre, artist style, and more — each interpreted by Claude, ChatGPT,
+//             and Gemini.
+//           </p>
+//           <p>
+//             In the arena, songs play back-to-back with no labels. You vote on
+//             sound alone. Wins and losses feed an ELO system that ranks every
+//             track and every model over time.
+//           </p>
+//           <div className="flex gap-3 pt-2">
+//             <Link
+//               to="/arena"
+//               className="flex items-center gap-2 rounded-full bg-black px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-black/80"
+//             >
+//               Try the arena
+//             </Link>
+//             <Link
+//               to="/leaderboard"
+//               className="text-primary ring-inset flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium ring-1 ring-black/10 transition-colors hover:bg-black/5"
+//             >
+//               See rankings
+//             </Link>
+//           </div>
+//         </div>
+//       </div>
+//     </section>
+//   )
+// }
 
 function SongCell({ song, queue }: { song: Song; queue: Song[] }) {
   const { play, pause, resume, currentSong, isPlaying } = useSongs()
