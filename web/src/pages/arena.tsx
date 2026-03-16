@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { useQuery, useMutation } from '@tanstack/react-query'
-import { Link } from 'react-router'
 import { fetchJson, postJson } from '@/lib/api'
 import { useSongs } from '@/useSongs'
 import type { Song } from '@/songs'
@@ -112,11 +111,31 @@ export const Arena = () => {
     refetch()
   }
 
-  const voteButtons: { label: string; outcome: VoteOutcome }[] = [
-    { label: 'Left is better', outcome: 'left_wins' },
-    { label: 'Right is better', outcome: 'right_wins' },
-    { label: "It's a tie", outcome: 'tie' },
-    { label: 'Both are bad', outcome: 'both_bad' },
+  const voteButtons = [
+    {
+      label: 'Left is better',
+      outcome: 'left_wins' as const,
+      imgUrl:
+        'https://cdn.midjourney.com/4d20398c-237b-42b5-bc51-0167e0524eff/0_3.png',
+    },
+    {
+      label: "It's a tie",
+      outcome: 'tie' as const,
+      imgUrl:
+        'https://cdn.midjourney.com/585761a4-f2a8-4d05-8fa2-1bd311be48eb/0_1.png',
+    },
+    {
+      label: 'Both are bad',
+      outcome: 'both_bad' as const,
+      imgUrl:
+        'https://cdn.midjourney.com/6e1bcde8-1dd7-43fe-9647-0cfd78866b16/0_0.png',
+    },
+    {
+      label: 'Right is better',
+      outcome: 'right_wins' as const,
+      imgUrl:
+        'https://cdn.midjourney.com/bd255b07-bcf6-4664-a91e-0fbadfa2f04b/0_1.png',
+    },
   ]
 
   return (
@@ -183,15 +202,40 @@ export const Arena = () => {
                 {voted ? (
                   <Button onClick={nextMatchup}>Next matchup</Button>
                 ) : (
-                  voteButtons.map((btn) => (
-                    <Button
-                      key={btn.outcome}
-                      onClick={() => voteMutation.mutate(btn.outcome)}
-                      disabled={voteMutation.isPending}
-                    >
-                      {btn.label}
-                    </Button>
-                  ))
+                  voteButtons.map((btn, i) => {
+                    const isLast = i === voteButtons.length - 1
+                    return (
+                      // <button
+                      //   key={btn.outcome}
+                      //   onClick={() => voteMutation.mutate(btn.outcome)}
+                      //   disabled={voteMutation.isPending}
+                      //   className='pl-4 pr-12 flex overflow-hidden items-center justify-center gap-1 py-2 relative rounded-full bg-[#001b8f] text-white font-medium'
+                      // >
+                      //   {btn.label}
+                      //   <img src="https://cdn.midjourney.com/b7636239-0a6f-4ef4-a051-9bc6a14153d2/0_3.png" alt="arrow right" className='size-10 absolute right-0 top-1/2 -translate-y-1/2' />
+                      // </button>
+                      <button
+                        key={btn.outcome}
+                        onClick={() => voteMutation.mutate(btn.outcome)}
+                        disabled={voteMutation.isPending}
+                        className={cn(
+                          isLast ? 'pr-12 pl-4' : 'pr-4 pl-12',
+                          'relative flex items-center justify-center gap-1 overflow-hidden rounded-full bg-[#f6211f] py-2 font-medium text-white',
+                        )}
+                      >
+                        {btn.label}
+
+                        <img
+                          src={btn.imgUrl}
+                          alt="arrow right"
+                          className={cn(
+                            isLast ? 'right-1' : 'left-1',
+                            'absolute top-1/2 size-8 -translate-y-1/2',
+                          )}
+                        />
+                      </button>
+                    )
+                  })
                 )}
               </div>
             </>

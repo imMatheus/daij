@@ -34,10 +34,12 @@ const PROVIDER_CARDS = [
 
 export function Home() {
   return (
-    <div className="mx-auto max-w-7xl py-7">
+    <div className="mx-auto max-w-7xl px-4 py-7">
       <div className="relative flex aspect-7/3 w-full flex-col justify-end overflow-hidden rounded-3xl px-12 pb-6">
         <img
           src="https://cdn.midjourney.com/99c9da35-4609-4211-a78b-4bf70359c8b8/0_0.png"
+          // src="https://cdn.midjourney.com/130a2b36-3161-43ac-bfe1-d56cc8af7f9e/0_0.png"
+          // src="https://cdn.midjourney.com/2caad6fe-2675-4b5b-9812-0d3eb1bf2e9e/0_0.png"
           alt=""
           className="absolute inset-0 size-full object-cover"
           style={{
@@ -139,10 +141,9 @@ export function Home() {
                 <img
                   src={getProviderImage(card.provider)}
                   alt={card.title}
-                  className="aspect-square w-full object-cover"
+                  className="aspect-square w-full object-cover transition-all duration-500 ease-out group-hover:scale-[1.05] group-hover:blur-[3px]"
                 />
                 <div className="pointer-events-none absolute inset-0 rounded-2xl ring-[0.5px] ring-black/15 ring-inset" />
-                <div className="pointer-events-none absolute inset-0 rounded-2xl bg-[rgba(51,51,51,0.2)] opacity-0 transition-opacity duration-100 ease-in group-hover:opacity-100" />
               </div>
             </Link>
           ))}
@@ -215,7 +216,7 @@ function SongCell({ song, queue }: { song: Song; queue: Song[] }) {
         <div className="pointer-events-none absolute inset-0 rounded-md ring-[0.5px] ring-black/10 ring-inset" />
         {isActive ? (
           <div className="absolute inset-0 flex items-center justify-center bg-black/30">
-            <PlayingWave />
+            <PlayingWave theme="white" />
           </div>
         ) : (
           <div className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 transition-opacity group-hover:opacity-100">

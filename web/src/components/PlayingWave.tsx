@@ -1,4 +1,6 @@
-export function PlayingWave() {
+export function PlayingWave({ theme }: { theme: 'white' | 'black' }) {
+  const color = theme === 'white' ? '#fff' : '#000'
+
   return (
     <div
       className="flex items-end justify-center gap-px"
@@ -7,30 +9,28 @@ export function PlayingWave() {
       <div
         className="w-[3px]"
         style={{
-          backgroundColor: 'var(--key-color)',
+          backgroundColor: color,
           animation: `playingWave 800ms ease-in-out -1s infinite alternate`,
         }}
       />
       <div
         className="w-[3px]"
         style={{
-          backgroundColor: 'var(--key-color)',
-          opacity: 0.7,
+          backgroundColor: color,
           animation: `playingWave 800ms ease-in-out -0.3s infinite alternate`,
         }}
       />
       <div
         className="w-[3px]"
         style={{
-          backgroundColor: 'var(--key-color)',
+          backgroundColor: color,
           animation: `playingWave 800ms ease-in-out -2s infinite alternate`,
         }}
       />
       <div
         className="w-[3px]"
         style={{
-          backgroundColor: 'var(--key-color)',
-          opacity: 0.7,
+          backgroundColor: color,
           animation: `playingWave 800ms ease-in-out -1.4s infinite alternate`,
         }}
       />

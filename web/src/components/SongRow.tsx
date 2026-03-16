@@ -43,7 +43,7 @@ export function SongRow({
         {isActive ? (
           <>
             <span className="group-hover:hidden">
-              <PlayingWave />
+              <PlayingWave theme={'black'} />
             </span>
             <span className="text-primary hidden group-hover:inline">❚❚</span>
           </>
