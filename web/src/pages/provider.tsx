@@ -42,12 +42,10 @@ export const Provider = () => {
 
   if (!meta) {
     return (
-      <div className="min-h-screen px-5 pt-12">
-        <div className="mx-auto w-full max-w-7xl">
-          <p className="text-secondary px-5 py-12 text-center text-sm">
-            Provider not found.
-          </p>
-        </div>
+      <div className="mx-auto max-w-7xl px-4 py-7">
+        <p className="text-secondary py-12 text-center text-sm">
+          Provider not found.
+        </p>
       </div>
     )
   }
@@ -57,128 +55,126 @@ export const Provider = () => {
   const coverImage = getProviderImage(provider)
 
   return (
-    <div className="min-h-screen px-5 pt-12">
-      <div className="mx-auto w-full max-w-7xl">
-        {/* Hero */}
-        <div className="flex gap-5 pb-6">
-          <img
-            src={coverImage}
-            alt={meta.label}
-            className="size-36 shrink-0 rounded-xl object-cover sm:size-44"
-          />
-          <div className="flex flex-col justify-end">
-            <p
-              className="text-secondary uppercase"
-              style={{ font: '600 11px/1.27 var(--font-sans)' }}
-            >
-              Collection
-            </p>
-            <h1
-              className="text-primary mt-1"
-              style={{ font: '700 34px/1.176 var(--font-sans)' }}
-            >
-              {meta.label}
-            </h1>
-            <p
-              className="text-secondary mt-2 max-w-md"
-              style={{ font: '400 13px/1.38 var(--font-sans)' }}
-            >
-              {meta.description}
-            </p>
-            <p
-              className="text-tertiary mt-2"
-              style={{ font: '400 12px/1.25 var(--font-sans)' }}
-            >
-              {providerSongs.length}{' '}
-              {providerSongs.length === 1 ? 'song' : 'songs'} &middot;{' '}
-              {formatTotalDuration(totalDuration)}
-            </p>
-          </div>
-        </div>
-
-        {/* Actions */}
-        {providerSongs.length > 0 && (
-          <div className="flex items-center gap-3 pb-6">
-            <Button onClick={() => play(providerSongs[0], providerSongs)}>
-              <PlayIcon className="size-3.5" />
-              Play all
-            </Button>
-            <Button
-              onClick={() => {
-                const shuffled = [...providerSongs].sort(
-                  () => Math.random() - 0.5,
-                )
-                play(shuffled[0], shuffled)
-              }}
-            >
-              <ShuffleIcon className="size-3.5" />
-              Shuffle
-            </Button>
-          </div>
-        )}
-
-        {/* Song list */}
-        <div className="border-divider border-t">
-          <div
-            className="border-divider text-secondary flex items-center border-b px-5 py-2"
-            style={{ font: '400 11px/1.27 var(--font-sans)' }}
+    <div className="mx-auto max-w-7xl px-4 py-7">
+      {/* Hero */}
+      <div className="flex gap-5 pb-6">
+        <img
+          src={coverImage}
+          alt={meta.label}
+          className="size-36 shrink-0 rounded-xl object-cover sm:size-44"
+        />
+        <div className="flex flex-col justify-end">
+          <p
+            className="text-secondary uppercase"
+            style={{ font: '600 11px/1.27 var(--font-sans)' }}
           >
-            <span className="w-8 shrink-0 text-center">#</span>
-            <span className="ml-3 flex-1">Title</span>
-            <span className="w-14 shrink-0 text-right">Listens</span>
-            <span className="w-14 shrink-0 text-right">Wins</span>
-            <span className="w-14 shrink-0 text-right">ELO</span>
-            <span className="w-14 shrink-0 text-right">Time</span>
-          </div>
-
-          {!songs ? (
-            <p
-              className="text-secondary py-12 text-center"
-              style={{ font: '400 13px/1.23 var(--font-sans)' }}
-            >
-              Loading...
-            </p>
-          ) : providerSongs.length === 0 ? (
-            <p
-              className="text-secondary py-12 text-center"
-              style={{ font: '400 13px/1.23 var(--font-sans)' }}
-            >
-              No tracks yet.
-            </p>
-          ) : (
-            providerSongs.map((song, i) => (
-              <SongRow
-                key={song.name}
-                song={song}
-                index={i + 1}
-                showProvider={false}
-                queue={providerSongs}
-                trailing={
-                  <div
-                    className="flex items-center"
-                    style={{ font: '400 12px/1.25 var(--font-sans)' }}
-                  >
-                    <span className="text-secondary w-14 shrink-0 text-right">
-                      {song.listens}
-                    </span>
-                    <span className="text-secondary w-14 shrink-0 text-right">
-                      {song.wins}
-                    </span>
-                    <span
-                      className="text-primary w-14 shrink-0 text-right"
-                      style={{ fontWeight: 600 }}
-                    >
-                      {Math.round(song.eloRating)}
-                    </span>
-                    <span className="text-secondary w-14 shrink-0 text-right">
-                      {formatDuration(song.duration)}
-                    </span>
-                  </div>
-                }
-              />
-            ))
-          )}
+            Collection
+          </p>
+          <h1
+            className="text-primary mt-1"
+            style={{ font: '700 34px/1.176 var(--font-sans)' }}
+          >
+            {meta.label}
+          </h1>
+          <p
+            className="text-secondary mt-2 max-w-md"
+            style={{ font: '400 13px/1.38 var(--font-sans)' }}
+          >
+            {meta.description}
+          </p>
+          <p
+            className="text-tertiary mt-2"
+            style={{ font: '400 12px/1.25 var(--font-sans)' }}
+          >
+            {providerSongs.length}{' '}
+            {providerSongs.length === 1 ? 'song' : 'songs'} &middot;{' '}
+            {formatTotalDuration(totalDuration)}
+          </p>
         </div>
+      </div>
+
+      {/* Actions */}
+      {providerSongs.length > 0 && (
+        <div className="flex items-center gap-3 pb-6">
+          <Button onClick={() => play(providerSongs[0], providerSongs)}>
+            <PlayIcon className="size-3.5" />
+            Play all
+          </Button>
+          <Button
+            onClick={() => {
+              const shuffled = [...providerSongs].sort(
+                () => Math.random() - 0.5,
+              )
+              play(shuffled[0], shuffled)
+            }}
+          >
+            <ShuffleIcon className="size-3.5" />
+            Shuffle
+          </Button>
+        </div>
+      )}
+
+      {/* Song list */}
+      <div className="border-divider border-t">
+        <div
+          className="border-divider text-secondary flex items-center border-b px-5 py-2"
+          style={{ font: '400 11px/1.27 var(--font-sans)' }}
+        >
+          <span className="w-8 shrink-0 text-center">#</span>
+          <span className="ml-3 flex-1">Title</span>
+          <span className="w-14 shrink-0 text-right">Listens</span>
+          <span className="w-14 shrink-0 text-right">Wins</span>
+          <span className="w-14 shrink-0 text-right">ELO</span>
+          <span className="w-14 shrink-0 text-right">Time</span>
+        </div>
+
+        {!songs ? (
+          <p
+            className="text-secondary py-12 text-center"
+            style={{ font: '400 13px/1.23 var(--font-sans)' }}
+          >
+            Loading...
+          </p>
+        ) : providerSongs.length === 0 ? (
+          <p
+            className="text-secondary py-12 text-center"
+            style={{ font: '400 13px/1.23 var(--font-sans)' }}
+          >
+            No tracks yet.
+          </p>
+        ) : (
+          providerSongs.map((song, i) => (
+            <SongRow
+              key={song.name}
+              song={song}
+              index={i + 1}
+              showProvider={false}
+              queue={providerSongs}
+              trailing={
+                <div
+                  className="flex items-center"
+                  style={{ font: '400 12px/1.25 var(--font-sans)' }}
+                >
+                  <span className="text-secondary w-14 shrink-0 text-right">
+                    {song.listens}
+                  </span>
+                  <span className="text-secondary w-14 shrink-0 text-right">
+                    {song.wins}
+                  </span>
+                  <span
+                    className="text-primary w-14 shrink-0 text-right"
+                    style={{ fontWeight: 600 }}
+                  >
+                    {Math.round(song.eloRating)}
+                  </span>
+                  <span className="text-secondary w-14 shrink-0 text-right">
+                    {formatDuration(song.duration)}
+                  </span>
+                </div>
+              }
+            />
+          ))
+        )}
       </div>
     </div>
   )

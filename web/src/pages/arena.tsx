@@ -139,108 +139,106 @@ export const Arena = () => {
   ]
 
   return (
-    <div className="min-h-screen bg-white">
-      <div className="mx-auto w-full max-w-6xl">
-        <header className="px-5 pt-6 pb-4">
-          <h1 className="text-primary text-3xl font-bold">Arena</h1>
-          <p className="text-secondary mt-1 text-sm">
-            Listen to two songs and pick your favorite
+    <div className="mx-auto max-w-7xl px-4 py-7">
+      <header className="pb-4">
+        <h1 className="text-primary text-3xl font-bold">Arena</h1>
+        <p className="text-secondary mt-1 text-sm">
+          Listen to two songs and pick your favorite
+        </p>
+      </header>
+
+      <div className="pb-8">
+        {isLoading ? (
+          <p
+            className="text-secondary py-12 text-center"
+            style={{ font: '400 13px/1.23 var(--font-sans)' }}
+          >
+            Loading matchup...
           </p>
-        </header>
-
-        <div className="px-5 pb-8">
-          {isLoading ? (
-            <p
-              className="text-secondary py-12 text-center"
-              style={{ font: '400 13px/1.23 var(--font-sans)' }}
-            >
-              Loading matchup...
-            </p>
-          ) : !pair || pair?.length < 2 ? (
-            <p
-              className="text-secondary py-12 text-center"
-              style={{ font: '400 13px/1.23 var(--font-sans)' }}
-            >
-              Need songs from at least 2 different models to start.
-            </p>
-          ) : (
-            <>
-              <div className="bg-surface mb-6 rounded-xl p-4 text-center">
-                <p
-                  className="text-secondary mb-1 uppercase"
-                  style={{ font: '600 11px/1.27 var(--font-sans)' }}
-                >
-                  Prompt
-                </p>
-                <p
-                  className="text-primary"
-                  style={{ font: '400 16px/1.375 var(--font-sans)' }}
-                >
-                  &ldquo;{prompt}&rdquo;
-                </p>
+        ) : !pair || pair?.length < 2 ? (
+          <p
+            className="text-secondary py-12 text-center"
+            style={{ font: '400 13px/1.23 var(--font-sans)' }}
+          >
+            Need songs from at least 2 different models to start.
+          </p>
+        ) : (
+          <>
+            <div className="bg-surface mb-6 rounded-xl p-4 text-center">
+              <p
+                className="text-secondary mb-1 uppercase"
+                style={{ font: '600 11px/1.27 var(--font-sans)' }}
+              >
+                Prompt
+              </p>
+              <p
+                className="text-primary"
+                style={{ font: '400 16px/1.375 var(--font-sans)' }}
+              >
+                &ldquo;{prompt}&rdquo;
+              </p>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="border-divider rounded-xl border">
+                <SongCard
+                  song={pair![0]}
+                  label="Song A"
+                  revealed={voted}
+                  pair={pair!}
+                />
               </div>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="border-divider rounded-xl border">
-                  <SongCard
-                    song={pair![0]}
-                    label="Song A"
-                    revealed={voted}
-                    pair={pair!}
-                  />
-                </div>
-                <div className="border-divider rounded-xl border">
-                  <SongCard
-                    song={pair![1]}
-                    label="Song B"
-                    revealed={voted}
-                    pair={pair!}
-                  />
-                </div>
+              <div className="border-divider rounded-xl border">
+                <SongCard
+                  song={pair![1]}
+                  label="Song B"
+                  revealed={voted}
+                  pair={pair!}
+                />
               </div>
+            </div>
 
-              <div className="mt-8 flex flex-wrap justify-center gap-3">
-                {voted ? (
-                  <Button onClick={nextMatchup}>Next matchup</Button>
-                ) : (
-                  voteButtons.map((btn, i) => {
-                    const isLast = i === voteButtons.length - 1
-                    return (
-                      // <button
-                      //   key={btn.outcome}
-                      //   onClick={() => voteMutation.mutate(btn.outcome)}
-                      //   disabled={voteMutation.isPending}
-                      //   className='pl-4 pr-12 flex overflow-hidden items-center justify-center gap-1 py-2 relative rounded-full bg-[#001b8f] text-white font-medium'
-                      // >
-                      //   {btn.label}
-                      //   <img src="https://cdn.midjourney.com/b7636239-0a6f-4ef4-a051-9bc6a14153d2/0_3.png" alt="arrow right" className='size-10 absolute right-0 top-1/2 -translate-y-1/2' />
-                      // </button>
-                      <button
-                        key={btn.outcome}
-                        onClick={() => voteMutation.mutate(btn.outcome)}
-                        disabled={voteMutation.isPending}
+            <div className="mt-8 flex flex-wrap justify-center gap-3">
+              {voted ? (
+                <Button onClick={nextMatchup}>Next matchup</Button>
+              ) : (
+                voteButtons.map((btn, i) => {
+                  const isLast = i === voteButtons.length - 1
+                  return (
+                    // <button
+                    //   key={btn.outcome}
+                    //   onClick={() => voteMutation.mutate(btn.outcome)}
+                    //   disabled={voteMutation.isPending}
+                    //   className='pl-4 pr-12 flex overflow-hidden items-center justify-center gap-1 py-2 relative rounded-full bg-[#001b8f] text-white font-medium'
+                    // >
+                    //   {btn.label}
+                    //   <img src="https://cdn.midjourney.com/b7636239-0a6f-4ef4-a051-9bc6a14153d2/0_3.png" alt="arrow right" className='size-10 absolute right-0 top-1/2 -translate-y-1/2' />
+                    // </button>
+                    <button
+                      key={btn.outcome}
+                      onClick={() => voteMutation.mutate(btn.outcome)}
+                      disabled={voteMutation.isPending}
+                      className={cn(
+                        isLast ? 'pr-12 pl-4' : 'pr-4 pl-12',
+                        'relative flex items-center justify-center gap-1 overflow-hidden rounded-full bg-[#f6211f] py-2 font-medium text-white',
+                      )}
+                    >
+                      {btn.label}
+
+                      <img
+                        src={btn.imgUrl}
+                        alt="arrow right"
                         className={cn(
-                          isLast ? 'pr-12 pl-4' : 'pr-4 pl-12',
-                          'relative flex items-center justify-center gap-1 overflow-hidden rounded-full bg-[#f6211f] py-2 font-medium text-white',
+                          isLast ? 'right-1' : 'left-1',
+                          'absolute top-1/2 size-8 -translate-y-1/2',
                         )}
-                      >
-                        {btn.label}
-
-                        <img
-                          src={btn.imgUrl}
-                          alt="arrow right"
-                          className={cn(
-                            isLast ? 'right-1' : 'left-1',
-                            'absolute top-1/2 size-8 -translate-y-1/2',
-                          )}
-                        />
-                      </button>
-                    )
-                  })
-                )}
-              </div>
-            </>
-          )}
-        </div>
+                      />
+                    </button>
+                  )
+                })
+              )}
+            </div>
+          </>
+        )}
       </div>
     </div>
   )
