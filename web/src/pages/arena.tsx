@@ -79,6 +79,20 @@ function SongCard({
 export const Arena = () => {
   const { clearContext, setAnonymous } = useSongs()
   const [voted, setVoted] = useState(false)
+  const [hoveredOutcome, setHoveredOutcome] = useState<VoteOutcome | null>(null)
+
+  const highlightLeft =
+    hoveredOutcome === 'left_wins' ||
+    hoveredOutcome === 'tie' ||
+    hoveredOutcome === 'both_bad'
+  const highlightRight =
+    hoveredOutcome === 'right_wins' ||
+    hoveredOutcome === 'tie' ||
+    hoveredOutcome === 'both_bad'
+
+
+  console.log({ hoveredOutcome });
+
 
   const {
     data: arenaData,
@@ -107,6 +121,7 @@ export const Arena = () => {
 
   const nextMatchup = () => {
     setVoted(false)
+    setHoveredOutcome(null)
     clearContext()
     refetch()
   }
@@ -139,7 +154,7 @@ export const Arena = () => {
   ]
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-7">
+    <div className="mx-auto max-w-7xl px-4 pt-7 pb-24">
       <header className="pt-6 pb-8 text-center">
         <p className="text-secondary mb-2 text-xs font-semibold tracking-widest uppercase">
           Head to head
@@ -185,7 +200,14 @@ export const Arena = () => {
               </p>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
-              <div className="border-divider rounded-xl border">
+              <div
+                className={cn(
+                  'rounded-xl border-2 transition-colors duration-150',
+                  highlightLeft
+                    ? 'border-[#f6211f]!'
+                    : 'border-divider!',
+                )}
+              >
                 <SongCard
                   song={pair![0]}
                   label="Song A"
@@ -193,7 +215,14 @@ export const Arena = () => {
                   pair={pair!}
                 />
               </div>
-              <div className="border-divider rounded-xl border">
+              <div
+                className={cn(
+                  'rounded-xl border-2 transition-colors duration-150',
+                  highlightRight
+                    ? 'border-[#f6211f]!'
+                    : 'border-divider!',
+                )}
+              >
                 <SongCard
                   song={pair![1]}
                   label="Song B"
@@ -222,20 +251,24 @@ export const Arena = () => {
                     <button
                       key={btn.outcome}
                       onClick={() => voteMutation.mutate(btn.outcome)}
+                      onMouseEnter={() => setHoveredOutcome(btn.outcome)}
+                      onMouseLeave={() => setHoveredOutcome(null)}
                       disabled={voteMutation.isPending}
                       className={cn(
                         isLast ? 'pr-12 pl-4' : 'pr-4 pl-12',
-                        'relative flex items-center justify-center gap-1 overflow-hidden rounded-full bg-[#f6211f] py-2 font-medium text-white',
+                        'group/btn relative flex cursor-pointer items-center justify-center gap-1 overflow-visible rounded-full bg-[#f6211f] py-2 font-medium text-white',
                       )}
                     >
                       {btn.label}
 
                       <img
                         src={btn.imgUrl}
-                        alt="arrow right"
+                        alt=""
                         className={cn(
-                          isLast ? 'right-1' : 'left-1',
-                          'absolute top-1/2 size-8 -translate-y-1/2',
+                          isLast
+                            ? 'right-1 group-hover/btn:right-0'
+                            : 'left-1 group-hover/btn:left-0',
+                          'rounded-full absolute top-1/2 size-8 -translate-y-1/2 transition-all duration-200 ease-out group-hover/btn:size-10',
                         )}
                       />
                     </button>

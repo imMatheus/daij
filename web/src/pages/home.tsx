@@ -37,9 +37,10 @@ export function Home() {
     <div className="mx-auto max-w-7xl px-4 py-7">
       <div className="relative flex aspect-7/3 w-full flex-col justify-end overflow-hidden rounded-3xl px-12 pb-6">
         <img
-          src="https://cdn.midjourney.com/99c9da35-4609-4211-a78b-4bf70359c8b8/0_0.png"
+          // src="https://cdn.midjourney.com/99c9da35-4609-4211-a78b-4bf70359c8b8/0_0.png"
           // src="https://cdn.midjourney.com/130a2b36-3161-43ac-bfe1-d56cc8af7f9e/0_0.png"
           // src="https://cdn.midjourney.com/2caad6fe-2675-4b5b-9812-0d3eb1bf2e9e/0_0.png"
+          src='https://cdn.midjourney.com/9d27d884-9688-407d-a7f3-dc2c73414a7c/0_0.png'
           alt=""
           className="absolute inset-0 size-full object-cover"
           style={{
@@ -151,6 +152,8 @@ export function Home() {
       </section>
 
       <LatestSongs />
+
+      {/* <AboutSection /> */}
     </div>
   )
 }
@@ -186,6 +189,62 @@ function LatestSongs() {
           ))}
         </div>
       )}
+    </section>
+  )
+}
+
+function AboutSection() {
+  return (
+    <section className="mt-24 mb-10">
+      <div className="grid grid-cols-1 items-center gap-12 sm:grid-cols-2">
+        <div>
+          <p className="text-secondary mb-3 text-xs font-semibold tracking-widest uppercase">
+            What is this
+          </p>
+          <h2 className="text-primary text-4xl leading-tight font-bold">
+            Same prompt.
+            <br />
+            Different AI.
+            <br />
+            <span className="text-secondary">You pick the winner.</span>
+          </h2>
+        </div>
+
+        <div className="text-secondary space-y-4 text-[15px] leading-relaxed">
+          <p>
+            Every model gets the same creative brief — compose a song using{' '}
+            <a
+              href="https://strudel.cc"
+              target="_blank"
+              className="text-primary underline decoration-black/20 underline-offset-2 transition-colors hover:decoration-black/50"
+            >
+              Strudel.cc
+            </a>
+            , a live-coding music tool. The result is 100 prompts across mood,
+            genre, artist style, and more — each interpreted by Claude, ChatGPT,
+            and Gemini.
+          </p>
+          <p>
+            In the arena, songs play back-to-back with no labels. You vote on
+            sound alone. Wins and losses feed an ELO system that ranks every
+            track and every model over time.
+          </p>
+          <div className="flex gap-3 pt-2">
+            <Link
+              to="/arena"
+              className="flex items-center gap-2 rounded-full bg-black px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-black/80"
+            >
+              Try the arena
+            </Link>
+            <Link
+              to="/leaderboard"
+              className="text-primary ring-inset flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium ring-1 ring-black/10 transition-colors hover:bg-black/5"
+            >
+              See rankings
+            </Link>
+          </div>
+        </div>
+      </div>
     </section>
   )
 }
