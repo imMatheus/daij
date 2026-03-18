@@ -164,7 +164,12 @@ function LatestSongs() {
     queryFn: () => fetchJson<Song[]>('/leaderboard/songs'),
   })
 
-  const displaySongs = songs?.slice(0, 16)
+  const displaySongs: Song[] = [];
+  if (songs) {
+    for (let i = 0; i < songs.length && i < 16; i++) {
+      displaySongs.push(songs[i]);
+    }
+  }
 
   return (
     <section className="mt-10">
