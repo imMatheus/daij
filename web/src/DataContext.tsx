@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import type { Song } from './songs'
 import { SongsContext } from './useSongs'
-import { postJson } from './lib/api'
+import { fetchJson, postJson } from './lib/api'
 
 export const SongsProvider = ({ children }: { children: ReactNode }) => {
   const [songs, setSongs] = useState<Song[] | null>(null)
@@ -41,9 +41,7 @@ export const SongsProvider = ({ children }: { children: ReactNode }) => {
     currentIndex >= 0 && (currentIndex > 0 || (loop && queue.length > 1))
 
   useEffect(() => {
-    fetch('http://localhost:3001/songs')
-      .then((res) => res.json())
-      .then((data) => setSongs(data))
+    fetchJson<Song[]>('/songs').then((data) => setSongs(data))
   }, [])
 
   const playInternal = (song: Song) => {
@@ -75,7 +73,7 @@ export const SongsProvider = ({ children }: { children: ReactNode }) => {
       ) {
         listenSentRef.current = true
         postJson(`/songs/${currentSongRef.current.id}/listen`, {}).catch(
-          () => {},
+          () => { },
         )
       }
     }
