@@ -4,10 +4,27 @@ import { db } from './db'
 import { songs, votes, listens } from './db/schema'
 import { eq, ne, sql, desc, isNotNull, sum, count, avg, and, gte } from 'drizzle-orm'
 import { getConnInfo } from 'hono/bun'
+import { logger as honoLogger } from "hono/logger";
+import { rateLimiter } from "hono-rate-limiter";
+import { logger } from "./logger";
 
 const app = new Hono()
 
+app.use("*", honoLogger());
 app.use('*', cors())
+
+app.use(
+  "*",
+  rateLimiter({
+    windowMs: 60 * 1000, // 1 minute
+    limit: 50, // 100 requests per window
+    keyGenerator: (c) => c.req.header("x-forwarded-for") ?? "", // Use IP address as key
+  })
+);
+
+app.get("/health", (c) => {
+  return c.json({ status: "ok", timestamp: new Date().toISOString() });
+});
 
 app.get('/songs', async (c) => {
   const allSongs = await db.select().from(songs)
@@ -39,8 +56,8 @@ app.get('/arena/pair', async (c) => {
     }
 
     const providers = [...byProvider.keys()].sort(() => Math.random() - 0.5)
-    const listA = byProvider.get(providers[0])!
-    const listB = byProvider.get(providers[1])!
+    const listA = byProvider.get(providers[0]!)!
+    const listB = byProvider.get(providers[1]!)!
     const songA = listA[Math.floor(Math.random() * listA.length)]
     const songB = listB[Math.floor(Math.random() * listB.length)]
 
@@ -152,6 +169,10 @@ app.get('/leaderboard/models', async (c) => {
     .orderBy(desc(avg(songs.eloRating)))
   return c.json(result)
 })
+
+const port = parseInt(Bun.env.PORT || "3001", 10);
+
+logger.info({ port }, `server running at http://localhost:${port}`);
 
 export default {
   port: 3001,

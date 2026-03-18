@@ -4,9 +4,9 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "bun --hot index.ts",
+    "dev": "bun --hot src/index.ts",
     "db:push": "bunx drizzle-kit push",
-    "db:seed": "bun db/seed.ts"
+    "db:seed": "bun src/db/seed.ts"
   },
   "devDependencies": {
     "@types/bun": "latest",
@@ -18,6 +18,8 @@
   },
   "dependencies": {
     "drizzle-orm": "^0.45.1",
-    "hono": "^4.12.5"
+    "hono": "^4.12.5",
+    "hono-rate-limiter": "^0.5.3",
+    "pino": "^10.3.1"
   }
 }
