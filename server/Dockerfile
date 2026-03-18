@@ -1,36 +1,21 @@
 # syntax=docker/dockerfile:1
 
-# Build stage
-FROM oven/bun:1 AS builder
+FROM oven/bun:1-slim
 
 WORKDIR /app
 
-# Copy package files
+# Copy package files and install dependencies
 COPY package.json bun.lock ./
-
-# Install dependencies
-RUN bun install --frozen-lockfile
+RUN bun install --frozen-lockfile --production
 
 # Copy source code
 COPY src ./src
 
-# Compile to a single binary
-RUN bun build src/index.ts --compile --outfile=server
-
-# Production stage - minimal image
-FROM gcr.io/distroless/base-debian12
-
-WORKDIR /app
-
-# Copy the compiled binary
-COPY --from=builder /app/server ./server
-
 # Set environment variables
 ENV NODE_ENV=production
-ENV PORT=8080
 
 # Expose the port
 EXPOSE 8080
 
 # Start the server
-CMD ["./server"]
+CMD ["bun", "src/index.ts"]
