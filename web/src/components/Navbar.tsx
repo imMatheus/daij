@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router'
 import { cn } from '@/lib/utils'
 
@@ -9,19 +8,6 @@ const NAV_ITEMS = [
 
 export function Navbar() {
   const { pathname } = useLocation()
-  const isHome = pathname === '/'
-  const [scrolled, setScrolled] = useState(!isHome)
-
-  if (!isHome && !scrolled) {
-    setScrolled(true)
-  }
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 300)
-    onScroll()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [isHome])
 
   const isActive = (path: string) => {
     if (path === '/') return pathname === '/'
@@ -31,10 +17,11 @@ export function Navbar() {
   return (
     <nav
       className={cn(
-        'border-divider top-0 z-1 border-[0.5px] border-dashed bg-white/80 backdrop-blur-xl transition-all duration-300',
-        isHome ? 'fixed w-full' : 'sticky',
-        scrolled ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0',
+        'border-divider top-0 z-1 border-[0.5px] border-dashed bg-white/80 backdrop-blur-xl transition-[transform,opacity] duration-300',
       )}
+      style={{
+        willChange: 'transform, opacity',
+      }}
     >
       <div className="px-5">
         <div className="mx-auto flex h-11 max-w-7xl items-center justify-between gap-6">
