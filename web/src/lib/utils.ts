@@ -41,6 +41,12 @@ export function getSongPath(song: { audioUrl: string }): string {
   return song.audioUrl.replace(/\.wav$/, '')
 }
 
+const CDN_URL = 'https://pub-5b5da887d0d44388ac15fa702af1c2c6.r2.dev'
+
+export function getAudioUrl(audioUrl: string): string {
+  return `${CDN_URL}${audioUrl}`
+}
+
 export function providerLabel(provider: string) {
   switch (provider) {
     case 'claude':

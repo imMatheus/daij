@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type ReactNode } from 'react'
 import type { Song } from './songs'
 import { SongsContext } from './useSongs'
 import { fetchJson, postJson } from './lib/api'
+import { getAudioUrl } from './lib/utils'
 
 export const SongsProvider = ({ children }: { children: ReactNode }) => {
   const [songs, setSongs] = useState<Song[] | null>(null)
@@ -53,7 +54,7 @@ export const SongsProvider = ({ children }: { children: ReactNode }) => {
 
     setCurrentTime(0)
     setDuration(0)
-    audio.src = song.audioUrl
+    audio.src = getAudioUrl(song.audioUrl)
     audio.play()
     setCurrentSong(song)
     setIsPlaying(true)
