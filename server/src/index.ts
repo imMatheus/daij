@@ -175,6 +175,6 @@ const port = parseInt(Bun.env.PORT || "3001", 10);
 logger.info({ port }, `server running at http://localhost:${port}`);
 
 export default {
-  port: 3001,
+  port,
   fetch: app.fetch,
 }
