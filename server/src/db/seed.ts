@@ -2,7 +2,7 @@ import { resolve, dirname } from 'path'
 import { db } from './index'
 import { songs as songsTable, votes } from './schema'
 
-const PROJECT_ROOT = resolve(dirname(new URL(import.meta.url).pathname), '../..')
+const PROJECT_ROOT = resolve(dirname(new URL(import.meta.url).pathname), '../../..')
 const SONGS_PATH = resolve(PROJECT_ROOT, 'data/songs.json')
 
 async function seed() {
