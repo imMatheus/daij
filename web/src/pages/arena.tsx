@@ -154,15 +154,15 @@ export const Arena = () => {
   ]
 
   return (
-    <div className="mx-auto max-w-7xl px-4 pt-7 pb-24">
-      <header className="pt-6 pb-8 text-center">
+    <div className="mx-auto max-w-7xl px-3 pt-7 pb-24">
+      <header className="pt-3 md:pt-6 pb-4 md:pb-8 md:text-center">
         <p className="text-secondary mb-2 text-xs font-semibold tracking-widest uppercase">
           Head to head
         </p>
-        <h1 className="font-panchang text-primary text-5xl font-black tracking-wide uppercase">
+        <h1 className="font-panchang text-primary text-2xl md:text-5xl font-black tracking-wide uppercase">
           Arena
         </h1>
-        <p className="text-secondary mx-auto mt-2 max-w-sm text-sm">
+        <p className="text-secondary md:mx-auto mt-2 md:max-w-sm text-sm">
           Two AI-generated songs go head-to-head. Listen blind, then cast your
           vote.
         </p>
@@ -199,7 +199,7 @@ export const Arena = () => {
                 &ldquo;{prompt}&rdquo;
               </p>
             </div>
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div className="grid gap-2 md:gap-4 grid-cols-2">
               <div
                 className={cn(
                   'rounded-xl border-2 transition-colors duration-150',
@@ -232,22 +232,13 @@ export const Arena = () => {
               </div>
             </div>
 
-            <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <div className="mt-5 md:mt-8 flex flex-wrap justify-center gap-1.5 md:gap-3">
               {voted ? (
                 <Button onClick={nextMatchup}>Next matchup</Button>
               ) : (
                 voteButtons.map((btn, i) => {
                   const isLast = i === voteButtons.length - 1
                   return (
-                    // <button
-                    //   key={btn.outcome}
-                    //   onClick={() => voteMutation.mutate(btn.outcome)}
-                    //   disabled={voteMutation.isPending}
-                    //   className='pl-4 pr-12 flex overflow-hidden items-center justify-center gap-1 py-2 relative rounded-full bg-[#001b8f] text-white font-medium'
-                    // >
-                    //   {btn.label}
-                    //   <img src="https://cdn.midjourney.com/b7636239-0a6f-4ef4-a051-9bc6a14153d2/0_3.png" alt="arrow right" className='size-10 absolute right-0 top-1/2 -translate-y-1/2' />
-                    // </button>
                     <button
                       key={btn.outcome}
                       onClick={() => voteMutation.mutate(btn.outcome)}
@@ -255,8 +246,8 @@ export const Arena = () => {
                       onMouseLeave={() => setHoveredOutcome(null)}
                       disabled={voteMutation.isPending}
                       className={cn(
-                        isLast ? 'pr-12 pl-4' : 'pr-4 pl-12',
-                        'group/btn relative flex cursor-pointer items-center justify-center gap-1 overflow-visible rounded-full bg-[#f6211f] py-2 font-medium text-white',
+                        isLast ? 'md:pr-12 pr-8 pl-2 md:pl-4' : 'pr-2 md:pl-4 pl-8 md:pl-12',
+                        'group/btn relative flex cursor-pointer items-center justify-center gap-1 overflow-visible rounded-full bg-[#f6211f] py-2 text-xs md:text-base font-medium text-white',
                       )}
                     >
                       {btn.label}
@@ -268,7 +259,7 @@ export const Arena = () => {
                           isLast
                             ? 'right-1 group-hover/btn:right-0'
                             : 'left-1 group-hover/btn:left-0',
-                          'rounded-full absolute top-1/2 size-8 -translate-y-1/2 transition-all duration-200 ease-out group-hover/btn:size-10',
+                          'rounded-full absolute top-1/2 size-5.5 md:size-8 -translate-y-1/2 transition-all duration-200 ease-out group-hover/btn:size-10',
                         )}
                       />
                     </button>

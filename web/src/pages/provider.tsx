@@ -75,19 +75,19 @@ export const Provider = () => {
   const coverImage = getProviderImage(provider)
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-7">
+    <div className="mx-auto max-w-7xl px-3 py-7">
       {/* Hero */}
       <div className="relative mb-6 overflow-hidden rounded-3xl">
         <img
           src={coverImage}
           alt={meta.label}
-          className="aspect-3/1 w-full object-cover"
+          className="aspect-2/1 md:aspect-3/1 w-full object-cover"
         />
         <div
           className="pointer-events-none absolute inset-0"
           style={{
             background:
-              'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.15) 50%, transparent 100%)',
+              'linear-gradient(to top, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.15) 50%, transparent 100%)',
           }}
         />
         <div className="pointer-events-none absolute inset-0 rounded-3xl ring-[0.5px] ring-black/15 ring-inset" />
@@ -98,10 +98,10 @@ export const Provider = () => {
           <h1 className="font-panchang text-4xl font-black tracking-wide text-white uppercase sm:text-5xl">
             {meta.label}
           </h1>
-          <p className="mt-2 max-w-md text-sm text-white/70">
+          <p className="max-md:hidden mt-2 max-w-md text-sm text-white/70">
             {meta.description}
           </p>
-          <p className="mt-2 text-xs text-white/50">
+          <p className="mt-2 text-xs text-white/80">
             {providerSongs.length}{' '}
             {providerSongs.length === 1 ? 'song' : 'songs'} &middot;{' '}
             {formatTotalDuration(totalDuration)}

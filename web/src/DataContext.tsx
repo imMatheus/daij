@@ -65,6 +65,8 @@ export const SongsProvider = ({ children }: { children: ReactNode }) => {
     audioRef.current = audio
 
     const onTimeUpdate = () => {
+      console.log('onTimeUpdate');
+
       setCurrentTime(audio.currentTime)
       if (
         !listenSentRef.current &&

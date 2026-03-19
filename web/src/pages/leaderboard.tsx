@@ -33,12 +33,12 @@ export const Leaderboard = () => {
   })
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-7">
+    <div className="mx-auto max-w-7xl px-3 py-7">
       <header className="pt-6 pb-8 text-center">
         <p className="text-secondary mb-2 text-xs font-semibold tracking-widest uppercase">
           Rankings
         </p>
-        <h1 className="font-panchang text-primary text-5xl font-black tracking-wide uppercase">
+        <h1 className="font-panchang text-primary text-2xl md:text-5xl font-black tracking-wide uppercase">
           Leaderboard
         </h1>
         <p className="text-secondary mx-auto mt-2 max-w-sm text-sm">

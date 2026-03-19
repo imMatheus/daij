@@ -8,11 +8,6 @@ import type { Song } from '@/songs'
 import { ClaudeAI, OpenAI, Gemini } from '@/components/icons'
 import { Loader } from '@/components/Loader'
 
-const PROVIDER_ICONS = {
-  claude: ClaudeAI,
-  chatgpt: OpenAI,
-  gemini: Gemini,
-} as const
 
 const PROVIDER_CARDS = [
   {
@@ -35,7 +30,7 @@ const PROVIDER_CARDS = [
 export function Home() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-7">
-      <div className="relative flex aspect-7/3 w-full flex-col justify-end overflow-hidden rounded-3xl px-12 pb-6">
+      <div className="relative flex aspect-7/3 w-full flex-col justify-end overflow-hidden rounded-3xl px-4 pb-2 md:px-12 md:pb-6">
         <img
           // src="https://cdn.midjourney.com/99c9da35-4609-4211-a78b-4bf70359c8b8/0_0.png"
           // src="https://cdn.midjourney.com/130a2b36-3161-43ac-bfe1-d56cc8af7f9e/0_0.png"
@@ -62,16 +57,16 @@ export function Home() {
             }
           `}
         </style>
-        <h1 className="relative mb-2 text-8xl font-semibold tracking-wide text-white">
+        <h1 className="relative mb-2 text-6xl md:text-8xl font-semibold tracking-wide text-white">
           DAIJ
         </h1>
         <div className="relative flex gap-2">
           <Link
             to="/arena"
-            className="flex items-center gap-2 rounded-full bg-black px-5 py-3 text-lg font-medium text-white"
+            className="flex items-center gap-2 rounded-full bg-black md:px-5 px-3 py-2 md:py-3 md:text-lg font-medium text-white"
           >
             <svg
-              className="size-5"
+              className="size-4 md:size-5"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -87,10 +82,11 @@ export function Home() {
           </Link>
           <Link
             to="/leaderboard"
-            className="flex items-center gap-2 rounded-full bg-black px-5 py-3 text-lg font-medium text-white"
+            className="flex items-center gap-2 rounded-full bg-black md:px-5 px-3 py-2 md:py-3 md:text-lg font-medium text-white"
+
           >
             <svg
-              className="size-5"
+              className="size-4 md:size-5"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -127,10 +123,6 @@ export function Home() {
             >
               <div className="mb-2">
                 <p className="text-secondary flex items-center gap-1 text-[11px] leading-tight font-medium tracking-wider uppercase">
-                  {(() => {
-                    const Icon = PROVIDER_ICONS[card.provider]
-                    return <Icon className="size-3" />
-                  })()}
                   {card.eyebrow}
                 </p>
                 <p className="text-primary font-medium tracking-wider">
