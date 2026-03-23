@@ -60,7 +60,7 @@ export function SongRow({
         )}
       </span>
       <img
-        src={getProviderImage(song.provider)}
+        src={getProviderImage(song.provider, 'small')}
         alt={song.name}
         className="size-10 rounded-md object-cover"
       />

@@ -32,7 +32,7 @@ export const Footer = () => {
       className="mt-10 pt-20 pb-40"
       style={{
         background:
-          'url(https://cdn.midjourney.com/9490c3d5-9dc7-46c7-b27f-51d83ff07db7/0_0.png) no-repeat center center',
+          'url(https://cdn.midjourney.com/9490c3d5-9dc7-46c7-b27f-51d83ff07db7/0_0.webp) no-repeat center center',
         backgroundSize: 'cover',
       }}
     >

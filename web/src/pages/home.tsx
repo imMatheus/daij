@@ -35,7 +35,7 @@ export function Home() {
           // src="https://cdn.midjourney.com/99c9da35-4609-4211-a78b-4bf70359c8b8/0_0.png"
           // src="https://cdn.midjourney.com/130a2b36-3161-43ac-bfe1-d56cc8af7f9e/0_0.png"
           // src="https://cdn.midjourney.com/2caad6fe-2675-4b5b-9812-0d3eb1bf2e9e/0_0.png"
-          src='https://cdn.midjourney.com/9d27d884-9688-407d-a7f3-dc2c73414a7c/0_0.png'
+          src='https://cdn.midjourney.com/9d27d884-9688-407d-a7f3-dc2c73414a7c/0_0.webp'
           alt=""
           className="absolute inset-0 size-full object-cover"
           style={{
