@@ -56,14 +56,14 @@ export const Leaderboard = () => {
       {tab === 'songs' && (
         <div>
           <div
-            className="border-divider text-secondary flex items-center border-b px-5 py-2"
+            className="border-divider text-secondary flex items-center border-b px-1 sm:px-5 py-2"
             style={{ font: '400 11px/1.27 var(--font-sans)' }}
           >
             <span className="w-8 shrink-0 text-center">#</span>
             <span className="ml-3 flex-1">Title</span>
             <span className="w-14 shrink-0 text-right">Listens</span>
             <span className="w-16 shrink-0 text-right">Wins</span>
-            <span className="w-16 shrink-0 text-right">Win Rate</span>
+            <span className="max-sm:hidden w-16 shrink-0 text-right">Win Rate</span>
             <span className="w-14 shrink-0 text-right">ELO</span>
           </div>
           {songsQuery.isLoading ? (
@@ -91,7 +91,7 @@ export const Leaderboard = () => {
                     <span className="text-secondary w-16 shrink-0 text-right">
                       {song.wins}
                     </span>
-                    <span className="text-secondary w-16 shrink-0 text-right">
+                    <span className="text-secondary max-sm:hidden w-16 shrink-0 text-right">
                       {song.totalVotes > 0
                         ? Math.round((song.wins / song.totalVotes) * 100)
                         : 0}
