@@ -1,7 +1,7 @@
 import { useParams, Link } from 'react-router'
 import { useEffect, useState } from 'react'
 import { useSongs } from '@/useSongs'
-import { formatDuration, getProviderImage, providerLabel } from '@/lib/utils'
+import { formatDuration, getAudioTxtUrl, getProviderImage, providerLabel } from '@/lib/utils'
 import { StrudelEditor } from '@/components/StrudelEditor'
 import { Button } from '@/components/button'
 import { PlayIcon, PauseIcon } from '@/components/icons'
@@ -17,8 +17,8 @@ export const SongPage = () => {
   )
 
   useEffect(() => {
-    if (!provider || !slug) return
-    fetch(`/${provider}/${slug}.txt`)
+    if (!song?.audioUrl) return
+    fetch(getAudioTxtUrl(song.audioUrl))
       .then((res) => {
         if (!res.ok) throw new Error('Not found')
         return res.text()
@@ -26,7 +26,7 @@ export const SongPage = () => {
       .then(setStrudelCode)
       .catch(() => setStrudelCode(null))
       .finally(() => setLoading(false))
-  }, [provider, slug])
+  }, [song?.audioUrl])
 
   const isCurrent = currentSong?.id === song?.id
   const isActive = isCurrent && isPlaying

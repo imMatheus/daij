@@ -53,6 +53,10 @@ export function getAudioUrl(audioUrl: string): string {
   return `${CDN_URL}${audioUrl}`
 }
 
+export function getAudioTxtUrl(audioUrl: string): string {
+  return `${CDN_URL}${audioUrl.replace(/\.wav$/, '.txt')}`
+}
+
 export function providerLabel(provider: string) {
   switch (provider) {
     case 'claude':
