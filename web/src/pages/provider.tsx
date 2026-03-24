@@ -133,7 +133,6 @@ export const Provider = () => {
           <span className="max-sm:hidden w-14 shrink-0 text-right">Listens</span>
           <span className="w-14 shrink-0 text-right">Wins</span>
           <span className="w-14 shrink-0 text-right">ELO</span>
-          <span className="w-14 max-sm:hidden shrink-0 text-right">Time</span>
         </div>
 
         {!songs ? (
@@ -174,9 +173,6 @@ export const Provider = () => {
                     style={{ fontWeight: 600 }}
                   >
                     {Math.round(song.eloRating)}
-                  </span>
-                  <span className="text-secondary max-sm:hidden w-14 shrink-0 text-right">
-                    {formatDuration(song.duration)}
                   </span>
                 </div>
               }

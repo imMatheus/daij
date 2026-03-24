@@ -8,6 +8,13 @@ import type { Song } from '@/songs'
 import { ClaudeAI, OpenAI, Gemini } from '@/components/icons'
 import { Loader } from '@/components/Loader'
 
+type ModelStats = {
+  provider: string
+  avgElo: number
+  songCount: number
+  wins: number
+  totalVotes: number
+}
 
 const PROVIDER_CARDS = [
   {
@@ -28,6 +35,15 @@ const PROVIDER_CARDS = [
 ]
 
 export function Home() {
+  const { data: modelStats } = useQuery({
+    queryKey: ['leaderboard-models'],
+    queryFn: () => fetchJson<ModelStats[]>('/leaderboard/models'),
+  })
+
+  const eloByProvider = new Map(
+    modelStats?.map((m) => [m.provider, Math.round(m.avgElo)]),
+  )
+
   return (
     <div className="mx-auto max-w-7xl px-4 py-7">
       <div className="relative flex aspect-7/3 w-full flex-col justify-end overflow-hidden rounded-3xl px-4 pb-2 md:px-12 md:pb-6">
@@ -104,17 +120,17 @@ export function Home() {
       </div>
 
       <section className="mt-16">
-        <h3 className="text-center text-5xl font-semibold tracking-wide uppercase">
+        <h3 className="text-center text-4xl md:text-5xl font-semibold tracking-wide uppercase">
           See s
-          <ClaudeAI className="inline-block size-7 -translate-y-1" />
+          <ClaudeAI className="inline-block md:size-7 size-6 -translate-y-1" />
           ngs <br />
           fr
-          <OpenAI className="inline-block size-7 -translate-y-1" />m m
-          <Gemini className="inline-block size-7 -translate-y-1" />
+          <OpenAI className="inline-block md:size-7 size-6 -translate-y-1" />m m
+          <Gemini className="inline-block md:size-7 size-6 -translate-y-1" />
           dels
         </h3>
 
-        <div className="mt-10 grid grid-cols-3 gap-4">
+        <div className="mt-10 grid grid-cols-3 gap-2 md:gap-4">
           {PROVIDER_CARDS.map((card) => (
             <Link
               key={card.provider}
@@ -125,9 +141,16 @@ export function Home() {
                 <p className="text-secondary flex items-center gap-1 text-[11px] leading-tight font-medium tracking-wider uppercase">
                   {card.eyebrow}
                 </p>
-                <p className="text-primary font-medium tracking-wider">
-                  {card.title}
-                </p>
+                <div className="flex md:flex-row flex-col md:items-center md:gap-2">
+                  <p className="max-md:text-sm text-primary font-medium tracking-wider">
+                    {card.title}
+                  </p>
+                  {eloByProvider.has(card.provider) && (
+                    <span className="text-secondary text-xs font-medium">
+                      ELO {eloByProvider.get(card.provider)}
+                    </span>
+                  )}
+                </div>
               </div>
 
               <div className="relative overflow-hidden rounded-2xl">
@@ -152,7 +175,7 @@ export function Home() {
 
 function LatestSongs() {
   const { data: songs } = useQuery({
-    queryKey: ['top-songs'],
+    queryKey: ['leaderboard-songs'],
     queryFn: () => fetchJson<Song[]>('/leaderboard/songs'),
   })
 

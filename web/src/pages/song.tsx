@@ -61,40 +61,35 @@ export const SongPage = () => {
       ) : (
         <>
           {/* Hero */}
-          <div className="relative mb-6 overflow-hidden rounded-3xl">
-            <img
-              src={getProviderImage(song.provider)}
-              alt={song.name}
-              className="aspect-3/1 w-full object-cover"
-            />
-            <div
-              className="pointer-events-none absolute inset-0"
-              style={{
-                background:
-                  'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.15) 50%, transparent 100%)',
-              }}
-            />
-            <div className="pointer-events-none absolute inset-0 rounded-3xl ring-[0.5px] ring-black/15 ring-inset" />
-            <div className="absolute bottom-0 left-0 p-8">
-              <div className="mb-2 flex items-center gap-2 text-xs text-white/50">
+          <div className="mb-6 flex flex-col items-start gap-5 sm:flex-row sm:items-end sm:gap-6">
+            <div className="relative size-40 shrink-0 overflow-hidden rounded-2xl shadow-lg sm:size-56">
+              <img
+                src={getProviderImage(song.provider)}
+                alt={song.name}
+                className="size-full object-cover"
+              />
+              <div className="pointer-events-none absolute inset-0 rounded-2xl ring-[0.5px] ring-black/15 ring-inset" />
+            </div>
+            <div className="min-w-0 py-1">
+              <div className="mb-1 flex items-center gap-2 text-xs text-secondary">
                 <Link
                   to={`/${provider}`}
-                  className="transition-colors hover:text-white/80"
+                  className="transition-colors hover:text-primary"
                 >
                   {providerLabel(provider!)}
                 </Link>
                 <span>/</span>
-                <span className="text-white/70">{song.name}</span>
+                <span>{song.name}</span>
               </div>
-              <h1 className="text-3xl font-bold text-white sm:text-4xl">
+              <h1 className="text-3xl font-bold text-primary sm:text-4xl">
                 {song.name}
               </h1>
               {song.prompt && (
-                <p className="mt-2 max-w-md text-sm text-white/60 italic">
+                <p className="mt-2 max-w-md text-sm text-secondary italic">
                   &ldquo;{song.prompt}&rdquo;
                 </p>
               )}
-              <div className="mt-2 flex items-center gap-2 text-xs text-white/50">
+              <div className="mt-2 flex items-center gap-2 text-xs text-secondary">
                 <span>{formatDuration(song.duration)}</span>
                 <span>&middot;</span>
                 <span>ELO {Math.round(song.eloRating)}</span>
