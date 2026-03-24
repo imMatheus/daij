@@ -1,5 +1,5 @@
 // batch-render.ts
-// Finds all Strudel .txt files that don't have a corresponding .wav and renders
+// Finds all Strudel .txt files that don't have a corresponding .mp3 and renders
 // them to audio using Puppeteer + strudel.cc. Processes in parallel batches.
 //
 // Usage: bun scripts/batch-render.ts [--provider claude|chatgpt|gemini] [--concurrency 3]
@@ -32,7 +32,7 @@ function parseArgs() {
 
 async function main() {
   const { concurrency, provider } = parseArgs()
-  const toRender: { provider: string; slug: string; txtPath: string; wavPath: string }[] = []
+  const toRender: { provider: string; slug: string; txtPath: string; mp3Path: string }[] = []
   const providers = provider ? [provider] : PROVIDERS
 
   for (const provider of providers) {
@@ -43,10 +43,10 @@ async function main() {
     for (const file of files) {
       const slug = basename(file, ".txt")
       const txtPath = resolve(provDir, file)
-      const wavPath = resolve(provDir, `${slug}.wav`)
+      const mp3Path = resolve(provDir, `${slug}.mp3`)
 
-      if (!existsSync(wavPath)) {
-        toRender.push({ provider, slug, txtPath, wavPath })
+      if (!existsSync(mp3Path)) {
+        toRender.push({ provider, slug, txtPath, mp3Path })
       }
     }
   }
@@ -76,7 +76,7 @@ async function main() {
 
         const code = readFileSync(song.txtPath, "utf-8")
         const duration = estimateDuration(code)
-        await renderSong(code, song.wavPath, duration)
+        await renderSong(code, song.mp3Path, duration)
         return label
       }),
     )

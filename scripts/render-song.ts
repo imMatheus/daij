@@ -1,5 +1,5 @@
 // render-song.ts
-// Renders a single Strudel .txt file to .wav audio using Puppeteer + strudel.cc.
+// Renders a single Strudel .txt file to .mp3 audio using Puppeteer + strudel.cc.
 // Useful for re-rendering individual songs or testing.
 //
 // Usage: bun scripts/render-song.ts <song-name> [--provider claude|chatgpt|gemini] [--duration <seconds>]
@@ -42,7 +42,7 @@ async function main() {
     PROJECT_ROOT,
     "web/public",
     provider,
-    `${songName}.wav`,
+    `${songName}.mp3`,
   )
 
   if (!existsSync(inputPath)) {

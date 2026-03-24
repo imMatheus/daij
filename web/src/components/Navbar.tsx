@@ -28,9 +28,12 @@ export function Navbar() {
           <div className="flex items-center gap-4">
             <Link
               to="/"
-              className="text-primary text-sm font-bold tracking-wider"
+              className="text-primary flex items-center gap-1 text-sm font-bold tracking-wider"
             >
-              DAIJ
+              <img src="/logo.png" alt="DAIJ" className="size-4 rounded-full" />
+              <span>
+                DAIJ
+              </span>
             </Link>
             <div className="flex items-center gap-1">
               {NAV_ITEMS.map((item) => (

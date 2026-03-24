@@ -161,7 +161,7 @@ export const Provider = () => {
         ) : (
           providerSongs.map((song, i) => (
             <SongRow
-              key={song.name}
+              key={song.id}
               song={song}
               index={i + 1}
               showProvider={false}

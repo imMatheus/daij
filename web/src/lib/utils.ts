@@ -44,17 +44,17 @@ export function formatDuration(seconds: number) {
 }
 
 export function getSongPath(song: { audioUrl: string }): string {
-  return song.audioUrl.replace(/\.wav$/, '')
+  return song.audioUrl.replace(/\.mp3$/, '')
 }
 
-const CDN_URL = 'https://pub-5b5da887d0d44388ac15fa702af1c2c6.r2.dev'
+const CDN_URL = 'https://cdn.daij.net'
 
 export function getAudioUrl(audioUrl: string): string {
   return `${CDN_URL}${audioUrl}`
 }
 
 export function getAudioTxtUrl(audioUrl: string): string {
-  return `${CDN_URL}${audioUrl.replace(/\.wav$/, '.txt')}`
+  return `${CDN_URL}${audioUrl.replace(/\.mp3$/, '.txt')}`
 }
 
 export function providerLabel(provider: string) {

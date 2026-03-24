@@ -29,6 +29,9 @@ function parseArgs() {
   const ci = args.indexOf("--concurrency")
   const concurrency = ci !== -1 ? parseInt(args[ci + 1], 10) : DEFAULT_CONCURRENCY
 
+  const maxIdx = args.indexOf("--max")
+  const max = maxIdx !== -1 ? parseInt(args[maxIdx + 1], 10) : Infinity
+
   const dryRun = args.includes("--dry-run")
 
   if (!["claude", "chatgpt", "gemini", "all"].includes(provider)) {
@@ -36,7 +39,7 @@ function parseArgs() {
     process.exit(1)
   }
 
-  return { provider, start, concurrency, dryRun }
+  return { provider, start, concurrency, dryRun, max }
 }
 
 // ── Generate with a provider ────────────────────────────────────────────
@@ -87,7 +90,7 @@ function cleanOutput(output: string): string {
 // ── Main ─────────────────────────────────────────────────────────────────
 
 async function main() {
-  const { provider, start, concurrency, dryRun } = parseArgs()
+  const { provider, start, concurrency, dryRun, max } = parseArgs()
 
   const prompts: Prompt[] = JSON.parse(
     await Bun.file(PROMPTS_PATH).text(),
@@ -106,7 +109,8 @@ async function main() {
       mkdirSync(provDir, { recursive: true })
     }
 
-    for (let i = start; i < prompts.length; i++) {
+    const end = Math.min(prompts.length, start + max)
+    for (let i = start; i < end; i++) {
       const prompt = prompts[i]
       const outputPath = resolve(provDir, `${prompt.slug}.txt`)
 

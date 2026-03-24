@@ -5,7 +5,8 @@
 // Also exports estimateDuration() to guess song length from code comments/BPM.
 
 import puppeteer, { type Page } from "puppeteer"
-import { writeFileSync } from "fs"
+import { writeFileSync, unlinkSync } from "fs"
+import { spawnSync } from "child_process"
 
 const SAMPLE_RATE = 48000
 
@@ -186,7 +187,7 @@ export async function renderSong(
     }
 
     await page.evaluate(() => {
-      ;(window as any).__isCapturing = true
+      ; (window as any).__isCapturing = true
     })
     console.log("  Recording started")
 
@@ -210,7 +211,7 @@ export async function renderSong(
     }
 
     await page.evaluate(() => {
-      ;(window as any).__isCapturing = false
+      ; (window as any).__isCapturing = false
     })
     await page.keyboard.down("Control")
     await page.keyboard.press(".")
@@ -238,9 +239,22 @@ export async function renderSong(
     )
 
     const wavBuffer = Buffer.from(base64, "base64")
-    writeFileSync(outputPath, wavBuffer)
 
-    console.log(`  Done! Size: ${(wavBuffer.length / 1024 / 1024).toFixed(1)} MB`)
+    if (outputPath.endsWith(".mp3")) {
+      const tempWav = outputPath.replace(/\.mp3$/, ".tmp.wav")
+      writeFileSync(tempWav, wavBuffer)
+      console.log(`  Converting to MP3...`)
+      const result = spawnSync("ffmpeg", ["-y", "-v", "error", "-i", tempWav, "-b:a", "192k", outputPath])
+      unlinkSync(tempWav)
+      if (result.status !== 0) {
+        throw new Error(`ffmpeg conversion failed: ${result.stderr?.toString()}`)
+      }
+    } else {
+      writeFileSync(outputPath, wavBuffer)
+    }
+
+    const stat = Bun.file(outputPath).size
+    console.log(`  Done! Size: ${(stat / 1024 / 1024).toFixed(1)} MB`)
   } finally {
     await browser.close()
   }
@@ -273,7 +287,7 @@ export function estimateDuration(code: string): number {
       const barsPerPattern = patternCount > 0 ? totalBars / patternCount : totalBars
       const durationSec = (barsPerPattern / cpm) * 60
       if (durationSec > 30 && durationSec < 600) {
-        return Math.ceil(durationSec)
+        return Math.max(Math.ceil(durationSec), 70)
       }
     }
   }

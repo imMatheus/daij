@@ -13,7 +13,7 @@ export const songs: Song[] = [
     duration: 30,
     provider: 'claude',
 
-    audioUrl: '/claude/late-night-drive.wav',
+    audioUrl: '/claude/late-night-drive.mp3',
   },
   {
     name: 'Midnight Coffee',
@@ -21,7 +21,7 @@ export const songs: Song[] = [
     duration: 130,
     provider: 'gemini',
 
-    audioUrl: '/gemini/midnight-coffee.wav',
+    audioUrl: '/gemini/midnight-coffee.mp3',
   },
   {
     name: 'Velvet Current',
@@ -29,7 +29,7 @@ export const songs: Song[] = [
     duration: 180,
     provider: 'claude',
 
-    audioUrl: '/claude/velvet-current.wav',
+    audioUrl: '/claude/velvet-current.mp3',
   },
   {
     name: 'Sunlit Dust',
@@ -37,7 +37,7 @@ export const songs: Song[] = [
     duration: 168,
     provider: 'claude',
 
-    audioUrl: '/claude/sunlit-dust.wav',
+    audioUrl: '/claude/sunlit-dust.mp3',
   },
   {
     name: 'Paper Cranes',
@@ -45,7 +45,7 @@ export const songs: Song[] = [
     duration: 168,
     provider: 'claude',
 
-    audioUrl: '/claude/paper-cranes.wav',
+    audioUrl: '/claude/paper-cranes.mp3',
   },
   {
     name: 'Amber Glow',
@@ -53,7 +53,7 @@ export const songs: Song[] = [
     duration: 155,
     provider: 'claude',
 
-    audioUrl: '/claude/amber-glow.wav',
+    audioUrl: '/claude/amber-glow.mp3',
   },
   {
     name: 'Rooftop Rain',
@@ -61,7 +61,7 @@ export const songs: Song[] = [
     duration: 155,
     provider: 'claude',
 
-    audioUrl: '/claude/rooftop-rain.wav',
+    audioUrl: '/claude/rooftop-rain.mp3',
   },
   {
     name: 'Worn Pages',
@@ -69,7 +69,7 @@ export const songs: Song[] = [
     duration: 155,
     provider: 'claude',
 
-    audioUrl: '/claude/worn-pages.wav',
+    audioUrl: '/claude/worn-pages.mp3',
   },
   {
     name: 'Quiet Corners',
@@ -77,7 +77,7 @@ export const songs: Song[] = [
     duration: 155,
     provider: 'claude',
 
-    audioUrl: '/claude/quiet-corners.wav',
+    audioUrl: '/claude/quiet-corners.mp3',
   },
   {
     name: 'Copper Wire',
@@ -85,7 +85,7 @@ export const songs: Song[] = [
     duration: 155,
     provider: 'claude',
 
-    audioUrl: '/claude/copper-wire.wav',
+    audioUrl: '/claude/copper-wire.mp3',
   },
   {
     name: 'Concrete Horizon',
@@ -93,7 +93,7 @@ export const songs: Song[] = [
     duration: 153,
     provider: 'claude',
 
-    audioUrl: '/claude/concrete-horizon.wav',
+    audioUrl: '/claude/concrete-horizon.mp3',
   },
   {
     name: 'Iron Crown',
@@ -101,7 +101,7 @@ export const songs: Song[] = [
     duration: 141,
     provider: 'claude',
 
-    audioUrl: '/claude/iron-crown.wav',
+    audioUrl: '/claude/iron-crown.mp3',
   },
   {
     name: 'Neon Drift',
@@ -109,7 +109,7 @@ export const songs: Song[] = [
     duration: 141,
     provider: 'claude',
 
-    audioUrl: '/claude/neon-drift.wav',
+    audioUrl: '/claude/neon-drift.mp3',
   },
   {
     name: 'Temple Garden',
@@ -117,7 +117,7 @@ export const songs: Song[] = [
     duration: 150,
     provider: 'claude',
 
-    audioUrl: '/claude/temple-garden.wav',
+    audioUrl: '/claude/temple-garden.mp3',
   },
   {
     name: 'Glass Factory',
@@ -125,7 +125,7 @@ export const songs: Song[] = [
     duration: 132,
     provider: 'claude',
 
-    audioUrl: '/claude/glass-factory.wav',
+    audioUrl: '/claude/glass-factory.mp3',
   },
   {
     name: 'Midnight Arcade',
@@ -133,7 +133,7 @@ export const songs: Song[] = [
     duration: 135,
     provider: 'claude',
 
-    audioUrl: '/claude/midnight-arcade.wav',
+    audioUrl: '/claude/midnight-arcade.mp3',
   },
   {
     name: 'Desert Wind',
@@ -141,7 +141,7 @@ export const songs: Song[] = [
     duration: 147,
     provider: 'claude',
 
-    audioUrl: '/claude/desert-wind.wav',
+    audioUrl: '/claude/desert-wind.mp3',
   },
   {
     name: 'Velvet Static',
@@ -149,7 +149,7 @@ export const songs: Song[] = [
     duration: 150,
     provider: 'claude',
 
-    audioUrl: '/claude/velvet-static.wav',
+    audioUrl: '/claude/velvet-static.mp3',
   },
   {
     name: 'Solar Flare',
@@ -157,7 +157,7 @@ export const songs: Song[] = [
     duration: 138,
     provider: 'claude',
 
-    audioUrl: '/claude/solar-flare.wav',
+    audioUrl: '/claude/solar-flare.mp3',
   },
   {
     name: 'Frozen Lake',
@@ -165,7 +165,7 @@ export const songs: Song[] = [
     duration: 141,
     provider: 'claude',
 
-    audioUrl: '/claude/frozen-lake.wav',
+    audioUrl: '/claude/frozen-lake.mp3',
   },
   {
     name: 'Cobalt Rain',
@@ -173,7 +173,7 @@ export const songs: Song[] = [
     duration: 147,
     provider: 'claude',
 
-    audioUrl: '/claude/cobalt-rain.wav',
+    audioUrl: '/claude/cobalt-rain.mp3',
   },
   {
     name: 'Rust Belt',
@@ -181,7 +181,7 @@ export const songs: Song[] = [
     duration: 135,
     provider: 'claude',
 
-    audioUrl: '/claude/rust-belt.wav',
+    audioUrl: '/claude/rust-belt.mp3',
   },
   {
     name: 'Silk Road',
@@ -189,7 +189,7 @@ export const songs: Song[] = [
     duration: 150,
     provider: 'claude',
 
-    audioUrl: '/claude/silk-road.wav',
+    audioUrl: '/claude/silk-road.mp3',
   },
   {
     name: 'Quantum Dust',
@@ -197,7 +197,7 @@ export const songs: Song[] = [
     duration: 132,
     provider: 'claude',
 
-    audioUrl: '/claude/quantum-dust.wav',
+    audioUrl: '/claude/quantum-dust.mp3',
   },
   {
     name: 'City Lights',
@@ -205,7 +205,7 @@ export const songs: Song[] = [
     duration: 141,
     provider: 'claude',
 
-    audioUrl: '/claude/city-lights.wav',
+    audioUrl: '/claude/city-lights.mp3',
   },
   {
     name: 'Hollow Crown',
@@ -213,7 +213,7 @@ export const songs: Song[] = [
     duration: 144,
     provider: 'claude',
 
-    audioUrl: '/claude/hollow-crown.wav',
+    audioUrl: '/claude/hollow-crown.mp3',
   },
   {
     name: 'Phosphor Dreams',
@@ -221,7 +221,7 @@ export const songs: Song[] = [
     duration: 135,
     provider: 'claude',
 
-    audioUrl: '/claude/phosphor-dreams.wav',
+    audioUrl: '/claude/phosphor-dreams.mp3',
   },
   {
     name: 'Signal Lost',
@@ -229,6 +229,6 @@ export const songs: Song[] = [
     duration: 144,
     provider: 'claude',
 
-    audioUrl: '/claude/signal-lost.wav',
+    audioUrl: '/claude/signal-lost.mp3',
   },
 ]

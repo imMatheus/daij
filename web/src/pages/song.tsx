@@ -13,7 +13,7 @@ export const SongPage = () => {
   const [loading, setLoading] = useState(true)
 
   const song = songs?.find(
-    (s) => s.provider === provider && s.audioUrl === `/${provider}/${slug}.wav`,
+    (s) => s.provider === provider && s.audioUrl === `/${provider}/${slug}.mp3`,
   )
 
   useEffect(() => {

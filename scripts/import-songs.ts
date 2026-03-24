@@ -1,6 +1,6 @@
 // import-songs.ts
 // Imports song metadata into the database (Drizzle ORM). Scans provider
-// directories for .wav files, extracts duration and song name, and inserts
+// directories for .mp3 files, extracts duration and song name, and inserts
 // new entries. Skips songs that already exist in the database.
 //
 // Usage: bun scripts/import-songs.ts
@@ -25,17 +25,11 @@ function titleCase(slug: string): string {
     .join(" ")
 }
 
-async function getWavDuration(path: string): Promise<number> {
-  const file = Bun.file(path)
-  const headerBuf = await file.slice(0, 44).arrayBuffer()
-  const view = new DataView(headerBuf)
-
-  const sampleRate = view.getUint32(24, true)
-  const numChannels = view.getUint16(22, true)
-  const bitsPerSample = view.getUint16(34, true)
-  const dataSize = view.getUint32(40, true)
-
-  return Math.round(dataSize / (sampleRate * numChannels * (bitsPerSample / 8)))
+async function getAudioDuration(path: string): Promise<number> {
+  const result = Bun.spawnSync(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", path])
+  const duration = parseFloat(result.stdout.toString().trim())
+  if (isNaN(duration)) throw new Error(`Could not read duration for ${path}`)
+  return Math.round(duration)
 }
 
 async function main() {
@@ -53,13 +47,13 @@ async function main() {
     const provDir = resolve(PUBLIC_DIR, provider)
     if (!existsSync(provDir)) continue
 
-    const wavFiles = readdirSync(provDir).filter((f) => f.endsWith(".wav"))
+    const mp3Files = readdirSync(provDir).filter((f) => f.endsWith(".mp3"))
 
-    for (const wavFile of wavFiles) {
-      const slug = basename(wavFile, ".wav")
+    for (const mp3File of mp3Files) {
+      const slug = basename(mp3File, ".mp3")
       const txtPath = resolve(provDir, `${slug}.txt`)
-      const wavPath = resolve(provDir, wavFile)
-      const audioUrl = `/${provider}/${wavFile}`
+      const mp3Path = resolve(provDir, mp3File)
+      const audioUrl = `/${provider}/${mp3File}`
 
       // Check if song already exists
       const [existing] = await db
@@ -72,12 +66,12 @@ async function main() {
         continue
       }
 
-      // Get duration from WAV header
+      // Get duration from audio file
       let duration = 150
       try {
-        duration = await getWavDuration(wavPath)
+        duration = await getAudioDuration(mp3Path)
       } catch {
-        console.warn(`  Could not read WAV header for ${wavFile}, using default duration`)
+        console.warn(`  Could not read duration for ${mp3File}, using default duration`)
       }
 
       // Match slug to prompt text

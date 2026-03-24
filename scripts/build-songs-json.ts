@@ -1,7 +1,7 @@
 // build-songs-json.ts
 // Builds a metadata manifest (data/songs.json) from rendered songs. Finds all
-// .wav files across provider directories, extracts song names from code comments,
-// reads WAV duration, and maps slugs back to prompt text.
+// .mp3 files across provider directories, extracts song names from code comments,
+// reads MP3 duration via ffprobe, and maps slugs back to prompt text.
 //
 // Usage: bun scripts/build-songs-json.ts
 
@@ -10,7 +10,7 @@ import { existsSync, readdirSync } from "fs"
 
 const PROJECT_ROOT = resolve(dirname(new URL(import.meta.url).pathname), "..")
 const PROMPTS_PATH = resolve(PROJECT_ROOT, "data/prompts.json")
-const PUBLIC_DIR = resolve(PROJECT_ROOT, "web/public")
+const PUBLIC_DIR = resolve(PROJECT_ROOT, "data")
 const OUTPUT_PATH = resolve(PROJECT_ROOT, "data/songs.json")
 const PROVIDERS = ["claude", "chatgpt", "gemini"] as const
 
@@ -31,17 +31,11 @@ function titleCase(slug: string): string {
     .join(" ")
 }
 
-async function getWavDuration(path: string): Promise<number> {
-  const file = Bun.file(path)
-  const headerBuf = await file.slice(0, 44).arrayBuffer()
-  const view = new DataView(headerBuf)
-
-  const sampleRate = view.getUint32(24, true)
-  const numChannels = view.getUint16(22, true)
-  const bitsPerSample = view.getUint16(34, true)
-  const dataSize = view.getUint32(40, true)
-
-  return Math.round(dataSize / (sampleRate * numChannels * (bitsPerSample / 8)))
+async function getAudioDuration(path: string): Promise<number> {
+  const result = Bun.spawnSync(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", path])
+  const duration = parseFloat(result.stdout.toString().trim())
+  if (isNaN(duration)) throw new Error(`Could not read duration for ${path}`)
+  return Math.round(duration)
 }
 
 async function main() {
@@ -51,14 +45,14 @@ async function main() {
   const promptMap = new Map(promptEntries.map((p) => [p.slug, p.text]))
   console.log(`Loaded ${promptEntries.length} prompts`)
 
-  // Find slugs that have a .wav in both providers
+  // Find slugs that have a .mp3 in both providers
   const slugsByProvider = PROVIDERS.map((provider) => {
     const provDir = resolve(PUBLIC_DIR, provider)
     if (!existsSync(provDir)) return new Set<string>()
     return new Set(
       readdirSync(provDir)
-        .filter((f) => f.endsWith(".wav"))
-        .map((f) => basename(f, ".wav")),
+        .filter((f) => f.endsWith(".mp3"))
+        .map((f) => basename(f, ".mp3")),
     )
   })
   const commonSlugs = [...slugsByProvider[0]].filter((s) => slugsByProvider.every((set) => set.has(s))).sort()
@@ -71,14 +65,14 @@ async function main() {
 
     for (const slug of commonSlugs) {
       const txtPath = resolve(provDir, `${slug}.txt`)
-      const wavPath = resolve(provDir, `${slug}.wav`)
-      const audioUrl = `/${provider}/${slug}.wav`
+      const mp3Path = resolve(provDir, `${slug}.mp3`)
+      const audioUrl = `/${provider}/${slug}.mp3`
 
       let duration = 150
       try {
-        duration = await getWavDuration(wavPath)
+        duration = await getAudioDuration(mp3Path)
       } catch {
-        console.warn(`  Could not read WAV header for ${provider}/${slug}.wav, using default duration`)
+        console.warn(`  Could not read duration for ${provider}/${slug}.mp3, using default duration`)
       }
 
       const prompt = promptMap.get(slug) ?? null
