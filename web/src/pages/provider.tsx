@@ -30,18 +30,15 @@ const providerMeta: Record<
 > = {
   claude: {
     label: 'Claude',
-    description:
-      "opus-4.6",
+    description: 'opus-4.6',
   },
   chatgpt: {
     label: 'ChatGPT',
-    description:
-      "gpt-5.3-codex",
+    description: 'gpt-5.3-codex',
   },
   gemini: {
     label: 'Gemini',
-    description:
-      "gemini-3-flash",
+    description: 'gemini-3-flash',
   },
 }
 
@@ -87,13 +84,13 @@ export const Provider = () => {
           <div className="pointer-events-none absolute inset-0 rounded-2xl ring-[0.5px] ring-black/15 ring-inset" />
         </div>
         <div className="min-w-0 py-1">
-          <h1 className="font-panchang text-3xl font-black tracking-wide text-primary uppercase sm:text-5xl">
+          <h1 className="font-panchang text-primary text-3xl font-black tracking-wide uppercase sm:text-5xl">
             {meta.label}
           </h1>
-          <p className="max-md:hidden mt-2 max-w-md text-sm text-secondary">
+          <p className="text-secondary mt-2 max-w-md text-sm max-md:hidden">
             {meta.description}
           </p>
-          <p className="mt-2 text-xs text-secondary">
+          <p className="text-secondary mt-2 text-xs">
             {providerSongs.length}{' '}
             {providerSongs.length === 1 ? 'song' : 'songs'} &middot;{' '}
             {formatTotalDuration(totalDuration)}
@@ -125,12 +122,14 @@ export const Provider = () => {
       {/* Song list */}
       <div className="border-divider border-t">
         <div
-          className="border-divider text-secondary flex items-center border-b px-1 sm:px-5 py-2"
+          className="border-divider text-secondary flex items-center border-b px-1 py-2 sm:px-5"
           style={{ font: '400 11px/1.27 var(--font-sans)' }}
         >
           <span className="w-8 shrink-0 text-center">#</span>
           <span className="ml-3 flex-1">Title</span>
-          <span className="max-sm:hidden w-14 shrink-0 text-right">Listens</span>
+          <span className="w-14 shrink-0 text-right max-sm:hidden">
+            Listens
+          </span>
           <span className="w-14 shrink-0 text-right">Wins</span>
           <span className="w-14 shrink-0 text-right">ELO</span>
         </div>
@@ -165,7 +164,7 @@ export const Provider = () => {
                   <span className="text-secondary w-14 shrink-0 text-right">
                     {song.listens}
                   </span>
-                  <span className="text-secondary max-sm:hidden w-14 shrink-0 text-right">
+                  <span className="text-secondary w-14 shrink-0 text-right max-sm:hidden">
                     {song.wins}
                   </span>
                   <span

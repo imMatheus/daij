@@ -25,7 +25,10 @@ const PROVIDER_IMAGES: Record<string, string> = {
     'be7d14e2-325a-4d31-96bc-a33550273e36',
 }
 
-export function getProviderImage(provider: string, size: 'large' | 'medium' | 'small' = 'large'): string {
+export function getProviderImage(
+  provider: string,
+  size: 'large' | 'medium' | 'small' = 'large',
+): string {
   let url = `https://cdn.midjourney.com/${PROVIDER_IMAGES[provider]}/0_0`
   if (size === 'large') url += '_640_N'
   else if (size === 'medium') url += '_384_N'

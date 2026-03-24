@@ -34,7 +34,7 @@ export function SongRow({
   return (
     <div
       onClick={handleClick}
-      className="group border-divider hover:bg-surface flex cursor-pointer items-center gap-3 border-b px-1 sm:px-5 py-[5px] transition-colors"
+      className="group border-divider hover:bg-surface flex cursor-pointer items-center gap-3 border-b px-1 py-[5px] transition-colors sm:px-5"
     >
       <span
         className="w-6 shrink-0 text-center"

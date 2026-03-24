@@ -90,9 +90,7 @@ export const Arena = () => {
     hoveredOutcome === 'tie' ||
     hoveredOutcome === 'both_bad'
 
-
-  console.log({ hoveredOutcome });
-
+  console.log({ hoveredOutcome })
 
   const {
     data: arenaData,
@@ -155,14 +153,14 @@ export const Arena = () => {
 
   return (
     <div className="mx-auto max-w-7xl px-3 pt-7 pb-24">
-      <header className="pt-3 md:pt-6 pb-4 md:pb-8 md:text-center">
+      <header className="pt-3 pb-4 md:pt-6 md:pb-8 md:text-center">
         <p className="text-secondary mb-2 text-xs font-semibold tracking-widest uppercase">
           Head to head
         </p>
-        <h1 className="font-panchang text-primary text-2xl md:text-5xl font-black tracking-wide uppercase">
+        <h1 className="font-panchang text-primary text-2xl font-black tracking-wide uppercase md:text-5xl">
           Arena
         </h1>
-        <p className="text-secondary md:mx-auto mt-2 md:max-w-sm text-sm">
+        <p className="text-secondary mt-2 text-sm md:mx-auto md:max-w-sm">
           Two AI-generated songs go head-to-head. Listen blind, then cast your
           vote.
         </p>
@@ -199,13 +197,11 @@ export const Arena = () => {
                 &ldquo;{prompt}&rdquo;
               </p>
             </div>
-            <div className="grid gap-2 md:gap-4 grid-cols-2">
+            <div className="grid grid-cols-2 gap-2 md:gap-4">
               <div
                 className={cn(
                   'rounded-xl border-2 transition-colors duration-150',
-                  highlightLeft
-                    ? 'border-[#f6211f]!'
-                    : 'border-divider!',
+                  highlightLeft ? 'border-[#f6211f]!' : 'border-divider!',
                 )}
               >
                 <SongCard
@@ -218,9 +214,7 @@ export const Arena = () => {
               <div
                 className={cn(
                   'rounded-xl border-2 transition-colors duration-150',
-                  highlightRight
-                    ? 'border-[#f6211f]!'
-                    : 'border-divider!',
+                  highlightRight ? 'border-[#f6211f]!' : 'border-divider!',
                 )}
               >
                 <SongCard
@@ -232,7 +226,7 @@ export const Arena = () => {
               </div>
             </div>
 
-            <div className="mt-5 md:mt-8 flex flex-wrap justify-center gap-1.5 md:gap-3">
+            <div className="mt-5 flex flex-wrap justify-center gap-1.5 md:mt-8 md:gap-3">
               {voted ? (
                 <Button onClick={nextMatchup}>Next matchup</Button>
               ) : (
@@ -246,8 +240,10 @@ export const Arena = () => {
                       onMouseLeave={() => setHoveredOutcome(null)}
                       disabled={voteMutation.isPending}
                       className={cn(
-                        isLast ? 'md:pr-12 pr-8 pl-2 md:pl-4' : 'pr-2 md:pl-4 pl-8 md:pl-12',
-                        'group/btn relative flex cursor-pointer items-center justify-center gap-1 overflow-visible rounded-full bg-[#f6211f] py-2 text-xs md:text-base font-medium text-white',
+                        isLast
+                          ? 'pr-8 pl-2 md:pr-12 md:pl-4'
+                          : 'pr-2 pl-8 md:pl-4 md:pl-12',
+                        'group/btn relative flex cursor-pointer items-center justify-center gap-1 overflow-visible rounded-full bg-[#f6211f] py-2 text-xs font-medium text-white md:text-base',
                       )}
                     >
                       {btn.label}
@@ -259,7 +255,7 @@ export const Arena = () => {
                           isLast
                             ? 'right-1 group-hover/btn:right-0'
                             : 'left-1 group-hover/btn:left-0',
-                          'rounded-full absolute top-1/2 size-5.5 md:size-8 -translate-y-1/2 transition-all duration-200 ease-out group-hover/btn:size-10',
+                          'absolute top-1/2 size-5.5 -translate-y-1/2 rounded-full transition-all duration-200 ease-out group-hover/btn:size-10 md:size-8',
                         )}
                       />
                     </button>

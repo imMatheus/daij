@@ -16,10 +16,9 @@ export const Button = ({
     <button
       className={cn(
         'flex cursor-pointer items-center gap-1.5 rounded-full px-5 py-2.5 text-sm font-medium transition-colors focus:outline-none',
-        variant === 'primary' &&
-          'bg-black text-white hover:bg-black/80',
+        variant === 'primary' && 'bg-black text-white hover:bg-black/80',
         variant === 'secondary' &&
-          'text-primary hover:bg-black/5 ring-1 ring-black/10 ring-inset',
+          'text-primary ring-1 ring-black/10 ring-inset hover:bg-black/5',
         disabled && 'pointer-events-none opacity-30',
         className,
       )}

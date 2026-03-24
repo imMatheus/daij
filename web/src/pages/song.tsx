@@ -1,7 +1,12 @@
 import { useParams, Link } from 'react-router'
 import { useEffect, useState } from 'react'
 import { useSongs } from '@/useSongs'
-import { formatDuration, getAudioTxtUrl, getProviderImage, providerLabel } from '@/lib/utils'
+import {
+  formatDuration,
+  getAudioTxtUrl,
+  getProviderImage,
+  providerLabel,
+} from '@/lib/utils'
 import { StrudelEditor } from '@/components/StrudelEditor'
 import { Button } from '@/components/button'
 import { PlayIcon, PauseIcon } from '@/components/icons'
@@ -71,25 +76,25 @@ export const SongPage = () => {
               <div className="pointer-events-none absolute inset-0 rounded-2xl ring-[0.5px] ring-black/15 ring-inset" />
             </div>
             <div className="min-w-0 py-1">
-              <div className="mb-1 flex items-center gap-2 text-xs text-secondary">
+              <div className="text-secondary mb-1 flex items-center gap-2 text-xs">
                 <Link
                   to={`/${provider}`}
-                  className="transition-colors hover:text-primary"
+                  className="hover:text-primary transition-colors"
                 >
                   {providerLabel(provider!)}
                 </Link>
                 <span>/</span>
                 <span>{song.name}</span>
               </div>
-              <h1 className="text-3xl font-bold text-primary sm:text-4xl">
+              <h1 className="text-primary text-3xl font-bold sm:text-4xl">
                 {song.name}
               </h1>
               {song.prompt && (
-                <p className="mt-2 max-w-md text-sm text-secondary italic">
+                <p className="text-secondary mt-2 max-w-md text-sm italic">
                   &ldquo;{song.prompt}&rdquo;
                 </p>
               )}
-              <div className="mt-2 flex items-center gap-2 text-xs text-secondary">
+              <div className="text-secondary mt-2 flex items-center gap-2 text-xs">
                 <span>{formatDuration(song.duration)}</span>
                 <span>&middot;</span>
                 <span>ELO {Math.round(song.eloRating)}</span>

@@ -38,7 +38,7 @@ export const Leaderboard = () => {
         <p className="text-secondary mb-2 text-xs font-semibold tracking-widest uppercase">
           Rankings
         </p>
-        <h1 className="font-panchang text-primary text-2xl md:text-5xl font-black tracking-wide uppercase">
+        <h1 className="font-panchang text-primary text-2xl font-black tracking-wide uppercase md:text-5xl">
           Leaderboard
         </h1>
         <p className="text-secondary mx-auto mt-2 max-w-sm text-sm">
@@ -56,14 +56,16 @@ export const Leaderboard = () => {
       {tab === 'songs' && (
         <div>
           <div
-            className="border-divider text-secondary flex items-center border-b px-1 sm:px-5 py-2"
+            className="border-divider text-secondary flex items-center border-b px-1 py-2 sm:px-5"
             style={{ font: '400 11px/1.27 var(--font-sans)' }}
           >
             <span className="w-8 shrink-0 text-center">#</span>
             <span className="ml-3 flex-1">Title</span>
             <span className="w-14 shrink-0 text-right">Listens</span>
             <span className="w-16 shrink-0 text-right">Wins</span>
-            <span className="max-sm:hidden w-16 shrink-0 text-right">Win Rate</span>
+            <span className="w-16 shrink-0 text-right max-sm:hidden">
+              Win Rate
+            </span>
             <span className="w-14 shrink-0 text-right">ELO</span>
           </div>
           {songsQuery.isLoading ? (
@@ -91,7 +93,7 @@ export const Leaderboard = () => {
                     <span className="text-secondary w-16 shrink-0 text-right">
                       {song.wins}
                     </span>
-                    <span className="text-secondary max-sm:hidden w-16 shrink-0 text-right">
+                    <span className="text-secondary w-16 shrink-0 text-right max-sm:hidden">
                       {song.totalVotes > 0
                         ? Math.round((song.wins / song.totalVotes) * 100)
                         : 0}

@@ -51,7 +51,7 @@ export function Home() {
           // src="https://cdn.midjourney.com/99c9da35-4609-4211-a78b-4bf70359c8b8/0_0.png"
           // src="https://cdn.midjourney.com/130a2b36-3161-43ac-bfe1-d56cc8af7f9e/0_0.png"
           // src="https://cdn.midjourney.com/2caad6fe-2675-4b5b-9812-0d3eb1bf2e9e/0_0.png"
-          src='https://cdn.midjourney.com/9d27d884-9688-407d-a7f3-dc2c73414a7c/0_0.webp'
+          src="https://cdn.midjourney.com/9d27d884-9688-407d-a7f3-dc2c73414a7c/0_0.webp"
           alt=""
           className="absolute inset-0 size-full object-cover"
           style={{
@@ -73,13 +73,13 @@ export function Home() {
             }
           `}
         </style>
-        <h1 className="relative mb-2 text-6xl md:text-8xl font-semibold tracking-wide text-white">
+        <h1 className="relative mb-2 text-6xl font-semibold tracking-wide text-white md:text-8xl">
           DAIJ
         </h1>
         <div className="relative flex gap-2">
           <Link
             to="/arena"
-            className="flex items-center gap-2 rounded-full bg-black md:px-5 px-3 py-2 md:py-3 md:text-lg font-medium text-white"
+            className="flex items-center gap-2 rounded-full bg-black px-3 py-2 font-medium text-white md:px-5 md:py-3 md:text-lg"
           >
             <svg
               className="size-4 md:size-5"
@@ -98,8 +98,7 @@ export function Home() {
           </Link>
           <Link
             to="/leaderboard"
-            className="flex items-center gap-2 rounded-full bg-black md:px-5 px-3 py-2 md:py-3 md:text-lg font-medium text-white"
-
+            className="flex items-center gap-2 rounded-full bg-black px-3 py-2 font-medium text-white md:px-5 md:py-3 md:text-lg"
           >
             <svg
               className="size-4 md:size-5"
@@ -120,13 +119,13 @@ export function Home() {
       </div>
 
       <section className="mt-16">
-        <h3 className="text-center text-4xl md:text-5xl font-semibold tracking-wide uppercase">
+        <h3 className="text-center text-4xl font-semibold tracking-wide uppercase md:text-5xl">
           See s
-          <ClaudeAI className="inline-block md:size-7 size-6 -translate-y-1" />
+          <ClaudeAI className="inline-block size-6 -translate-y-1 md:size-7" />
           ngs <br />
           fr
-          <OpenAI className="inline-block md:size-7 size-6 -translate-y-1" />m m
-          <Gemini className="inline-block md:size-7 size-6 -translate-y-1" />
+          <OpenAI className="inline-block size-6 -translate-y-1 md:size-7" />m m
+          <Gemini className="inline-block size-6 -translate-y-1 md:size-7" />
           dels
         </h3>
 
@@ -141,8 +140,8 @@ export function Home() {
                 <p className="text-secondary flex items-center gap-1 text-[11px] leading-tight font-medium tracking-wider uppercase">
                   {card.eyebrow}
                 </p>
-                <div className="flex md:flex-row flex-col md:items-center md:gap-2">
-                  <p className="max-md:text-sm text-primary font-medium tracking-wider">
+                <div className="flex flex-col md:flex-row md:items-center md:gap-2">
+                  <p className="text-primary font-medium tracking-wider max-md:text-sm">
                     {card.title}
                   </p>
                   {eloByProvider.has(card.provider) && (
@@ -179,10 +178,10 @@ function LatestSongs() {
     queryFn: () => fetchJson<Song[]>('/leaderboard/songs'),
   })
 
-  const displaySongs: Song[] = [];
+  const displaySongs: Song[] = []
   if (songs) {
     for (let i = 0; i < songs.length && i < 16; i++) {
-      displaySongs.push(songs[i]);
+      displaySongs.push(songs[i])
     }
   }
 
