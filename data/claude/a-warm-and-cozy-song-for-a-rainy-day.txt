@@ -1,145 +1,88 @@
-// 🌧️ "Raindrops on the Window" — Warm Lo-Fi Jazz / Rainy Day Ambient
-// At 74 BPM: intro(8) + verse(16) + chorus(12) + verse(16) + chorus(12) + bridge(8) + outro(8) = 80 bars ≈ 4:19
+// 🌧️ "Blanket Weather" — Warm Lo-Fi Ambient Jazz / Rainy Day Comfort
+// At 70 BPM: intro(4) + A(8) + B(8) + outro(4) = 24 bars ≈ 82s
 
-setcpm(74 / 4)
+setcpm(70 / 4)
 
-$: s("vinyl:2").gain(.15).room(1).loop(1).lpf(2600)
+$: s("vinyl:2").gain(.14).room(1).loop(1).lpf(2400)
 
 $: s("hh*16")
    .bank("RolandTR808")
-   .gain(perlin.range(.04, .28))
-   .pan(perlin.range(.15, .85))
+   .gain(perlin.range(.03, .22))
+   .pan(perlin.range(.2, .8))
    .cut(1)
-   .lpf(sine.range(3500, 6500).slow(16))
+   .lpf(sine.range(2800, 5500).slow(14))
 
 $: arrange(
-  [8,  silence],
-  [16, s("bd ~ ~ ~, ~ [~ sd] ~ ~")
+  [4,  s("bd ~ ~ ~").bank("RolandTR808").gain(.48).room(.55).lpf(700)],
+  [8,  s("bd ~ ~ ~, ~ [~ sd:1] ~ ~")
        .bank("RolandTR808").swing(4)
-       .gain(".72 .68").room(.45)],
-  [12, s("bd ~ ~ bd, ~ [cp,sd:1] ~ ~, [~ hh]*4")
+       .gain(".7 .64").room(.42)],
+  [8,  s("bd ~ ~ bd, ~ [cp,sd:1] ~ ~, [~ hh]*4")
        .bank("RolandTR808").swing(4).cut(1)
-       .gain(".82 .78").room(.35)
+       .gain(".78 .72").room(.35)
        .every(4, x => x.press())],
-  [16, s("bd ~ ~ ~, ~ [~ sd] ~ ~")
+  [4,  s("bd ~ ~ ~")
        .bank("RolandTR808").swing(4)
-       .gain(".72 .68").room(.45)
-       .sometimes(x => x.gain(.25))],
-  [12, s("bd ~ ~ bd, ~ [cp,sd:1] ~ ~, [~ hh]*4")
-       .bank("RolandTR808").swing(4).cut(1)
-       .gain(".82 .78").room(.35)],
-  [8,  s("bd ~ ~ ~, ~ ~ [~ sd] ~")
-       .bank("RolandTR808").swing(4)
-       .gain(".62 .58").room(.55)],
-  [8,  s("bd ~ ~ ~")
-       .bank("RolandTR808").swing(4)
-       .gain(saw.slow(8).range(.55, .05)).room(.6)]
+       .gain(saw.slow(4).range(.48, .06)).room(.6)]
 )
 
 $: arrange(
-  [8,  silence],
-  [16, note("<[f2 ~ ~ ~] [d2 ~ ~ d2] [bb1 ~ ~ ~] [c2 ~ ~ ~]>")
+  [4,  silence],
+  [8,  note("<[a1 ~ ~ ~] [f#1 ~ ~ f#1] [d1 ~ ~ ~] [e1 ~ ~ ~]>")
        .s("gm_acoustic_bass")
-       .decay(.4).sustain(.5).room(.25).gain(.75)],
-  [12, note("<[f2 ~ f2 ~] [d2 ~ ~ d2] [bb1 ~ bb1 ~] [c2 ~ ~ c2]>")
+       .decay(.4).sustain(.5).room(.25).gain(.72)],
+  [8,  note("<[a1 ~ a1 ~] [f#1 ~ ~ f#1] [d1 ~ d1 ~] [e1 ~ ~ e1]>")
        .s("gm_acoustic_bass")
-       .decay(.3).sustain(.55).room(.2).gain(.8)],
-  [16, note("<[f2 ~ ~ ~] [d2 ~ ~ d2] [bb1 ~ ~ ~] [c2 ~ ~ ~]>")
+       .decay(.3).sustain(.55).room(.2).gain(.78)],
+  [4,  note("<a1 ~ d1 ~>/2")
        .s("gm_acoustic_bass")
-       .decay(.4).sustain(.5).room(.25).gain(.75)
-       .sometimes(x => x.add(note(12)).gain(.35))],
-  [12, note("<[f2 ~ f2 ~] [d2 ~ ~ d2] [bb1 ~ bb1 ~] [c2 ~ ~ c2]>")
-       .s("gm_acoustic_bass")
-       .decay(.3).sustain(.55).room(.2).gain(.8)],
-  [8,  note("<f2 ~ d2 ~ bb1 ~ c2 ~>/2")
-       .s("gm_acoustic_bass")
-       .decay(.6).sustain(.4).room(.35).gain(.6).speed(.97)],
-  [8,  silence]
+       .decay(.55).sustain(.4).room(.35).gain(.55).speed(.97)]
 )
 
 $: arrange(
-  [8,  chord("<Fmaj7 Bbmaj7>/2").dict('ireal').voicing()
-       .s("gm_synth_strings_1").attack(.8).decay(1).sustain(.7).release(2)
-       .lpf(1200).room(.75).gain(.32)],
-  [16, chord("<Fmaj7 Dm9 Bbmaj7 C9>").dict('ireal').voicing()
-       .s("gm_epiano1").struct("~ [x ~] ~ [x ~]")
-       .lpf(2200).room(.55).delay(".2:.15:.3")
-       .gain(.48).speed(.98)],
-  [12, chord("<Fmaj7 Dm9 Bbmaj7 C9>").dict('ireal').voicing()
-       .s("gm_epiano1").struct("[~ x]*2")
-       .lpf(2600).room(.5).delay(".2:.1:.25")
-       .gain(.52)],
-  [16, chord("<Fmaj7 Dm9 Bbmaj7 C9>").dict('ireal').voicing()
-       .s("gm_epiano1").struct("~ [x ~] ~ [x ~]")
-       .lpf(2200).room(.55).delay(".2:.15:.3")
-       .gain(.48).speed(.98)],
-  [12, chord("<Fmaj7 Dm9 Bbmaj7 C9>").dict('ireal').voicing()
-       .s("gm_epiano1").struct("[~ x]*2")
-       .lpf(2600).room(.5).delay(".2:.1:.25")
-       .gain(.52)],
-  [8,  chord("<Fmaj7 Dm9 Bbmaj7 C9>/2").dict('ireal').voicing()
-       .s("gm_epiano1").struct("x ~ ~ ~")
-       .lpf(1500).room(.7).delay(".4:.3:.5")
-       .gain(.4).crush(13)],
-  [8,  chord("<Fmaj7 Bbmaj7>/2").dict('ireal').voicing()
-       .s("gm_synth_strings_1").attack(.8).sustain(.6).release(3)
-       .lpf(sine.range(400, 1200).slow(8)).room(.8)
-       .gain(saw.slow(8).range(.32, .05))]
+  [4,  chord("<Amaj9 Dmaj7>/2").dict('ireal').voicing()
+       .s("gm_synth_strings_1")
+       .attack(.9).decay(1).sustain(.7).release(2.5)
+       .lpf(1000).room(.8).gain(.3)],
+  [8,  chord("<Amaj9 F#m9 Dmaj9 E9>").dict('ireal').voicing()
+       .s("gm_epiano1")
+       .struct("~ [x ~] ~ [x ~]")
+       .lpf(2000).room(.55).delay(".25:.18:.35")
+       .gain(.46).speed(.98)],
+  [8,  chord("<Amaj9 F#m9 Dmaj9 E9>").dict('ireal').voicing()
+       .s("gm_epiano1")
+       .struct("[~ x]*2")
+       .lpf(2500).room(.5).delay(".2:.12:.28")
+       .gain(.5)],
+  [4,  chord("<Amaj9 Dmaj7>/2").dict('ireal').voicing()
+       .s("gm_synth_strings_1")
+       .attack(.9).sustain(.6).release(3)
+       .lpf(sine.range(400, 1100).slow(4))
+       .room(.85).gain(saw.slow(4).range(.3, .06))]
 )
 
 $: arrange(
-  [8,  n("<0 ~ 2 ~>/1").scale("F4:major:pentatonic").s("gm_epiano1")
-       .room(.8).delay(".5:.35:.6").gain(.28).lpf(1600).attack(.15)],
-  [16, n("<[~ 0 ~ 2] [3 ~ 5 ~] [~ 3 ~ 2] [0 ~ ~ ~]>")
-       .scale("F5:major:pentatonic").s("gm_epiano1")
-       .lpf(sine.range(1000, 3000).slow(12))
-       .room(.6).delay(".3:.2:.4").gain(.36)
+  [4,  n("<0 ~ 2 ~>/1").scale("A4:major:pentatonic")
+       .s("gm_epiano2")
+       .room(.8).delay(".5:.35:.6").gain(.26).lpf(1400).attack(.2)],
+  [8,  n("<[~ 0 ~ 2] [4 ~ 2 ~] [~ 3 ~ 4] [2 ~ ~ 0]>")
+       .scale("A5:major:pentatonic").s("gm_epiano2")
+       .lpf(sine.range(900, 2800).slow(10))
+       .room(.6).delay(".3:.22:.42").gain(.35)
        .rarely(x => x.add(note(12)))],
-  [12, n("<[0 ~ 2 3] [~ 5 7 ~] [5 ~ 3 ~] [~ 2 0 ~]>")
-       .scale("F5:major:pentatonic").s("gm_epiano1")
-       .lpf(sine.range(1200, 3800).slow(8))
-       .room(.55).delay(".25:.2:.35").gain(.42)
+  [8,  n("<[0 ~ 2 4] [~ 5 4 ~] [2 ~ 0 ~] [~ 3 2 0]>")
+       .scale("A5:major:pentatonic").s("gm_epiano2")
+       .lpf(sine.range(1100, 3400).slow(8))
+       .room(.55).delay(".25:.18:.35").gain(.4)
        .sometimes(x => x.add(note(12)))],
-  [16, n("<[~ 0 ~ 2] [3 ~ 5 ~] [~ 3 ~ 2] [0 ~ ~ ~]>")
-       .scale("F5:major:pentatonic").s("gm_epiano1")
-       .lpf(sine.range(1000, 3000).slow(12))
-       .room(.6).delay(".3:.2:.4").gain(.36)
-       .rarely(x => x.add(note(12)))],
-  [12, n("<[0 ~ 2 3] [~ 5 7 ~] [5 ~ 3 ~] [~ 2 0 ~]>")
-       .scale("F5:major:pentatonic").s("gm_epiano1")
-       .lpf(sine.range(1200, 3800).slow(8))
-       .room(.55).delay(".25:.2:.35").gain(.42)
-       .sometimes(x => x.add(note(12)))],
-  [8,  n("<[~ 0 ~ ~] [~ ~ 2 ~] [~ 3 ~ ~] [~ ~ 0 ~]>")
-       .scale("F5:major:pentatonic").s("gm_epiano1")
-       .room(.85).delay(".6:.4:.7").gain(.26)
-       .lpf(sine.range(600, 1800).slow(8))],
-  [8,  silence]
+  [4,  n("<[~ 0 ~ ~] [~ ~ 2 ~] [~ 4 ~ ~] [~ ~ 0 ~]>")
+       .scale("A5:major:pentatonic").s("gm_epiano2")
+       .room(.85).delay(".55:.4:.65").gain(.24)
+       .lpf(sine.range(500, 1600).slow(4))]
 )
 
-$: arrange(
-  [8,  silence],
-  [16, silence],
-  [12, chord("<Fmaj7 Dm9 Bbmaj7 C9>").dict('ireal').voicing()
-       .s("gm_synth_strings_1")
-       .attack(1).decay(.8).sustain(.7).release(2)
-       .lpf(sine.range(800, 2000).slow(12))
-       .room(.7).roomsize(6).gain(.28)],
-  [16, silence],
-  [12, chord("<Fmaj7 Dm9 Bbmaj7 C9>").dict('ireal').voicing()
-       .s("gm_synth_strings_1")
-       .attack(1).decay(.8).sustain(.7).release(2)
-       .lpf(sine.range(800, 2000).slow(12))
-       .room(.7).roomsize(6).gain(.28)],
-  [8,  chord("<Fmaj7 Bbmaj7>/2").dict('ireal').voicing()
-       .s("gm_synth_strings_1")
-       .attack(1.2).sustain(.6).release(3)
-       .lpf(1200).room(.8).roomsize(8).gain(.22)],
-  [8,  silence]
-)
-
-$: note("<f1 d1 bb0 c1>/4")
+$: note("<a0 f#0 d0 e0>/4")
    .s("sine")
-   .attack(1.5).decay(.8).sustain(.8).release(2)
-   .gain(.2).room(.5)
-   .lpf(180)
+   .attack(1.8).decay(.8).sustain(.8).release(2)
+   .gain(.18).room(.55)
+   .lpf(170)

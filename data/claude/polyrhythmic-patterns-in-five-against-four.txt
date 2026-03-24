@@ -1,8 +1,164 @@
-Song written to `web/public/claude/polyrhythmic-patterns-in-five-against-four.txt`.
+// 🎵 "Five Over Four" — Polyrhythmic Minimalism / Afro-Groove
+// At 100 BPM: intro(8) + A(16) + B(16) + A2(16) + B2(16) + bridge(8) + outro(8) = 88 bars ≈ 3:31
 
-The 5:4 polyrhythm is layered at multiple levels:
-- **Percussion**: kick in `bd*4` against rimshot in `rim*5`
-- **Pitched**: bass plays 4-note root patterns per cycle while melody plays 5-note pentatonic runs
-- **Structure**: the rim voice uses `.every(5, ...)` modifiers to create meta-fives
+setcpm(100 / 4)
 
-Key: G minor (Gm9 - Cm7 - EbMaj7 - D7b9), 108 BPM, 88 bars across 7 sections.
+$: s("vinyl:2").gain(.1).room(1).loop(1).lpf(2400)
+
+// THE POLYRHYTHM: kick in FOUR, rim in FIVE
+$: arrange(
+  [8,  s("bd bd bd bd, rim rim rim rim rim")
+       .bank("RolandTR808").gain(.42).room(.35)],
+  [16, s("bd bd bd bd, ~ cp ~ ~, rim rim rim rim rim, hh hh hh hh")
+       .bank("RolandTR808").cut(1).swing(2)
+       .gain(perlin.range(.55,.82)).room(.25)
+       .every(4, x => x.fast(2).gain(.45))],
+  [16, s("bd [~ bd] bd bd, ~ cp ~ [cp ~], rim rim rim rim rim, [hh oh hh hh hh]*2")
+       .bank("RolandTR808").cut(1).swing(3)
+       .gain(perlin.range(.6,.9)).room(.2)
+       .every(3, x => x.press())
+       .every(5, x => x.rev())],
+  [16, s("bd bd bd bd, ~ cp ~ ~, rim rim rim rim rim, hh hh hh hh")
+       .bank("RolandTR808").cut(1).swing(2)
+       .gain(perlin.range(.55,.82)).room(.25)
+       .sometimes(x => x.rev())],
+  [16, s("bd [~ bd] bd bd, ~ cp ~ [cp ~], rim rim rim rim rim, [hh oh hh hh hh]*2")
+       .bank("RolandTR808").cut(1).swing(3)
+       .gain(perlin.range(.6,.9)).room(.2)
+       .every(3, x => x.press())
+       .every(5, x => x.fast(2).gain(.45))],
+  [8,  s("bd bd bd bd, ~ cp ~ ~, rim rim rim rim rim")
+       .bank("RolandTR808").swing(4)
+       .gain(perlin.range(.45,.65)).room(.5)
+       .every(2, x => x.rev())],
+  [8,  s("bd ~ ~ ~, rim ~ rim ~ rim")
+       .bank("RolandTR808").swing(4)
+       .gain(saw.slow(8).range(.5,.08)).room(.6)]
+)
+
+// Bass — FOUR notes per cycle
+$: arrange(
+  [8,  silence],
+  [16, note("d2 a1 g1 a1").s("gm_acoustic_bass")
+       .decay(.25).sustain(.45).room(.2).gain(.78)
+       .every(4, x => x.fast(2).gain(.45))],
+  [16, note("d2 a1 [g1 a1] d2").s("gm_acoustic_bass")
+       .decay(.18).sustain(.5).room(.2).gain(.84)
+       .sometimes(x => x.speed(2).gain(.4))],
+  [16, note("d2 a1 g1 a1").s("gm_acoustic_bass")
+       .decay(.25).sustain(.45).room(.2).gain(.78)
+       .every(4, x => x.fast(2).gain(.45))],
+  [16, note("d2 a1 [g1 a1] d2").s("gm_acoustic_bass")
+       .decay(.18).sustain(.5).room(.2).gain(.84)],
+  [8,  note("<d2 ~ g1 ~ a1 ~ d2 ~>/2").s("gm_acoustic_bass")
+       .decay(.5).sustain(.3).room(.4).gain(.55)],
+  [8,  silence]
+)
+
+// Chords — struct shifts between FIVE and FOUR attacks
+$: arrange(
+  [8,  chord("<Dm9 Am7>/2").dict('ireal').voicing()
+       .s("gm_epiano1").attack(.4).sustain(.6).release(1.5)
+       .lpf(1800).room(.6).gain(.32)],
+  [16, chord("<Dm9 Am7 Gm7 Am7>").dict('ireal').voicing()
+       .s("gm_epiano1")
+       .struct("x x x x x")
+       .lpf(sine.range(1000,3500).slow(10))
+       .room(.45).delay(".15:.1:.2")
+       .gain(.45)
+       .every(4, x => x.struct("x x x x").gain(.38))],
+  [16, chord("<Dm9 Am7 Gm7 Am7>").dict('ireal').voicing()
+       .s("gm_epiano1")
+       .struct("x x x x")
+       .lpf(sine.range(1200,4000).slow(8))
+       .room(.4).delay(".12:.08:.18")
+       .gain(.5)
+       .every(3, x => x.struct("x x x x x").gain(.4))],
+  [16, chord("<Dm9 Am7 Gm7 Am7>").dict('ireal').voicing()
+       .s("gm_epiano1")
+       .struct("x x x x x")
+       .lpf(sine.range(1000,3500).slow(10))
+       .room(.45).delay(".15:.1:.2")
+       .gain(.45)
+       .sometimes(x => x.struct("x x x x"))],
+  [16, chord("<Dm9 Am7 Gm7 Am7>").dict('ireal').voicing()
+       .s("gm_epiano1")
+       .struct("x x x x")
+       .lpf(sine.range(1200,4000).slow(8))
+       .room(.4).delay(".12:.08:.18")
+       .gain(.5)
+       .every(3, x => x.rev())],
+  [8,  chord("<Dm9 Gm7>/2").dict('ireal').voicing()
+       .s("gm_synth_strings_1")
+       .attack(.6).sustain(.6).release(2)
+       .lpf(sine.range(600,1600).slow(8)).room(.8).gain(.32)],
+  [8,  chord("<Dm9>/1").dict('ireal').voicing()
+       .s("gm_synth_strings_1")
+       .attack(1).sustain(.5).release(3)
+       .lpf(sine.range(300,1000).slow(8)).room(.9)
+       .gain(saw.slow(8).range(.3,.05))]
+)
+
+// Melody — FIVE notes per cycle (THE FIVE)
+$: arrange(
+  [8,  n("<~ 0 ~ 2 ~>").scale("D5:dorian")
+       .s("gm_clavinet")
+       .room(.7).delay(".4:.3:.5").gain(.22).lpf(1600)],
+  [16, n("0 2 4 5 7").scale("D5:dorian")
+       .s("gm_clavinet")
+       .lpf(sine.range(1000,3800).slow(11))
+       .room(.5).delay(".2:.15:.3").gain(.4)
+       .every(4, x => x.add(note(12)).gain(.25))
+       .every(6, x => x.rev())],
+  [16, n("7 5 4 2 0").scale("D5:dorian")
+       .s("gm_clavinet")
+       .lpf(sine.range(1200,4200).slow(9))
+       .room(.45).delay(".18:.12:.25").gain(.44)
+       .sometimes(x => x.add(note(12)).gain(.28))
+       .every(3, x => x.fast(2).gain(.28))],
+  [16, n("0 2 4 5 7").scale("D5:dorian")
+       .s("gm_clavinet")
+       .lpf(sine.range(1000,3800).slow(11))
+       .room(.5).delay(".2:.15:.3").gain(.4)
+       .every(4, x => x.add(note(12)).gain(.25))],
+  [16, n("7 5 4 2 0").scale("D5:dorian")
+       .s("gm_clavinet")
+       .lpf(sine.range(1200,4200).slow(9))
+       .room(.45).delay(".18:.12,.25").gain(.44)
+       .sometimes(x => x.rev())],
+  [8,  n("<~ 0 ~ ~ 4 ~ ~ ~>/2").scale("D5:dorian")
+       .s("gm_clavinet")
+       .room(.8).delay(".5:.4:.6").gain(.22).lpf(1400)],
+  [8,  silence]
+)
+
+// Counter-melody — FOUR notes in the FOUR feel
+$: arrange(
+  [8,  silence],
+  [16, n("<[~ 3 ~ 5] [7 ~ 3 ~]>").scale("D4:dorian")
+       .s("gm_flute")
+       .lpf(3000).room(.55).delay(".3:.2:.4")
+       .gain(.28).vib(5).vibmod(.6)
+       .every(5, x => x.fast(2))],
+  [16, silence],
+  [16, n("<[~ 3 ~ 5] [7 ~ 3 ~]>").scale("D4:dorian")
+       .s("gm_flute")
+       .lpf(3000).room(.55).delay(".3:.2:.4")
+       .gain(.28).vib(5).vibmod(.6)
+       .every(5, x => x.fast(2))
+       .rarely(x => x.rev())],
+  [16, n("<[5 ~ 3 7] [~ 3 ~ 0]>").scale("D4:dorian")
+       .s("gm_flute")
+       .lpf(3500).room(.5).delay(".25:.18:.35")
+       .gain(.3).vib(6).vibmod(.7)
+       .sometimes(x => x.add(note(12)).gain(.2))],
+  [8,  silence],
+  [8,  silence]
+)
+
+// Sub-bass drone
+$: note("<d1 g1 a1 d1>/4")
+   .s("sawtooth")
+   .attack(1.5).decay(1).sustain(.7).release(2)
+   .gain(.17).room(.5)
+   .lpf(sine.range(80,220).slow(12))

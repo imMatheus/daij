@@ -1,66 +1,31 @@
-// 🇯🇲 "King Tubby's Echo" — Reggae Dub
-// At 130 BPM: intro(8) + verse(16) + dub(16) + verse(16) + breakdown(16) + outro(8) = 80 bars ≈ 2:27
-
-setcpm(130 / 4)
-
-$: s("vinyl:2").gain(.12).room(1).loop(1).lpf(1800)
-
-$: arrange(
-  [8,  s("~ ~ [sd:1,bd] ~").bank("RolandTR808").room(.6).gain(.8).delay(".5:.6:.4")],
-  [16, s("~ ~ [sd:1,bd] ~").bank("RolandTR808").room(.3).gain(.85)],
-  [16, s("bd ~ [sd:1,bd] ~").bank("RolandTR808").room(.3).gain(.9)],
-  [16, s("~ ~ [sd:1,bd] ~").bank("RolandTR808").room(.3).gain(.85)],
-  [16, s("bd bd [sd:1,bd] bd").bank("RolandTR808").room(.4).gain(.9).sometimes(x=>x.delay(".25:.5:.3"))],
-  [8,  s("~ ~ [sd:1,bd] ~").bank("RolandTR808").room(.8).gain(saw.slow(8).range(.8, .1))]
-)
-
-$: s("hh*8")
-   .bank("RolandTR808")
-   .gain(perlin.range(.1, .5))
-   .swing(6)
-   .every(4, x=>x.fast(2).gain(.3))
-   .cut(1)
-
-$: arrange(
-  [8,  note("<g1 ~ ~ ~>").s("gm_fretless_bass").gain(.8).lpf(400)],
-  [16, note("<[g1 ~ g1 ~] [~ ~ bb1 ~] [c2 ~ c2 ~] [~ ~ d1 ~]>").s("gm_fretless_bass").gain(.85).lpf(500).room(.2)],
-  [16, note("<[g1 g1 ~ g1] [~ bb1 ~ bb1] [c2 c2 ~ c2] [~ d2 ~ d1]>").s("gm_fretless_bass").gain(.9).lpf(600).room(.2)],
-  [16, note("<[g1 ~ g1 ~] [~ ~ bb1 ~] [c2 ~ c2 ~] [~ ~ d1 ~]>").s("gm_fretless_bass").gain(.85).lpf(500).room(.2)],
-  [16, note("<[g1 ~ g1 ~] [~ ~ bb1 ~] [c2 ~ c2 ~] [~ ~ d1 ~]>").s("gm_fretless_bass").gain(.85).lpf(300).room(.4)],
-  [8,  note("g1").s("gm_fretless_bass").gain(saw.slow(8).range(.7, 0)).lpf(200)]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, chord("<Gm7 Cm7 Dm7 Gm7>").dict('ireal').voicing().s("gm_electric_guitar_clean").struct("~ x ~ x").gain(.6).room(.4).delay(".33:.4:.2")],
-  [16, chord("<Gm7 Cm7 Dm7 Gm7>").dict('ireal').voicing().s("gm_electric_guitar_clean").struct("~ x ~ x").gain(.7).room(.6).delay(".33:.8:.6").lpf(sine.range(1000, 3000).slow(4))],
-  [16, chord("<Gm7 Cm7 Dm7 Gm7>").dict('ireal').voicing().s("gm_epiano1").struct("~ x ~ x").gain(.6).room(.4).delay(".33:.4:.2")],
-  [16, chord("<Gm7 Cm7 Dm7 Gm7>").dict('ireal').voicing().s("gm_electric_guitar_clean").struct("~ x ~ x").gain(.5).room(.8).delay(".33:.9:.8").lpf(800)],
-  [8,  silence]
-)
-
-$: arrange(
-  [8,  n("<7 ~ 5 ~>").scale("G4:minor").s("gm_trumpet").gain(.4).room(.9).delay(".5:.7:.6")],
-  [16, silence],
-  [16, n("<[7 ~ 10 ~] [9 ~ 7 ~] [5 ~ 7 ~] [3 ~ 2 ~]>").scale("G4:minor").s("gm_brass_section").gain(.5).room(.7).delay(".33:.6:.5")],
-  [16, silence],
-  [16, n("<7 ~ 5 ~>").scale("G3:minor").s("gm_trumpet").gain(.3).room(.9).delay(".75:.8:.7").lpf(1200)],
-  [8,  silence]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, silence],
-  [16, n("<0 2 3 5 7 5 3 2>").scale("G5:minor").s("gm_flute").gain(.3).room(.6).delay(".25:.5:.4").sometimes(x=>x.rev())],
-  [16, silence],
-  [16, silence],
-  [8,  silence]
-)
-
-$: s("sine")
-   .note("<g4 bb4 c5 d5>/2")
-   .lpf(sine.range(200, 1500).slow(8))
-   .gain(.15)
-   .room(.9)
-   .delay(".6:.8:.7")
-   .attack(1).release(2)
+// "Dub Pressure" — Deep sub-bass and modulated feedback loops
+setcps(145/240);
+samples('github:tidalcycles/dirt-samples');
+stack(
+  s("bd:4").struct("t f t f").gain(1.3),
+  s("~ <rim:1 rim:3 snare:2>").delay(0.7).delayfb(0.6).delaytime(0.25).room(0.6),
+  s("hh*16").gain(sine.range(0.3, 0.7).slow(8)).pan(perlin.slow(4)),
+  s("superpiano")
+    .note("<[c3,eb3,g3,c4] [f3,ab3,c4,f4] [g3,b3,d4,g4] [eb3,g3,bb3,eb4]>")
+    .struct("f t f t")
+    .delay(0.8).delayfb(0.75).delaytime(0.375)
+    .lpf(perlin.range(300, 3000).slow(16))
+    .room(0.8),
+  s("bass2")
+    .note("<c2 f1 g1 eb1>")
+    .struct("t [~ t] t [t ~]")
+    .lpf(perlin.range(150, 500).slow(12))
+    .gain(1.6),
+  s("can")
+    .n(irand(12))
+    .struct("~ ~ ~ <t f>/4")
+    .delay(0.95).delayfb(0.9).delaytime(0.5)
+    .room(1.2)
+    .rev()
+    .gain(0.7),
+  s("glitch")
+    .n(irand(8))
+    .struct("~ t/8 ~ ~")
+    .delay(0.8).delayfb(0.8).delaytime(0.125)
+    .pan(1)
+).reset(16)

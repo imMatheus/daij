@@ -1,54 +1,8 @@
-// 🎵 "Stellar Drift" — Space Exploration Soundtrack / Ambient Electronic
-// At 110 BPM: intro(8) + verse(16) + chorus(16) + bridge(16) + chorus2(16) + outro(8) = 80 bars ≈ 2:54
-
-setcpm(110 / 4)
-
-$: arrange(
-  [8,  s("sine").gain(sine.range(.05, .15).slow(8)).room(1).lpf(sine.range(400, 1000).slow(12))],
-  [64, s("sine").gain(sine.range(.05, .15).slow(8)).room(1).lpf(sine.range(400, 1500).slow(16))],
-  [8,  s("sine").gain(saw.range(.1, 0).slow(8)).room(1).lpf(400)]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, note("<c2 a1 f1 g1>").s("gm_synth_strings_1").attack(1).release(2).gain(.4).room(.6).lpf(800)],
-  [16, note("<c2 a1 f1 g1>").s("gm_synth_strings_1").attack(1).release(2).gain(.5).room(.5).lpf(1200)],
-  [16, note("<c2 [a1 g1] [f1 eb1] [g1 b1]>").s("gm_synth_strings_1").attack(.5).release(1.5).gain(.45).room(.6).lpf(1500)],
-  [16, note("<c2 a1 f1 g1>").s("gm_synth_strings_1").attack(1).release(2).gain(.5).room(.5).lpf(1200)],
-  [8,  note("<c2>").s("gm_synth_strings_1").attack(2).release(4).gain(saw.range(.4, 0).slow(8)).room(.8).lpf(600)]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, silence],
-  [16, chord("<Cmaj9 Am9 Fmaj7#11 G13sus4>").dict('ireal').voicing().s("gm_epiano2").struct("x ~ ~ ~").gain(.35).room(.7).delay(".4:.3:.5").lpf(2000)],
-  [16, chord("<Cmaj9 Am9 Fmaj7#11 G13sus4>").dict('ireal').voicing().s("gm_epiano2").struct("x ~ x ~").gain(.4).room(.6).delay(".3:.2:.4").lpf(2500)],
-  [16, chord("<Cmaj9 Am9 Fmaj7#11 G13sus4>").dict('ireal').voicing().s("gm_epiano2").struct("x ~ ~ ~").gain(.35).room(.7).delay(".4:.3:.5").lpf(2000)],
-  [8,  silence]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, n("<0 4 7 11>/4").scale("C5:major").s("gm_celesta").gain(.25).room(.8).delay(".5:.4:.6").pan(sine.slow(10))],
-  [16, n("<[0 4 7 11] [9 12 16 14] [5 9 12 18] [7 11 14 17]>/4").scale("C5:major").s("gm_celesta").gain(.3).room(.7).delay(".4:.3:.5").pan(sine.slow(8))],
-  [16, n("<[12 11 7 4] [16 14 12 9] [18 17 14 12] [14 12 11 7]>/2").scale("C5:major").s("gm_celesta").gain(.28).room(.8).delay(".6:.4:.7").pan(sine.slow(12))],
-  [16, n("<[0 4 7 11] [9 12 16 14] [5 9 12 18] [7 11 14 17]>/4").scale("C5:major").s("gm_celesta").gain(.3).room(.7).delay(".4:.3:.5").pan(sine.slow(8))],
-  [8,  n("0").scale("C5:major").s("gm_celesta").gain(saw.range(.2, 0).slow(8)).room(.9)]
-)
-
-$: arrange(
-  [24, silence],
-  [16, s("bd(3,8)").bank("RolandTR909").gain(.4).room(.3).lpf(400)],
-  [16, s("bd(3,8), [~ hh]*4").bank("RolandTR909").gain(".4 .2").room(.2).lpf(1200)],
-  [16, s("bd(3,8)").bank("RolandTR909").gain(.35).room(.4).lpf(300)],
-  [8,  silence]
-)
-
-$: arrange(
-  [40, silence],
-  [16, n("<[c6 ~ g5 ~] [a5 ~ e5 ~] [f5 ~ c5 ~] [g5 ~ d5 ~]>").s("gm_flute").gain(.18).room(.9).delay(".8:.6:.7").attack(.4).release(.8).vib(4).vibmod(.5)],
-  [16, silence],
-  [8,  silence]
-)
-
-$: note("<c1 a0 f0 g0>/8").s("sine").gain(.2).lpf(150).room(.4).attack(2).release(2)
+// "Void Navigator" — expansive atmospheric pads drifting through cosmic interference and pulsar signals
+setcps(0.25).stack(
+  s("sine").note("<c1 f1 eb1 bb0>").gain(0.75).lpf(perlin.range(100, 500).slow(12)).room(0.5),
+  s("saw").note("<[c3,g3,c4,e4] [f3,c4,f4,a4] [eb3,bb3,eb4,g4] [bb2,f3,bb3,d4]>".slow(4)).gain(0.25).lpf(sine.range(300, 1800).slow(16)).lpq(20).room(0.9).size(0.95).attack(2).release(4),
+  s("sine").note(run(12).add(72).scramble().slow(4)).struct("1? <0.2 0.4 0.15>").gain(perlin.range(0.1, 0.5).slow(6)).delay(0.85).delayfb(0.75).room(1).pan(perlin),
+  s("noise").struct("1*16").gain(perlin.range(0, 0.12).slow(4)).hpf(perlin.range(4000, 12000).slow(8)).room(0.8).pan(sine.slow(2)),
+  s("sine").note("<c4 f4 g4>").gain(0.1).room(1).rev()
+).reset(32)

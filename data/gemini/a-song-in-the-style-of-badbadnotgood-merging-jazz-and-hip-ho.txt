@@ -1,58 +1,11 @@
-// 🎷 "Sour Soul Sessions" — Jazz-Fusion / Hip-Hop (BBNG Style)
-// At 88 BPM: intro(8) + verse1(16) + chorus1(16) + verse2(16) + chorus2(16) + bridge(12) + outro(8) = 92 bars ≈ 4:10
-
-setcpm(88 / 4)
-
-$: s("vinyl:2").gain(.12).room(1).loop(1).lpf(2400)
-
-$: arrange(
-  [8,  s("bd ~ ~ ~, ~ ~ [sd:1,cp] ~, hh*8").bank("RolandTR808").swing(4).gain(.75).room(.3)],
-  [16, s("bd ~ [bd,sd:1] ~, ~ [sd:1,cp] ~ ~, hh*16").bank("RolandTR808").swing(3).gain(perlin.range(.75,.9)).room(.25).cut(1)],
-  [16, s("bd(3,8), ~ [sd:1,cp] ~ [~ sd:1], [hh oh hh hh]*2").bank("RolandTR808").swing(4).gain(".95 .85").room(.2).cut(1).every(4, x=>x.fast(2).gain(.6))],
-  [16, s("bd ~ [bd,sd:1] ~, ~ [sd:1,cp] ~ ~, hh*16").bank("RolandTR808").swing(3).gain(perlin.range(.75,.9)).room(.25).cut(1)],
-  [16, s("bd(3,8), ~ [sd:1,cp] ~ [~ sd:1], [hh oh hh hh]*2").bank("RolandTR808").swing(4).gain(".95 .85").room(.2).cut(1).every(4, x=>x.fast(2).gain(.6))],
-  [12, s("bd(5,8), ~ [sd:1,cp] ~ ~, hh*8").bank("RolandTR808").swing(2).gain(.85).room(.4).lpf(1800)],
-  [8,  s("bd ~ ~ ~, ~ ~ [sd:1,cp] ~").bank("RolandTR808").swing(4).gain(saw.slow(8).range(.8,.1)).room(.6)]
-)
-
-$: arrange(
-  [8,  note("<c2 f1 bb1 eb1>").s("gm_acoustic_bass").decay(.4).sustain(.5).room(.3).gain(.82)],
-  [16, note("<c2 f1 bb1 eb1 a1 d2 g1 g1>").s("gm_acoustic_bass").decay(.3).sustain(.6).room(.25).gain(.85).sometimes(x=>x.add(note(12)).gain(.4))],
-  [16, note("<c2 c2 f1 f1 bb1 bb1 eb1 eb1>").s("gm_acoustic_bass").decay(.25).sustain(.5).room(.2).gain(.9)],
-  [16, note("<c2 f1 bb1 eb1 a1 d2 g1 g1>").s("gm_acoustic_bass").decay(.3).sustain(.6).room(.25).gain(.85)],
-  [16, note("<c2 c2 f1 f1 bb1 bb1 eb1 eb1>").s("gm_acoustic_bass").decay(.25).sustain(.5).room(.2).gain(.9)],
-  [12, note("<c2 f1 bb1 eb1 a1 d2 g1 g1>").s("gm_acoustic_bass").decay(.5).sustain(.4).room(.4).gain(.75).lpf(800)],
-  [8,  note("c2/2").s("gm_acoustic_bass").decay(.8).sustain(.2).room(.5).gain(.6).speed(.97)]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, chord("<Cm9 F13 Bbmaj7 Ebmaj7 Am7b5 D7alt Gm9 G7b9>").dict('ireal').voicing().s("gm_epiano2").struct("~ x ~ x").lpf(2200).room(.5).delay(".2:.1:.3").gain(.45).speed(.98)],
-  [16, chord("<Cm9 F13 Bbmaj7 Ebmaj7 Am7b5 D7alt Gm9 G7b9>").dict('ireal').voicing().s("gm_epiano2").struct("x [~ x] x ~").lpf(2500).room(.4).delay(".25:.125:.25").gain(.5).speed(.99)],
-  [16, chord("<Cm9 F13 Bbmaj7 Ebmaj7 Am7b5 D7alt Gm9 G7b9>").dict('ireal').voicing().s("gm_epiano2").struct("~ x ~ x").lpf(2200).room(.5).delay(".2:.1:.3").gain(.45).speed(.98)],
-  [16, chord("<Cm9 F13 Bbmaj7 Ebmaj7 Am7b5 D7alt Gm9 G7b9>").dict('ireal').voicing().s("gm_epiano2").struct("x [~ x] x ~").lpf(2500).room(.4).delay(".25:.125:.25").gain(.5).speed(.99)],
-  [12, chord("<Cm9 F13 Bbmaj7 Ebmaj7>").dict('ireal').voicing().s("gm_epiano2").struct("x ~ ~ ~").lpf(1500).room(.7).gain(.4).crush(12)],
-  [8,  silence]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, silence],
-  [16, n("<[0 2 3 5] [7 5 3 2] [~ 0 2 ~] [3 ~ 5 ~]>").scale("C5:dorian").s("gm_flute").room(.6).delay(".3:.2:.4").gain(.38).vib(4).vibmod(.6).attack(.1)],
-  [16, silence],
-  [16, n("<[0 2 3 5] [7 5 3 2] [~ 0 2 ~] [3 ~ 5 ~]>").scale("C5:dorian").s("gm_flute").room(.6).delay(".3:.2:.4").gain(.38).vib(4).vibmod(.6).attack(.1)],
-  [12, n("<[7 5] [3 2] [0 ~]>").scale("C5:dorian").s("gm_flute").room(.8).delay(".5:.4:.6").gain(.3).lpf(3000)],
-  [8,  silence]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, n("<[~ ~ 7 ~] [~ 5 ~ ~] [~ ~ 3 ~] [~ 2 ~ ~]>").scale("C4:dorian").s("gm_electric_guitar_clean").room(.7).delay(".4:.3:.5").gain(.25).lpf(1800)],
-  [16, silence],
-  [16, n("<[~ ~ 7 ~] [~ 5 ~ ~] [~ ~ 3 ~] [~ 2 ~ ~]>").scale("C4:dorian").s("gm_electric_guitar_clean").room(.7).delay(".4:.3:.5").gain(.25).lpf(1800)],
-  [16, silence],
-  [12, silence],
-  [8,  silence]
-)
-
-$: note("<c1 f1 bb0 eb1>/4").s("sine").attack(3).sustain(.8).release(4).gain(.18).lpf(150).room(.8)
+// 🎵 "Sour Soul Sessions" — BADBADNOTGOOD Jazz-Hop Fusion
+samples('github:tidalcycles/dirt-samples');
+setcps(1.15);
+stack(
+  s("bd [~ bd] <~ bd> [~ bd]").velocity(0.9),
+  s("~ sd").velocity(0.8).room(0.4).crush(7),
+  s("hc*16").velocity(perlin.range(0.2,0.6)).pan(sine.range(0.2,0.8)),
+  note("<c2!3 [c2 g1]> <f1!3 [f1 f#1]>").s("superbass").lpf(350).lpq(15),
+  note("<[c3,eb3,g3,bb3,d4] [f3,a3,c4,eb4,g4] [d3,f3,a3,c4,e4] [g3,b3,d4,f4,as4]>").s("superrhodes").gain(0.6).room(0.8).delay(0.3).dfb(0.4),
+  note("<[~ g4 bb4 c5] [~ c5 d5 f5] [~ f4 a4 c5] [~ d4 f4 g4]>").s("superpiano").gain(0.4).room(0.9).jux(rev).lpf(sine.range(800,2000).slow(8))
+).slow(4).reset(16)

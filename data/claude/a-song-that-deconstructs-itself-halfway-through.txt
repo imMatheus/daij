@@ -1,144 +1,44 @@
-// 🔨 "Unbuilding" — Deconstructed Electronic / Glitch
-// At 90 BPM: intro(8) + verse(16) + chorus(16) + fracture(16) + dissolution(16) + remnants(8) + ghost(8) = 88 bars ≈ 2:56
+// "Half-Life" — dark minimal techno that deconstructs itself halfway through
 
-setcpm(90 / 4)
+samples('github:tidalcycles/dirt-samples')
+setcps(0.6)
 
-$: arrange(
-  [8,  s("vinyl:2").gain(.14).room(1).loop(1).lpf(2800)],
-  [16, s("vinyl:2").gain(.16).room(1).loop(1).lpf(3000)],
-  [16, s("vinyl:2").gain(.16).room(1).loop(1).lpf(3200)],
-  [16, s("vinyl:2").gain(.22).room(1).loop(1).lpf(1200).crush(8)],
-  [16, s("vinyl:2").gain(.28).room(1).loop(1).lpf(600).crush(4).speed(.5)],
-  [8,  s("vinyl:2").gain(.15).room(1).loop(1).lpf(400).crush(3).speed(.25)],
-  [8,  silence]
+stack(
+  s("<bd bd(5,16,2)>").slow(24)
+    .bank("RolandTR808").gain(0.9)
+    .speed("<1 [1 0.5 1.8 0.3]>".slow(24))
+    .room("<0.02 0.65>".slow(24))
+    .shape("<0.2 [0.2 0.7 0 0.9]>".slow(24)),
+  s("<[~ sd ~ sd] [~ [sd ~] [sd sd ~] ~]>").slow(24)
+    .bank("RolandTR808").gain(0.7)
+    .delay("<0.05 0.7>".slow(24))
+    .delayfeedback("<0.1 0.88>".slow(24))
+    .delaytime("<0.125 [0.333 0.0625]>".slow(24))
+    .crush("<16 [4 2]>".slow(24)),
+  s("hh*8").bank("RolandTR808").gain(0.45)
+    .degradeBy("<0 0.6>".slow(24))
+    .pan(sine.fast("<2 11>".slow(24)))
+    .speed("<[1 1.2] [0.3 4 0.1 2.5]>".slow(24))
+    .crush("<16 [3 1]>".slow(24)),
+  note("<[c2 c2 eb2 c2] [c2 ~ [eb2 ~] [~ gb1]]>".slow(24))
+    .s("sawtooth").gain(0.4)
+    .lpf("<800 [150 3000 80 2000]>".slow(24))
+    .resonance("<0.05 [0.4 0.9]>".slow(24))
+    .distort("<0 0.35>".slow(24))
+    .room("<0.1 0.5>".slow(24)),
+  note("<[eb4 g4 bb4 c5] [~ [g4 ~] [~ bb4] ~]>".slow(24))
+    .s("<triangle [triangle square]>".slow(24)).gain(0.3)
+    .lpf(sine.range(400, 2000).slow(4))
+    .delay("<0.2 0.85>".slow(24))
+    .delayfeedback("<0.25 0.93>".slow(24))
+    .delaytime("<0.125 [0.5 0.0625 0.333]>".slow(24))
+    .room("<0.2 0.95>".slow(24))
+    .degradeBy("<0 0.5>".slow(24)),
+  s("<~ cp*2>".slow(24))
+    .bank("RolandTR808")
+    .speed(perlin.range(0.1, 4))
+    .gain("<0 0.25>".slow(24))
+    .crush("[2 1 3 1]/2")
+    .room(0.9).delay(0.6).delayfeedback(0.85)
+    .pan(perlin)
 )
-
-$: arrange(
-  [8,  s("bd ~ ~ ~, ~ ~ ~ hh").bank("RolandTR909").gain(.7).room(.3)],
-  [16, s("bd ~ sd ~, bd ~ ~ bd, hh*8").bank("RolandTR909").cut(1).gain(".9 .85").room(.3).swing(2)],
-  [16, s("bd ~ sd bd, ~ [cp sd] ~ cp, [hh oh]*4").bank("RolandTR909").cut(1).gain(".95 .88").room(.25).every(4, x => x.fast(2))],
-  [16, s("bd(3,8), ~ cp ~ ~, hh*16").bank("RolandTR909").cut(1)
-       .gain(perlin.range(.3,.9))
-       .room(.5)
-       .every(2, x => x.rev())
-       .every(3, x => x.fast(2).crush(6))
-       .speed(perlin.range(.8,1.2))],
-  [16, s("bd(2,8), ~ [~ cp] ~ ~").bank("RolandTR909")
-       .gain(saw.slow(16).range(.6,.05))
-       .room(.8).roomsize(6)
-       .delay(".5:.4:.6")
-       .crush(sine.range(4,12).slow(8))
-       .every(3, x => x.press())],
-  [8,  s("~ ~ bd ~").bank("RolandTR909").gain(.2).room(.9).roomsize(8).delay(".7:.5:.8")],
-  [8,  silence]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, note("<[f2 ~ ~ f2] [ab2 ~ ~ ~] [db2 ~ ~ db2] [c2 ~ ~ ~]>").s("gm_acoustic_bass").decay(.3).sustain(.5).room(.2).gain(.78)],
-  [16, note("<[f2 ~ f2 ~] [ab2 ~ ~ ab2] [db2 ~ db2 ~] [c2 ~ ~ c2]>").s("gm_acoustic_bass").decay(.25).sustain(.55).room(.2).gain(.85)],
-  [16, note("<[f2 ~ f2 ~] [ab2 ~ ~ ab2] [db2 ~ db2 ~] [c2 ~ ~ c2]>").s("gm_acoustic_bass")
-       .decay(.15).sustain(.3).room(.4).gain(.7)
-       .every(2, x => x.rev())
-       .crush(sine.range(6,14).slow(4))
-       .speed(perlin.range(.9,1.1))],
-  [16, note("<f2 ~ ~ ~ ab2 ~ ~ ~ db2 ~ ~ ~ c2 ~ ~ ~>/4").s("gm_acoustic_bass")
-       .decay(.8).sustain(.2).room(.7).roomsize(4)
-       .gain(saw.slow(16).range(.5,.05))
-       .delay(".4:.3:.5")
-       .lpf(sine.range(200,800).slow(6))],
-  [8,  silence],
-  [8,  silence]
-)
-
-$: arrange(
-  [8,  chord("<Fm9 Db^7>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(.8).decay(1).sustain(.7).release(2).lpf(1400).room(.7).gain(.35)],
-  [16, chord("<Fm9 Abmaj7 Db^7 C7b9>").dict('ireal').voicing().s("gm_epiano1").struct("~ [x ~] ~ [x ~]").lpf(2200).room(.5).delay(".2:.1:.25").gain(.52).speed(.98)],
-  [16, chord("<Fm9 Abmaj7 Db^7 C7b9>").dict('ireal').voicing().s("gm_epiano1").struct("[~ x]*2").lpf(2800).room(.45).delay(".15:.1:.2").gain(.58)],
-  [16, chord("<Fm9 Abmaj7 Db^7 C7b9>").dict('ireal').voicing().s("gm_epiano1")
-       .struct("[x ~ ~ ~]*4")
-       .lpf(sine.range(400,2400).slow(4))
-       .room(.7).delay(".5:.4:.6")
-       .gain(.45).crush(sine.range(4,14).slow(6))
-       .every(2, x => x.fast(4).gain(.2))
-       .every(3, x => x.rev())],
-  [16, chord("<Fm9 ~ ~ ~ Db^7 ~ ~ ~>/4").dict('ireal').voicing().s("gm_synth_strings_1")
-       .attack(1.5).decay(2).sustain(.3).release(4)
-       .lpf(saw.slow(16).range(2000,200))
-       .room(.9).roomsize(8)
-       .gain(saw.slow(16).range(.35,.02))
-       .speed(.95)],
-  [8,  chord("<Fm9>/1").dict('ireal').voicing().s("gm_synth_strings_1")
-       .attack(2).sustain(.2).release(4)
-       .lpf(400).room(.95).roomsize(10)
-       .gain(.08)],
-  [8,  silence]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, n("<[~ 0 ~ 3] [5 ~ 3 ~] [~ 7 ~ 5] [3 ~ ~ 0]>").scale("F5:minor:pentatonic").s("gm_epiano1").lpf(sine.range(1000,3200).slow(10)).room(.55).delay(".3:.2:.4").gain(.42).vib(3).vibmod(.4)],
-  [16, n("<[0 ~ 3 5] [~ 7 5 ~] [3 ~ 0 ~] [~ 5 3 0]>").scale("F5:minor:pentatonic").s("gm_epiano1").lpf(sine.range(1200,3800).slow(8)).room(.5).delay(".25:.15:.3").gain(.48).vib(4).vibmod(.5)],
-  [16, n("<[0 ~ 3 5] [~ 7 5 ~] [3 ~ 0 ~] [~ 5 3 0]>").scale("F5:minor:pentatonic").s("gm_epiano1")
-       .lpf(sine.range(500,4000).slow(3))
-       .room(.8).delay(".6:.5:.7")
-       .gain(perlin.range(.1,.5))
-       .every(2, x => x.rev())
-       .every(3, x => x.fast(3))
-       .crush(sine.range(3,12).slow(5))
-       .speed(perlin.range(.85,1.15))],
-  [16, n("<[~ ~ 0 ~] [~ ~ ~ ~] [~ 5 ~ ~] [~ ~ ~ ~]>").scale("F5:minor:pentatonic").s("gm_epiano1")
-       .room(.95).roomsize(10).delay(".8:.6:.9")
-       .gain(saw.slow(16).range(.3,.02))
-       .lpf(sine.range(300,1200).slow(8))
-       .speed(.9)],
-  [8,  silence],
-  [8,  silence]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, silence],
-  [16, n("<[~ ~ 5 ~] [7 ~ ~ 5] [~ 3 ~ ~] [5 ~ 3 ~]>").scale("F4:minor:pentatonic").s("gm_flute").room(.6).delay(".35:.25:.45").gain(.3).lpf(4000).vib(5).vibmod(.7).attack(.05).decay(.2).sustain(.6).release(.3)],
-  [16, n("<[~ ~ 5 ~] [7 ~ ~ 5] [~ 3 ~ ~] [5 ~ 3 ~]>").scale("F4:minor:pentatonic").s("gm_flute")
-       .room(.9).roomsize(8).delay(".8:.6:.9")
-       .gain(.12).lpf(sine.range(300,1500).slow(5))
-       .speed(.8).crush(6)
-       .every(2, x => x.rev())],
-  [16, silence],
-  [8,  silence],
-  [8,  silence]
-)
-
-$: arrange(
-  [8,  note("f1").s("sine").gain(.18).lpf(120).attack(1).sustain(.8).release(2).room(.3)],
-  [16, note("f1").s("sine").gain(.22).lpf(150).attack(.5).sustain(.8).release(1).room(.3)],
-  [16, note("f1").s("sine").gain(.25).lpf(150).attack(.5).sustain(.8).release(1).room(.3)],
-  [16, note("f1").s("sine").gain(.22).lpf(120)
-       .attack(.5).sustain(.6).release(1)
-       .room(.5)
-       .speed(perlin.range(.92,1.08))],
-  [16, note("f1").s("sine")
-       .gain(saw.slow(16).range(.15,.02))
-       .lpf(sine.range(60,200).slow(8))
-       .attack(2).sustain(.3).release(4)
-       .room(.8).roomsize(6)
-       .speed(.9)],
-  [8,  silence],
-  [8,  silence]
-)
-
-$: s("hh*16")
-   .bank("RolandTR909")
-   .gain(perlin.range(.06,.35))
-   .pan(sine.slow(4))
-   .cut(1)
-   .arrange(
-     [8,  x => x.lpf(3000)],
-     [16, x => x.lpf(4000)],
-     [16, x => x.lpf(5000)],
-     [16, x => x.lpf(sine.range(800,5000).slow(2)).crush(sine.range(4,16).slow(3)).every(2, y => y.rev())],
-     [16, x => x.lpf(sine.range(200,2000).slow(4)).gain(saw.slow(16).range(.3,.01)).room(.8).delay(".6:.5:.7")],
-     [8,  silence],
-     [8,  silence]
-   )

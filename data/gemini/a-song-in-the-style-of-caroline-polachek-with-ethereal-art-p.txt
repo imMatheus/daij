@@ -1,74 +1,19 @@
-// 💎 "Crystalline Air" — Ethereal Art-Pop in the style of Caroline Polachek
-// At 112 BPM: intro(4) + verse(16) + chorus(16) + verse2(16) + chorus2(16) + bridge(8) + outro(8) = 84 bars ≈ 3:00
+// 🎵 "Gilded Breath" — Ethereal Art-Pop in the style of Caroline Polachek
+samples('github:tidalcycles/dirt-samples')
 
-setcpm(112 / 4)
+setcps(112/240)
 
-$: s("vinyl:1").gain(.12).room(1).loop(1).lpf(1500)
-
-$: arrange(
-  [4,  silence],
-  [16, s("bd ~ [~ bd] ~, ~ [sd,cp:1] ~ ~, [hh hh oh hh]*2").bank("RolandTR808").gain(perlin.range(.6, .8)).room(.2).swing(2)],
-  [16, s("bd [~ bd] bd ~, ~ [sd,cp:1] [~ sd] [sd,cp:1], [hh*4 oh]*2").bank("RolandTR808").gain(".9 .85").room(.15).every(4, x=>x.fast(2))],
-  [16, s("bd ~ [~ bd] ~, ~ [sd,cp:1] ~ ~, [hh hh oh hh]*2").bank("RolandTR808").gain(perlin.range(.6, .8)).room(.2)],
-  [16, s("bd [~ bd] bd ~, ~ [sd,cp:1] [~ sd] [sd,cp:1], [hh*4 oh]*2").bank("RolandTR808").gain(".9 .85").room(.15).every(4, x=>x.fast(2))],
-  [8,  s("bd ~ ~ ~, ~ ~ [sd:2] ~, hh*16").bank("RolandTR808").gain(.5).room(.8).lpf(1200)],
-  [8,  s("bd ~ ~ ~").bank("RolandTR808").gain(saw.slow(8).range(.6, 0)).room(.5)]
-)
-
-$: arrange(
-  [4,  note("<d1 a0 d1 a1>/4").s("sine").gain(.2).lpf(200).attack(2)],
-  [16, note("<d2 d2 f#2 a1>").s("gm_electric_bass_pick").decay(.2).sustain(.4).gain(.75).room(.2)],
-  [16, note("<d2 b1 g1 a1>").s("gm_electric_bass_pick").decay(.1).sustain(.5).gain(.85).room(.1).press()],
-  [16, note("<d2 d2 f#2 a1>").s("gm_electric_bass_pick").decay(.2).sustain(.4).gain(.75).room(.2)],
-  [16, note("<d2 b1 g1 a1>").s("gm_electric_bass_pick").decay(.1).sustain(.5).gain(.85).room(.1)],
-  [8,  note("<d1 b0 g0 a0>/2").s("gm_electric_bass_pick").decay(.8).gain(.6).lpf(400)],
-  [8,  silence]
-)
-
-$: arrange(
-  [4,  chord("<Dmaj9 Bm7>/2").s("gm_synth_strings_1").attack(2).gain(.3).room(.9).lpf(1000)],
-  [16, chord("<Dmaj9 F#m7 Bm7 Aadd9>").s("gm_epiano2").struct("x ~ x ~").gain(.45).room(.5).delay(".2:.1:.3")],
-  [16, chord("<Dmaj9 Bm7 Gmaj7 A13>").s("gm_epiano2").struct("x x x x").gain(.55).room(.4).delay(".1:.1:.2")],
-  [16, chord("<Dmaj9 F#m7 Bm7 Aadd9>").s("gm_epiano2").struct("x ~ x ~").gain(.45).room(.5).delay(".2:.1:.3")],
-  [16, chord("<Dmaj9 Bm7 Gmaj7 A13>").s("gm_epiano2").struct("x x x x").gain(.55).room(.4).delay(".1:.1:.2")],
-  [8,  chord("<Gmaj7 A13 Dmaj9 Bm7>/2").s("gm_synth_strings_1").attack(1).gain(.4).room(.8).lpf(sine.range(800, 2000).slow(4))],
-  [8,  chord("<Dmaj9>").s("gm_synth_strings_1").attack(1).release(4).gain(saw.slow(8).range(.4, 0))]
-)
-
-$: arrange(
-  [4,  silence],
-  [16, n("<[~ 0 2 4] [7 ~ 5 ~] [~ 4 2 ~] [0 ~ ~ ~]>").scale("D5:major").s("gm_flute").vib(6).vibmod(.7).gain(.35).room(.6).delay(".3:.2:.4")],
-  [16, n("<[7 9 11 12] [14 ~ 12 11] [9 ~ 7 ~] [4 ~ 2 0]>").scale("D5:major").s("gm_flute").vib(8).vibmod(.9).gain(.45).room(.5).delay(".2:.1:.3").attack(.05)],
-  [16, n("<[~ 0 2 4] [7 ~ 5 ~] [~ 4 2 ~] [0 ~ ~ ~]>").scale("D5:major").s("gm_flute").vib(6).vibmod(.7).gain(.35).room(.6).delay(".3:.2:.4")],
-  [16, n("<[7 9 11 12] [14 ~ 12 11] [9 ~ 7 ~] [4 ~ 2 0]>").scale("D5:major").s("gm_flute").vib(8).vibmod(.9).gain(.45).room(.5).delay(".2:.1:.3")],
-  [8,  n("<14 12 11 9 7 4 2 0>/4").scale("D6:major").s("gm_flute").attack(.5).gain(.3).room(1).delay(".5:.4:.6")],
-  [8,  silence]
-)
-
-$: arrange(
-  [4,  n("0*16").scale("D6:major").s("gm_glockenspiel").gain(perlin.range(0, .3)).room(.8)],
-  [16, silence],
-  [16, n("<0 2 4 7>*4").scale("D6:major").s("gm_celesta").gain(.3).room(.6).pan(sine.slow(4))],
-  [16, silence],
-  [16, n("<0 2 4 7>*4").scale("D6:major").s("gm_celesta").gain(.3).room(.6).pan(sine.slow(4))],
-  [8,  n("0*8").scale("D7:major").s("gm_glockenspiel").gain(saw.slow(8).range(.3, 0)).room(.9)],
-  [8,  silence]
-)
-
-$: arrange(
-  [4,  silence],
-  [16, silence],
-  [16, s("gm_shaker").struct("x x x x").gain(.4).room(.2).sometimes(x=>x.fast(2))],
-  [16, silence],
-  [16, s("gm_shaker").struct("x x x x").gain(.4).room(.2).sometimes(x=>x.fast(2))],
-  [8,  silence],
-  [8,  silence]
-)
-
-$: note("<d4 f#4 a4 d5>/8")
-   .s("sine")
-   .gain(.15)
-   .attack(4)
-   .release(4)
-   .room(1)
-   .lpf(sine.range(400, 1200).slow(16))
+stack(
+  s("bd(3,8), [~ sd:1], [bd:3*2] [~ bd:3], [~ sd:1]").bank("rolandtr808").gain(0.8),
+  s("hh*16").gain(perlin.range(0.2, 0.8).slow(4)).pan(sine.slow(5)).bank("rolandtr808"),
+  s("peri:2(5,8)").bank("super8").gain(0.4).room(0.6),
+  note("<[f3, a3, c4, e4] [g3, b3, d4, f4] [e3, g3, b3, d4] [a2, e3, g3, b3]>")
+    .s("supervibe").decay(1.5).room(0.95).lpf(sine.range(1000, 5000).slow(16)).gain(0.5),
+  s("ade:1*8")
+    .n("<0 7 5 12 10 7 5 3>")
+    .speed("<1 1.25 1.5 0.75>")
+    .room(1).delay(0.6).delayfb(0.5)
+    .gain(0.8).jux(it => it.rev().slow(2))
+    .lpf(sine.range(1500, 9000).slow(8)),
+  note("<f2 g2 e2 a1>").s("superpiano").struct("1(3,8)").gain(0.7).room(0.4)
+).reset(8)

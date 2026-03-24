@@ -1,145 +1,39 @@
-// 🌊 "Depths Unknown" — Underwater Adventure Soundtrack
-// At 72 BPM: intro(8) + exploration(16) + descent(16) + deep_trench(16) + ascent(16) + surface(8) = 80 bars ≈ 2:40
+// "Abyssal Drift" — luminous deep-sea exploration, bioluminescent wonder
+setcps(84/60/4)
 
-setcpm(72 / 4)
-
-$: s("vinyl:2").gain(.12).room(1).loop(1).lpf(1800)
-
-$: arrange(
-  [8,  s("bd ~ ~ ~").bank("RolandTR808").gain(.5).room(.7).lpf(600)],
-  [16, s("bd(3,8), ~ cp ~ ~, [hh hh oh hh]*2")
-       .bank("RolandTR808").cut(1).swing(3)
-       .gain(perlin.range(.6,.85))
-       .room(.5).lpf(sine.range(1200,3000).slow(16))
-       .every(6, x => x.press())],
-  [16, s("bd(5,16), ~ [cp,sd:1] ~ [~ cp], [oh hh]*4")
-       .bank("RolandTR808").cut(1).swing(4)
-       .gain(".88 .78 .84 .78")
-       .room(.4).lpf(3500)
-       .every(4, x => x.fast(2).gain(.45))],
-  [16, s("bd ~ bd ~, ~ [cp,sd:2] ~ [cp,sd:2], [hh oh hh hh]*2")
-       .bank("RolandTR808").cut(1).swing(3)
-       .gain(perlin.range(.75,.95))
-       .room(.35)
-       .every(3, x => x.rev())],
-  [16, s("bd(3,8), ~ cp ~ ~, [hh hh oh hh]*2")
-       .bank("RolandTR808").cut(1).swing(3)
-       .gain(perlin.range(.6,.85))
-       .room(.5).lpf(sine.range(1500,3500).slow(12))],
-  [8,  s("bd ~ ~ ~, ~ ~ cp ~")
-       .bank("RolandTR808").swing(4)
-       .gain(saw.slow(8).range(.7,.1)).room(.7)]
+stack(
+  s("white").gain(perlin.range(.015,.05)).lpf(perlin.range(500,2000).slow(7)).hpf(400).room(.9).pan(perlin.range(.2,.8)).loop(1),
+  note("<e1 c1 a0 b0>/4").s("sine").fm(.15).fmh(2)
+    .attack(2).decay(1.5).sustain(.8).release(3)
+    .gain(.16).room(.85).lpf(140),
+  note("<[e3,g3,b3,d4] [c3,e3,g3,b3] [a2,c3,e3,g3] [b2,d3,f#3,a3]>")
+    .s("sawtooth")
+    .attack(1.5).decay(1).sustain(.5).release(2.5)
+    .lpf(sine.range(250,1200).slow(12))
+    .gain(.11).room(.75).delay(".25:.18:.4"),
+  s("<bd ~ [~ bd] ~> ~ ~ ~, ~ [~ cp] ~ ~, [~ hh]*4")
+    .bank("RolandTR909")
+    .lpf(sine.range(600,2500).slow(9))
+    .gain(".45 .3 .25").room(.5).swing(2),
+  n("<[0 ~ 2 4] [~ 4 6 ~] [4 ~ 2 ~] [~ 6 ~ 0]>")
+    .scale("E4:minor").s("triangle")
+    .lpf(sine.range(800,3500).slow(8))
+    .decay(.18).sustain(.2).release(.6)
+    .room(.7).delay(".35:.25:.5").gain(.2)
+    .pan(sine.slow(3.5)),
+  n("<[~ 4 ~ ~] [~ ~ 2 ~] [4 ~ ~ 6] [~ ~ 2 ~]>")
+    .scale("E5:minor").s("gm_vibraphone")
+    .room(.85).delay(".5:.4:.65").gain(.16)
+    .lpf(sine.range(1800,4500).slow(11))
+    .vib(3).vibmod(.35),
+  note("<[~ e4 ~ ~] [~ ~ b4 ~] [g4 ~ ~ ~] [~ ~ ~ d5]>")
+    .s("gm_flute")
+    .attack(.08).decay(.3).sustain(.5).release(.8)
+    .vib(5).vibmod(.55)
+    .room(.8).delay(".4:.3:.55").gain(.2)
+    .lpf(3500),
+  note("<[e3,b3] [c3,g3] [a2,e3] [b2,f#3]>/2").s("sine")
+    .attack(.8).decay(.5).sustain(.6).release(1.5)
+    .lpf(sine.range(600,1800).slow(14))
+    .room(.65).gain(.1).delay(".2:.15:.3")
 )
-
-$: arrange(
-  [8,  silence],
-  [16, note("<[e2 ~ ~ e2] [a1 ~ ~ ~] [b1 ~ ~ b1] [g1 ~ ~ ~]>")
-       .s("gm_acoustic_bass")
-       .decay(.4).sustain(.45).room(.3).gain(.78)
-       .lpf(1200)],
-  [16, note("<[e2 ~ e2 ~] [a1 ~ ~ a1] [b1 ~ b1 ~] [g1 ~ ~ g1]>")
-       .s("gm_acoustic_bass")
-       .decay(.25).sustain(.55).room(.25).gain(.84)
-       .lpf(1500)],
-  [16, note("<[e2 e2 ~ ~] [a1 ~ a1 ~] [b1 ~ ~ b1] [g1 g1 ~ ~]>")
-       .s("gm_acoustic_bass")
-       .decay(.2).sustain(.5).room(.2).gain(.88)
-       .lpf(1800)],
-  [16, note("<[e2 ~ ~ e2] [a1 ~ ~ ~] [b1 ~ ~ b1] [g1 ~ ~ ~]>")
-       .s("gm_acoustic_bass")
-       .decay(.4).sustain(.45).room(.3).gain(.75)
-       .lpf(1200)],
-  [8,  note("<e2 ~ a1 ~ b1 ~ g1 ~>/2")
-       .s("gm_acoustic_bass")
-       .decay(.6).sustain(.3).room(.45).gain(.55).speed(.96)]
-)
-
-$: arrange(
-  [8,  chord("<Em9 Am7>/2").dict('ireal').voicing()
-       .s("gm_synth_strings_1")
-       .attack(1.2).decay(1).sustain(.7).release(3)
-       .lpf(800).room(.85).gain(.3)],
-  [16, chord("<Em9 Am7 Bm7 Gmaj7>").dict('ireal').voicing()
-       .s("gm_epiano2")
-       .struct("~ [x ~] ~ [x ~]")
-       .lpf(sine.range(1000,2200).slow(16))
-       .room(.6).delay(".3:.2:.4").gain(.48).speed(.98)],
-  [16, chord("<Em9 Am7 Bm7 Gmaj7>").dict('ireal').voicing()
-       .s("gm_epiano2")
-       .struct("[~ x]*2")
-       .lpf(sine.range(1400,2800).slow(12))
-       .room(.55).delay(".25:.15:.35").gain(.54).speed(.99)],
-  [16, chord("<Em9 Am7 Bm7 Gmaj7>").dict('ireal').voicing()
-       .s("gm_epiano2")
-       .struct("[x ~ x ~]*2")
-       .lpf(2500).room(.5)
-       .delay(".2:.125:.3").gain(.58)
-       .every(4, x => x.fast(2).gain(.3))],
-  [16, chord("<Em9 Am7 Bm7 Gmaj7>").dict('ireal').voicing()
-       .s("gm_epiano2")
-       .struct("~ [x ~] ~ [x ~]")
-       .lpf(sine.range(800,2000).slow(16))
-       .room(.65).delay(".35:.25:.45").gain(.46).speed(.97)],
-  [8,  chord("<Em9 Gmaj7>/2").dict('ireal').voicing()
-       .s("gm_synth_strings_1")
-       .attack(1).sustain(.6).release(4)
-       .lpf(sine.range(400,1000).slow(8))
-       .room(.9).gain(saw.slow(8).range(.32,.06))]
-)
-
-$: arrange(
-  [8,  n("<0 ~ 2 ~>/1").scale("E4:minor:pentatonic")
-       .s("gm_flute")
-       .room(.85).delay(".5:.35:.6").gain(.28)
-       .lpf(1600).attack(.3).vib(5).vibmod(.7)],
-  [16, n("<[~ 0 ~ 2] [4 ~ 2 ~] [~ 3 ~ 4] [2 ~ ~ 0]>")
-       .scale("E5:minor:pentatonic")
-       .s("gm_flute")
-       .lpf(sine.range(1000,3500).slow(14))
-       .room(.65).delay(".35:.25:.5").gain(.38)
-       .vib(5).vibmod(.6)
-       .rarely(x => x.add(note(12)))],
-  [16, n("<[0 2 ~ 4] [~ 5 ~ 4] [2 ~ 0 ~] [~ 4 2 0]>")
-       .scale("E5:minor:pentatonic")
-       .s("gm_flute")
-       .lpf(sine.range(1200,4200).slow(10))
-       .room(.6).delay(".3:.2:.4").gain(.44)
-       .vib(4).vibmod(.8)
-       .sometimes(x => x.add(note(12)))],
-  [16, n("<[~ 0 ~ 2] [4 ~ 2 ~] [~ 3 ~ 4] [2 ~ ~ 0]>")
-       .scale("E5:minor:pentatonic")
-       .s("gm_flute")
-       .lpf(sine.range(800,3000).slow(14))
-       .room(.65).delay(".35:.25:.5").gain(.4)
-       .vib(5).vibmod(.6)],
-  [16, n("<[~ 0 ~ ~] [~ ~ 2 ~] [~ 4 ~ ~] [~ ~ 0 ~]>")
-       .scale("E5:minor:pentatonic")
-       .s("gm_flute")
-       .room(.8).delay(".5:.35:.65").gain(.3)
-       .lpf(sine.range(600,1800).slow(12))
-       .vib(6).vibmod(.5)],
-  [8,  silence]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, silence],
-  [16, n("<[~ ~ 4 ~] [~ 5 ~ ~] [4 ~ ~ 2] [~ ~ 0 ~]>")
-       .scale("E4:minor:pentatonic")
-       .s("gm_epiano1")
-       .room(.7).delay(".45:.3:.55").gain(.26)
-       .lpf(2200)],
-  [16, n("<[~ 2 ~ 4] [5 ~ 4 ~] [~ 2 ~ 0] [~ ~ ~ ~]>")
-       .scale("E4:minor:pentatonic")
-       .s("gm_epiano1")
-       .room(.6).delay(".4:.25:.5").gain(.3)
-       .lpf(2600)],
-  [16, silence],
-  [8,  silence]
-)
-
-$: note("<e1 a1 b1 g1>/4")
-   .s("sine")
-   .attack(2.5).decay(1).sustain(.85).release(3)
-   .gain(.2).room(.7).roomsize(6)
-   .lpf(150)

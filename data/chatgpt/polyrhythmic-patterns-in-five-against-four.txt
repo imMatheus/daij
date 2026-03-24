@@ -1,58 +1,36 @@
-// 🎵 "Five Over Four Streets" — Polyrhythmic Neo-Soul / Broken Beat
-// At 120 BPM: intro(8) + verse(16) + chorus(16) + verse2(16) + chorus2(16) + outro(8) = 80 bars ≈ 2:40
-
-setcpm(120 / 4)
-
-$: arrange(
-  [8,  s("vinyl:2").gain(.15).room(1).loop(1).lpf(2600)],
-  [16, s("vinyl:2").gain(.12).room(1).loop(1).lpf(2800)],
-  [16, s("vinyl:2").gain(.1).room(.9).loop(1).lpf(3000)],
-  [16, s("vinyl:2").gain(.12).room(1).loop(1).lpf(2800)],
-  [16, s("vinyl:2").gain(.1).room(.9).loop(1).lpf(3000)],
-  [8,  s("vinyl:2").gain(saw.slow(8).range(.1,.02)).room(1).loop(1).lpf(2400)]
-)
-
-$: arrange(
-  [8,  s("bd ~ ~ ~, ~ ~ sd ~, hh*4").bank("RolandTR909").cut(1).swing(4).gain(".85 .7 .22").room(.25)],
-  [16, s("bd ~ ~ bd, ~ sd ~ ~, hh*4, cp*5").bank("RolandTR909").cut(1).swing(4).gain(".95 .82 .28 .2").room(.25)],
-  [16, s("bd ~ bd ~, ~ [sd cp] ~ sd, hh*8, cp*5").bank("RolandTR909").cut(1).swing(4).gain(".98 .88 .26 .24").room(.3).every(4, x => x.fast(2).gain(.7))],
-  [16, s("bd ~ ~ bd, ~ sd ~ [bd ~], hh*4, cp*5").bank("RolandTR909").cut(1).swing(4).gain(".95 .82 .3 .2").room(.25).sometimes(x => x.press())],
-  [16, s("bd ~ bd [bd ~], ~ [sd cp] ~ sd, hh*8, cp*5").bank("RolandTR909").cut(1).swing(4).gain(".98 .9 .28 .24").room(.3).every(4, x => x.fast(2).gain(.7))],
-  [8,  s("bd ~ ~ ~, ~ ~ sd ~, hh*4").bank("RolandTR909").cut(1).swing(4).gain(saw.slow(8).range(.8,.08)).room(.4)]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, note("<[d2 ~ a1 ~] [f2 ~ c2 ~] [g1 ~ d2 ~] [a1 ~ e2 ~]>").s("gm_acoustic_bass").decay(.28).sustain(.5).room(.2).gain(.8)],
-  [16, note("<[d2 a1 d2 ~] [f2 c2 f2 ~] [g1 d2 g1 ~] [a1 e2 a1 ~]>").s("gm_acoustic_bass").decay(.22).sustain(.55).room(.2).gain(.86).every(4, x => x.fast(5/4))],
-  [16, note("<[d2 ~ a1 ~] [f2 ~ c2 ~] [g1 ~ d2 ~] [a1 ~ e2 ~]>").s("gm_acoustic_bass").decay(.28).sustain(.5).room(.2).gain(.8).sometimes(x => x.add(note(12)).gain(.35))],
-  [16, note("<[d2 a1 d2 ~] [f2 c2 f2 ~] [g1 d2 g1 ~] [a1 e2 a1 ~]>").s("gm_acoustic_bass").decay(.22).sustain(.55).room(.2).gain(.86).every(4, x => x.fast(5/4))],
-  [8,  note("<d2 ~ f2 ~ g1 ~ a1 ~>/2").s("gm_acoustic_bass").decay(.5).sustain(.35).room(.35).gain(.62).speed(.97)]
-)
-
-$: arrange(
-  [8,  chord("<Dm9 Gm9>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(.7).decay(1).sustain(.7).release(2).lpf(1400).room(.7).gain(.34)],
-  [16, chord("<Dm9 Fmaj7 Gm9 A7b9>").dict('ireal').voicing().s("gm_epiano2").struct("x ~ x ~").lpf(2600).room(.45).delay(".2:.125:.25").gain(.52).speed(.99)],
-  [16, chord("<Dm9 Fmaj7 Gm9 A7b9>").dict('ireal').voicing().s("gm_epiano2").struct("[x ~ x x]").lpf(3200).room(.4).delay(".22:.125:.3").gain(.58).speed(.99).every(4, x => x.rev())],
-  [16, chord("<Dm9 Fmaj7 Gm9 A7b9>").dict('ireal').voicing().s("gm_epiano2").struct("x ~ x ~").lpf(2600).room(.45).delay(".2:.125:.25").gain(.52).speed(.99)],
-  [16, chord("<Dm9 Fmaj7 Gm9 A7b9>").dict('ireal').voicing().s("gm_epiano2").struct("[x ~ x x]").lpf(3200).room(.4).delay(".22:.125:.3").gain(.58).speed(.99).every(4, x => x.rev())],
-  [8,  chord("<Dm9 Gm9 Fmaj7 A7b9>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(.8).sustain(.6).release(3).lpf(sine.range(500,1500).slow(8)).room(.8).gain(saw.slow(8).range(.32,.05))]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, n("<0 2 3 5 7>").scale("D5:dorian").s("sawtooth").fast(5/4).lpf(sine.range(900,2600).slow(8)).room(.35).delay(".25:.2:.25").gain(.24).attack(.01).decay(.2).sustain(.4).release(.2)],
-  [16, n("<0 2 3 5 7 10>").scale("D5:dorian").s("sawtooth").fast(5/4).lpf(sine.range(1200,3600).slow(6)).room(.4).delay(".28:.22:.3").gain(.3).attack(.01).decay(.15).sustain(.45).release(.2).sometimes(x => x.add(note(12)))],
-  [16, n("<0 2 3 5 7>").scale("D5:dorian").s("sawtooth").fast(5/4).lpf(sine.range(900,2600).slow(8)).room(.35).delay(".25:.2:.25").gain(.24).attack(.01).decay(.2).sustain(.4).release(.2).rarely(x => x.rev())],
-  [16, n("<0 2 3 5 7 10>").scale("D5:dorian").s("sawtooth").fast(5/4).lpf(sine.range(1200,3600).slow(6)).room(.4).delay(".28:.22:.3").gain(.3).attack(.01).decay(.15).sustain(.45).release(.2).sometimes(x => x.add(note(12)))],
-  [8,  n("<7 5 3 2 0>").scale("D5:dorian").s("sawtooth").fast(5/4).lpf(1400).room(.6).delay(".4:.3:.45").gain(saw.slow(8).range(.22,.03))]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, silence],
-  [16, n("<[~ 9 ~ 7 ~] [5 ~ 3 ~ 2] [~ 7 ~ 5 ~] [3 ~ 2 ~ 0]>").scale("D4:dorian").s("gm_flute").fast(5/4).room(.55).delay(".35:.25:.4").gain(.3).lpf(4200).pan(sine.slow(6)).vib(5).vibmod(.6)],
-  [16, silence],
-  [16, n("<[~ 9 ~ 7 ~] [5 ~ 3 ~ 2] [~ 7 ~ 5 ~] [3 ~ 2 ~ 0]>").scale("D4:dorian").s("gm_flute").fast(5/4).room(.55).delay(".35:.25:.4").gain(.3).lpf(4200).pan(sine.slow(6)).vib(5).vibmod(.6).every(4, x => x.fast(2).gain(.7))],
-  [8,  silence]
-)
+// 🎵 "Five/Four Friction" — gritty polyrhythmic club pressure
+setcps(0.75)
+samples('github:tidalcycles/dirt-samples')
+$: s("bd*4")
+  .gain(1.05)
+  .lpf(perlin.slow(8).range(120,1400))
+  .room(0.18)
+  .stack(
+    s("cp*5")
+      .gain(0.78)
+      .hpf(perlin.slow(6).range(500,2200))
+      .room(0.35)
+      .pan(sine.slow(5)),
+    s("<hh(5,8) hh(4,8)>")
+      .fast(2)
+      .gain(0.42)
+      .lpf(sine.slow(9).range(4000,12000))
+      .delay(sine.slow(7).range(0,0.35)),
+    s("[oh ~ oh] [~ oh] [oh ~ ~ oh] [~ oh ~]")
+      .fast("<1 5/4 1 4/5>")
+      .gain(0.33)
+      .room(0.55)
+      .delay(0.25),
+    s("<[perc(5,16) ~ perc(5,16)] [perc(4,16) perc(5,16)]>")
+      .gain(0.5)
+      .pan(perlin.slow(4))
+      .lpf(perlin.slow(11).range(900,6000)),
+    s("<bd(5,16) [~ bd bd] [bd ~] [~ bd]>")
+      .gain(0.55)
+      .speed("<1 0.5 1.5 1>")
+      .hpf(220)
+      .delay(0.18)
+  )
+  .delay(sine.slow(13).range(0,0.28))
+  .room(sine.slow(16).range(0.2,0.7))
+  .reset(64)

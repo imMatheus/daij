@@ -1,58 +1,48 @@
-// 🎵 "Signals From an Empty Room" — Lonely Ambient / Isolated Downtempo Soundscape
-// At 76 BPM: intro(8) + verse(16) + bridge(16) + verse2(16) + reprise(16) + outro(8) = 80 bars ≈ 4:12
-
-setcpm(76 / 4)
-
-$: arrange(
-  [8,  s("vinyl:2").gain(.12).room(1).loop(1).lpf(2300)],
-  [16, s("vinyl:2").gain(.14).room(1).loop(1).lpf(2600).pan(sine.slow(10))],
-  [16, s("vinyl:2").gain(.16).room(1).loop(1).lpf(3000).pan(sine.slow(8))],
-  [16, s("vinyl:2").gain(.14).room(1).loop(1).lpf(2500).pan(sine.slow(12))],
-  [16, s("vinyl:2").gain(.15).room(1).loop(1).lpf(2800).pan(sine.slow(9))],
-  [8,  s("vinyl:2").gain(saw.slow(8).range(.12,.02)).room(1).loop(1).lpf(1800)]
-)
-
-$: arrange(
-  [8,  s("bd ~ ~ ~, ~ ~ ~ ~").bank("RolandTR909").swing(3).gain(.35).room(.45)],
-  [16, s("bd ~ ~ ~, ~ ~ sd ~, hh*8").bank("RolandTR909").cut(1).swing(4).gain(".58 .52").room(.35)],
-  [16, s("bd ~ bd ~, ~ sd ~ [sd ~], [hh hh oh hh]*2").bank("RolandTR909").cut(1).swing(4).gain(".7 .64 .6").room(.3).every(4, x => x.press())],
-  [16, s("bd ~ ~ bd, ~ ~ sd ~, hh*8").bank("RolandTR909").cut(1).swing(4).gain(".56 .5").room(.35).rarely(x => x.rev())],
-  [16, s("bd(3,8), ~ sd ~ ~, hh*16").bank("RolandTR909").cut(1).swing(4).gain(".66 .6").room(.3).every(8, x => x.fast(2).gain(.45))],
-  [8,  s("bd ~ ~ ~, ~ ~ ~ ~").bank("RolandTR909").swing(3).gain(saw.slow(8).range(.4,.05)).room(.5)]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, note("<[d2 ~ ~ ~] [bb1 ~ ~ ~] [f1 ~ ~ ~] [c2 ~ ~ ~]>").s("gm_acoustic_bass").decay(.35).sustain(.45).room(.25).gain(.72)],
-  [16, note("<[d2 ~ a1 ~] [bb1 ~ f1 ~] [f1 ~ c2 ~] [c2 ~ g1 ~]>").s("gm_acoustic_bass").decay(.25).sustain(.5).room(.22).gain(.78).sometimes(x => x.add(note(12)).gain(.35))],
-  [16, note("<[d2 ~ ~ ~] [bb1 ~ ~ ~] [f1 ~ ~ ~] [c2 ~ ~ ~]>").s("gm_acoustic_bass").decay(.35).sustain(.45).room(.25).gain(.72)],
-  [16, note("<[d2 ~ d2 ~] [bb1 ~ ~ bb1] [f1 ~ f1 ~] [c2 ~ ~ c2]>").s("gm_acoustic_bass").decay(.3).sustain(.45).room(.28).gain(.76).every(4, x => x.fast(2).gain(.5))],
-  [8,  note("<d2 ~ bb1 ~ f1 ~ c2 ~>/2").s("gm_acoustic_bass").decay(.6).sustain(.3).room(.4).gain(.5).speed(.97)]
-)
-
-$: arrange(
-  [8,  chord("<Dm9 Bbmaj7>").dict('ireal').voicing().s("gm_synth_strings_1").attack(1.2).decay(1).sustain(.75).release(2.5).lpf(1200).room(.8).gain(.32)],
-  [16, chord("<Dm9 Bbmaj7 Fmaj7 C7sus4>").dict('ireal').voicing().s("gm_epiano2").struct("~ [x ~] ~ [x ~]").lpf(1900).room(.55).delay(".28:.2:.35").gain(.48).speed(.98)],
-  [16, chord("<Dm9 Bbmaj7 Fmaj7 C7sus4>").dict('ireal').voicing().s("gm_epiano2").struct("[~ x]*2").lpf(2400).room(.5).delay(".24:.18:.3").gain(.54).every(4, x => x.rev())],
-  [16, chord("<Dm9 Bbmaj7 Fmaj7 C7sus4>").dict('ireal').voicing().s("gm_epiano2").struct("~ [x ~] ~ [x ~]").lpf(1800).room(.58).delay(".3:.22:.36").gain(.46).speed(.98)],
-  [16, chord("<Dm9 Bbmaj7 Fmaj7 C7sus4>").dict('ireal').voicing().s("gm_synth_strings_1").struct("x ~ ~ ~").attack(.5).release(1.8).lpf(sine.range(900,2200).slow(8)).room(.75).gain(.4)],
-  [8,  chord("<Dm9 Bbmaj7>").dict('ireal').voicing().s("gm_synth_strings_1").attack(1).decay(1).sustain(.5).release(3).lpf(sine.range(500,1200).slow(8)).room(.9).gain(saw.slow(8).range(.28,.04))]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, n("<[~ 0 ~ 2] [3 ~ ~ 5] [~ 7 ~ 5] [3 ~ 2 ~]>").scale("D5:aeolian").s("gm_flute").lpf(sine.range(1100,3000).slow(10)).room(.7).delay(".35:.25:.45").gain(.28).vib(4).vibmod(.45)],
-  [16, n("<[0 ~ 2 3] [~ 5 7 ~] [5 ~ 3 2] [~ 2 0 ~]>").scale("D5:aeolian").s("gm_flute").lpf(sine.range(1500,4200).slow(8)).room(.65).delay(".3:.22:.38").gain(.34).vib(5).vibmod(.5).sometimes(x => x.add(note(12)))],
-  [16, n("<[~ 0 ~ 2] [3 ~ ~ 5] [~ 7 ~ 5] [3 ~ 2 ~]>").scale("D5:aeolian").s("gm_flute").lpf(sine.range(1100,3000).slow(10)).room(.7).delay(".35:.25:.45").gain(.28).vib(4).vibmod(.45)],
-  [16, n("<[~ 7 ~ 5] [3 ~ 2 ~] [~ 0 ~ 2] [5 ~ 3 ~]>").scale("D5:aeolian").s("gm_oboe").lpf(sine.range(1200,3600).slow(9)).room(.72).delay(".4:.3:.5").gain(.3).attack(.06).decay(.2).sustain(.6).release(.35)],
-  [8,  silence]
-)
-
-$: arrange(
-  [8,  note("<d3 ~ ~ ~>/2").s("sine").attack(1.6).decay(1).sustain(.9).release(2.4).gain(.16).room(.8).lpf(320)],
-  [16, silence],
-  [16, n("<[~ 2 ~ ~] [5 ~ ~ ~] [~ 3 ~ ~] [2 ~ ~ ~]>").scale("D4:aeolian").s("triangle").room(.82).delay(".55:.35:.6").gain(.18).lpf(1200).rarely(x => x.rev())],
-  [16, silence],
-  [16, n("<[~ ~ 2 ~] [~ 3 ~ ~] [5 ~ ~ ~] [~ 2 ~ ~]>").scale("D4:aeolian").s("triangle").room(.85).delay(".6:.4:.65").gain(.2).lpf(1400)],
-  [8,  note("<d3 ~ ~ ~>/2").s("sine").attack(2).decay(1).sustain(.6).release(3).gain(saw.slow(8).range(.14,.02)).room(.9).lpf(260)]
-)
+// "Cold Room Echo" — fragile pulses drifting in an empty space
+samples('github:tidalcycles/dirt-samples')
+setcps(0.33)
+n("<[0 ~ -2 ~] [~ -5 ~ -7]>*2")
+  .scale("minor")
+  .s("triangle")
+  .slow(2)
+  .attack(0.25)
+  .release(2.8)
+  .lpf(perlin.slow(6).range(280,1900))
+  .room(sine.slow(10).range(0.6,0.96))
+  .delay(0.42)
+  .gain(0.34)
+  .stack(
+    s("<~ [hh*8] [~ hh*4] [hh*2 ~ hh*2]>*2")
+      .euclid(5,8)
+      .lpf(perlin.slow(8).range(1600,6800))
+      .room(0.82)
+      .delay(0.18)
+      .gain(0.1),
+    s("<[~ ~ bd:2 ~] [~ bd:2 ~ ~]>*2")
+      .lpf(260)
+      .room(0.55)
+      .gain(0.18),
+    n("<[~ 7 ~ 5] [~ 3 ~ 2]>*2")
+      .scale("minor")
+      .s("sine")
+      .slow(4)
+      .attack(0.5)
+      .release(3.2)
+      .lpf(perlin.slow(5).range(220,1400))
+      .room(0.98)
+      .delay(0.48)
+      .gain(0.16),
+    s("[~ [wind:3*2] ~ [~ wind:5]]")
+      .slow(2)
+      .lpf(perlin.slow(7).range(420,2600))
+      .room(1)
+      .delay(0.28)
+      .gain(0.14),
+    s("[[~ ~] [click:2 ~ <~ click:3>]]")
+      .slow(2)
+      .euclid(3,8)
+      .pan(perlin.slow(9).range(0,1))
+      .room(0.93)
+      .gain(0.08)
+  )
+  .reset(16)

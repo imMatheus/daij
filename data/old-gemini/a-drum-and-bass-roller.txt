@@ -1,0 +1,53 @@
+// 🥁 "Midnight Roller" — Drum & Bass
+// At 174 BPM: intro(16) + build(8) + drop(32) + breakdown(16) + drop2(32) + outro(8) = 112 bars ≈ 2:35
+
+setcpm(174 / 4)
+
+// 1. Drums (Main Breakbeat)
+$: arrange(
+  [16, s("hh*8").bank("RolandTR909").gain(".3 .1 .4 .2").hpf(4000).pan(sine.slow(4))],
+  [8,  s("[bd,hh] hh [sd,hh] hh ~ hh [sd,hh] hh").bank("RolandTR909").gain(1.1).distort(.1).hpf(sine.range(200, 0).slow(8))],
+  [32, s("[bd,hh] ~ [sd,cp] ~ ~ bd [sd,cp] ~").bank("RolandTR909").gain(1.2).distort(.25).cut(1)],
+  [16, s("hh*16").bank("RolandTR909").gain(".3 .1 .4 .2").hpf(2000).room(.4)],
+  [32, s("[bd,hh] ~ [sd,cp] ~ ~ bd [sd,cp] ~").bank("RolandTR909").gain(1.2).distort(.25).cut(1)],
+  [8,  s("bd ~ ~ ~").bank("RolandTR909").gain(.8)]
+)
+
+// 2. Percussion (Shuffles & Ghost Notes)
+$: arrange(
+  [16, silence],
+  [8,  s("hh*16").bank("RolandTR909").gain(perlin.range(.1,.6)).pan(sine.slow(4))],
+  [32, s("~ hh ~ hh").bank("RolandTR909").fast(2).gain(perlin.range(.2,.7)).hpf(1000).every(4, x=>x.rev())],
+  [16, silence],
+  [32, s("~ hh ~ hh").bank("RolandTR909").fast(2).gain(perlin.range(.2,.7)).hpf(1000).every(4, x=>x.rev())],
+  [8,  silence]
+)
+
+// 3. Bass (Reese / Wobble)
+$: arrange(
+  [16, silence],
+  [8,  note("f1").s("sawtooth").lpf(sine.range(100,800).fast(16)).gain(sine.slow(8).range(0, .8))],
+  [32, note("<f1 [f1 f1] db1 eb1>").s("sawtooth").lpf(sine.range(100, 2000).slow(4)).distort(.4).gain(.9).cut(1).sustain(1)],
+  [16, note("f1").s("sine").gain(.8).sub(1).lpf(300)],
+  [32, note("<f1 [f1 f1] db1 eb1>").s("sawtooth").lpf(sine.range(100, 2500).fast(8)).distort(.5).gain(.9).cut(1).sustain(1)],
+  [8,  note("f1").s("sine").gain(saw.slow(8).range(.8,0))]
+)
+
+// 4. Atmosphere & Pads
+$: arrange(
+  [16, chord("Fm9").s("gm_synth_strings_2").attack(2).release(4).gain(.6).room(1)],
+  [8,  chord("Fm9/2").s("gm_synth_strings_2").gain(.7).lpf(sine.range(500,2000).slow(4))],
+  [32, chord("<Fm9 Dbmaj7 Abmaj7 Eb7>").s("gm_pad_warm").attack(.1).decay(.5).sustain(.7).gain(.5).room(.8).struct("x ~ ~ ~")],
+  [16, chord("Fm9").s("gm_synth_strings_2").attack(2).release(4).gain(.6).room(1).lpf(1200)],
+  [32, chord("<Fm9 Dbmaj7 Abmaj7 Eb7>").s("gm_pad_warm").attack(.1).decay(.5).sustain(.7).gain(.5).room(.8).struct("x ~ ~ ~")],
+  [8,  chord("Fm9").s("gm_synth_strings_2").gain(saw.slow(8).range(.6,0))]
+)
+
+// 5. FX & Leads
+$: arrange(
+  [24, silence],
+  [32, n("0 12").scale("F3:minor").s("square").lpf(sine.range(800, 2800).slow(6)).delay(".25:.4:.5").gain(.25).struct("x(3,8)")],
+  [16, silence],
+  [32, n("0 7 12").scale("F4:minor").s("square").lpf(sine.range(1200, 3000).slow(8)).delay(".25:.4:.5").gain(.3).struct("x(3,16)")],
+  [8,  silence]
+)

@@ -1,0 +1,14 @@
+Here's the song — "Echo Chamber Riddim", a reggae dub track in A minor with heavy delay throughout:
+
+**Structure**: intro(8) + verse(16) + dub break(16) + verse(16) + dub break(16) + outro(8) = 80 bars at 74 BPM
+
+**Key features**:
+- **One-drop rhythm**: Classic `~ ~ [bd,cp] ~` pattern (kick+clap on beat 3)
+- **Heavy delay on everything**: Delay values range from `.3:.2:.35` in verses up to `.85:.7:.9` in dub breakdowns — the echo becomes the music
+- **Offbeat skank**: Clavinet on `~ x ~ x` for authentic reggae feel
+- **Dub breakdowns**: Stripped-back sections where delay/reverb dominate, with high roomsize values (6-8) and sweeping LPF filters
+- **Deep bass**: Syncopated acoustic bass root notes + sine sub-bass pad
+- **Flute melody**: Sparse, echoing melodic lines that appear only during dub breaks
+- **Progression**: Am7 → Dm9 → Am7 → Em7 (classic minor reggae)
+
+Want me to try writing the file again, or would you like any adjustments to the composition?

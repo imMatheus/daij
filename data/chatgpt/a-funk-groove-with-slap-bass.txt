@@ -1,74 +1,43 @@
-// 🎵 "Chrome Palm" — Tight Funk Groove with Slap Bass and Syncopated Horns
-// At 118 BPM: intro(8) + verse(16) + chorus(16) + verse2(16) + bridge(12) + chorus2(12) + outro(8) = 88 bars ≈ 2:59
-
-setcpm(118 / 4)
-
-$: arrange(
-  [8,  s("vinyl:2").gain(.18).room(1).loop(1).lpf(2200)],
-  [16, s("vinyl:2").gain(.14).room(1).loop(1).lpf(2600)],
-  [16, s("vinyl:2").gain(.11).room(1).loop(1).lpf(3000)],
-  [16, s("vinyl:2").gain(.13).room(1).loop(1).lpf(2800)],
-  [12, s("vinyl:2").gain(.1).room(1).loop(1).lpf(2400)],
-  [12, s("vinyl:2").gain(.12).room(1).loop(1).lpf(3000)],
-  [8,  s("vinyl:2").gain(saw.slow(8).range(.1,.02)).room(1).loop(1).lpf(2000)]
-)
-
-$: arrange(
-  [8,  s("bd ~ ~ ~, ~ ~ sd ~")],
-  [16, s("bd ~ [~ bd] ~, ~ sd ~ [~ cp]").every(4, x => x.press())],
-  [16, s("bd [~ bd] ~ bd, ~ [sd cp] ~ [sd ~]").every(4, x => x.fast(2).gain(.75))],
-  [16, s("bd(5,16), ~ sd ~ [~ cp]").sometimes(x => x.press())],
-  [12, s("bd ~ ~ [bd ~], ~ ~ sd ~").swing(5)],
-  [12, s("bd [~ bd] ~ bd, ~ [sd cp] ~ [sd ~]").every(3, x => x.fast(2).gain(.78))],
-  [8,  s("bd ~ ~ ~, ~ ~ sd ~").gain(saw.slow(8).range(.85,.12))]
-).bank("RolandTR909").cut(1).swing(4).room(.25).gain(.92)
-
-$: arrange(
-  [8,  s("hh*8")],
-  [16, s("hh*16, ~ ~ ~ oh")],
-  [16, s("hh*16, [~ oh ~ ~]*4").every(4, x => x.fast(2).gain(.7))],
-  [16, s("hh*16, [~ ~ oh ~]*4").sometimes(x => x.press())],
-  [12, s("hh*8, ~ ~ ~ oh")],
-  [12, s("hh*16, [~ oh ~ ~]*4").every(3, x => x.fast(2).gain(.72))],
-  [8,  s("hh*8").gain(saw.slow(8).range(.6,.08))]
-).bank("RolandTR909").cut(1).swing(4).room(.2).gain(.5).pan(sine.slow(6))
-
-$: arrange(
-  [8,  silence],
-  [16, note("<[c2 ~ c3 g1] [c2 ~ eb2 ~] [f1 ~ f2 g1] [bb1 ~ a1 g1]>")],
-  [16, note("<[c2 g2 c3 ~] [eb2 ~ f2 g2] [f1 c2 f2 ~] [bb1 a1 g1 ~]>").every(4, x => x.fast(2).gain(.78))],
-  [16, note("<[c2 ~ c3 g1] [c2 ~ eb2 g2] [f1 ~ f2 g1] [bb1 ~ a1 bb1]>").sometimes(x => x.add(note(12)).gain(.6))],
-  [12, note("<[ab1 ~ c2 ~] [g1 ~ bb1 ~] [f1 ~ a1 ~] [g1 ~ ~ ~]>")],
-  [12, note("<[c2 g2 c3 d3] [eb2 ~ f2 g2] [f1 c2 f2 g2] [bb1 a1 g1 ~]>").every(3, x => x.fast(2).gain(.8))],
-  [8,  note("<c2 ~ g1 ~ f1 ~ c2 ~>/2").gain(saw.slow(8).range(.8,.15))]
-).s("gm_slap_bass_1").attack(.005).decay(.22).sustain(.45).release(.08).lpf(sine.range(1000,2400).slow(8)).hpf(120).distort(.12).room(.2).gain(.88)
-
-$: arrange(
-  [8,  chord("<Cm7 F9>/2").dict('ireal').voicing().s("gm_clavinet").struct("x ~ ~ ~").hpf(500).lpf(3600).room(.35).gain(.42)],
-  [16, chord("<Cm7 F9 Bb7 G7b9>").dict('ireal').voicing().s("gm_clavinet").struct("[x ~ x ~]*2").hpf(600).lpf(4200).room(.32).delay(".18:.1:.22").gain(.5)],
-  [16, chord("<Cm7 F9 Bb7 G7b9>").dict('ireal').voicing().s("gm_clavinet").struct("[x x ~ x]*2").hpf(700).lpf(4700).room(.28).delay(".16:.1:.2").gain(.58).every(4, x => x.press())],
-  [16, chord("<Cm7 F9 Bb7 G7b9>").dict('ireal').voicing().s("gm_clavinet").struct("x ~ x ~ x ~ ~ x").hpf(650).lpf(4300).room(.32).delay(".2:.12:.24").gain(.52)],
-  [12, chord("<Abmaj7 G7b9 Fm9 G7b9>").dict('ireal').voicing().s("gm_epiano2").struct("x ~ ~ ~").lpf(2600).room(.55).delay(".3:.2:.35").gain(.46)],
-  [12, chord("<Cm7 F9 Bb7 G7b9>").dict('ireal').voicing().s("gm_clavinet").struct("[x x ~ x]*2").hpf(700).lpf(4700).room(.28).delay(".16:.1:.2").gain(.6).every(3, x => x.press())],
-  [8,  chord("<Cm7 F9>/2").dict('ireal').voicing().s("gm_epiano1").struct("x ~ ~ ~").lpf(2200).room(.7).delay(".4:.25:.45").gain(saw.slow(8).range(.42,.06))]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, n("<[~ 0 ~ 3] [5 ~ 3 ~] [~ 7 ~ 5] [3 ~ 2 ~]>").scale("C5:dorian").s("gm_electric_guitar_clean").lpf(sine.range(1200,3200).slow(10)).room(.4).delay(".22:.16:.28").gain(.36)],
-  [16, n("<[0 3 5 7] [8 ~ 7 5] [3 5 7 10] [8 7 5 3]>").scale("C5:dorian").s("square").lpf(sine.range(1500,5200).slow(8)).room(.42).delay(".25:.18:.3").gain(.4).vib(5).vibmod(.5).sometimes(x => x.add(note(12)))],
-  [16, n("<[~ 0 2 ~] [3 ~ 5 ~] [7 ~ 5 3] [2 ~ ~ 0]>").scale("C5:dorian").s("gm_electric_guitar_clean").lpf(sine.range(1300,3600).slow(9)).room(.45).delay(".24:.16:.3").gain(.38)],
-  [12, n("<0 ~ 3 ~ 5 ~ 7 ~>").scale("C5:dorian").s("gm_flute").lpf(4200).room(.62).delay(".35:.25:.4").gain(.3).attack(.05).decay(.25).sustain(.5).release(.3)],
-  [12, n("<[0 3 5 7] [8 10 8 7] [5 7 8 10] [12 10 8 7]>").scale("C5:dorian").s("square").lpf(sine.range(1800,5600).slow(7)).room(.45).delay(".25:.18:.3").gain(.42).vib(6).vibmod(.55).sometimes(x => x.add(note(12)))],
-  [8,  n("<7 ~ 5 ~ 3 ~ 0 ~>").scale("C5:dorian").s("gm_flute").lpf(sine.range(900,2800).slow(8)).room(.7).delay(".4:.28:.45").gain(saw.slow(8).range(.26,.05))]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, chord("<Cm7 F9 Bb7 G7b9>").dict('ireal').voicing().s("gm_synth_brass_1").struct("~ x ~ ~").hpf(700).lpf(3600).room(.35).gain(.3)],
-  [16, chord("<Cm7 F9 Bb7 G7b9>").dict('ireal').voicing().s("gm_synth_brass_1").struct("[~ x ~ x]*2").hpf(800).lpf(4200).room(.3).gain(.38).every(4, x => x.fast(2).gain(.75))],
-  [16, chord("<Cm7 F9 Bb7 G7b9>").dict('ireal').voicing().s("gm_synth_brass_1").struct("~ x ~ ~ x ~ ~ ~").hpf(750).lpf(3900).room(.34).gain(.32)],
-  [12, chord("<Abmaj7 G7b9 Fm9 G7b9>").dict('ireal').voicing().s("gm_synth_strings_1").attack(.6).decay(.8).sustain(.7).release(1.2).lpf(1800).room(.65).gain(.3)],
-  [12, chord("<Cm7 F9 Bb7 G7b9>").dict('ireal').voicing().s("gm_synth_brass_1").struct("[~ x ~ x]*2").hpf(800).lpf(4200).room(.3).gain(.4).every(3, x => x.fast(2).gain(.78))],
-  [8,  silence]
-)
+// "Thumb & Pocket" - gritty funk groove with slap-bass pops
+samples('github:tidalcycles/dirt-samples')
+setcps(0.9)
+note("<[c2 ~ c2 g1] [c2 ~ eb2 g1] [f2 ~ g2 c2] [c2 ~ bb1 g1]>")
+  .s("bass")
+  .legato("0.2 0.12 0.22 0.1")
+  .gain("1 0.72 0.95 0.78")
+  .lpf(perlin.range(480,2500).slow(6))
+  .hpf(90)
+  .room(0.14)
+  .delay(0.18)
+  .stack(
+    s("bd(5,8,<0 1 0 1>) [~ bd] bd(3,8)")
+      .gain("1 0.92 1 0.86")
+      .lpf(170)
+  )
+  .stack(
+    s("[~ sn] sn:2 [~ sn:3] <sn:1 sn:4>")
+      .gain("0.82 0.9")
+      .room(0.28)
+      .delay(0.11)
+  )
+  .stack(
+    s("hh*8")
+      .gain("0.25 0.17 0.3 0.18")
+      .hpf(7000)
+      .delay(sine.range(0.02,0.14).slow(8))
+  )
+  .stack(
+    s("<cp rim> [~ cp] <rim cp:2 rim cp>")
+      .gain("0.38 0.28 0.42 0.32")
+      .room(0.32)
+      .delay(0.22)
+  )
+  .stack(
+    note("<[g4 bb4 d5 bb4] [f4 a4 c5 a4] [eb4 g4 bb4 g4] [f4 a4 c5 eb5]>/2")
+      .s("arp")
+      .gain(0.34)
+      .lpf(sine.range(900,2900).slow(7))
+      .room(0.42)
+      .delay(0.3)
+  )
+  .reset(48)

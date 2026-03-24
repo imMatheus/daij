@@ -1,74 +1,27 @@
-// 🎵 "Midnight Roller" — Atmospheric Drum and Bass roller with reese bass and liquid synth lines
-// At 174 BPM: intro(8) + verse(16) + chorus(16) + verse2(16) + bridge(12) + chorus2(12) + outro(8) = 88 bars ≈ 2:01
-
-setcpm(174 / 4)
-
-$: arrange(
-  [8,  s("vinyl:2").gain(.11).room(1).loop(1).lpf(2300)],
-  [16, s("vinyl:2").gain(.13).room(1).loop(1).lpf(2600)],
-  [16, s("vinyl:2").gain(.15).room(1).loop(1).lpf(3000)],
-  [16, s("vinyl:2").gain(.14).room(1).loop(1).lpf(2800)],
-  [12, s("vinyl:2").gain(.12).room(1).loop(1).lpf(2200)],
-  [12, s("vinyl:2").gain(.14).room(1).loop(1).lpf(3200)],
-  [8,  s("vinyl:2").gain(saw.slow(8).range(.12,.02)).room(1).loop(1).lpf(2000)]
-)
-
-$: arrange(
-  [8,  s("bd ~ ~ ~, ~ ~ sd ~").bank("RolandTR909").swing(2).gain(.78).room(.25).lpf(2600)],
-  [16, s("bd(5,16), ~ sd ~ [~ sd]").bank("RolandTR909").cut(1).swing(2).gain(.92).room(.22)],
-  [16, s("bd(7,16), ~ [sd cp] ~ [~ sd], [~ bd] ~ ~ ~").bank("RolandTR909").cut(1).swing(2).gain(.98).room(.2).every(4, x => x.fast(2).gain(.6))],
-  [16, s("bd(5,16), ~ [sd cp] ~ [~ sd]").bank("RolandTR909").cut(1).swing(2).gain(.94).room(.24).every(8, x => x.press())],
-  [12, s("bd(3,8), ~ sd ~ ~").bank("RolandTR909").swing(2).gain(.84).room(.35).lpf(1800)],
-  [12, s("bd(7,16), ~ [sd cp] ~ [~ sd], bd ~ ~ [bd ~]").bank("RolandTR909").cut(1).swing(2).gain(1).room(.22).every(4, x => x.fast(2).gain(.62))],
-  [8,  s("bd ~ ~ ~, ~ ~ sd ~").bank("RolandTR909").swing(2).gain(saw.slow(8).range(.7,.08)).room(.4).lpf(1400)]
-)
-
-$: arrange(
-  [8,  s("~ hh ~ hh").bank("RolandTR909").cut(1).hpf(5000).gain(.18)],
-  [16, s("hh*8, ~ oh ~ ~, hh*8").bank("RolandTR909").cut(1).hpf(6200).gain(.34).pan(sine.slow(6))],
-  [16, s("hh*16, [~ oh ~ hh], hh*8").bank("RolandTR909").cut(1).hpf(6500).gain(.42).pan(sine.slow(5)).every(8, x => x.fast(2).gain(.65))],
-  [16, s("hh*8, [~ oh] ~ hh, hh*8").bank("RolandTR909").cut(1).hpf(6200).gain(.36).pan(sine.slow(7)).every(4, x => x.rev())],
-  [12, s("hh*8").bank("RolandTR909").cut(1).hpf(5600).gain(.24)],
-  [12, s("hh*16, [~ oh ~ hh], hh*8").bank("RolandTR909").cut(1).hpf(6700).gain(.4).pan(sine.slow(4)).every(8, x => x.fast(2).gain(.6))],
-  [8,  silence]
-)
-
-$: arrange(
-  [8,  note("<d1 f1 c1 a0>/2").s("sawtooth").attack(.02).decay(.2).sustain(.6).release(.08).lpf(260).distort(.2).gain(.58)],
-  [16, note("<[d1 ~ d1 ~] [f1 ~ ~ f1] [c1 ~ c1 ~] [a0 ~ ~ a0]>").s("sawtooth").attack(.01).decay(.16).sustain(.62).release(.07).lpf(sine.range(180,520).slow(8)).distort(.28).gain(.72)],
-  [16, note("<[d1 d1 ~ d1] [f1 ~ f1 ~] [c1 c1 ~ c1] [a0 ~ a0 ~]>").s("sawtooth").attack(.01).decay(.14).sustain(.64).release(.06).lpf(sine.range(220,760).slow(6)).distort(.32).gain(.78).every(8, x => x.add(note(12)).gain(.45))],
-  [16, note("<[d1 ~ d1 d1] [f1 ~ ~ f1] [c1 ~ c1 ~] [a0 a0 ~ ~]>").s("sawtooth").attack(.01).decay(.16).sustain(.6).release(.07).lpf(sine.range(200,620).slow(8)).distort(.3).gain(.74)],
-  [12, note("<[d1 ~ ~ ~] [f1 ~ ~ ~] [c1 ~ ~ ~] [a0 ~ ~ ~]>").s("sawtooth").attack(.03).decay(.28).sustain(.55).release(.1).lpf(260).distort(.22).gain(.6)],
-  [12, note("<[d1 d1 ~ d1] [f1 ~ f1 ~] [c1 c1 ~ c1] [a0 ~ a0 ~]>").s("sawtooth").attack(.01).decay(.14).sustain(.64).release(.06).lpf(sine.range(240,820).slow(5)).distort(.34).gain(.8).every(6, x => x.fast(2).gain(.7))],
-  [8,  note("<d1 ~ f1 ~ c1 ~ a0 ~>/2").s("sawtooth").attack(.03).decay(.24).sustain(.5).release(.12).lpf(220).distort(.18).gain(saw.slow(8).range(.56,.05))]
-)
-
-$: arrange(
-  [8,  chord("<Dm9 Bbmaj7>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(1).decay(1).sustain(.8).release(2).lpf(1700).room(.8).gain(.32)],
-  [16, chord("<Dm9 Bbmaj7 Fmaj7 C7sus4>").dict('ireal').voicing().s("gm_epiano2").struct("~ x ~ x").lpf(2600).room(.45).delay(".2:.15:.25").gain(.46).speed(.99)],
-  [16, chord("<Dm9 Bbmaj7 Fmaj7 C7sus4>").dict('ireal').voicing().s("gm_synth_strings_1").struct("[x ~]*2").lpf(2400).room(.62).delay(".25:.2:.3").gain(.5)],
-  [16, chord("<Dm9 Bbmaj7 Fmaj7 C7sus4>").dict('ireal').voicing().s("gm_epiano2").struct("<[~ x ~ x] [x ~ ~ x]>").lpf(2800).room(.42).delay(".18:.12:.2").gain(.48).speed(.98)],
-  [12, chord("<Dm9 Fmaj7 Bbmaj7 C7sus4>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(.8).decay(.8).sustain(.75).release(2.4).lpf(1500).room(.85).gain(.36)],
-  [12, chord("<Dm9 Bbmaj7 Fmaj7 C7sus4>").dict('ireal').voicing().s("gm_epiano2").struct("[x ~ x ~]*2").lpf(3000).room(.5).delay(".22:.16:.28").gain(.52)],
-  [8,  chord("<Dm9 Bbmaj7>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(1).decay(1).sustain(.7).release(3).lpf(sine.range(700,1600).slow(8)).room(.9).gain(saw.slow(8).range(.3,.03))]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, n("<[~ 0 2 ~] [3 ~ 5 ~] [7 ~ 5 ~] [3 ~ 2 0]>").scale("D5:minor:pentatonic").s("square").attack(.01).decay(.15).sustain(.45).release(.12).lpf(sine.range(900,3200).slow(8)).room(.4).delay(".22:.16:.28").gain(.36).vib(4).vibmod(.35)],
-  [16, n("<[0 2 3 5] [~ 7 5 ~] [3 5 ~ 7] [5 ~ 3 2]>").scale("D5:minor:pentatonic").s("square").attack(.01).decay(.12).sustain(.48).release(.1).lpf(sine.range(1200,4200).slow(6)).room(.42).delay(".24:.18:.3").gain(.44).vib(5).vibmod(.4).sometimes(x => x.add(note(12)))],
-  [16, n("<[~ 0 2 ~] [3 ~ 5 ~] [7 ~ 5 ~] [3 ~ 2 0]>").scale("D5:minor:pentatonic").s("square").attack(.01).decay(.15).sustain(.45).release(.12).lpf(sine.range(1000,3400).slow(8)).room(.4).delay(".22:.16:.28").gain(.38).vib(4).vibmod(.35).rarely(x => x.rev())],
-  [12, n("<[~ 0 ~ ~] [~ 3 ~ ~] [~ 5 ~ ~] [~ 2 ~ ~]>").scale("D5:minor:pentatonic").s("triangle").attack(.04).decay(.25).sustain(.5).release(.2).lpf(1800).room(.65).delay(".35:.25:.45").gain(.3)],
-  [12, n("<[0 2 3 5] [~ 7 5 ~] [3 5 ~ 7] [5 ~ 3 2]>").scale("D5:minor:pentatonic").s("square").attack(.01).decay(.12).sustain(.5).release(.1).lpf(sine.range(1300,4500).slow(5)).room(.45).delay(".24:.18:.3").gain(.46).vib(5).vibmod(.42).sometimes(x => x.add(note(12)))],
-  [8,  silence]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, silence],
-  [16, n("<[~ 4 ~ 2] [~ 5 ~ 3] [7 ~ 5 ~] [~ 3 ~ 2]>").scale("D4:dorian").s("gm_clarinet").attack(.03).decay(.18).sustain(.55).release(.2).lpf(3200).room(.55).delay(".3:.2:.35").gain(.28).vib(4).vibmod(.5)],
-  [16, silence],
-  [12, n("<[~ 2 ~ 4] [5 ~ 4 ~] [~ 3 ~ 2] [0 ~ ~ ~]>").scale("D5:dorian").s("gm_flute").attack(.05).decay(.2).sustain(.6).release(.25).lpf(5200).room(.62).delay(".38:.28:.45").gain(.3).vib(5).vibmod(.7)],
-  [12, n("<[~ 4 ~ 2] [~ 5 ~ 3] [7 ~ 5 ~] [~ 3 ~ 2]>").scale("D4:dorian").s("gm_clarinet").attack(.03).decay(.18).sustain(.55).release(.2).lpf(3400).room(.58).delay(".3:.2:.35").gain(.3).vib(4).vibmod(.5)],
-  [8,  silence]
-)
+// "Roller Pressure" — low-slung drum and bass with morphing reese and shuffled breaks
+samples('github:tidalcycles/dirt-samples')
+setcps(0.74)
+$: s("bd*2 [~ bd] sn ~ bd [~ sn] <[~ bd] [bd ~]> sn")
+  .gain(0.95)
+  .stack(
+    s("<hh*8 hh*16> [~ hh]*2 hh(11,16) [hh*2 ~]").gain(0.45).hpf(6000).room(0.12),
+    s("cp(3,8,<0 1 2>) ~ [cp ~] ~").gain(0.3).room(0.2),
+    s("breaks125:1*2 <breaks125:3 breaks125:6> [~ breaks125:8]").cut("<1 2 1 3>").speed("<1 1 1.02 0.98>").gain(0.45).room(0.25).delay(0.18),
+    note("<c1 [c1 c1] [c1 d1] [c1 g0]> [~ c1] <f0 g0> [c1 ~]")
+      .s("sawtooth")
+      .legato(0.95)
+      .gain(0.8)
+      .lpf(perlin.range(120,1800).slow(6))
+      .shape(0.22),
+    note("<[c3 eb3 g3] [d3 f3 a3] [bb2 d3 f3] [g2 bb2 d3]>")
+      .s("supersaw")
+      .slow(4)
+      .gain(0.22)
+      .lpf(sine.range(700,2600).slow(8))
+      .room(0.6)
+      .delay(0.33)
+  )
+  .lpf(perlin.range(900,9000).slow(10))
+  .room(sine.range(0.12,0.45).slow(12))
+  .delay(sine.range(0.08,0.28).slow(7))
+  .reset(48)

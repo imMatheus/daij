@@ -1,0 +1,51 @@
+// ⚡ "Industrial Havoc" — Aggressive & Intense Hard Techno/Industrial Beat
+// At 140 BPM: intro(8) + verse1(16) + chorus1(16) + verse2(16) + bridge(12) + chorus2(16) + outro(8) = 92 bars ≈ 2:38
+
+setcpm(140 / 4)
+
+$: arrange(
+  [8,  s("bd*4").bank("RolandTR909").lpf(saw.slow(8).range(400, 2000)).gain(.8)],
+  [16, s("bd ~ [sd:1,cp] ~, bd [bd ~] [sd:1,cp] [~ bd]").bank("RolandTR909").distort(.2).gain(.9)],
+  [16, s("bd bd [sd:1,cp] bd, [hh*8]").bank("RolandTR909").distort(.4).crush(8).gain(.95).every(4, x=>x.fast(2))],
+  [16, s("bd ~ [sd:1,cp] ~, bd [bd ~] [sd:1,cp] [~ bd]").bank("RolandTR909").distort(.3).gain(.9)],
+  [12, s("~ [sd:1,cp] ~ [sd:1,cp]").bank("RolandTR909").room(1).gain(.7)],
+  [16, s("bd bd [sd:1,cp] bd, [hh*16]").bank("RolandTR909").distort(.5).crush(6).gain(1).every(2, x=>x.sometimes(y=>y.fast(1.5)))],
+  [8,  s("bd ~ ~ ~").bank("RolandTR909").lpf(saw.slow(8).range(2000, 100)).gain(saw.slow(8).range(.8, 0))]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, note("<e1 f1 g1 f1>").s("sawtooth").lpf(1200).distort(.6).gain(.7).struct("x x x x")],
+  [16, note("<e1 e1 f1 g1>").s("sawtooth").lpf(2000).distort(.8).gain(.8).struct("x [x x] x x")],
+  [16, note("<e1 f1 g1 f1>").s("sawtooth").lpf(1200).distort(.6).gain(.7).struct("x x x x")],
+  [12, note("e1").s("sawtooth").lpf(sine.range(200, 1500).slow(4)).gain(.6)],
+  [16, note("<e1 e1 f1 g1>").s("sawtooth").lpf(2000).distort(.8).gain(.8).struct("x [x x] x [x x]")],
+  [8,  silence]
+)
+
+$: arrange(
+  [8,  n("0 1 3 4").scale("E3:phrygian").s("square").lpf(800).gain(.4).rev()],
+  [16, silence],
+  [16, n("<[0 1 3 4] [6 4 3 1]>").scale("E4:phrygian").s("square").lpf(3000).distort(.3).gain(.6).delay(".1:.2:.4").every(4, x=>x.fast(2))],
+  [16, n("<[0 ~ 3 ~] [~ 1 ~ 4]>").scale("E4:phrygian").s("square").lpf(2500).gain(.5).delay(".2:.1:.3")],
+  [12, n("0*12").scale("E5:phrygian").s("square").gain(saw.range(0, .6).slow(12)).lpf(sine.range(1000, 5000).slow(2))],
+  [16, n("<[0 1 3 4] [7 6 4 3]>").scale("E4:phrygian").s("square").lpf(4000).distort(.5).gain(.7).delay(".05:.3:.5").every(2, x=>x.sometimes(y=>y.add(note(12))))],
+  [8,  silence]
+)
+
+$: arrange(
+  [8,  s("noise").hpf(4000).gain(saw.range(0, .3).slow(8))],
+  [16, s("noise").hpf(5000).gain(.15).struct("x*16")],
+  [16, s("noise").hpf(2000).gain(.2).struct("x(5,8)")],
+  [16, s("noise").hpf(5000).gain(.15).struct("x*16")],
+  [12, s("noise").hpf(sine.range(1000, 8000).slow(6)).gain(.25)],
+  [16, s("noise").hpf(2000).gain(.3).struct("x(7,8)")],
+  [8,  s("noise").hpf(100).gain(saw.range(.3, 0).slow(8))]
+)
+
+$: arrange(
+  [40, silence],
+  [12, s("gm_glockenspiel").note("e6").gain(.4).room(1).delay(".5:.5:.8")],
+  [16, s("gm_glockenspiel").note("<e6 f6 g6 b6>").gain(.5).room(.8).delay(".25:.4:.5")],
+  [24, silence]
+)

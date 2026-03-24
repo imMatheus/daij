@@ -1,14 +1,52 @@
-Here's the song — "Echo Chamber Riddim", a reggae dub track in A minor with heavy delay throughout:
-
-**Structure**: intro(8) + verse(16) + dub break(16) + verse(16) + dub break(16) + outro(8) = 80 bars at 74 BPM
-
-**Key features**:
-- **One-drop rhythm**: Classic `~ ~ [bd,cp] ~` pattern (kick+clap on beat 3)
-- **Heavy delay on everything**: Delay values range from `.3:.2:.35` in verses up to `.85:.7:.9` in dub breakdowns — the echo becomes the music
-- **Offbeat skank**: Clavinet on `~ x ~ x` for authentic reggae feel
-- **Dub breakdowns**: Stripped-back sections where delay/reverb dominate, with high roomsize values (6-8) and sweeping LPF filters
-- **Deep bass**: Syncopated acoustic bass root notes + sine sub-bass pad
-- **Flute melody**: Sparse, echoing melodic lines that appear only during dub breaks
-- **Progression**: Am7 → Dm9 → Am7 → Em7 (classic minor reggae)
-
-Want me to try writing the file again, or would you like any adjustments to the composition?
+// "Dub Pressure" — heavy reggae riddim drowning in tape echo
+setcps(74/60/4)
+stack(
+  // one-drop: kick on 3, snare ghost, hats percolating
+  s("~ ~ bd ~, ~ ~ [sd:3 ~] ~, hh(5,8)")
+    .bank("RolandTR808").swing(3).gain(".85 .72 .24")
+    .room(.4).delay(".55:.4:.6")
+    .sometimes(x => x.delay(".92:.7:.85")),
+  // dubby percussion splashes with massive echo
+  s("~ [rim ~] ~ ~, ~ ~ ~ [oh ~]")
+    .bank("RolandTR808")
+    .gain(.2).room(.8).roomsize(6)
+    .delay(".9:.72:.86")
+    .pan(perlin.range(0, 1)),
+  // offbeat skank — the heartbeat
+  chord("<Am7 Dm9 Am7 Em7>")
+    .dict('ireal').voicing()
+    .s("gm_electric_guitar_muted")
+    .struct("~ x ~ x")
+    .lpf(sine.range(1200, 3200).slow(12))
+    .room(.6).delay(".72:.55:.7")
+    .gain(.4).speed(.98),
+  // syncopated bass
+  note("<[a1 ~ ~ a1] [d1 ~ ~ d1] [a1 ~ ~ a1] [e1 ~ ~ e1]>")
+    .s("gm_acoustic_bass")
+    .decay(.3).sustain(.6).lpf(480)
+    .room(.25).gain(.82)
+    .delay(".3:.2:.25")
+    .sometimes(x => x.add(note(12)).gain(.32)),
+  // sub pad
+  note("<a0 d1 a0 e1>")
+    .s("sine").attack(1).decay(.5).sustain(.8).release(1.5)
+    .lpf(140).gain(.18).room(.35),
+  // melodica echoes drifting through the mix
+  n("<[~ 0 ~ 2] [4 ~ 3 ~] [~ 5 ~ 3] [2 ~ 0 ~]>")
+    .scale("A4:minor:pentatonic")
+    .s("gm_harmonica")
+    .lpf(sine.range(800, 2600).slow(8))
+    .room(.75).delay(".88:.65:.82")
+    .gain(.28).pan(sine.slow(5))
+    .vib(5).vibmod(.5)
+    .every(4, x => x.rev()),
+  // high echo ghost — sparse hits that bloom into infinity
+  n("<[~ ~ 4 ~] [~ ~ ~ ~] [~ 3 ~ ~] [~ ~ ~ 5]>")
+    .scale("A5:minor:pentatonic")
+    .s("gm_vibraphone")
+    .attack(.01).decay(.15).sustain(.3).release(.4)
+    .lpf(perlin.range(1400, 3800))
+    .room(.9).roomsize(7)
+    .delay(".95:.78:.9")
+    .gain(.18).pan(sine.slow(3))
+)

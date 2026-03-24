@@ -1,66 +1,12 @@
-// 🎵 "Sunlight Horizon" — Widescreen Electronic / ODESZA Style
-// At 100 BPM: intro(8) + verse(16) + build(8) + chorus(16) + verse2(16) + chorus2(16) + outro(8) = 88 bars ≈ 3:31
-
-setcpm(100 / 4)
-
-$: s("vinyl:2").gain(.12).room(1).loop(1).lpf(sine.range(800, 2400).slow(16))
-
-$: arrange(
-  [8,  silence],
-  [16, s("bd ~ ~ ~, ~ ~ cp ~").bank("RolandTR808").gain(.8).room(.3).swing(2)],
-  [8,  s("bd(3,8), hh*8").bank("RolandTR808").gain(.85).room(.2).hpf(sine.range(200, 800).slow(8))],
-  [16, s("bd(5,8), ~ [cp,sd:1] ~ [cp,sd:1], [hh hh oh hh]*2").bank("RolandTR909").gain(.9).room(.25).every(4, x=>x.fast(2))],
-  [16, s("bd ~ ~ ~, ~ ~ cp ~").bank("RolandTR808").gain(.75).room(.4)],
-  [16, s("bd(5,8), [~ cp]*2, [hh*4 oh]*2").bank("RolandTR909").gain(.92).room(.2).every(2, x=>x.press())],
-  [8,  s("bd ~ ~ ~").bank("RolandTR808").gain(saw.slow(8).range(.7, 0)).room(.6)]
-)
-
-$: arrange(
-  [8,  note("<c2 ab1 eb2 bb1>").s("sine").attack(1).release(1).gain(.4).lpf(400)],
-  [16, note("<c2 ab1 eb2 bb1>").s("gm_synth_bass_1").decay(.2).sustain(.6).gain(.75).room(.2)],
-  [8,  note("<c2*2 ab1*2 eb2*2 bb1*2>").s("gm_synth_bass_1").gain(.8).lpf(sine.range(400, 1200).slow(4))],
-  [16, note("<c1 ab0 eb1 bb0>").s("sine").gain(.9).lpf(200).add(note("<0 7 0 5>"))],
-  [16, note("<c2 ab1 eb2 bb1>").s("gm_synth_bass_1").decay(.3).sustain(.5).gain(.7)],
-  [16, note("<c1 ab0 eb1 bb0>").s("sine").gain(.9).lpf(200)],
-  [8,  note("<c1 ab0 eb1 bb0>/2").s("sine").gain(saw.slow(8).range(.6, 0)).lpf(150)]
-)
-
-$: arrange(
-  [8,  chord("<Cm9 Ab^7 Ebmaj7 Bb11>").dict('ireal').voicing().s("gm_synth_strings_1").attack(2).release(2).gain(.4).room(.8)],
-  [16, chord("<Cm9 Ab^7 Ebmaj7 Bb11>").dict('ireal').voicing().s("gm_epiano2").struct("x ~ x ~ x ~ x ~").gain(.5).room(.5).delay(".25:.2:.4")],
-  [8,  chord("<Cm9 Ab^7 Ebmaj7 Bb11>").dict('ireal').voicing().s("gm_synth_strings_1").attack(.1).release(.1).gain(.5).lpf(sine.range(800, 4000).slow(4))],
-  [16, chord("<Cm9 Ab^7 Ebmaj7 Bb11>").dict('ireal').voicing().s("gm_synth_strings_1").gain(.6).room(.6).crush(12).lpf(3000)],
-  [16, chord("<Cm9 Ab^7 Ebmaj7 Bb11>").dict('ireal').voicing().s("gm_epiano2").struct("~ x ~ x").gain(.5).room(.5)],
-  [16, chord("<Cm9 Ab^7 Ebmaj7 Bb11>").dict('ireal').voicing().s("gm_synth_strings_1").gain(.6).room(.7).delay(".3:.3:.5")],
-  [8,  chord("<Cm9 Ab^7>").dict('ireal').voicing().s("gm_synth_strings_1").attack(2).gain(saw.slow(8).range(.4, 0)).lpf(1000)]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, silence],
-  [8,  n("<0 2 3 5 7 10 12 14>").scale("C4:minor").s("triangle").fast(4).gain(saw.slow(8).range(0, .5)).room(.5)],
-  [16, n("<0 3 7 10 12 15 14 12>").scale("C5:minor").s("triangle").fast(4).gain(.55).room(.4).delay(".125:.1:.3").sometimes(x=>x.add(note(12)))],
-  [16, silence],
-  [16, n("<0 3 7 10 12 15 14 12>").scale("C5:minor").s("triangle").fast(4).gain(.55).room(.4).delay(".125:.1:.3")],
-  [8,  silence]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, n("<[0 ~ 3 ~] [5 ~ 7 ~] [~ 3 ~ 0] [~ 5 ~ 2]>").scale("C5:minor").s("gm_flute").gain(.35).room(.8).delay(".4:.3:.6").vib(5)],
-  [8,  silence],
-  [16, s("alphabet:o, alphabet:e, alphabet:a").speed("<1.2 1.5 1.8 1.4>").struct("x(3,8)").gain(.45).room(.9).delay(".3:.4:.5").lpf(3500)],
-  [16, n("<[0 ~ 3 ~] [5 ~ 7 ~] [~ 3 ~ 0] [~ 5 ~ 2]>").scale("C5:minor").s("gm_flute").gain(.3).room(.8)],
-  [16, s("alphabet:o, alphabet:e, alphabet:a").speed("<1.2 1.5 1.8 1.4>").struct("x(5,8)").gain(.5).room(.9).delay(".25:.3:.6")],
-  [8,  silence]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, silence],
-  [8,  s("white").gain(saw.slow(8).range(0, .2)).lpf(saw.slow(8).range(100, 8000))],
-  [16, silence],
-  [16, silence],
-  [16, silence],
-  [8,  silence]
-)
+// 🎵 "Sunlight Horizon" — Widescreen electronic beats in the style of ODESZA
+samples('github:tidalcycles/dirt-samples');
+setcps(0.45);
+stack(
+  s("bd:3(3,8), [~ <sd:2 sd:5>]").gain(1.3).room(0.2),
+  s("hh24*16").gain(sine.range(0.2, 0.7)).pan(perlin),
+  note("eb2 <g2 f2> eb2 <bb1 d2>").s("superpf").lpf(500).gain(0.8),
+  note("eb3:maj9, <g3:min7 bb3:maj7>").s("superpad").lpf(perlin.range(400, 3000)).room(0.9).slow(4).gain(0.6),
+  s("alphabet:5(5,11)").speed("<1.2 1.5 0.8 1.8>").chop(16).room(1).delay(0.6).gain(0.7).pan(perlin),
+  note("eb4(5,8)").scale("eb:major").s("superp5").decay(0.05).gain(0.4).room(0.6).echo(0.3).slow(2),
+  s("glitch:4(<3 7>,16)").gain(0.5).pan(sine)
+).reset(16)

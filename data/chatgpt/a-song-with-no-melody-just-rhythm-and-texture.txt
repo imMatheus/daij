@@ -1,58 +1,17 @@
-// 🎵 "Concrete Rain" — Minimal Rhythm & Texture / Dubby Lo-Fi Percussion
-// At 120 BPM: intro(8) + grooveA(16) + lift(16) + grooveB(16) + breakdown(16) + outro(16) = 88 bars ≈ 2:56
-
-setcpm(120 / 4)
-
-$: arrange(
-  [8,  s("vinyl:2").gain(.12).room(1).loop(1).lpf(2300)],
-  [16, s("vinyl:2").gain(.14).room(1).loop(1).lpf(2500)],
-  [16, s("vinyl:2").gain(.16).room(1).loop(1).lpf(2700)],
-  [16, s("vinyl:2").gain(.15).room(1).loop(1).lpf(2600)],
-  [16, s("vinyl:2").gain(.17).room(1).loop(1).lpf(sine.range(1800,3000).slow(8))],
-  [16, s("vinyl:2").gain(saw.slow(16).range(.14,.04)).room(1).loop(1).lpf(2100)]
-)
-
-$: arrange(
-  [8,  s("bd ~ ~ ~, ~ ~ sd ~").bank("RolandTR808").swing(3).gain(.72).room(.3)],
-  [16, s("bd ~ ~ bd, ~ [sd cp] ~ ~").bank("RolandTR808").swing(4).gain(.86).room(.28)],
-  [16, s("bd ~ bd ~, ~ [sd cp] ~ [sd cp], [bd ~]*2").bank("RolandTR808").cut(1).swing(4).gain(.9).room(.25).every(4, x => x.fast(2).gain(.55))],
-  [16, s("bd ~ ~ bd, ~ [sd cp] ~ ~").bank("RolandTR808").swing(4).gain(.84).room(.28).sometimes(x => x.press())],
-  [16, s("bd ~ ~ ~, ~ sd ~ ~, bd ~ ~ ~, ~ ~ cp ~").bank("RolandTR808").swing(5).gain(.78).room(.35)],
-  [16, s("bd ~ ~ ~, ~ ~ sd ~").bank("RolandTR808").swing(3).gain(saw.slow(16).range(.72,.12)).room(.45)]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, s("hh*8").bank("RolandTR909").cut(1).gain(perlin.range(.12,.35)).hpf(4200).pan(sine.slow(10)).swing(4)],
-  [16, s("[hh hh oh hh]*4").bank("RolandTR909").cut(1).gain(perlin.range(.16,.44)).hpf(4800).pan(sine.slow(7)).swing(4).every(4, x => x.rev())],
-  [16, s("hh*8").bank("RolandTR909").cut(1).gain(perlin.range(.12,.35)).hpf(4200).pan(sine.slow(10)).swing(4)],
-  [16, s("[hh ~ hh oh]*2").bank("RolandTR909").cut(1).gain(.24).hpf(3800).pan(sine.slow(14)).swing(5)],
-  [16, s("hh*4").bank("RolandTR909").cut(1).gain(saw.slow(16).range(.2,.03)).hpf(3500).swing(4)]
-)
-
-$: arrange(
-  [8,  note("<c1 ~ ~ ~>").s("sine").attack(.01).decay(.2).sustain(.25).release(.1).lpf(150).gain(.22)],
-  [16, note("<c1 ~ c1 ~>").s("sine").attack(.01).decay(.25).sustain(.35).release(.12).lpf(170).gain(.34).distort(.08)],
-  [16, note("<[c1 ~ c1 c1] [c1 ~ ~ c1]>").s("sine").attack(.01).decay(.22).sustain(.3).release(.12).lpf(190).gain(.4).distort(.12).every(8, x => x.fast(2).gain(.7))],
-  [16, note("<c1 ~ c1 ~>").s("sine").attack(.01).decay(.25).sustain(.35).release(.12).lpf(170).gain(.34).distort(.08)],
-  [16, note("<c1 ~ ~ ~>").s("sine").attack(.02).decay(.35).sustain(.25).release(.2).lpf(140).gain(.26)],
-  [16, note("<c1 ~ ~ ~>").s("sine").attack(.02).decay(.35).sustain(.25).release(.2).lpf(120).gain(saw.slow(16).range(.24,.03))]
-)
-
-$: arrange(
-  [8,  chord("Cm9").dict('ireal').voicing().s("gm_synth_strings_1").struct("~ x ~ ~").attack(.25).decay(.4).sustain(.3).release(.9).lpf(1400).room(.75).gain(.2)],
-  [16, chord("Cm9").dict('ireal').voicing().s("gm_synth_strings_1").struct("[x ~ ~ x] ~").attack(.15).decay(.35).sustain(.35).release(.8).lpf(1800).room(.68).delay(".35:.2:.28").gain(.24)],
-  [16, chord("Cm9").dict('ireal').voicing().s("gm_synth_strings_1").struct("[x ~ x ~]*2").attack(.08).decay(.3).sustain(.4).release(.7).lpf(sine.range(1600,3000).slow(8)).room(.62).delay(".25:.18:.3").gain(.3).sometimes(x => x.crush(14))],
-  [16, chord("Cm9").dict('ireal').voicing().s("gm_synth_strings_1").struct("[x ~ ~ x] ~").attack(.15).decay(.35).sustain(.35).release(.8).lpf(1800).room(.68).delay(".35:.2:.28").gain(.24)],
-  [16, chord("Cm9").dict('ireal').voicing().s("gm_synth_strings_1").struct("~ x ~ ~").attack(.35).decay(.45).sustain(.4).release(1.1).lpf(1300).room(.82).delay(".45:.3:.4").gain(.18)],
-  [16, chord("Cm9").dict('ireal').voicing().s("gm_synth_strings_1").struct("x ~ ~ ~").attack(.4).decay(.5).sustain(.35).release(1.4).lpf(900).room(.88).gain(saw.slow(16).range(.16,.02))]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, s("~ cp ~ ~, ~ ~ sd ~").bank("RolandTR909").gain(.34).room(.45).delay(".2:.14:.18").pan(sine.slow(9))],
-  [16, s("cp ~ cp ~, ~ sd ~ [cp sd]").bank("RolandTR909").gain(.42).room(.4).delay(".22:.16:.2").pan(sine.slow(7)).every(4, x => x.press())],
-  [16, s("~ cp ~ ~, ~ ~ sd ~").bank("RolandTR909").gain(.34).room(.45).delay(".2:.14:.18").pan(sine.slow(9))],
-  [16, s("cp ~ ~ ~, ~ sd ~ ~").bank("RolandTR909").gain(.28).room(.52).delay(".3:.2:.24").pan(sine.slow(12))],
-  [16, silence]
-)
+// 🎵 "Rust Pulse" — raw industrial rhythm + texture
+samples('github:tidalcycles/dirt-samples')
+setcps(0.8)
+s("bd(5,8,<0 1 2>)")
+  .gain(0.95)
+  .lpf(perlin.slow(4).range(220,1100))
+  .stack(
+    s("[~ hh]*16").gain("<0.22 0.34 0.28 0.4>").hpf(perlin.slow(6).range(3200,9200)).room(0.14).delay(0.125),
+    s("oh(3,8,<2 3 5>)").gain(0.26).hpf(7000).delay("<0 0.25>").room(0.32),
+    s("<cp rim sd>(3,8,<0 2 5>) [~ cp] <~ rim>").gain(0.46).room(0.36).delay("<0.25 0.5>").lpf(perlin.slow(5).range(850,2300)),
+    s("perc:2(7,16) [~ perc:4] <perc:5 perc:6>").gain(0.3).speed("<1 0.5 1.5 1>").room(0.42).delay(0.375),
+    s("noise*8").gain(perlin.slow(8).range(0.01,0.08)).hpf(perlin.slow(3).range(1800,7600)).room(0.82).delay(0.5),
+    s("[~ bd]*4 [bd*2 ~]").gain("<0 0 0.2 0.3>").lpf(180).room(0.52)
+  )
+  .room(perlin.slow(9).range(0.16,0.74))
+  .delay(perlin.slow(7).range(0,0.38))
+  .reset(48)

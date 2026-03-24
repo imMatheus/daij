@@ -1,0 +1,120 @@
+// 🎵 "Echoes in Time" — Algorithmic Canon in D Dorian
+// At 96 BPM: intro(8) + canon2(16) + canon3(16) + full(16) + thinning(16) + outro(8) = 80 bars ≈ 3:20
+
+setcpm(96 / 4)
+
+$: s("vinyl:2").gain(.13).room(1).loop(1).lpf(2600)
+
+// Voice 1 — Piano (original melody: rises, falls, peaks, resolves)
+$: arrange(
+  [8,  n("<[0 2 3 5] [7 5 3 2] [3 5 7 5] [2 0 ~ ~]>")
+       .scale("D5:dorian").s("gm_epiano1")
+       .lpf(2400).room(.55).delay(".3:.25:.4").gain(.48)],
+  [16, n("<[0 2 3 5] [7 5 3 2] [3 5 7 5] [2 0 ~ ~]>")
+       .scale("D5:dorian").s("gm_epiano1")
+       .lpf(2800).room(.5).delay(".25:.2:.35").gain(.5)],
+  [16, n("<[0 2 3 5] [7 5 3 2] [3 5 7 5] [2 0 ~ ~]>")
+       .scale("D5:dorian").s("gm_epiano1")
+       .lpf(3200).room(.45).delay(".2:.15:.3").gain(.52)
+       .every(8, x => x.add(note(12)).gain(.35))],
+  [16, n("<[0 2 3 5] [7 5 3 2] [3 5 7 5] [2 0 ~ ~]>")
+       .scale("D5:dorian").s("gm_epiano1")
+       .lpf(3200).room(.45).delay(".2:.15:.3").gain(.5)],
+  [16, n("<[0 2 3 5] [7 5 3 2] [3 5 7 5] [2 0 ~ ~]>")
+       .scale("D5:dorian").s("gm_epiano1")
+       .lpf(2200).room(.6).delay(".35:.25:.45").gain(.4)],
+  [8,  n("<[0 2 3 5] [7 5 3 2] [3 5 7 5] [2 0 ~ ~]>")
+       .scale("D5:dorian").s("gm_epiano1")
+       .lpf(sine.range(500,1800).slow(8)).room(.75).delay(".5:.4:.6")
+       .gain(saw.slow(8).range(.4,.05))]
+)
+
+// Voice 2 — Strings (same melody, canon at 2-bar offset)
+$: arrange(
+  [8,  silence],
+  [16, n("<[3 5 7 5] [2 0 ~ ~] [0 2 3 5] [7 5 3 2]>")
+       .scale("D4:dorian").s("gm_synth_strings_1")
+       .attack(.25).decay(.4).sustain(.6).release(.8)
+       .lpf(2200).room(.55).delay(".35:.25:.45").gain(.36)
+       .pan(.35)],
+  [16, n("<[3 5 7 5] [2 0 ~ ~] [0 2 3 5] [7 5 3 2]>")
+       .scale("D4:dorian").s("gm_synth_strings_1")
+       .attack(.2).decay(.35).sustain(.65).release(.7)
+       .lpf(2600).room(.5).delay(".3:.2:.4").gain(.4)
+       .pan(.35)],
+  [16, n("<[3 5 7 5] [2 0 ~ ~] [0 2 3 5] [7 5 3 2]>")
+       .scale("D4:dorian").s("gm_synth_strings_1")
+       .attack(.2).decay(.35).sustain(.65).release(.7)
+       .lpf(2600).room(.5).delay(".3:.2:.4").gain(.4)
+       .pan(.35)],
+  [16, n("<[3 5 7 5] [2 0 ~ ~] [0 2 3 5] [7 5 3 2]>")
+       .scale("D4:dorian").s("gm_synth_strings_1")
+       .attack(.3).decay(.45).sustain(.55).release(.9)
+       .lpf(1800).room(.6).delay(".4:.3:.5").gain(.3)
+       .pan(.35)],
+  [8,  silence]
+)
+
+// Voice 3 — Flute (same melody, canon at 3-bar offset)
+$: arrange(
+  [8,  silence],
+  [16, silence],
+  [16, n("<[7 5 3 2] [3 5 7 5] [2 0 ~ ~] [0 2 3 5]>")
+       .scale("D6:dorian").s("gm_flute")
+       .lpf(5000).room(.5).delay(".35:.25:.45").gain(.28)
+       .vib(4).vibmod(.5).pan(.65)],
+  [16, n("<[7 5 3 2] [3 5 7 5] [2 0 ~ ~] [0 2 3 5]>")
+       .scale("D6:dorian").s("gm_flute")
+       .lpf(5500).room(.45).delay(".3:.2:.4").gain(.32)
+       .vib(4).vibmod(.4).pan(.65)
+       .sometimes(x => x.add(note(12)))],
+  [16, n("<[7 5 3 2] [3 5 7 5] [2 0 ~ ~] [0 2 3 5]>")
+       .scale("D6:dorian").s("gm_flute")
+       .lpf(4000).room(.6).delay(".4:.3:.55").gain(.22)
+       .vib(5).vibmod(.5).pan(.65)],
+  [8,  silence]
+)
+
+// Voice 4 — Guitar (same melody, canon at 1-bar offset)
+$: arrange(
+  [8,  silence],
+  [16, silence],
+  [16, silence],
+  [16, n("<[2 0 ~ ~] [0 2 3 5] [7 5 3 2] [3 5 7 5]>")
+       .scale("D4:dorian").s("gm_acoustic_guitar_nylon")
+       .lpf(3500).room(.5).delay(".25:.2:.35").gain(.34)
+       .pan(.3)],
+  [16, n("<[2 0 ~ ~] [0 2 3 5] [7 5 3 2] [3 5 7 5]>")
+       .scale("D4:dorian").s("gm_acoustic_guitar_nylon")
+       .lpf(2800).room(.6).delay(".35:.25:.45").gain(.28)
+       .pan(.3)],
+  [8,  silence]
+)
+
+// Bass (supports the canon harmony)
+$: arrange(
+  [8,  silence],
+  [16, silence],
+  [16, note("<d2 ~ a1 ~>").s("gm_acoustic_bass")
+       .decay(.5).sustain(.45).room(.2).gain(.58)],
+  [16, note("<[d2 ~ d2 ~] [g1 ~ g1 ~] [c2 ~ c2 ~] [a1 ~ a1 ~]>")
+       .s("gm_acoustic_bass")
+       .decay(.3).sustain(.5).room(.2).gain(.7)],
+  [16, note("<d2 g1 c2 a1>").s("gm_acoustic_bass")
+       .decay(.5).sustain(.4).room(.25).gain(.52)],
+  [8,  silence]
+)
+
+// Light percussion
+$: arrange(
+  [8,  silence],
+  [16, silence],
+  [16, s("~ ~ hh ~, ~ ~ ~ [hh hh]")
+       .bank("RolandTR808").gain(.32).room(.3).pan(sine.slow(4))],
+  [16, s("bd ~ ~ ~, ~ cp ~ ~, hh*4")
+       .bank("RolandTR808").gain(perlin.range(.45,.7)).room(.3)
+       .swing(3).every(4, x => x.press())],
+  [16, s("bd ~ ~ ~, ~ ~ hh ~")
+       .bank("RolandTR808").gain(.35).room(.35)],
+  [8,  silence]
+)

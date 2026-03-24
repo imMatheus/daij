@@ -1,53 +1,9 @@
-// 🎵 "The Deep Below" — Mysterious Dark Ambient
-// At 92 BPM: intro(8) + verse(16) + chorus(16) + verse2(16) + tension(20) + outro(8) = 84 bars ≈ 3:39
-
-setcpm(92 / 4)
-
-$: s("vinyl:1").gain(.18).loop(1).lpf(1200).room(1).pan(sine.slow(10).range(-0.3, 0.3))
-
-$: arrange(
-  [8,  note("c1").s("sine").gain(.2).lpf(200).room(1).attack(4)],
-  [68, note("<c1 eb1 ab0 g0>").s("sine").gain(perlin.range(.15, .25)).lpf(sine.range(150, 400).slow(12)).room(1)],
-  [8,  note("c1").s("sine").gain(saw.slow(8).range(.2, 0)).lpf(150).room(1)]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, s("bd ~ ~ ~").bank("RolandTR808").gain(.6).room(.8).lpf(800)],
-  [16, s("bd ~ ~ bd, ~ [cp:1,sd:2] ~ ~").bank("RolandTR808").gain(".7 .6").room(.7).lpf(1200)],
-  [16, s("bd ~ ~ ~, ~ ~ cp:1 ~").bank("RolandTR808").gain(.6).room(.9).lpf(1000)],
-  [20, s("bd(3,8), ~ [cp:1,sd:2] ~ [~ cp:1], hh*8").bank("RolandTR808").gain(".8 .7 .7 .7, .2").room(.6).cut(1)],
-  [8,  s("bd ~ ~ ~").bank("RolandTR808").gain(saw.slow(8).range(.5, 0)).room(.9)]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, note("<c1 eb1 ab0 g0>").s("gm_acoustic_bass").gain(.75).lpf(300).decay(1).sustain(.5)],
-  [16, note("<c1 c2 eb1 eb2 ab0 ab1 g0 g1>/2").s("gm_acoustic_bass").gain(.8).lpf(500).decay(.5).sustain(.4).room(.3)],
-  [16, note("<c1 eb1 ab0 g0>").s("gm_acoustic_bass").gain(.75).lpf(300).decay(1).sustain(.5)],
-  [20, note("<c1 eb1 ab0 g0>").s("gm_acoustic_bass").gain(.85).lpf(600).struct("x x ~ x").room(.2)],
-  [8,  note("c1").s("gm_acoustic_bass").gain(saw.slow(8).range(.6, 0)).lpf(200)]
-)
-
-$: arrange(
-  [24, silence],
-  [16, chord("<Cm9 G7b13 Abmaj13 Ddim7>").dict('ireal').voicing().s("gm_synth_strings_1").attack(3).release(3).gain(.25).lpf(800).room(1)],
-  [16, chord("<Cm9 G7b13 Abmaj13 Ddim7>").dict('ireal').voicing().s("gm_epiano2").struct("x ~ ~ ~").gain(.35).lpf(600).room(.8).delay(".4:.3:.5")],
-  [20, chord("<Cm9 G7b13 Abmaj13 Ddim7>").dict('ireal').voicing().s("gm_synth_strings_1").attack(1).gain(.3).lpf(sine.range(800, 1500).slow(8)).room(1)],
-  [8,  silence]
-)
-
-$: arrange(
-  [40, silence],
-  [16, n("<[0 2 3 5] [7 8 7 5] [3 5 3 2] [0 ~ ~ ~]>").scale("C5:aeolian").s("gm_flute").gain(.32).room(.9).delay(".5:.4:.6").vib(4).vibmod(.6).attack(.2)],
-  [20, n("<[7 8 10 12] [11 10 8 7] [5 7 5 3] [2 3 2 0] [~ ~ ~ ~]>").scale("C5:aeolian").s("gm_flute").gain(.38).room(.8).delay(".4:.3:.5").vib(5).vibmod(.8)],
-  [8,  n("0").scale("C5:aeolian").s("gm_flute").gain(saw.slow(8).range(.3, 0)).room(1).vib(2)]
-)
-
-$: arrange(
-  [56, silence],
-  [20, n("0*16").scale("C6:aeolian").s("gm_celesta").gain(perlin.range(0, .25)).room(.9).delay(".2:.1:.3").lpf(3000)],
-  [8,  silence]
-)
-
-$: note("<c1 g1 ab0 eb1>/4").s("sawtooth").lpf(180).gain(.12).room(1).attack(4).release(4)
+// 🎵 "Obsidian Echoes" — Cinematic dark ambient with glitch textures
+setcps(0.25).stack(
+  s("sine").note("c1 <eb1 [g1 f1]>").lpf(perlin.mul(400).add(80)).gain(0.9),
+  s("supervibe").note("<[c2 g2] [eb2 b1] [ab1 d2]>").velocity(0.2).room(0.9).delay(0.8).delayfb(0.6),
+  s("glitch").struct("1(7,16,5)").gain(0.4).pan(perlin).room(0.6),
+  s("superpiano").note("c3 eb3 f#3 g3 b3 c4".scale('c:phrygian').struct("<1(3,8) 1(5,12)>").scramble()).decay(2).room(1).gain(0.4).jux(rev),
+  s("[bd? [~ [sd:1*2]]] <[~ hh*6] [~ [bd:2 sn:3]]>").gain(0.6).lpf(700).room(0.8).delay(0.3),
+  s("saw").note("c2").lpf(perlin.mul(1000).add(100)).lpq(20).gain(0.15).room(0.9)
+).reset(16)

@@ -1,58 +1,14 @@
-// 🎵 "Maré de Copacabana" — Acoustic Jazz Bossa Nova with warm late-night grooves
-// At 128 BPM: intro(8) + verse(16) + chorus(16) + verse2(16) + bridge(16) + outro(8) = 80 bars ≈ 2:30
-
-setcpm(128 / 4)
-
-$: arrange(
-  [8,  s("vinyl:2").gain(.16).room(1).loop(1).lpf(2300)],
-  [16, s("vinyl:2").gain(.12).room(1).loop(1).lpf(2600)],
-  [16, s("vinyl:2").gain(.1).room(1).loop(1).lpf(3000)],
-  [16, s("vinyl:2").gain(.11).room(1).loop(1).lpf(2800)],
-  [16, s("vinyl:2").gain(.09).room(1).loop(1).lpf(2400)],
-  [8,  s("vinyl:2").gain(saw.slow(8).range(.08,.01)).room(1).loop(1).lpf(2000)]
-)
-
-$: arrange(
-  [8,  s("~ cp ~ ~, [hh ~ hh hh]*2").bank("RolandTR909").cut(1).swing(4).room(.25).gain(.55)],
-  [16, s("bd ~ ~ [bd ~], ~ cp ~ ~, [hh hh ~ hh]*2").bank("RolandTR909").cut(1).swing(4).room(.28).gain(.82)],
-  [16, s("bd ~ [bd ~] bd, ~ cp ~ cp, [hh hh oh hh]*2").bank("RolandTR909").cut(1).swing(4).room(.3).gain(.9).every(4, x => x.fast(2).gain(.7))],
-  [16, s("bd ~ ~ [bd bd], ~ cp ~ ~, [hh hh ~ hh]*2").bank("RolandTR909").cut(1).swing(4).room(.28).gain(.84).every(8, x => x.press())],
-  [16, s("bd(5,16), ~ cp ~ [~ cp], [hh oh hh hh hh oh hh hh]").bank("RolandTR909").cut(1).swing(4).room(.32).gain(.88).every(6, x => x.rev())],
-  [8,  s("bd ~ ~ ~, ~ cp ~ ~, [hh ~ hh ~]*2").bank("RolandTR909").cut(1).swing(4).room(.4).gain(sine.slow(8).range(.6,.15))]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, note("<[a1 ~ e2 ~] [d2 ~ a1 ~] [g1 ~ d2 ~] [e2 ~ b1 ~]>").s("gm_acoustic_bass").decay(.3).sustain(.5).room(.2).gain(.78)],
-  [16, note("<[c2 ~ g1 ~] [b1 ~ fs1 ~] [e2 ~ b1 ~] [a1 ~ e2 ~]>").s("gm_acoustic_bass").decay(.25).sustain(.55).room(.22).gain(.84)],
-  [16, note("<[a1 ~ e2 ~] [d2 ~ a1 ~] [g1 ~ d2 ~] [e2 ~ b1 ~]>").s("gm_acoustic_bass").decay(.3).sustain(.5).room(.2).gain(.8).sometimes(x => x.add(note(12)).gain(.45))],
-  [16, note("<[f1 ~ c2 ~] [e1 ~ b1 ~] [a1 ~ e2 ~] [d2 ~ a1 ~]>").s("gm_acoustic_bass").decay(.28).sustain(.52).room(.24).gain(.82)],
-  [8,  note("<a1 ~ d2 ~ g1 ~ e1 ~>/2").s("gm_acoustic_bass").decay(.6).sustain(.3).room(.35).gain(.62).speed(.97)]
-)
-
-$: arrange(
-  [8,  chord("<Am9 D9 Gmaj7 E7b9>").dict('ireal').voicing().s("gm_epiano2").struct("x ~ ~ ~").attack(.2).release(1.2).lpf(2200).room(.65).delay(".35:.2:.3").gain(.42)],
-  [16, chord("<Am9 D9 Gmaj7 E7b9>").dict('ireal').voicing().s("gm_acoustic_guitar_nylon").struct("<[x ~ x ~] [~ x ~ x]>/2").lpf(3600).room(.45).delay(".14:.1:.2").gain(.58).speed(.99)],
-  [16, chord("<Cmaj7 B7 Em9 A7>").dict('ireal').voicing().s("gm_acoustic_guitar_nylon").struct("[x ~ x ~]*2").lpf(4200).room(.4).delay(".18:.12:.24").gain(.64).every(4, x => x.fast(2).gain(.75))],
-  [16, chord("<Am9 D9 Gmaj7 E7b9>").dict('ireal').voicing().s("gm_acoustic_guitar_nylon").struct("<[x ~ x ~] [~ x ~ x]>/2").lpf(3500).room(.45).delay(".14:.1:.2").gain(.58).speed(.98).crush(14)],
-  [16, chord("<Fmaj7 E7 Am9 D9>").dict('ireal').voicing().s("gm_epiano1").struct("x ~ [~ x] ~").lpf(2800).room(.55).delay(".25:.15:.3").gain(.5)],
-  [8,  chord("<Am9 D9 Gmaj7 E7b9>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(.6).sustain(.65).release(2.4).lpf(1800).room(.8).gain(.34)]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, n("<[~ 0 2 ~] [3 ~ 5 ~] [~ 7 5 ~] [3 ~ 2 0]>").scale("A5:minor:pentatonic").s("gm_flute").attack(.03).decay(.2).sustain(.55).release(.3).lpf(sine.range(1200,3400).slow(10)).room(.5).delay(".28:.18:.3").gain(.34)],
-  [16, n("<[0 2 3 5] [~ 7 9 ~] [7 5 3 2] [~ 3 2 0]>").scale("A5:dorian").s("gm_flute").attack(.02).decay(.2).sustain(.55).release(.35).lpf(sine.range(1600,4200).slow(8)).room(.48).delay(".22:.16:.28").gain(.42).sometimes(x => x.add(note(12)))],
-  [16, n("<[~ 0 3 ~] [5 ~ 7 ~] [~ 5 3 ~] [2 ~ 0 ~]>").scale("A5:minor:pentatonic").s("gm_flute").attack(.03).decay(.2).sustain(.55).release(.3).lpf(sine.range(1300,3600).slow(9)).room(.52).delay(".3:.2:.34").gain(.38).rarely(x => x.add(note(12)))],
-  [16, n("<[~ 0 ~ 2] [3 ~ ~ 5] [7 ~ 5 ~] [3 ~ 2 ~]>").scale("E5:phrygian").s("gm_oboe").attack(.05).decay(.3).sustain(.6).release(.45).lpf(3600).room(.6).delay(".35:.22:.38").gain(.36)],
-  [8,  n("<[~ 0 ~ ~] [~ ~ 2 ~] [~ 3 ~ ~] [~ ~ 0 ~]>").scale("A5:minor:pentatonic").s("gm_flute").room(.72).delay(".5:.35:.45").lpf(1800).gain(.24)]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, silence],
-  [16, n("<[~ 5 ~ ~] [7 ~ ~ 5] [~ 3 ~ 2] [0 ~ ~ ~]>").scale("A4:minor:pentatonic").s("gm_clarinet").attack(.04).decay(.2).sustain(.55).release(.3).room(.58).delay(".34:.24:.4").lpf(3200).gain(.3).pan(sine.slow(6))],
-  [16, silence],
-  [16, n("<[2 ~ 3 ~] [5 ~ 7 ~] [~ 5 3 ~] [2 ~ ~ 0]>").scale("E4:phrygian").s("gm_clarinet").attack(.04).decay(.22).sustain(.58).release(.35).room(.62).delay(".36:.24:.42").lpf(3400).gain(.33).pan(sine.slow(5))],
-  [8,  silence]
-)
+// "Saudade Pulse" - warm, syncopated bossa groove with drifting tape-space
+samples('github:tidalcycles/dirt-samples')
+setcps(0.62)
+$: s("bd(3,8,<0 2 1>) [~ bd] <rim rim:2>")
+  .gain(0.9)
+  .stack(s("[hh(11,16) ~] <~ oh>").gain(0.28).lpf(sine.range(2800,9000).slow(5)).room(0.15))
+  .stack(s("~ [cp ~ cp] <~ rim rim:3>").gain(0.38).delay(0.2).room(0.35))
+  .stack(note("<[a2 ~ e2 ~] [a2 ~ g2 ~] [f2 ~ c3 ~] [e2 ~ b2 ~]>").s("sine").legato(0.9).gain(0.32).lpf(perlin.range(220,880).slow(6)).room(0.2).reset(16))
+  .stack(note("<[[a3 c4 e4 g4] ~ [g3 b3 d4 f4] ~] [[f3 a3 c4 e4] ~ [e3 g3 b3 d4] ~]>").s("triangle").legato(1.2).gain(0.23).lpf(sine.range(700,2400).slow(9)).delay(0.35).room(0.62).reset(32))
+  .stack(note("<~ e5 ~ [g5 a5] ~ d5 ~ [c5 b4]>").s("sawtooth").gain("<0.12 0.18 0.14 0>").lpf(perlin.range(1100,4200).slow(7)).delay(0.42).room(0.7).reset(24))
+  .room(sine.range(0.2,0.55).slow(8))
+  .delay(0.18)
+  .lpf(perlin.range(600,4800).slow(10))
+  .reset(48)

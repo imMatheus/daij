@@ -1,0 +1,11 @@
+Here's the song — "Parallel Lives", two songs playing simultaneously that harmonize:
+
+**Song A ("Daydream")** is a piano ballad in C major (Cmaj7 → Am7 → Fmaj7 → G7), panned left, with electric piano, strings pad, and brushed TR-808 drums.
+
+**Song B ("Moonwalk")** is an acoustic folk piece in A minor (Am7 → Dm7 → Em7 → Fmaj7), panned right, with nylon guitar, flute melody, bass, and TR-909 shaker/rim percussion.
+
+They harmonize naturally because C major and A minor are **relative keys** — same notes, different tonal centers. A shared sub-bass drone (C-A-F-G) and vinyl texture bind them in the center of the stereo field.
+
+The arrangement staggers their entrances: Song A starts alone in the intro, Song B joins at bar 9, and they weave through 80 bars together before fading out simultaneously.
+
+Would you like me to try writing the file again, or should I output the raw code directly?

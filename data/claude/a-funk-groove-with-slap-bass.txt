@@ -1,197 +1,38 @@
-// 🎵 "Slap City Strut" — Funk Groove with Slap Bass
-// At 108 BPM: intro(8) + verse(16) + chorus(16) + verse2(16) + chorus2(16) + bridge(8) + outro(8) = 88 bars ≈ 3:15
+// "Pocket Funk" — greasy slap bass groove with clavinet stabs and syncopated 909s
+setcps(100/60/4)
 
-setcpm(108 / 4)
-
-// Drum groove
-$: arrange(
-  [8,  s("bd ~ ~ ~, ~ ~ hh ~")
-       .bank("RolandTR909").swing(3).gain(".8 .7").room(.3)],
-  [16, s("bd ~ [~ bd] ~, ~ cp ~ cp, hh*8, ~ ~ ~ oh")
-       .bank("RolandTR909").cut(1).swing(3)
-       .gain(perlin.range(.78,.95))
-       .room(.3)
-       .every(4, x => x.press())],
-  [16, s("bd [~ bd] ~ bd, ~ cp ~ [cp cp], hh*16, ~ ~ oh ~")
-       .bank("RolandTR909").cut(1).swing(3)
-       .gain(".92 .85 .9 .85")
-       .room(.25)
-       .every(3, x => x.fast(2).gain(.5))],
-  [16, s("bd ~ [~ bd] ~, ~ cp ~ cp, hh*8, ~ ~ ~ oh")
-       .bank("RolandTR909").cut(1).swing(3)
-       .gain(perlin.range(.78,.95))
-       .room(.3)
-       .sometimes(x => x.press())],
-  [16, s("bd [~ bd] ~ bd, ~ cp ~ [cp cp], hh*16, ~ ~ oh ~")
-       .bank("RolandTR909").cut(1).swing(3)
-       .gain(".92 .85 .9 .85")
-       .room(.25)
-       .every(4, x => x.fast(2).gain(.5))],
-  [8,  s("bd ~ ~ bd, ~ cp ~ ~, [hh oh]*2")
-       .bank("RolandTR909").cut(1).swing(4)
-       .gain(".85 .75").room(.4)
-       .every(2, x => x.rev())],
-  [8,  s("bd ~ ~ ~, ~ ~ cp ~")
-       .bank("RolandTR909").swing(4)
-       .gain(saw.slow(8).range(.7,.1)).room(.5)]
+stack(
+  s("<bd ~ [~ bd] ~, ~ cp ~ cp> <bd [~ bd] ~ bd, ~ [cp cp] ~ cp>")
+    .bank("RolandTR909").swing(3)
+    .gain(perlin.range(.82,.96)).room(.25),
+  s("hh(13,16), <~ ~ ~ oh ~ ~ oh ~>")
+    .bank("RolandTR909").cut(1)
+    .gain(perlin.range(.22,.52))
+    .pan(sine.slow(7)).room(.18),
+  note("<[e2 ~ e3 g2] [~ a2 ~ e2] [e2 ~ g2 ~] [a2 b2 a2 ~] [e2 g2 e3 ~] [a2 ~ g2 e2] [e2 ~ g2 a2] [b2 ~ a2 g2]>")
+    .s("gm_slap_bass_1")
+    .attack(.005).decay(.16).sustain(.35).release(.08)
+    .lpf(sine.range(1800,4200).slow(8)).hpf(100)
+    .distort(.08).gain(.88).room(.18),
+  chord("<Em9 Am7 <D9 Em9> Bm7>")
+    .dict('ireal').voicing()
+    .s("gm_clavinet")
+    .struct("<[~ x ~ x]*2 [~ x] [x ~] [~ x] [x ~]>")
+    .lpf(sine.range(2200,5200).slow(5))
+    .gain(.48).room(.28).delay(".1:.06:.16").swing(3),
+  chord("<Em7 Am7 D7 Bm7>")
+    .dict('ireal').voicing()
+    .s("gm_electric_guitar_muted")
+    .struct("~ [x x] ~ [x ~]")
+    .lpf(sine.range(900,5000).slow(3))
+    .gain(.36).room(.28).swing(3),
+  n("<[~ 0 2 ~] [4 ~ 2 0] [~ 4 5 ~] [7 ~ 5 4]>")
+    .scale("E5:dorian")
+    .s("gm_epiano2")
+    .lpf(sine.range(1200,3600).slow(10))
+    .room(.45).delay(".22:.15:.28").gain(.32)
+    .sometimes(x => x.add(note(12))),
+  note("<e1 a1 d1 b1>/4")
+    .s("sine").gain(.18).lpf(140)
+    .attack(1.2).sustain(.7).release(2)
 )
-
-// Slap bass — percussive funk line
-$: arrange(
-  [8,  silence],
-  [16, note("<[e2 ~ e2 g2] [~ a2 ~ e2] [e2 ~ g2 ~] [a2 ~ e2 ~]>")
-       .s("gm_slap_bass_1")
-       .decay(.15).sustain(.3).release(.1)
-       .gain(.88).room(.2)
-       .lpf(3500)
-       .every(4, x => x.add(note(12)).gain(.55))],
-  [16, note("<[e2 g2 ~ a2] [b2 ~ a2 g2] [e2 ~ e2 g2] [a2 b2 ~ e2]>")
-       .s("gm_slap_bass_1")
-       .decay(.12).sustain(.35).release(.1)
-       .gain(.92).room(.2)
-       .lpf(4000)
-       .sometimes(x => x.speed(1.02))],
-  [16, note("<[e2 ~ e2 g2] [~ a2 ~ e2] [e2 ~ g2 ~] [a2 ~ e2 ~]>")
-       .s("gm_slap_bass_1")
-       .decay(.15).sustain(.3).release(.1)
-       .gain(.88).room(.2)
-       .lpf(3500)
-       .rarely(x => x.add(note(12)).gain(.5))],
-  [16, note("<[e2 g2 ~ a2] [b2 ~ a2 g2] [e2 ~ e2 g2] [a2 b2 ~ e2]>")
-       .s("gm_slap_bass_1")
-       .decay(.12).sustain(.35).release(.1)
-       .gain(.92).room(.2)
-       .lpf(4000)
-       .every(3, x => x.fast(2).gain(.5))],
-  [8,  note("<[e2 ~ ~ g2] [~ a2 ~ ~] [e2 ~ ~ ~] [g2 ~ ~ ~]>")
-       .s("gm_slap_bass_1")
-       .decay(.25).sustain(.4).release(.2)
-       .gain(.75).room(.35).lpf(2800)],
-  [8,  note("<e2 ~ ~ ~>/1")
-       .s("gm_slap_bass_1")
-       .decay(.5).sustain(.3).release(.5)
-       .gain(saw.slow(8).range(.7,.1)).room(.4)]
-)
-
-// Clavinet — classic funk keys
-$: arrange(
-  [8,  silence],
-  [16, chord("<Em9 Am7 Em9 Bm7>")
-       .dict('ireal').voicing()
-       .s("gm_clavinet")
-       .struct("[~ x] [x ~] [~ x] [x ~]")
-       .lpf(4500).gain(.48)
-       .room(.3).delay(".1:.08:.15")
-       .swing(3)],
-  [16, chord("<Em9 Am7 D9 Bm7>")
-       .dict('ireal').voicing()
-       .s("gm_clavinet")
-       .struct("[x ~ x ~]*2")
-       .lpf(5000).gain(.54)
-       .room(.25).delay(".12:.1:.18")
-       .swing(3)
-       .every(4, x => x.fast(2).gain(.3))],
-  [16, chord("<Em9 Am7 Em9 Bm7>")
-       .dict('ireal').voicing()
-       .s("gm_clavinet")
-       .struct("[~ x] [x ~] [~ x] [x ~]")
-       .lpf(4500).gain(.48)
-       .room(.3).delay(".1:.08:.15")
-       .swing(3)],
-  [16, chord("<Em9 Am7 D9 Bm7>")
-       .dict('ireal').voicing()
-       .s("gm_clavinet")
-       .struct("[x ~ x ~]*2")
-       .lpf(5000).gain(.54)
-       .room(.25).delay(".12:.1:.18")
-       .swing(3)],
-  [8,  chord("<Em9 Am7>/2")
-       .dict('ireal').voicing()
-       .s("gm_clavinet")
-       .struct("x ~ ~ ~")
-       .lpf(3500).gain(.4)
-       .room(.5).delay(".3:.2:.4")],
-  [8,  silence]
-)
-
-// Electric guitar — wah-funk rhythm
-$: arrange(
-  [8,  silence],
-  [16, chord("<Em7 Am7 Em7 Bm7>")
-       .dict('ireal').voicing()
-       .s("gm_electric_guitar_muted")
-       .struct("~ [x x] ~ [x ~]")
-       .lpf(sine.range(1200,4500).slow(4))
-       .gain(.4).room(.3)
-       .swing(3)],
-  [16, chord("<Em7 Am7 D7 Bm7>")
-       .dict('ireal').voicing()
-       .s("gm_electric_guitar_muted")
-       .struct("[~ x]*4")
-       .lpf(sine.range(1500,5000).slow(3))
-       .gain(.46).room(.25)
-       .swing(3)],
-  [16, chord("<Em7 Am7 Em7 Bm7>")
-       .dict('ireal').voicing()
-       .s("gm_electric_guitar_muted")
-       .struct("~ [x x] ~ [x ~]")
-       .lpf(sine.range(1200,4500).slow(4))
-       .gain(.4).room(.3)
-       .swing(3)
-       .sometimes(x => x.gain(.2))],
-  [16, chord("<Em7 Am7 D7 Bm7>")
-       .dict('ireal').voicing()
-       .s("gm_electric_guitar_muted")
-       .struct("[~ x]*4")
-       .lpf(sine.range(1500,5000).slow(3))
-       .gain(.46).room(.25)
-       .swing(3)],
-  [8,  silence],
-  [8,  silence]
-)
-
-// Melody — funky synth lead
-$: arrange(
-  [8,  n("<0 ~ 4 ~>/1").scale("E4:dorian")
-       .s("gm_epiano2").room(.6).delay(".4:.3:.5")
-       .gain(.3).lpf(2000).attack(.15)],
-  [16, n("<[~ 0 2 ~] [4 ~ 2 0] [~ 4 5 ~] [7 ~ 5 4]>")
-       .scale("E5:dorian")
-       .s("gm_epiano2")
-       .lpf(sine.range(1500,4000).slow(8))
-       .room(.45).delay(".2:.15:.25").gain(.4)
-       .swing(3)
-       .rarely(x => x.add(note(12)))],
-  [16, n("<[0 2 4 5] [~ 7 5 ~] [4 ~ 2 4] [5 7 ~ 0]>")
-       .scale("E5:dorian")
-       .s("gm_epiano2")
-       .lpf(sine.range(2000,5000).slow(6))
-       .room(.4).delay(".15:.1:.2").gain(.46)
-       .swing(3)
-       .sometimes(x => x.add(note(12)))],
-  [16, n("<[~ 0 2 ~] [4 ~ 2 0] [~ 4 5 ~] [7 ~ 5 4]>")
-       .scale("E5:dorian")
-       .s("gm_epiano2")
-       .lpf(sine.range(1500,4000).slow(8))
-       .room(.45).delay(".2:.15:.25").gain(.4)
-       .swing(3)],
-  [16, n("<[0 2 4 5] [~ 7 5 ~] [4 ~ 2 4] [5 7 ~ 0]>")
-       .scale("E5:dorian")
-       .s("gm_epiano2")
-       .lpf(sine.range(2000,5000).slow(6))
-       .room(.4).delay(".15:.1:.2").gain(.46)
-       .swing(3)],
-  [8,  n("<[~ 0 ~ 4] [~ 7 ~ ~] [5 ~ ~ 2] [~ ~ 0 ~]>")
-       .scale("E5:dorian")
-       .s("gm_epiano2")
-       .room(.7).delay(".5:.35:.6").gain(.32)
-       .lpf(sine.range(800,2500).slow(8))],
-  [8,  silence]
-)
-
-// Sub bass pad — low-end warmth
-$: note("<e1 a1 e1 b1>/4")
-   .s("sine")
-   .attack(1.5).decay(.8).sustain(.7).release(2)
-   .gain(.2).room(.4)
-   .lpf(150)

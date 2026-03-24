@@ -1,57 +1,11 @@
-// 🎵 "Concrete Pulse" — Minimal Techno hypnotic loop
-// At 128 BPM: intro(8) + verse(16) + bridge(16) + verse2(16) + build(16) + outro(8) = 80 bars ≈ 2:30
-setcpm(128 / 4)
-
-$: arrange(
-  [8,  s("vinyl:2").gain(.08).room(1).loop(1).lpf(2200)],
-  [16, s("vinyl:2").gain(.11).room(1).loop(1).lpf(2600)],
-  [16, s("vinyl:2").gain(.13).room(1).loop(1).lpf(3000)],
-  [16, s("vinyl:2").gain(.11).room(1).loop(1).lpf(2600)],
-  [16, s("vinyl:2").gain(.1).room(1).loop(1).lpf(sine.range(1800,3200).slow(8))],
-  [8,  s("vinyl:2").gain(.06).room(1).loop(1).lpf(1800)]
-)
-
-$: arrange(
-  [8,  s("bd ~ ~ ~, ~ ~ ~ ~, hh*8").bank("RolandTR909").cut(1).swing(4).gain(".95 .45 .2").room(.2)],
-  [16, s("bd ~ bd ~, ~ ~ cp ~, hh*8").bank("RolandTR909").cut(1).swing(4).gain(".95 .65 .28").room(.22)],
-  [16, s("bd ~ bd ~, ~ [cp,sd] ~ cp, [hh*8 oh]*2").bank("RolandTR909").cut(1).swing(4).gain(".98 .72 .34").room(.24).every(8, x => x.press())],
-  [16, s("bd ~ bd ~, ~ ~ cp ~, hh*8").bank("RolandTR909").cut(1).swing(4).gain(".95 .65 .28").room(.22).every(8, x => x.fast(2).gain(.7))],
-  [16, s("bd(5,8), ~ cp ~ cp, [hh hh hh oh]*2").bank("RolandTR909").cut(1).swing(4).gain(".96 .74 .36").room(.26).every(4, x => x.press())],
-  [8,  s("bd ~ ~ ~, ~ ~ cp ~, hh*4").bank("RolandTR909").cut(1).swing(4).gain(".8 .45 .15").room(.3)]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, note("<[c2 ~ c2 ~] [c2 ~ bb1 ~] [c2 ~ c2 ~] [eb2 ~ bb1 ~]>").s("sawtooth").attack(.01).decay(.22).sustain(.35).release(.08).lpf(sine.range(140,420).slow(12)).hpf(70).distort(.18).gain(.34)],
-  [16, note("<[c2 c2 ~ c2] [bb1 ~ c2 ~] [c2 ~ eb2 ~] [bb1 ~ c2 ~]>").s("sawtooth").attack(.01).decay(.18).sustain(.3).release(.08).lpf(sine.range(180,620).slow(8)).hpf(70).distort(.22).gain(.37).every(4, x => x.fast(2).gain(.75))],
-  [16, note("<[c2 ~ c2 ~] [c2 ~ bb1 ~] [c2 ~ c2 ~] [eb2 ~ bb1 ~]>").s("sawtooth").attack(.01).decay(.22).sustain(.35).release(.08).lpf(sine.range(150,460).slow(10)).hpf(70).distort(.18).gain(.35).sometimes(x => x.add(note(12)).gain(.45))],
-  [16, note("<[c2 ~ ~ c2] [bb1 ~ ~ c2] [c2 ~ ~ eb2] [bb1 ~ ~ c2]>").s("sawtooth").attack(.01).decay(.25).sustain(.4).release(.1).lpf(saw.range(180,900).slow(16)).hpf(70).distort(.24).gain(.36)],
-  [8,  silence]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, chord("<Cm9 Bb^7 Ab^7 Gm7>").dict('ireal').voicing().s("gm_epiano2").struct("~ x ~ ~").lpf(2100).room(.35).delay(".2:.12:.2").gain(.36).speed(.99)],
-  [16, chord("<Cm9 Bb^7 Ab^7 Gm7>").dict('ireal').voicing().s("gm_epiano2").struct("[~ x]*2").lpf(2600).room(.32).delay(".18:.1:.18").gain(.4).speed(1)],
-  [16, chord("<Cm9 Bb^7 Ab^7 Gm7>").dict('ireal').voicing().s("gm_epiano2").struct("~ x ~ ~").lpf(2200).room(.35).delay(".2:.12:.2").gain(.36).speed(.99)],
-  [16, chord("<Cm9 Bb^7 Ab^7 Gm7>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(.2).decay(.5).sustain(.55).release(.8).lpf(sine.range(900,2400).slow(8)).room(.55).gain(.3)],
-  [8,  silence]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, n("<[~ ~ 0 ~] [~ 2 ~ ~] [~ 3 ~ ~] [~ 2 ~ ~]>").scale("C5:minor").s("square").attack(.01).decay(.12).sustain(.25).release(.08).lpf(2800).room(.25).delay(".15:.1:.16").gain(.16)],
-  [16, n("<[~ 0 2 ~] [~ 3 ~ 5] [~ 7 5 ~] [~ 3 2 ~]>").scale("C5:minor").s("square").attack(.01).decay(.1).sustain(.22).release(.07).lpf(sine.range(2400,4200).slow(8)).room(.28).delay(".2:.12:.22").gain(.19).sometimes(x => x.add(note(12)).gain(.6))],
-  [16, n("<[~ ~ 0 ~] [~ 2 ~ ~] [~ 3 ~ ~] [~ 2 ~ ~]>").scale("C5:minor").s("square").attack(.01).decay(.12).sustain(.25).release(.08).lpf(3000).room(.25).delay(".15:.1:.16").gain(.17)],
-  [16, n("<[0 ~ ~ ~] [2 ~ ~ ~] [3 ~ ~ ~] [5 ~ ~ ~]>").scale("C5:minor").s("square").attack(.02).decay(.2).sustain(.2).release(.15).lpf(saw.range(1800,5000).slow(16)).room(.4).delay(".3:.2:.3").gain(.18)],
-  [8,  silence]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, silence],
-  [16, n("<[~ ~ 7 ~] [~ ~ 8 ~] [~ ~ 7 ~] [~ ~ 10 ~]>").scale("C6:minor").s("triangle").attack(.01).decay(.08).sustain(.18).release(.1).hpf(1400).room(.45).delay(".35:.22:.3").gain(.12)],
-  [16, n("<[~ 7 ~ ~] [~ 8 ~ ~] [~ 10 ~ ~] [~ 8 ~ ~]>").scale("C6:minor").s("triangle").attack(.01).decay(.08).sustain(.18).release(.1).hpf(1500).room(.5).delay(".4:.25:.34").gain(.13).rarely(x => x.rev())],
-  [16, n("<[~ ~ 7 ~] [~ ~ 8 ~] [~ ~ 10 ~] [~ ~ 12 ~]>").scale("C6:minor").s("triangle").attack(.02).decay(.12).sustain(.2).release(.18).hpf(1700).room(.6).delay(".45:.3:.4").gain(.14)],
-  [8,  silence]
-)
+// "Quartz Loop" — minimal techno pulse with evolving space
+samples('github:tidalcycles/dirt-samples')
+setcps(0.9)
+stack(
+  s("bd*<4 [3 5] 4 5>").n("<0 0 1 0>").gain(1.15).lpf(perlin.slow(6).range(85,145)).room(0.08),
+  s("[~ cp] <~ [cp ~]> [~ cp ~] [cp ~ ~]").bank("RolandTR909").gain(0.62).hpf(sine.slow(5).range(700,2400)).delay(0.25).delayfeedback(0.42).room(0.22),
+  s("hh(5,8,<0 2 1>) [~ hh(3,8)]").gain(0.38).hpf(perlin.slow(9).range(4200,9800)).room(sine.slow(7).range(0.05,0.25)),
+  s("<~ oh> [~ oh]*2").gain(0.27).hpf(5400).delay(0.375).delayfeedback(0.55).room(0.35),
+  note("<[0 -1] [0 -2] [0 -1] [0 -3]>").s("sawtooth").slow(2).legato(1.05).lpf(perlin.slow(4).range(180,760)).resonance(0.28).gain(0.44).room(0.18),
+  s("~ [perc:2 perc:4] ~ [perc:7 ~ perc:3]").gain(0.24).speed("<0.9 1 1.1 0.95>").hpf(1800).delay(0.5).delayfeedback(0.35).room(0.28)
+).reset(48)

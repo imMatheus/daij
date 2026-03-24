@@ -1,184 +1,109 @@
-// ❄️ "Snowfall in the City" — Ambient Downtempo / Cinematic
-// At 68 BPM: intro(8) + verse(16) + chorus(16) + verse2(16) + bridge(12) + outro(8) = 76 bars ≈ 2:41
+// "First Snow" — Ambient Cinematics (~1:20)
+// At 60 BPM: intro(4) + A(8) + B(4) + outro(4) = 20 cycles ~ 1:20
+// Key: Db major — Dbmaj7, Abm9, Gbmaj7, Ebm7
 
-setcpm(68 / 4)
+setcpm(60 / 4)
 
-$: s("vinyl:2").gain(.12).room(1).loop(1).lpf(2200)
+// -- SNOW TEXTURE — layered noise + vinyl hiss
+$: s("white").gain(.06).lpf(1800).hpf(600).room(1).loop(1)
+$: s("vinyl:2").gain(.08).room(1).loop(1).lpf(1400)
 
+// -- SPARSE PIANO — crystalline chords through heavy reverb
 $: arrange(
-  [8,  s("hh*8")
-       .bank("RolandTR808")
-       .gain(perlin.range(.04, .18))
-       .pan(sine.slow(8))
-       .lpf(sine.range(1200, 3000).slow(12))
-       .room(.7)],
-  [16, s("hh*8, oh(3,8)")
-       .bank("RolandTR808")
-       .gain(perlin.range(.06, .25))
-       .pan(sine.slow(6))
-       .lpf(sine.range(1400, 3200).slow(10))
-       .room(.6).cut(1)],
-  [16, s("hh*16, oh(3,8)")
-       .bank("RolandTR808")
-       .gain(perlin.range(.08, .28))
-       .pan(sine.slow(5))
-       .lpf(3500)
-       .room(.55).cut(1)],
-  [16, s("hh*8, oh(3,8)")
-       .bank("RolandTR808")
-       .gain(perlin.range(.06, .22))
-       .pan(sine.slow(7))
-       .lpf(sine.range(1200, 2800).slow(10))
-       .room(.65).cut(1)],
-  [12, s("hh*4")
-       .bank("RolandTR808")
-       .gain(perlin.range(.04, .15))
-       .pan(sine.slow(10))
-       .lpf(1800)
-       .room(.8)],
-  [8,  s("hh*4")
-       .bank("RolandTR808")
-       .gain(saw.slow(8).range(.12, .02))
-       .room(.9)
-       .lpf(sine.range(600, 1400).slow(8))]
+  [4, chord("<Dbmaj7 Gbmaj7>/2").dict('ireal').voicing()
+     .s("gm_epiano1")
+     .struct("x ~ ~ ~")
+     .lpf(1400).room(.85).roomsize(6)
+     .delay(".5:.4:.65").gain(.32)
+     .attack(.2)],
+  [8, chord("<Dbmaj7 Abm9 Gbmaj7 Ebm7>").dict('ireal').voicing()
+     .s("gm_epiano1")
+     .struct("~ [x ~] ~ ~")
+     .lpf(2000).room(.8).roomsize(5)
+     .delay(".4:.3:.55").gain(.4)],
+  [4, chord("<Dbmaj7 Gbmaj7>/2").dict('ireal').voicing()
+     .s("gm_epiano1")
+     .struct("x ~ ~ ~")
+     .lpf(sine.range(500,1400).slow(4)).room(.9).roomsize(6)
+     .delay(".6:.5:.7").gain(.28)
+     .attack(.3)],
+  [4, chord("<Dbmaj7>/1").dict('ireal').voicing()
+     .s("gm_epiano1")
+     .struct("x ~ ~ ~")
+     .lpf(sine.range(300,900).slow(4)).room(.95).roomsize(8)
+     .delay(".7:.5:.75").gain(saw.slow(4).range(.25,.04))
+     .attack(.4)]
 )
 
+// -- GENTLE DRUMS — brushed and sparse, only in A and B
 $: arrange(
-  [8,  silence],
-  [16, s("bd ~ ~ ~, ~ ~ [cp,sd:1] ~")
-       .bank("RolandTR808").swing(3)
-       .gain(".7 .6")
-       .room(.5).lpf(2000)],
-  [16, s("bd ~ [~ bd] ~, ~ [cp,sd:1] ~ [~ cp], rim(3,8)")
-       .bank("RolandTR808").swing(3).cut(1)
-       .gain(".82 .75 .78 .72")
-       .room(.4)
-       .every(4, x => x.press())],
-  [16, s("bd ~ ~ ~, ~ ~ [cp,sd:1] ~")
-       .bank("RolandTR808").swing(3)
-       .gain(".68 .6")
-       .room(.5).lpf(1800)
-       .sometimes(x => x.gain(.3))],
-  [12, s("bd ~ ~ ~")
-       .bank("RolandTR808").swing(4)
-       .gain(".55 .5")
-       .room(.6)],
-  [8,  s("bd ~ ~ ~")
-       .bank("RolandTR808")
-       .gain(saw.slow(8).range(.5, .08))
-       .room(.7)]
+  [4,  silence],
+  [8,  s("bd ~ ~ ~, ~ ~ ~ ~, [hh ~]*4")
+       .bank("RolandTR808").cut(1).swing(3)
+       .gain(perlin.range(.4,.58)).room(.5)],
+  [4,  s("bd ~ ~ ~, ~ ~ ~ ~, [hh ~]*4")
+       .bank("RolandTR808").cut(1)
+       .gain(perlin.range(.25,.42)).room(.65)],
+  [4,  silence]
 )
 
+// -- FLOATING MELODY — vibraphone like snowflakes landing
 $: arrange(
-  [8,  silence],
-  [16, note("<[eb2 ~ ~ eb2] [bb1 ~ ~ ~] [ab1 ~ ~ ab1] [bb1 ~ ~ ~]>")
-       .s("gm_acoustic_bass")
-       .decay(.35).sustain(.45).room(.25).gain(.72)],
-  [16, note("<[eb2 ~ eb2 ~] [bb1 ~ ~ bb1] [ab1 ~ ab1 ~] [bb1 ~ ~ bb1]>")
-       .s("gm_acoustic_bass")
-       .decay(.25).sustain(.5).room(.2).gain(.78)],
-  [16, note("<[eb2 ~ ~ eb2] [bb1 ~ ~ ~] [ab1 ~ ~ ab1] [bb1 ~ ~ ~]>")
-       .s("gm_acoustic_bass")
-       .decay(.4).sustain(.4).room(.3).gain(.68).speed(.97)],
-  [12, note("<eb2 ~ bb1 ~ ab1 ~ bb1 ~>/2")
-       .s("gm_acoustic_bass")
-       .decay(.5).sustain(.35).room(.4).gain(.55)],
-  [8,  silence]
+  [4,  silence],
+  [8,  n("<[~ 0 ~ ~] [~ ~ 2 ~] [~ ~ ~ 4] [~ 2 ~ ~]>")
+       .scale("Db4:major:pentatonic").s("gm_vibraphone")
+       .lpf(sine.range(1200,3500).slow(8))
+       .room(.85).roomsize(5)
+       .delay(".5:.4:.65").gain(.22)
+       .vib(2).vibmod(.3)],
+  [4,  n("<[~ 0 ~ ~] [~ ~ ~ ~] [~ ~ 2 ~] [~ ~ ~ ~]>")
+       .scale("Db4:major:pentatonic").s("gm_vibraphone")
+       .lpf(1500).room(.9).roomsize(6)
+       .delay(".6:.5:.7").gain(.18)
+       .vib(2).vibmod(.3)],
+  [4,  silence]
 )
 
+// -- HIGH SHIMMER — crystalline sparkles, very sparse
 $: arrange(
-  [8,  chord("<Ebmaj9 Abmaj7>/2").dict('ireal').voicing()
+  [4,  silence],
+  [8,  n("<[0 ~ ~ ~] [~ ~ ~ 2] [~ ~ ~ ~] [~ 4 ~ ~]>")
+       .scale("Db5:major:pentatonic").s("gm_vibraphone")
+       .room(.9).roomsize(6)
+       .delay(".6:.5:.7").gain(.14)
+       .lpf(sine.range(2000,5000).slow(6))],
+  [4,  silence],
+  [4,  silence]
+)
+
+// -- DEEP BASS — city hum underneath the snow
+$: arrange(
+  [4,  note("<db1>/1").s("sine")
+       .attack(2).decay(1.5).sustain(.7).release(3)
+       .gain(.16).room(.6).lpf(200)],
+  [8,  note("<db1 ab1 gb1 eb1>/4").s("sine")
+       .attack(1.5).decay(1).sustain(.7).release(2)
+       .gain(.18).room(.5).lpf(200)],
+  [4,  note("<db1 gb1>/2").s("sine")
+       .attack(2).decay(1.5).sustain(.6).release(3)
+       .gain(.14).room(.65).lpf(180)],
+  [4,  note("<db1>/1").s("sine")
+       .attack(3).decay(2).sustain(.5).release(4)
+       .gain(saw.slow(4).range(.14,.02)).room(.7).lpf(160)]
+)
+
+// -- STRING PAD — warm blanket against the cold
+$: arrange(
+  [4,  silence],
+  [8,  chord("<Dbmaj7 Abm9 Gbmaj7 Ebm7>").dict('ireal').voicing()
        .s("gm_synth_strings_1")
-       .attack(1.2).decay(1).sustain(.7).release(2.5)
-       .lpf(900).room(.8).roomsize(6).gain(.3)],
-  [16, chord("<Ebmaj9 Bbm7 Abmaj7 Bb7sus4>").dict('ireal').voicing()
-       .s("gm_epiano2")
-       .struct("~ [x ~] ~ [x ~]")
-       .lpf(1600).room(.55)
-       .delay(".25:.15:.3")
-       .gain(.45).speed(.98)],
-  [16, chord("<Ebmaj9 Bbm7 Abmaj7 Bb7sus4>").dict('ireal').voicing()
-       .s("gm_epiano2")
-       .struct("[~ x]*2")
-       .lpf(2200).room(.5)
-       .delay(".2:.125:.25")
-       .gain(.52).speed(.99)
-       .every(4, x => x.crush(13))],
-  [16, chord("<Ebmaj9 Bbm7 Abmaj7 Bb7sus4>").dict('ireal').voicing()
-       .s("gm_epiano2")
-       .struct("~ [x ~] ~ [x ~]")
-       .lpf(sine.range(1200, 1800).slow(16)).room(.55)
-       .delay(".25:.15:.3")
-       .gain(.42).speed(.98)],
-  [12, chord("<Ebmaj9 Abmaj7 Bbm7 Bb7sus4>/2").dict('ireal').voicing()
-       .s("gm_epiano2")
-       .struct("x ~ ~ ~")
-       .lpf(1200).room(.75)
-       .delay(".45:.35:.55")
-       .gain(.38).speed(.96)],
-  [8,  chord("<Ebmaj9 Abmaj7>/2").dict('ireal').voicing()
+       .attack(1.5).decay(1).sustain(.7).release(2.5)
+       .lpf(sine.range(400,1000).slow(8))
+       .room(.75).gain(.18)],
+  [4,  chord("<Dbmaj7 Gbmaj7>/2").dict('ireal').voicing()
        .s("gm_synth_strings_1")
-       .attack(1).sustain(.6).release(3)
-       .lpf(sine.range(400, 1000).slow(8))
-       .room(.85).roomsize(8).gain(saw.slow(8).range(.3, .05))]
+       .attack(2).decay(1.5).sustain(.6).release(3)
+       .lpf(sine.range(300,700).slow(6))
+       .room(.85).gain(.14)],
+  [4,  silence]
 )
-
-$: arrange(
-  [8,  n("<0 ~ 3 ~>/1").scale("Eb5:major:pentatonic")
-       .s("gm_celesta")
-       .room(.85).roomsize(6).delay(".5:.35:.6")
-       .gain(.25).lpf(3000).attack(.05)],
-  [16, n("<[~ 0 ~ 3] [4 ~ 3 ~] [~ 2 ~ 4] [3 ~ ~ 0]>")
-       .scale("Eb5:major:pentatonic")
-       .s("gm_celesta")
-       .lpf(sine.range(1200, 4500).slow(12))
-       .room(.7).delay(".35:.25:.45").gain(.34)
-       .rarely(x => x.add(note(12)))],
-  [16, n("<[0 ~ 3 4] [~ 6 4 ~] [3 ~ 0 ~] [~ 4 3 0]>")
-       .scale("Eb5:major:pentatonic")
-       .s("gm_celesta")
-       .lpf(sine.range(1500, 5000).slow(8))
-       .room(.6).delay(".3:.2:.4").gain(.4)
-       .sometimes(x => x.add(note(12)))],
-  [16, n("<[~ 0 ~ 3] [4 ~ 3 ~] [~ 2 ~ 4] [3 ~ ~ 0]>")
-       .scale("Eb5:major:pentatonic")
-       .s("gm_celesta")
-       .lpf(sine.range(1000, 3800).slow(14))
-       .room(.7).delay(".35:.25:.45").gain(.32)
-       .rarely(x => x.add(note(12)))],
-  [12, n("<[~ 0 ~ ~] [~ ~ 3 ~] [~ 4 ~ ~] [~ ~ 0 ~]>")
-       .scale("Eb5:major:pentatonic")
-       .s("gm_celesta")
-       .room(.85).roomsize(6).delay(".6:.4:.7").gain(.25)
-       .lpf(2800)],
-  [8,  n("<0 ~ ~ 3>/2").scale("Eb5:major:pentatonic")
-       .s("gm_celesta")
-       .room(.9).roomsize(8).delay(".7:.5:.8")
-       .gain(saw.slow(8).range(.22, .04))
-       .lpf(sine.range(600, 2000).slow(8))]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, silence],
-  [16, n("<[~ ~ 4 ~] [~ 6 ~ ~] [4 ~ ~ 3] [~ ~ 0 ~]>")
-       .scale("Eb4:major:pentatonic")
-       .s("gm_flute")
-       .room(.7).delay(".45:.3:.55").gain(.26)
-       .lpf(4000).vib(4).vibmod(.6)
-       .attack(.08).decay(.25).sustain(.55).release(.4)],
-  [16, silence],
-  [12, n("<[~ 3 ~ ~] [~ ~ 4 ~] [~ 0 ~ ~] [~ ~ ~ ~]>")
-       .scale("Eb4:major:pentatonic")
-       .s("gm_flute")
-       .room(.8).delay(".5:.35:.6").gain(.2)
-       .lpf(3200).vib(5).vibmod(.7)
-       .attack(.1).decay(.3).sustain(.5).release(.5)],
-  [8,  silence]
-)
-
-$: note("<eb1 ab1 bb1 ab1>/4")
-   .s("sine")
-   .attack(2.5).decay(1).sustain(.8).release(3)
-   .gain(.18).room(.7).roomsize(6)
-   .lpf(160)

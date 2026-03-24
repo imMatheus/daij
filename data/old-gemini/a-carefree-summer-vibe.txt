@@ -1,0 +1,66 @@
+// 🎵 "Sun-Drenched Afternoon" — Carefree Summer Vibe / Tropical Pop
+// At 112 BPM: intro(8) + verse1(16) + chorus1(16) + verse2(16) + chorus2(16) + bridge(8) + outro(8) = 88 bars ≈ 3:08
+
+setcpm(112 / 4)
+
+$: s("vinyl:1").gain(.1).room(1).loop(1).lpf(2500)
+
+$: arrange(
+  [8,  s("hh*8").bank("RolandTR909").gain(perlin.range(.3, .5)).pan(sine.slow(4))],
+  [16, s("bd ~ [sd,cp] ~, [hh oh hh hh]*2").bank("RolandTR909").gain(".85 .75").room(.2).swing(2)],
+  [16, s("bd*4, ~ [sd,cp] ~ [sd,cp], [hh oh]*4").bank("RolandTR909").gain(".95 .85").room(.15)],
+  [16, s("bd ~ [sd,cp] ~, [hh oh hh hh]*2").bank("RolandTR909").gain(".85 .75").room(.2).swing(2)],
+  [16, s("bd*4, ~ [sd,cp] ~ [sd,cp], [hh oh]*4").bank("RolandTR909").gain(".95 .85").room(.15)],
+  [8,  s("~ [sd,cp] ~ [sd,cp], hh*8").bank("RolandTR909").gain(.7).room(.3)],
+  [8,  s("bd ~ ~ ~").bank("RolandTR909").gain(saw.slow(8).range(.6, 0)).room(.4)]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, note("<g1 c2 a1 d2>").s("gm_electric_bass_finger").decay(.2).sustain(.4).gain(.8).room(.2)],
+  [16, note("<g1 [g1 g2] c2 [c2 c1] a1 [a1 a2] d2 [d2 d1]>").s("gm_electric_bass_finger").decay(.15).sustain(.3).gain(.85).room(.1)],
+  [16, note("<g1 c2 a1 d2>").s("gm_electric_bass_finger").decay(.2).sustain(.4).gain(.8).room(.2)],
+  [16, note("<g1 [g1 g2] c2 [c2 c1] a1 [a1 a2] d2 [d2 d1]>").s("gm_electric_bass_finger").decay(.15).sustain(.3).gain(.85).room(.1)],
+  [8,  note("<g1 c2 a1 d2>/2").s("gm_electric_bass_finger").decay(.4).sustain(.5).gain(.7).room(.3)],
+  [8,  silence]
+)
+
+$: arrange(
+  [8,  chord("<Gmaj7 Cmaj7 Am7 D7>/2").dict('ireal').voicing().s("gm_electric_guitar_clean").struct("x ~ ~ ~").gain(.4).room(.6).attack(.1)],
+  [16, chord("<Gmaj7 Cmaj7 Am7 D7>").dict('ireal').voicing().s("gm_acoustic_guitar_nylon").struct("~ x ~ x").gain(.55).room(.3).speed(.99).press()],
+  [16, chord("<Gmaj7 Cmaj7 Am7 D7>").dict('ireal').voicing().s("gm_acoustic_guitar_nylon").struct("x [x x] ~ x").gain(.6).room(.2).speed(1.01).press()],
+  [16, chord("<Gmaj7 Cmaj7 Am7 D7>").dict('ireal').voicing().s("gm_acoustic_guitar_nylon").struct("~ x ~ x").gain(.55).room(.3).speed(.99).press()],
+  [16, chord("<Gmaj7 Cmaj7 Am7 D7>").dict('ireal').voicing().s("gm_acoustic_guitar_nylon").struct("x [x x] ~ x").gain(.6).room(.2).speed(1.01).press()],
+  [8,  chord("<Gmaj7 Cmaj7 Am7 D7>/2").dict('ireal').voicing().s("gm_epiano1").struct("x ~ x ~").gain(.45).room(.5).lpf(1500)],
+  [8,  chord("<Gmaj7 Cmaj7>/2").dict('ireal').voicing().s("gm_epiano1").struct("x ~ ~ ~").gain(saw.slow(8).range(.4, 0)).room(.8)]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, n("<[0 2 4 7] [9 7 4 2] [0 2 4 0] [2 4 7 9]>").scale("G4:major").s("gm_vibraphone").gain(.45).room(.5).delay(".3:.2:.4")],
+  [16, n("<[7 9 11 12] [14 12 11 9] [7 9 7 4] [2 0 2 4]>").scale("G4:major").s("gm_flute").gain(.4).room(.6).vib(4).vibmod(.3).attack(.1)],
+  [16, n("<[0 2 4 7] [9 7 4 2] [0 2 4 0] [2 4 7 9]>").scale("G4:major").s("gm_vibraphone").gain(.45).room(.5).delay(".3:.2:.4")],
+  [16, n("<[7 9 11 12] [14 12 11 9] [7 9 7 4] [2 0 2 4]>").scale("G4:major").s("gm_flute").gain(.4).room(.6).vib(4).vibmod(.3).attack(.1)],
+  [8,  n("<7 4 2 0>/2").scale("G4:major").s("gm_vibraphone").gain(.35).room(.8).delay(".4:.3:.5")],
+  [8,  silence]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, silence],
+  [16, s("gm_marimba").n("<[~ 7 ~ 4] [~ 2 ~ 0]>*2").scale("G5:major").gain(.3).room(.4).pan(sine.slow(8))],
+  [16, silence],
+  [16, s("gm_marimba").n("<[~ 7 ~ 4] [~ 2 ~ 0]>*2").scale("G5:major").gain(.3).room(.4).pan(sine.slow(8))],
+  [8,  silence],
+  [8,  silence]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, silence],
+  [16, silence],
+  [16, silence],
+  [16, silence],
+  [8,  note("<g3 c4 a3 d4>/2").s("gm_synth_strings_1").attack(1).release(2).gain(.25).room(.7).lpf(1200)],
+  [8,  note("g2").s("gm_synth_strings_1").attack(2).release(4).gain(.2).room(.9).lpf(800)]
+)

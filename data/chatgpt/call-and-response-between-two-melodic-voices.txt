@@ -1,55 +1,37 @@
-// 🎵 "Mirrors in Motion" — Neo-soul / Jazztronica call-and-response groove
-// At 120 BPM: intro(8) + verse(16) + chorus(16) + verse2(16) + bridge(16) + outro(8) = 80 bars ≈ 2:40
-
-setcpm(120 / 4)
-
-$: s("vinyl:2")
-  .gain(.14)
-  .room(1)
-  .loop(1)
-  .lpf(3000)
-
-$: arrange(
-  [8,  s("~ hh*8 ~ hh*8").bank("RolandTR909").cut(1).swing(3).gain(.28).room(.2)],
-  [16, s("bd ~ ~ bd, ~ sd ~ ~, hh*8").bank("RolandTR909").cut(1).swing(4).gain(".86 .78 .34").room(.25)],
-  [16, s("bd ~ bd ~, ~ [sd cp] ~ ~, [hh hh oh hh]*2").bank("RolandTR909").cut(1).swing(4).gain(".92 .84 .46").room(.3).every(4, x => x.fast(2).gain(.78))],
-  [16, s("bd ~ ~ bd, ~ sd ~ [sd ~], hh*8").bank("RolandTR909").cut(1).swing(4).gain(".88 .8 .38").room(.25).sometimes(x => x.press())],
-  [16, s("bd(5,16), ~ cp ~ ~, [hh oh hh hh]*2").bank("RolandTR909").cut(1).swing(4).gain(".94 .86 .48").room(.3).every(8, x => x.rev())],
-  [8,  s("bd ~ ~ ~, ~ ~ sd ~, hh*4").bank("RolandTR909").swing(4).gain(saw.slow(8).range(.72,.12)).room(.5)]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, note("<[a1 ~ ~ a1] [c2 ~ ~ ~] [d2 ~ ~ d2] [e2 ~ ~ ~]>").s("gm_acoustic_bass").decay(.3).sustain(.5).room(.2).gain(.78)],
-  [16, note("<[a1 ~ c2 ~] [d2 ~ e2 ~] [f2 ~ e2 ~] [d2 ~ c2 ~]>").s("gm_acoustic_bass").decay(.24).sustain(.55).room(.2).gain(.84)],
-  [16, note("<[a1 ~ ~ c2] [d2 ~ ~ ~] [e2 ~ ~ d2] [c2 ~ ~ ~]>").s("gm_acoustic_bass").decay(.3).sustain(.5).room(.2).gain(.8).sometimes(x => x.add(note(12)).gain(.35))],
-  [16, note("<[a1 ~ c2 e2] [~ d2 ~ c2] [f2 ~ e2 ~] [d2 ~ c2 ~]>").s("gm_acoustic_bass").decay(.22).sustain(.58).room(.22).gain(.86)],
-  [8,  note("<a1 ~ c2 ~ d2 ~ e2 ~>/2").s("gm_acoustic_bass").decay(.55).sustain(.35).room(.4).gain(.62).speed(.97)]
-)
-
-$: arrange(
-  [8,  chord("<Am9 Cmaj7>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(.8).decay(1).sustain(.75).release(2).lpf(1400).room(.7).gain(.34)],
-  [16, chord("<Am9 Cmaj7 Dm9 Em7>").dict('ireal').voicing().s("gm_epiano2").struct("~ [x ~] ~ [x ~]").lpf(2200).room(.45).delay(".22:.14:.26").gain(.5).speed(.99)],
-  [16, chord("<Am9 Cmaj7 Dm9 Em7>").dict('ireal').voicing().s("gm_epiano2").struct("[~ x]*2").lpf(2600).room(.42).delay(".2:.12:.24").gain(.56).every(4, x => x.fast(2).gain(.75))],
-  [16, chord("<Am9 Cmaj7 Dm9 Em7>").dict('ireal').voicing().s("gm_epiano2").struct("~ [x ~] [~ x] ~").lpf(2300).room(.45).delay(".24:.14:.28").gain(.52).speed(.98)],
-  [16, chord("<Fmaj7 Em7 Dm9 Cmaj7>").dict('ireal').voicing().s("gm_epiano2").struct("[x ~ x ~]*2").lpf(3000).room(.5).delay(".28:.18:.3").gain(.58).sometimes(x => x.crush(14).gain(.8))],
-  [8,  chord("<Am9 Dm9 Cmaj7 Em7>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(.7).sustain(.6).release(2.5).lpf(sine.range(700,1800).slow(8)).room(.8).gain(saw.slow(8).range(.32,.06))]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, n("<[0 ~ 2 ~] [3 ~ 5 ~] [7 ~ 5 ~] [3 ~ 2 ~]>").scale("A5:dorian").s("gm_flute").pan(.2).lpf(sine.range(1200,4200).slow(10)).room(.48).delay(".26:.18:.3").gain(.44).vib(4).vibmod(.45)],
-  [16, n("<[0 2 ~ 3] [5 ~ 7 ~] [5 3 ~ 2] [3 ~ 2 ~]>").scale("A5:dorian").s("gm_flute").pan(.22).lpf(sine.range(1800,5200).slow(8)).room(.5).delay(".22:.16:.28").gain(.5).vib(5).vibmod(.5).sometimes(x => x.add(note(12)))],
-  [16, n("<[2 ~ 3 ~] [5 ~ 7 ~] [5 ~ 3 ~] [2 ~ 0 ~]>").scale("A5:dorian").s("gm_flute").pan(.18).lpf(sine.range(1300,4300).slow(11)).room(.5).delay(".28:.2:.32").gain(.46).vib(4).vibmod(.45)],
-  [16, n("<[~ 7 ~ 5] [~ 3 ~ 2] [~ 0 ~ 2] [~ 3 ~ 0]>").scale("A5:dorian").s("gm_flute").pan(.16).lpf(sine.range(1400,3900).slow(9)).room(.55).delay(".3:.22:.34").gain(.4).vib(4).vibmod(.4)],
-  [8,  n("<[0 ~ ~ ~] [~ 3 ~ ~] [~ ~ 2 ~] [~ ~ ~ 0]>").scale("A5:dorian").s("gm_flute").pan(.2).room(.72).delay(".45:.3:.5").gain(.24).lpf(2200)]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, n("<[~ 7 ~ 5] [~ 3 ~ 2] [~ 0 ~ 2] [~ 3 ~ 0]>").scale("A4:dorian").s("gm_clarinet").pan(.78).lpf(sine.range(900,3200).slow(12)).room(.52).delay(".3:.2:.34").gain(.36).attack(.02).decay(.2).sustain(.65).release(.25)],
-  [16, n("<[~ 5 7 ~] [~ 2 3 ~] [~ 0 2 ~] [~ 3 5 ~]>").scale("A4:dorian").s("gm_clarinet").pan(.8).lpf(sine.range(1200,3600).slow(9)).room(.55).delay(".28:.18:.32").gain(.42).attack(.02).decay(.2).sustain(.65).release(.25).sometimes(x => x.add(note(12)))],
-  [16, n("<[~ 5 ~ 3] [~ 2 ~ 0] [~ 7 ~ 5] [~ 3 ~ 2]>").scale("A4:dorian").s("gm_clarinet").pan(.76).lpf(sine.range(1000,3300).slow(10)).room(.54).delay(".3:.2:.35").gain(.38).attack(.02).decay(.2).sustain(.65).release(.25)],
-  [16, n("<[0 ~ 2 ~] [3 ~ 5 ~] [7 ~ 5 ~] [3 ~ 2 ~]>").scale("A4:dorian").s("gm_clarinet").pan(.82).lpf(sine.range(1300,3800).slow(8)).room(.58).delay(".24:.16:.3").gain(.44).attack(.02).decay(.2).sustain(.65).release(.25).rarely(x => x.fast(2).gain(.7))],
-  [8,  n("<[~ 0 ~ ~] [~ ~ 2 ~] [~ 3 ~ ~] [~ ~ 0 ~]>").scale("A4:dorian").s("gm_clarinet").pan(.8).room(.75).delay(".48:.32:.52").gain(.22).lpf(1800)]
-)
+// 🎵 "Mirrored Lanterns" — raw call-and-response duet over broken pulse
+samples('github:tidalcycles/dirt-samples')
+setcps(0.8)
+note("<[c4 e4 g4 b4] ~ [d4 f4 a4 c5] ~ [e4 g4 b4 d5] ~ [g4 b4 d5 f5] ~>")
+  .s("<sawtooth square>")
+  .struct("euclid(5,8)")
+  .legato(0.92)
+  .gain(0.56)
+  .pan(sine.slow(7).range(-0.75,-0.2))
+  .stack(
+    note("<~ [g3 b3 d4 f4] ~ [a3 c4 e4 g4] ~ [f3 a3 c4 e4] ~ [e3 g3 b3 d4]>")
+      .s("<triangle sine>")
+      .struct("euclid(5,8,3)")
+      .legato(0.95)
+      .gain(0.58)
+      .pan(sine.slow(9).range(0.2,0.75))
+  )
+  .stack(
+    s("bd*<4 3 5> [~ bd] <[~ bd] [bd ~]>")
+      .lpf(170)
+      .gain(0.9)
+  )
+  .stack(
+    s("<hh*8 [hh*16]>")
+      .struct("euclid(11,16)")
+      .hpf(5200)
+      .gain(0.27)
+  )
+  .stack(
+    s("~ cp ~ <cp rim>")
+      .struct("euclid(3,8)")
+      .gain(0.33)
+  )
+  .room(perlin.slow(6).range(0.25,0.72))
+  .delay(sine.slow(12).range(0.08,0.33))
+  .lpf(perlin.slow(10).range(850,2800))
+  .reset(48)

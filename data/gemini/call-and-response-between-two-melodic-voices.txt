@@ -1,58 +1,18 @@
-// 🗣️ "Dialogue in E Minor" — Melodic Electronica / Call and Response
-// At 92 BPM: intro(8) + verse(16) + chorus(16) + bridge(16) + outro(8) = 64 bars ≈ 2:46
-
-setcpm(92 / 4)
-
-$: s("hh*8").bank("RolandTR909").gain(perlin.range(.05, .25)).pan(sine.slow(4))
-
-$: arrange(
-  [8,  s("bd(3,8) ~").bank("RolandTR909").gain(.8).lpf(800)],
-  [16, s("bd(3,8), ~ cp").bank("RolandTR909").gain(".9 .7").room(.2)],
-  [16, s("bd(5,16), ~ cp, hh*4").bank("RolandTR909").gain(".95 .75 .3").room(.25).cut(1)],
-  [16, s("bd(3,8), ~ cp").bank("RolandTR909").gain(".9 .7").room(.2).every(4, x=>x.fast(2))],
-  [8,  s("bd(3,8)").bank("RolandTR909").gain(saw.slow(8).range(.8,.1)).lpf(sine.range(800, 100))]
-)
-
-$: arrange(
-  [8,  note("e1").s("gm_synth_bass_2").decay(.2).gain(.6)],
-  [16, note("<e1 g1 a1 b1>").s("gm_synth_bass_2").struct("x(3,8)").decay(.3).lpf(1200).gain(.7)],
-  [16, note("<e1 c2 a1 b1>").s("gm_synth_bass_2").struct("x(5,16)").decay(.25).lpf(1500).gain(.75)],
-  [16, note("<e1 g1 a1 b1>").s("gm_synth_bass_2").struct("x(3,8)").decay(.3).lpf(1200).gain(.7)],
-  [8,  note("e1").s("gm_synth_bass_2").decay(2).lpf(400).gain(.5)]
-)
-
-// Harmony / Pad
-$: arrange(
-  [8,  chord("Em9").voicing().s("gm_pad_1_new_age").gain(.3).room(1)],
-  [16, chord("<Em9 Gmaj7 Am7 Bm7>").voicing().s("gm_pad_1_new_age").gain(.35).room(.8).attack(1)],
-  [16, chord("<Em9 Cmaj7 Am7 B7b9>").voicing().s("gm_pad_1_new_age").gain(.4).room(.8).attack(.5)],
-  [16, chord("<Em9 Gmaj7 Am7 Bm7>").voicing().s("gm_pad_1_new_age").gain(.35).room(.8).attack(1)],
-  [8,  chord("Em9").voicing().s("gm_pad_1_new_age").gain(saw.slow(8).range(.3,0)).room(1)]
-)
-
-// Voice 1: The "Caller" (Bright, Staccato)
-$: arrange(
-  [8,  silence],
-  [16, n("<[0 2 3 ~] [~ ~ ~ ~] [7 5 3 ~] [~ ~ ~ ~]>").scale("E4:minor").s("gm_lead_1_square")
-       .gain(.45).lpf(2000).delay(".25:.5:.3").room(.4)],
-  [16, n("<[0 2 3 5] [~ ~ ~ ~] [7 10 7 ~] [~ ~ ~ ~]>").scale("E4:minor").s("gm_lead_1_square")
-       .gain(.5).lpf(2500).delay(".25:.5:.3").room(.45).vib(5).vibmod(.2)],
-  [16, n("<[0 2 3 ~] [~ ~ ~ ~] [7 5 3 ~] [~ ~ ~ ~]>").scale("E4:minor").s("gm_lead_1_square")
-       .gain(.45).lpf(2000).delay(".25:.5:.3").room(.4)],
-  [8,  silence]
-)
-
-// Voice 2: The "Responder" (Mellow, Legato)
-$: arrange(
-  [8,  silence],
-  [16, n("<[~ ~ ~ ~] [5 3 2 0] [~ ~ ~ ~] [2 0 -2 0]>").scale("E4:minor").s("gm_lead_5_charang")
-       .gain(.4).lpf(1500).delay(".33:.4:.4").room(.6).attack(.1)],
-  [16, n("<[~ ~ ~ ~] [7 5 3 2] [~ ~ ~ ~] [5 3 2 0]>").scale("E4:minor").s("gm_lead_5_charang")
-       .gain(.45).lpf(1800).delay(".33:.4:.4").room(.6).attack(.1).vib(4).vibmod(.3)],
-  [16, n("<[~ ~ ~ ~] [5 3 2 0] [~ ~ ~ ~] [2 0 -2 0]>").scale("E4:minor").s("gm_lead_5_charang")
-       .gain(.4).lpf(1500).delay(".33:.4:.4").room(.6).attack(.1)],
-  [8,  silence]
-)
-
-// Texture / Glitch
-$: s("white").gain(.03).lpf(sine.range(400, 2000).slow(16)).hpf(200).pan(sine.slow(3))
+// 🎵 "Spectral Dialogue" — A rhythmic call and response between two distinct algorithmic synth voices
+setcps(1.1);
+stack(
+  s("bd").struct("1(5,8)").bank("drum").gain(0.8),
+  s("sd").struct("~ 1").room(0.4).gain(0.6),
+  s("hh*16").gain(range(0.2, 0.6, saw.slow(4))),
+  n("<[c5,g5]!2 ~ ~>").s("saw")
+    .add(irand(7).slow(8))
+    .struct("1(3,8,2)")
+    .decay(0.05).sustain(0.05).room(0.8).gain(0.5).pan(0.2)
+    .lpf(sine.range(1000, 4000).slow(4)),
+  n("<~ ~ [f4,c5]!2>").s("triangle")
+    .sub(irand(7).slow(4))
+    .struct("~ ~ 1(5,8,1)")
+    .decay(0.3).sustain(0.2).delay(0.5).delayfb(0.7).gain(0.6).pan(0.8)
+    .lpf(2000),
+  n("<c2 g1 f1 d2>").s("sine").lpf(120).gain(0.9)
+).reset(16)

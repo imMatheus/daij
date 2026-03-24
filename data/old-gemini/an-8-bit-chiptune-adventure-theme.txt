@@ -1,0 +1,64 @@
+// 🎵 "Pixel Quest: The Final Level" — 8-bit Chiptune Adventure
+// At 135 BPM: intro(8) + verse1(16) + chorus1(16) + verse2(16) + chorus2(16) + bridge(16) + outro(8) = 96 bars ≈ 2:50
+
+setcpm(135 / 4)
+
+$: arrange(
+  [8,  s("bd [~ cp] bd [~ cp]").bank("RolandTR808").crush(1).gain(.7)],
+  [16, s("bd [~ sd:1] bd [~ sd:1]").bank("RolandTR808").crush(1).gain(.8)],
+  [16, s("bd sd:1 bd [sd:1 sd:1], [hh*4]").bank("RolandTR808").crush(2).gain(.9).cut(1)],
+  [16, s("bd [~ sd:1] bd [~ sd:1]").bank("RolandTR808").crush(1).gain(.8)],
+  [16, s("bd sd:1 bd [sd:1 sd:1], [hh*4]").bank("RolandTR808").crush(2).gain(.9).cut(1)],
+  [16, s("bd ~ bd ~, [~ sd:1]*2").bank("RolandTR808").crush(3).gain(.7)],
+  [8,  s("bd ~ ~ ~").bank("RolandTR808").crush(1).gain(saw.slow(8).range(.7, 0))]
+)
+
+$: arrange(
+  [8,  s("hh*8").bank("RolandTR808").crush(4).gain(.4)],
+  [16, s("hh*8").bank("RolandTR808").crush(2).gain(.5)],
+  [16, s("hh*16").bank("RolandTR808").crush(1).gain(.6).pan(sine.slow(4))],
+  [16, s("hh*8").bank("RolandTR808").crush(2).gain(.5)],
+  [16, s("hh*16").bank("RolandTR808").crush(1).gain(.6).pan(sine.slow(4))],
+  [16, s("hh*8").bank("RolandTR808").crush(4).gain(.4)],
+  [8,  s("hh*4").bank("RolandTR808").crush(8).gain(saw.slow(8).range(.4, 0))]
+)
+
+$: arrange(
+  [8,  note("<c2 g1 a1 f1>").s("triangle").gain(.7).decay(.2)],
+  [16, note("<c2 g1 a1 f1>").s("triangle").gain(.8).decay(.15)],
+  [16, note("<c2 g1 a1 f1>").s("triangle").gain(.9).struct("x x x x").decay(.1)],
+  [16, note("<c2 g1 a1 f1>").s("triangle").gain(.8).decay(.15)],
+  [16, note("<c2 g1 a1 f1>").s("triangle").gain(.9).struct("x x x x").decay(.1)],
+  [16, note("<a1 e1 f1 d1>").s("triangle").gain(.7).decay(.3)],
+  [8,  note("c2").s("triangle").gain(saw.slow(8).range(.6, 0))]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, n("<[0 2 4 7] [9 7 4 2] [0 4 2 -2] [0 ~ ~ ~]>").scale("C5:major").s("square").gain(.5).room(.3).crush(4)],
+  [16, n("<[0 7 5 4] [2 0 4 2] [7 11 12 7] [9 7 5 4]>").scale("C5:major").s("square").gain(.7).vib(6).vibmod(.3).room(.2)],
+  [16, n("<[0 2 4 7] [9 7 4 2] [0 4 2 -2] [0 ~ ~ ~]>").scale("C5:major").s("square").gain(.5).room(.3).crush(4)],
+  [16, n("<[0 7 5 4] [2 0 4 2] [7 11 12 7] [9 7 5 4]>").scale("C5:major").s("square").gain(.7).vib(6).vibmod(.3).room(.2)],
+  [16, n("<[0 ~ 3 ~] [5 ~ 7 ~] [8 ~ 7 ~] [5 ~ 3 ~]>").scale("A4:minor").s("square").gain(.6).lpf(2000).room(.4)],
+  [8,  n("0").scale("C5:major").s("square").gain(saw.slow(8).range(.5, 0)).vib(4)]
+)
+
+$: arrange(
+  [8,  n("<0 4 7 11>*4").scale("C4:major").s("square").gain(.4).crush(4)],
+  [16, n("<0 4 7 11>*4").scale("C4:major").s("square").gain(.4).crush(4)],
+  [16, n("<0 4 7 11>*8").scale("C4:major").s("square").gain(.3).crush(2).pan(sine.slow(2))],
+  [16, n("<0 4 7 11>*4").scale("C4:major").s("square").gain(.4).crush(4)],
+  [16, n("<0 4 7 11>*8").scale("C4:major").s("square").gain(.3).crush(2).pan(sine.slow(2))],
+  [16, n("<0 3 7 10>*4").scale("A3:minor").s("square").gain(.4).crush(4)],
+  [8,  n("<0 4 7 11>*2").scale("C4:major").s("square").gain(saw.slow(8).range(.4, 0)).crush(8)]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, silence],
+  [16, n("<12 11 12 14 12 11 9 7>").scale("C5:major").s("sine").gain(.3).delay(".2:.1:.3").room(.5)],
+  [16, silence],
+  [16, n("<12 11 12 14 12 11 9 7>").scale("C5:major").s("sine").gain(.3).delay(".2:.1:.3").room(.5)],
+  [16, silence],
+  [8,  silence]
+)

@@ -1,0 +1,74 @@
+// 🎵 "Fuego en la Calle" — Latin Salsa
+// At 96 BPM: intro(8) + verse(16) + chorus(16) + verse(16) + chorus(16) + bridge(8) + outro(8) = 88 bars ≈ 2:12
+
+setcpm(96 / 4)
+
+// timbales and congas pattern
+$: arrange(
+  [8,  s("~ [hh hh] ~ hh, bd ~ ~ bd").bank("RolandTR808").gain(.7).room(.3).swing(3)],
+  [16, s("[~ hh]*4, bd ~ [~ bd] ~, ~ [cp,sd:1] ~ cp").bank("RolandTR808").gain(".88 .8 .85 .8").room(.3).swing(3).every(4, x => x.fast(2).gain(.5))],
+  [16, s("[~ hh]*4, bd ~ [bd ~] ~, ~ [cp,sd:1] ~ [cp,sd:1], [oh ~ hh ~]*2").bank("RolandTR808").cut(1).gain(".92 .85 .9 .85").room(.25).swing(3).every(8, x => x.rev())],
+  [16, s("[~ hh]*4, bd ~ [~ bd] ~, ~ [cp,sd:1] ~ cp").bank("RolandTR808").gain(".88 .8 .85 .8").room(.3).swing(3).sometimes(x => x.press())],
+  [16, s("[~ hh]*4, bd ~ [bd ~] ~, ~ [cp,sd:1] ~ [cp,sd:1], [oh ~ hh ~]*2").bank("RolandTR808").cut(1).gain(".92 .85 .9 .85").room(.25).swing(3).every(4, x => x.fast(2).gain(.5))],
+  [8,  s("bd ~ ~ ~, ~ ~ [cp,sd:1] ~, [~ hh]*4").bank("RolandTR808").gain(".78 .7").room(.4).swing(3)],
+  [8,  s("bd ~ ~ ~, ~ ~ cp ~").bank("RolandTR808").gain(saw.slow(8).range(.7,.1)).room(.5).swing(3)]
+)
+
+// clave pattern — the heartbeat of salsa (son clave 3-2)
+$: s("~ [~ cp] ~ cp, cp ~ ~ ~")
+   .bank("RolandTR808")
+   .gain(.45)
+   .hpf(3000)
+   .room(.3)
+   .speed(1.6)
+
+// bass — tumbao pattern
+$: arrange(
+  [8,  note("<[~ ~ c3 ~] [~ ~ ab2 ~] [~ ~ f2 ~] [~ ~ g2 ~]>").s("gm_acoustic_bass").decay(.2).sustain(.4).room(.2).gain(.6)],
+  [16, note("<[~ ~ c3 c2] [~ ~ ab2 ab1] [~ ~ f2 f2] [g2 ~ ~ g1]>").s("gm_acoustic_bass").decay(.25).sustain(.5).room(.2).gain(.82).swing(3)],
+  [16, note("<[c2 ~ c3 c2] [ab1 ~ ab2 ~] [f2 ~ f3 f2] [g1 ~ ~ g2]>").s("gm_acoustic_bass").decay(.2).sustain(.55).room(.2).gain(.85).swing(3)],
+  [16, note("<[~ ~ c3 c2] [~ ~ ab2 ab1] [~ ~ f2 f2] [g2 ~ ~ g1]>").s("gm_acoustic_bass").decay(.25).sustain(.5).room(.2).gain(.82).swing(3)],
+  [16, note("<[c2 ~ c3 c2] [ab1 ~ ab2 ~] [f2 ~ f3 f2] [g1 ~ ~ g2]>").s("gm_acoustic_bass").decay(.2).sustain(.55).room(.2).gain(.85).swing(3)],
+  [8,  note("<c2 ~ ab1 ~ f2 ~ g1 ~>/2").s("gm_acoustic_bass").decay(.5).sustain(.3).room(.35).gain(.6)],
+  [8,  silence]
+)
+
+// piano — montuno pattern
+$: arrange(
+  [8,  chord("<Cm7 Ab^7>/2").dict('ireal').voicing().s("gm_epiano1").struct("~ x ~ x").lpf(2500).room(.4).gain(.4)],
+  [16, chord("<Cm7 Ab^7 Fm7 G7>").dict('ireal').voicing().s("gm_epiano1").struct("[~ x] [x ~] [~ x] [x ~]").lpf(3000).room(.4).delay(".1:.08:.15").gain(.55).swing(3)],
+  [16, chord("<Cm7 Ab^7 Fm7 G7>").dict('ireal').voicing().s("gm_epiano1").struct("[~ x x ~] [~ x x ~]").lpf(3500).room(.35).delay(".12:.1:.18").gain(.6).swing(3).every(4, x => x.fast(2).gain(.35))],
+  [16, chord("<Cm7 Ab^7 Fm7 G7>").dict('ireal').voicing().s("gm_epiano1").struct("[~ x] [x ~] [~ x] [x ~]").lpf(3000).room(.4).delay(".1:.08:.15").gain(.55).swing(3)],
+  [16, chord("<Cm7 Ab^7 Fm7 G7>").dict('ireal').voicing().s("gm_epiano1").struct("[~ x x ~] [~ x x ~]").lpf(3500).room(.35).delay(".12:.1:.18").gain(.6).swing(3).every(4, x => x.fast(2).gain(.35))],
+  [8,  chord("<Cm7 G7>/2").dict('ireal').voicing().s("gm_epiano1").struct("~ x ~ ~").lpf(2000).room(.6).delay(".3:.2:.4").gain(.42)],
+  [8,  chord("<Cm7>/1").dict('ireal').voicing().s("gm_epiano1").struct("x ~ ~ ~").lpf(1500).room(.7).gain(saw.slow(8).range(.4,.05))]
+)
+
+// brass — horn hits and melody
+$: arrange(
+  [8,  silence],
+  [16, n("<[0 ~ ~ 3] [~ 5 ~ ~] [3 ~ 0 ~] [~ ~ 5 3]>").scale("C5:minor:pentatonic").s("gm_synth_strings_1").lpf(4000).room(.4).gain(.4).attack(.05).decay(.2).sustain(.6).release(.3)],
+  [16, n("<[0 3 5 7] [~ 5 3 ~] [7 ~ 5 3] [5 3 0 ~]>").scale("C5:minor:pentatonic").s("gm_synth_strings_1").lpf(4500).room(.35).gain(.48).attack(.03).decay(.15).sustain(.65).release(.25).sometimes(x => x.add(note(12)))],
+  [16, n("<[0 ~ ~ 3] [~ 5 ~ ~] [3 ~ 0 ~] [~ ~ 5 3]>").scale("C5:minor:pentatonic").s("gm_synth_strings_1").lpf(4000).room(.4).gain(.4).attack(.05).decay(.2).sustain(.6).release(.3)],
+  [16, n("<[0 3 5 7] [~ 5 3 ~] [7 ~ 5 3] [5 3 0 ~]>").scale("C5:minor:pentatonic").s("gm_synth_strings_1").lpf(4500).room(.35).gain(.48).attack(.03).decay(.15).sustain(.65).release(.25).sometimes(x => x.add(note(12)))],
+  [8,  n("<[0 ~ 3 ~] [5 ~ 7 ~]>/2").scale("C5:minor:pentatonic").s("gm_synth_strings_1").lpf(3000).room(.6).delay(".4:.3:.5").gain(.35).attack(.1)],
+  [8,  silence]
+)
+
+// flute melody — counter-melody in bridge and choruses
+$: arrange(
+  [8,  silence],
+  [16, silence],
+  [16, n("<[~ 7 5 ~] [3 ~ ~ 5] [~ 3 ~ 0] [~ 5 7 ~]>").scale("C6:minor:pentatonic").s("gm_flute").lpf(6000).room(.5).delay(".3:.2:.4").gain(.3).vib(5).vibmod(.7).attack(.05).decay(.2).sustain(.5).release(.4)],
+  [16, silence],
+  [16, n("<[~ 7 5 ~] [3 ~ ~ 5] [~ 3 ~ 0] [~ 5 7 ~]>").scale("C6:minor:pentatonic").s("gm_flute").lpf(6000).room(.5).delay(".3:.2:.4").gain(.3).vib(5).vibmod(.7).attack(.05).decay(.2).sustain(.5).release(.4)],
+  [8,  n("<[0 ~ 3 ~ 5 ~ 7 ~]>/2").scale("C6:minor:pentatonic").s("gm_flute").room(.7).delay(".5:.4:.6").gain(.25).vib(6).vibmod(.8).lpf(sine.range(2000,5000).slow(8))],
+  [8,  silence]
+)
+
+// sub bass pad
+$: note("<c1 ab0 f1 g0>/4")
+   .s("sine")
+   .attack(1.5).decay(1).sustain(.7).release(2)
+   .gain(.2).room(.4)
+   .lpf(150)

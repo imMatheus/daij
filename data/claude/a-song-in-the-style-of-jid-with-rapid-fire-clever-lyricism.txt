@@ -1,14 +1,158 @@
-Song written to `web/public/claude/a-song-in-the-style-of-jid-with-rapid-fire-clever-lyricism.txt`.
+// 🎵 "Never Lackn'" — Atlanta Trap / Rapid-Fire Hip-Hop (JID style)
+// At 155 BPM: intro(8) + verse(16) + chorus(16) + verse2(16) + chorus2(16) + bridge(8) + outro(8) = 88 bars ≈ 2:16
 
-**"Syllable Monsoon"** — 88 bars at 140 BPM (~2:31)
+setcpm(155 / 4)
 
-Key design choices for the JID style:
+$: arrange(
+  [8,  s("hh*8")
+       .bank("RolandTR808").gain(perlin.range(.08,.28)).pan(sine.slow(5)).cut(1)],
+  [16, s("[hh*16], [~ ~ ~ oh]*2")
+       .bank("RolandTR808").gain(perlin.range(.18,.48)).pan(perlin.range(-.6,.6)).cut(1)
+       .every(2, x => x.fast(2).gain(.25))],
+  [16, s("[hh*32], oh(3,8)")
+       .bank("RolandTR808").gain(perlin.range(.15,.42)).pan(perlin.range(-.8,.8)).cut(1)
+       .every(3, x => x.fast(1.5).gain(.3))],
+  [16, s("[hh*16], [~ ~ ~ oh]*2")
+       .bank("RolandTR808").gain(perlin.range(.18,.48)).pan(perlin.range(-.6,.6)).cut(1)
+       .every(2, x => x.fast(2).gain(.25))],
+  [16, s("[hh*32], oh(3,8)")
+       .bank("RolandTR808").gain(perlin.range(.15,.42)).pan(perlin.range(-.8,.8)).cut(1)
+       .every(3, x => x.fast(1.5).gain(.3))],
+  [8,  s("hh*8, oh(1,4)")
+       .bank("RolandTR808").gain(perlin.range(.12,.32)).pan(sine.slow(6)).cut(1)],
+  [8,  s("hh*4")
+       .bank("RolandTR808").gain(saw.slow(8).range(.3,.04)).cut(1)]
+)
 
-- **140 BPM** — fast tempo matching JID's energetic delivery
-- **E minor** key with dark Em9/G^7/Am7/B7b9 progression — moody, Atlanta-influenced
-- **Complex hi-hat programming** — rapid-fire rolls (`hh*6`, double-time triggers via `.every(3, x => x.fast(2))`) mimicking trap production with rhythmic variation
-- **Hard 808 bass** — distorted sawtooth sub-bass with syncopated patterns and slides between E/G/A/B
-- **Rapid melodic runs** — 8-note pentatonic sequences on the melody voice simulate JID's machine-gun flow and syllable density
-- **Boom-bap meets trap drums** — kick patterns alternate between sparse and stuttered (`bd ~ [~ bd] bd`), snares double up in choruses
-- **Sparse string counter-melody** in choruses only — atmospheric tension without cluttering the "vocal space"
-- **Sub-bass drone** anchoring the low end throughout
+$: arrange(
+  [8,  s("bd ~ ~ ~, ~ ~ ~ cp")
+       .bank("RolandTR808").gain(.65).room(.3)],
+  [16, s("bd ~ ~ bd, ~ ~ ~ [cp,sd:1], ~ ~ [~ bd] ~, ~ ~ ~ cp")
+       .bank("RolandTR808").gain(".92 .82 .88 .84").room(.22)
+       .swing(2)],
+  [16, s("bd ~ [bd ~] bd, ~ ~ ~ [cp,sd:1], [~ bd] ~ [~ bd] ~, ~ ~ ~ [cp cp]")
+       .bank("RolandTR808").gain(".96 .86 .93 .88").room(.18)
+       .every(4, x => x.fast(2).gain(.55))],
+  [16, s("bd ~ ~ bd, ~ ~ ~ [cp,sd:1], ~ ~ [~ bd] ~, ~ ~ ~ cp")
+       .bank("RolandTR808").gain(".92 .82 .88 .84").room(.22)
+       .sometimes(x => x.gain(.45))],
+  [16, s("bd ~ [bd ~] bd, ~ ~ ~ [cp,sd:1], [~ bd] ~ [~ bd] ~, ~ ~ ~ [cp cp]")
+       .bank("RolandTR808").gain(".96 .86 .93 .88").room(.18)
+       .every(4, x => x.fast(2).gain(.55))],
+  [8,  s("bd ~ ~ ~, ~ ~ cp ~")
+       .bank("RolandTR808").gain(".72 .65").room(.4)],
+  [8,  s("bd ~ ~ ~")
+       .bank("RolandTR808").gain(saw.slow(8).range(.65,.08)).room(.5)]
+)
+
+$: arrange(
+  [8,  note("<d1 ~ ~ ~>/1").s("sine")
+       .attack(.008).decay(.55).sustain(.2).release(.4)
+       .gain(.72).lpf(110).distort(.12)],
+  [16, note("<[d1 ~ ~ d1] [~ ~ ~ ~] [f1 ~ ~ ~] [~ ~ d1 ~]>")
+       .s("sine")
+       .attack(.004).decay(.65).sustain(.15).release(.45)
+       .gain(.9).lpf(145).distort(.22)
+       .speed("<1 1 .96 .96>")],
+  [16, note("<[d1 ~ d1 ~] [~ ~ ~ d1] [f1 ~ ~ f1] [~ a0 ~ ~]>")
+       .s("sine")
+       .attack(.004).decay(.75).sustain(.18).release(.5)
+       .gain(.96).lpf(155).distort(.28)
+       .speed("<1 1 .95 .97>")],
+  [16, note("<[d1 ~ ~ d1] [~ ~ ~ ~] [f1 ~ ~ ~] [~ ~ d1 ~]>")
+       .s("sine")
+       .attack(.004).decay(.65).sustain(.15).release(.45)
+       .gain(.9).lpf(145).distort(.22)
+       .speed("<1 1 .96 .96>")],
+  [16, note("<[d1 ~ d1 ~] [~ ~ ~ d1] [f1 ~ ~ f1] [~ a0 ~ ~]>")
+       .s("sine")
+       .attack(.004).decay(.75).sustain(.18).release(.5)
+       .gain(.96).lpf(155).distort(.28)
+       .speed("<1 1 .95 .97>")],
+  [8,  note("<d1 ~ f1 ~>/2").s("sine")
+       .attack(.01).decay(.85).sustain(.1).release(.55)
+       .gain(.65).lpf(125).distort(.12)],
+  [8,  note("<d1 ~ ~ ~>/1").s("sine")
+       .attack(.01).decay(.95).sustain(.05).release(.7)
+       .gain(saw.slow(8).range(.7,.08)).lpf(95)]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, chord("<Dm7 Dm7 Fmaj7 Fmaj7>")
+       .dict('ireal').voicing()
+       .s("gm_epiano1")
+       .struct("~ [x ~] ~ [~ x]")
+       .lpf(1500).room(.48).delay(".18:.12:.22")
+       .gain(.33).speed(.97)],
+  [16, chord("<Dm7 Am7 Fmaj7 Cmaj7>")
+       .dict('ireal').voicing()
+       .s("gm_epiano1")
+       .struct("[~ x]*2")
+       .lpf(2100).room(.42).delay(".22:.18:.28")
+       .gain(.4).speed(.98)],
+  [16, chord("<Dm7 Dm7 Fmaj7 Fmaj7>")
+       .dict('ireal').voicing()
+       .s("gm_epiano1")
+       .struct("~ [x ~] ~ [~ x]")
+       .lpf(1500).room(.48).delay(".18:.12:.22")
+       .gain(.33).speed(.97)],
+  [16, chord("<Dm7 Am7 Fmaj7 Cmaj7>")
+       .dict('ireal').voicing()
+       .s("gm_epiano1")
+       .struct("[~ x]*2")
+       .lpf(2100).room(.42).delay(".22:.18:.28")
+       .gain(.4).speed(.98)],
+  [8,  chord("<Dm7 Fmaj7>/2")
+       .dict('ireal').voicing()
+       .s("gm_synth_strings_1")
+       .attack(.55).sustain(.65).release(1.8)
+       .lpf(1100).room(.7).gain(.28)],
+  [8,  silence]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, n("<[0 ~ 2 ~] [4 ~ ~ 2] [~ 3 ~ 5] [~ ~ 4 ~]>")
+       .scale("D5:minor:pentatonic")
+       .s("gm_epiano2")
+       .lpf(sine.range(900,2800).slow(7))
+       .room(.55).delay(".28:.18:.38").gain(.3)],
+  [16, n("<[0 2 4 5] [~ 7 ~ 4] [2 ~ 0 2] [4 5 ~ 7]>")
+       .scale("D5:minor:pentatonic")
+       .s("gm_epiano2")
+       .lpf(sine.range(1100,3800).slow(5))
+       .room(.5).delay(".22:.18:.32").gain(.38)
+       .sometimes(x => x.add(note(12)))],
+  [16, n("<[0 ~ 2 ~] [4 ~ ~ 2] [~ 3 ~ 5] [~ ~ 4 ~]>")
+       .scale("D5:minor:pentatonic")
+       .s("gm_epiano2")
+       .lpf(sine.range(900,2800).slow(7))
+       .room(.55).delay(".28:.18:.38").gain(.3)],
+  [16, n("<[0 2 4 5] [~ 7 ~ 4] [2 ~ 0 2] [4 5 ~ 7]>")
+       .scale("D5:minor:pentatonic")
+       .s("gm_epiano2")
+       .lpf(sine.range(1100,3800).slow(5))
+       .room(.5).delay(".22:.18:.32").gain(.38)
+       .sometimes(x => x.add(note(12)))],
+  [8,  silence],
+  [8,  silence]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, silence],
+  [16, n("<[~ 7 ~ 5] [4 ~ 2 ~] [~ ~ 4 5] [7 ~ ~ 4]>")
+       .scale("D4:minor:pentatonic")
+       .s("square")
+       .lpf(1300).room(.48).delay(".38:.28:.48").gain(.16)
+       .attack(.008).decay(.12).sustain(.28).release(.18)],
+  [16, silence],
+  [16, n("<[~ 7 ~ 5] [4 ~ 2 ~] [~ ~ 4 5] [7 ~ ~ 4]>")
+       .scale("D4:minor:pentatonic")
+       .s("square")
+       .lpf(1300).room(.48).delay(".38:.28:.48").gain(.16)
+       .attack(.008).decay(.12).sustain(.28).release(.18)],
+  [8,  silence],
+  [8,  silence]
+)

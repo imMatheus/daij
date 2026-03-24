@@ -1,17 +1,47 @@
-Song written to `web/public/claude/music-for-a-midnight-train-ride.txt`.
+// "Midnight Express" — nocturnal ambient trip-hop; steel wheels on endless track, city lights streaming past
+setcps(82/60/4)
 
-**"Midnight Rail"** — Downtempo Ambient Jazz, 76 BPM, 80 bars (~2:32)
-
-**Key:** Bb minor | **Chords:** Bbm9 → Ebm7 → Gbmaj7 → Ab7b9
-
-**Layers (8 voices):**
-1. **Vinyl texture** — constant lo-fi warmth
-2. **Hi-hats** — 16th-note clacking with perlin-modulated gain, evoking train wheels on tracks
-3. **Kick/snare** — swung broken beat with `bd ~ [~ bd] ~` syncopation mimicking the train's rocking motion
-4. **Acoustic bass** — deep rhythmic pulse like the engine rumbling beneath
-5. **Electric piano chords** — dreamy offbeat voicings with delay, like city lights through foggy windows
-6. **Piano melody** — contemplative Bb minor pentatonic phrases, sparse and reflective
-7. **Clarinet counter-melody** — lonely, distant lines appearing only in the chorus and bridge sections, with vibrato
-8. **Sub bass drone** — deep sine pad cycling through the chord roots, the constant hum of the rails
-
-**Structure:** Intro builds from just vinyl + sparse kick → verse adds bass and chords → chorus brings full drums, clarinet, and brighter filters → verse 2 pulls back with random gain drops → bridge strips to half-time with wide reverb → outro fades the kick to nothing over strings.
+stack(
+  s("vinyl:2").gain(.09).room(1).loop(1).lpf(1800),
+  s("[bd ~ ~ bd] [~ ~ bd ~], ~ [rim,sd:3] ~ rim, hh(5,8,<0 1>)")
+    .bank("RolandTR808").swing(3)
+    .gain(perlin.range(.4,.72)).room(.35).lpf(2200)
+    .delay(".22:.14:.3").cut(1),
+  s("hh:2*16").gain(perlin.range(.03,.18).slow(5))
+    .hpf(8000).pan(perlin.slow(3)).room(.2),
+  note("<[a1 ~ ~ a1] [e1 ~ ~ ~] [f1 ~ ~ f1] [g1 ~ ~ e1]>")
+    .s("gm_acoustic_bass").decay(.25).sustain(.55)
+    .room(.18).gain(.7).lpf(720),
+  chord("<Am9 Em7 Fmaj9 G6>")
+    .dict('ireal').voicing()
+    .s("gm_epiano2").struct("~ [x ~] ~ [~ x]")
+    .lpf(sine.range(700,1900).slow(16))
+    .room(.62).delay(".32:.22:.45").gain(.38).speed(.97),
+  n("<[~ 0 ~ 3] [4 ~ ~ 2] [~ 1 ~ ~] [3 ~ 0 ~]>")
+    .scale("A4:minor:pentatonic")
+    .s("gm_vibraphone")
+    .attack(.03).decay(.4).sustain(.25).release(.8)
+    .lpf(perlin.range(900,2800).slow(10))
+    .room(.72).delay(".45:.3:.55").gain(.2)
+    .pan(sine.slow(8).range(.25,.75))
+    .rarely(x=>x.add(note(12))),
+  n("<[~ ~ 2 ~] [~ 4 ~ ~] [0 ~ ~ 3] [~ ~ ~ 1]>".slow(2))
+    .scale("A5:minor:pentatonic")
+    .s("triangle")
+    .attack(.15).decay(.6).sustain(.12).release(1.5)
+    .lpf(sine.range(1200,3500).slow(22))
+    .room(.85).delay(".55:.4:.65").gain(perlin.range(.04,.14))
+    .pan(sine.slow(11).range(.2,.8)),
+  note("<a0 e0 f0 g0>/4").s("sine")
+    .attack(2).decay(1.5).sustain(.75).release(3)
+    .gain(.12).lpf(110).room(.4),
+  s("metal:3(3,8,<0 2 4>)").gain(perlin.range(.03,.1).slow(4))
+    .hpf(3000).lpf(perlin.range(4000,8000).slow(7))
+    .room(.6).delay(".38:.28:.5").pan(sine.slow(6).range(.3,.7)),
+  note("<[a2,c3,e3] [e2,g2,b2] [f2,a2,c3] [g2,b2,d3]>".slow(2))
+    .s("gm_synth_strings_1")
+    .attack(3).decay(2).sustain(.4).release(4)
+    .lpf(sine.range(300,1100).slow(20))
+    .room(.9).roomsize(7).gain(.06)
+    .pan(sine.slow(14).range(.3,.7))
+).reset("<x@7 x@9>")

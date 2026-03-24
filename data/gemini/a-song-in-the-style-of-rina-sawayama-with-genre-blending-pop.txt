@@ -1,62 +1,12 @@
-// 🧬 "Neon Dynasty" — Genre-blending Pop Maximalism
-// At 132 BPM: intro(8) + verse1(16) + pre(8) + chorus(16) + verse2(16) + chorus(16) + outro(8) = 88 bars ≈ 2:40
-
-setcpm(132 / 4)
-
-$: arrange(
-  [8,  s("hh*8").bank("RolandTR909").gain(line(.1, .5)).lpf(line(400, 2000))],
-  [16, s("bd [~ sd] [bd bd] sd, [hh*16]").bank("RolandTR909").gain(".9 .85").swing(2).cut(1)],
-  [8,  s("bd*4, [hh oh]*4").bank("RolandTR909").gain(.9).lpf(line(2000, 8000))],
-  [16, s("bd [bd sd] [bd bd] [sd!], hh*16, [~ cp]*2").bank("RolandTR808").crush(4).distort(.2).gain(.95).room(.2)],
-  [16, s("bd [~ sd] [bd bd] sd, [hh*16, cp(3,8)]").bank("RolandTR909").gain(".9 .85").sometimes(x=>x.fast(2))],
-  [16, s("bd [bd sd] [bd bd] [sd!], hh*16, [~ cp]*2").bank("RolandTR808").crush(3).distort(.3).gain(.95).room(.3)],
-  [8,  s("bd ~ ~ ~, hh*4").bank("RolandTR909").gain(line(.8, 0)).lpf(line(4000, 200))]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, note("<d1 f1 g1 bb1>").s("gm_fingered_bass").struct("x(3,8)").gain(.8).room(.1)],
-  [8,  note("<d1 f1 g1 a1>").s("gm_synth_bass_1").struct("x*4").lpf(line(400, 4000)).gain(.85)],
-  [16, note("<d1 f1 g1 bb1>").s("gm_synth_bass_2").struct("x x x [x x]").distort(.4).gain(.9).crush(6)],
-  [16, note("<d1 f1 g1 bb1>").s("gm_fingered_bass").struct("x(5,8)").gain(.8).sometimes(x=>x.add(note(12)))],
-  [16, note("<d1 f1 g1 bb1>").s("gm_synth_bass_2").struct("x x x [x x]").distort(.4).gain(.9).crush(5)],
-  [8,  note("d1").s("gm_synth_bass_1").gain(line(.7, 0)).lpf(200)]
-)
-
-$: arrange(
-  [8,  chord("<Dm7 Fmaj7 Gm7 Bbmaj7>").s("gm_epiano2").struct("~ x ~ x").room(.6).gain(.4)],
-  [16, chord("<Dm7 Fmaj7 Gm7 Bbmaj7>").s("gm_electric_guitar_clean").struct("x . x x . x . x").gain(.55).vib(4).vibmod(.3)],
-  [8,  chord("<Dm F G A>").s("gm_synth_strings_1").attack(1).gain(line(.2, .6)).lpf(line(800, 4000))],
-  [16, chord("<D5 F5 G5 Bb5>").s("gm_electric_guitar_overdriven").struct("x x x x").distort(.5).gain(.75).room(.4).every(4, x=>x.fast(2))],
-  [16, chord("<Dm7 Fmaj7 Gm7 Bbmaj7>").s("gm_electric_guitar_clean").struct("x . x x . x . x").gain(.6).sometimes(x=>x.crush(12))],
-  [16, chord("<D5 F5 G5 Bb5>").s("gm_electric_guitar_overdriven").struct("x x x x").distort(.6).gain(.8).room(.4)],
-  [8,  chord("Dm7").s("gm_synth_strings_1").attack(2).gain(line(.5, 0)).room(.8)]
-)
-
-$: arrange(
-  [8,  n("<0 3 5 7>").scale("D4:minor").s("gm_glockenspiel").delay(".2:.2:.4").gain(.35)],
-  [16, silence],
-  [8,  n("0 2 3 5 7 8 10 12").scale("D5:minor").s("sawtooth").gain(.3).lpf(line(1000, 8000))],
-  [16, n("<[0 3 2 0] [5 7 8 7] [10 12 10 8] [7 5 3 2]>").scale("D5:minor").s("square").gain(.4).vib(5).vibmod(.6).room(.5).delay(".1:.1:.3")],
-  [16, n("<[~ 0 ~ 3] [~ 5 ~ 7]>").scale("D5:minor").s("gm_epiano1").gain(.5).delay(".3:.2:.4")],
-  [16, n("<[0 3 2 0] [5 7 8 7] [10 12 10 8] [7 5 3 2]>").scale("D5:minor").s("sawtooth").gain(.45).vib(6).vibmod(.8).room(.5).delay(".1:.1:.3")],
-  [8,  silence]
-)
-
-$: arrange(
-  [8,  s("vinyl:1").gain(.15).loop(1)],
-  [16, s("gm_blown_bottle").n("<0 3 5>").gain(.2).room(.9).delay(".5:.4:.6")],
-  [8,  s("sine").n("12").gain(line(0, .4)).hpf(line(200, 4000))],
-  [16, s("gm_orchestra_hit").struct("x . . .").gain(.4).room(.6)],
-  [16, s("gm_fx_5_brightness").n("<0 5 7 12>").gain(.25).room(.8)],
-  [16, s("gm_orchestra_hit").struct("x . x .").gain(.5).room(.6)],
-  [8,  s("gm_fx_7_echoes").gain(.3).room(1).delay(".8:.6:.9")]
-)
-
-$: arrange(
-  [32, silence],
-  [8,  s("white").gain(line(0, .2)).lpf(line(100, 8000))],
-  [16, silence],
-  [16, silence],
-  [8,  s("white").gain(line(.2, 0)).lpf(line(8000, 100))]
-)
+// 🎵 "Dynasty Glitch" — Genre-blending pop maximalism in the style of Rina Sawayama
+samples('github:tidalcycles/dirt-samples');
+setcps(128/60/4);
+stack(
+  s("bd <bd*2 [bd sd]> bd [sd sd]").gain(1.3).distort(0.3).room(0.1),
+  s("~ sd").gain(1.2).room(0.4).delay(0.1),
+  s("hh*16").gain(sine.range(0.3, 0.7).slow(2)).pan(perlin.slow(4)),
+  note("<[c2,c3] [f2,f3] [g2,g3] [as1,as2]>").s("supersaw").distort(0.7).lpf(sine.range(800, 4000).slow(4)).gain(0.6).resonance(0.4),
+  note("<[c4,eb4,g4,c5] [f4,ab4,c5,f5] [g4,b4,d5,g5] [bb4,d5,f5,bb5]>").s("superp5").decay(0.15).sustain(0.1).gain(0.4).room(0.6).delay(0.2).delayfb(0.5),
+  note("c5(3,8) eb5(5,8) g5 <bb4 c5>").s("supersquare").vowel("<a i o e>").gain(0.3).pan(0.8).resonance(0.5).lpf(5000),
+  s("glitch*8").n(irand(10)).struct("1 0 1 1 0 1 0 1").gain(0.4).hpf(3000).pan(perlin.slow(2))
+).reset(8)

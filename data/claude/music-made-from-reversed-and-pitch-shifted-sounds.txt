@@ -1,15 +1,98 @@
-The file write needs your permission. Here's what I composed:
+// 🎵 "Palindrome" — Reversed & Pitch-Shifted Experimental Ambient
+// ~74s at 0.325 cps: intro(4) + A(8) + B(8) + outro(4) = 24 cycles
 
-**"Palindrome"** — Reversed & Pitch-Shifted Experimental Ambient in E minor, 78 BPM, 80 bars.
+setcps(.325)
 
-The concept leans heavily into the prompt with these techniques across 7 layers:
+$: s("vinyl:2").speed(-.85).gain(.1).room(1).lpf(1800).loop(1)
 
-1. **Vinyl texture** — played backwards (`.speed(-.85)`) for an uncanny crackle
-2. **Drums** — `.every(2, x => x.rev())` flips patterns constantly; `.speed()` warps pitch on hits
-3. **Bass** — `.sometimes(x => x.speed(.5))` randomly drops an octave; every 4th cycle pitches up an octave
-4. **Chords** — `speed(sine.range(.94,1.06).slow(6))` creates continuous pitch wobble; strings use `.speed(-1)` for reverse swells
-5. **Melody** — reversed every 2 cycles; `.rarely(x => x.speed(2).add(note(12)))` throws in pitched-up ghost notes
-6. **Ghost layer** — flute and clarinet with negative speed values (-.75, -1.25, -1.5) for true reversed playback, plus `.rev()` on patterns
-7. **Sub drone** — sine wave with micro pitch drift via `sine.range(.98,1.02).slow(16)`
+$: arrange(
+  [4, s("bd ~ ~ ~, ~ ~ [cp ~] ~").bank("RolandTR808").gain(.45).room(.6)
+      .speed(sine.range(.8,1.2).slow(4))],
+  [8, s("bd(3,8), ~ [cp sd:2] ~ cp, [hh*8]").bank("RolandTR808").cut(1)
+      .gain(perlin.range(.55,.9)).room(.3)
+      .every(2, x => x.rev())
+      .sometimes(x => x.speed(saw.range(.5,1.8).fast(3)))],
+  [8, s("bd(5,16), [cp ~ sd:2 cp]*2, [oh hh]*4").bank("RolandTR808").cut(1)
+      .gain(".9 .65 .8 .55").room(.25)
+      .every(3, x => x.rev())
+      .every(5, x => x.fast(2).speed(.6))
+      .sometimes(x => x.speed(perlin.range(.4,2)))],
+  [4, s("bd ~ ~ ~").bank("RolandTR808")
+      .gain(saw.slow(4).range(.5,.05)).room(.8)
+      .speed(sine.range(.6,1.4).slow(2))]
+)
 
-The arrangement moves from sparse reversed textures (intro) through building density with more aggressive pitch manipulation (sections A-C), then strips back through a bridge into a dissolving outro. Could you approve the file write?
+$: arrange(
+  [4, silence],
+  [8, note("<[bb1 ~ ~ bb1] [gb1 ~ ab1 ~] [db2 ~ ~ db2] [ab1 ~ gb1 ~]>")
+      .s("sawtooth").decay(.2).sustain(.4).release(.1)
+      .lpf(sine.range(250,1400).slow(5)).room(.2).gain(.6)
+      .sometimes(x => x.speed(.5))
+      .every(4, x => x.speed(2).gain(.35))],
+  [8, note("<[bb1 gb1 bb1 ~] [ab1 ~ db2 ab1] [gb1 ~ gb1 db2] [ab1 ~ ~ gb1]>")
+      .s("sawtooth").decay(.15).sustain(.5).release(.08)
+      .lpf(saw.range(300,2000).slow(3)).room(.15).gain(.65)
+      .every(3, x => x.rev())
+      .speed(perlin.range(.94,1.06))],
+  [4, silence]
+)
+
+$: arrange(
+  [4, chord("<Bbm9 Gbmaj7>/2").dict('ireal').voicing()
+      .s("gm_synth_strings_1").attack(1).sustain(.7).release(2)
+      .lpf(900).room(.8).gain(.25).speed(-.97)],
+  [8, chord("<Bbm9 Gbmaj7 Dbmaj7 Ab7>").dict('ireal').voicing()
+      .s("square").struct("<[x ~ x ~] [~ x ~ x]>/2")
+      .lpf(sine.range(500,2200).slow(8)).room(.5).delay(".25:.15:.35")
+      .gain(.35).speed(sine.range(.92,1.08).slow(6))
+      .every(4, x => x.speed(-1).gain(.25))],
+  [8, chord("<Bbm9 Gbmaj7 Dbmaj7 Ab7>").dict('ireal').voicing()
+      .s("square").struct("[x x ~ x]*2")
+      .lpf(sine.range(700,3000).slow(5)).room(.4).delay(".2:.1:.3")
+      .gain(.4).speed(perlin.range(.88,1.12))
+      .every(3, x => x.rev())
+      .sometimes(x => x.speed(-.75).gain(.3))],
+  [4, chord("<Bbm9>/1").dict('ireal').voicing()
+      .s("gm_synth_strings_1").attack(1.5).sustain(.5).release(3)
+      .lpf(sine.range(200,800).slow(4)).room(.9)
+      .gain(saw.slow(4).range(.3,.05)).speed(-.95)]
+)
+
+$: arrange(
+  [4, silence],
+  [8, n("<[~ 0 3 ~] [5 ~ ~ 2] [~ 3 ~ 0] [5 ~ 2 ~]>")
+      .scale("Bb4:minor").s("triangle")
+      .lpf(sine.range(600,3500).slow(7)).room(.55).delay(".35:.25:.5")
+      .gain(.3).speed(perlin.range(.85,1.15))
+      .every(2, x => x.rev())
+      .rarely(x => x.speed(2).add(note(12)).gain(.18))],
+  [8, n("<[0 3 5 ~] [~ 2 ~ 5] [3 ~ 0 ~] [~ 5 3 0]>")
+      .scale("Bb4:minor").s("triangle")
+      .lpf(sine.range(800,4500).slow(5)).room(.5).delay(".3:.2:.4")
+      .gain(.35).speed(perlin.range(.8,1.2))
+      .every(3, x => x.rev())
+      .sometimes(x => x.speed(-1.5).gain(.22))
+      .every(5, x => x.fast(2).gain(.2))],
+  [4, silence]
+)
+
+$: arrange(
+  [4, silence],
+  [8, n("<[~ 2 ~ ~] [~ ~ 4 ~] [3 ~ ~ ~] [~ ~ ~ 1]>")
+      .scale("Bb5:minor").s("gm_flute")
+      .speed(-.75).room(.7).delay(".5:.35:.6")
+      .gain(.2).lpf(3000).pan(perlin.range(.1,.9))],
+  [8, n("<[4 ~ ~ 2] [~ 1 ~ ~] [~ ~ 3 ~] [0 ~ ~ ~]>")
+      .scale("Bb5:minor").s("gm_clarinet")
+      .speed(-1.25).room(.65).delay(".4:.3:.5")
+      .gain(.22).lpf(3500).pan(perlin.range(0,1))
+      .every(4, x => x.speed(-1.75).gain(.15))],
+  [4, n("<~ 0 ~ ~>/2").scale("Bb5:minor").s("gm_flute")
+      .speed(-.5).room(.9).delay(".7:.5:.8")
+      .gain(saw.slow(4).range(.18,.03)).lpf(1500)]
+)
+
+$: note("<bb0 gb0 db1 ab0>/4")
+   .s("sine").attack(2).decay(.8).sustain(.8).release(2)
+   .gain(.2).room(.4).lpf(140)
+   .speed(sine.range(.98,1.02).slow(16))

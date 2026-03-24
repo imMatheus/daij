@@ -1,56 +1,42 @@
-// 🎵 "First Light at Shoreline" — Ambient Chill / Tropical Downtempo
-// At 92 BPM: intro(8) + verse1(16) + chorus1(16) + verse2(16) + chorus2(16) + bridge(8) + outro(8) = 88 bars ≈ 3:49
+// "Glistening Shore" — an ambient sunrise piece with warm pads and rolling waves
 
-setcpm(92 / 4)
+setcps(0.45)
 
-$: s("white").lpf(sine.range(100, 1000).slow(6)).gain(sine.range(.02, .06).slow(6)).room(1).pan(sine.slow(10))
+stack(
+  // Warm horizon pads
+  note("C3:maj9*2, F3:maj9, G3:11, E3:m9")
+    .s("superpiano")
+    .room(0.8).size(0.9)
+    .lpf(sine.range(300, 1500).slow(8))
+    .gain(0.7),
 
-$: arrange(
-  [8,  silence],
-  [16, s("bd ~ ~ ~, ~ ~ [hh*2] ~").bank("RolandTR808").gain(.6).room(.2)],
-  [16, s("bd ~ [bd ~] ~, ~ [sd:1,cp] ~ ~, hh*4").bank("RolandTR909").gain(.7).room(.3).swing(2)],
-  [16, s("bd ~ ~ ~, ~ ~ [hh*2] ~").bank("RolandTR808").gain(.6).room(.2)],
-  [16, s("bd ~ [bd ~] ~, ~ [sd:1,cp] ~ ~, [hh oh hh hh]*2").bank("RolandTR909").gain(.75).room(.3).cut(1)],
-  [8,  s("~ ~ ~ ~, ~ ~ hh ~").bank("RolandTR808").gain(.4)],
-  [8,  silence]
+  // Melodic light reflections
+  note("<[c4 e4 g4 b4] [g4 b4 d5 f#5] [a4 c5 e5 g5] [f4 a4 c5 e5]>")
+    .s("supervibe")
+    .struct("1(3,8)")
+    .delay(0.6).delayfb(0.5)
+    .rev()
+    .gain(sine.range(0.2, 0.5).slow(4)),
+
+  // Rolling ocean waves
+  s("noise")
+    .lpf(sine.range(100, 800).slow(12))
+    .hpf(150)
+    .gain(sine.range(0.1, 0.4).slow(12))
+    .pan(sine.slow(10)),
+
+  // Gentle morning pulse
+  s("bd:4(3,8), [~ hh]*2")
+    .gain(0.5)
+    .lpf(1000)
+    .room(0.3),
+
+  // Distant birds/glitch textures
+  note("c6(5,16,12)")
+    .s("superchip")
+    .release(0.1)
+    .gain(perlin.range(0, 0.3).slow(5))
+    .pan(perlin.slow(3))
 )
-
-$: arrange(
-  [8,  silence],
-  [16, note("<g1 c2 d2 b1>").s("gm_acoustic_bass").decay(.4).sustain(.4).gain(.75).room(.1)],
-  [16, note("<g1 c2 d2 b1>").s("gm_acoustic_bass").struct("x(3,8)").decay(.3).sustain(.5).gain(.8).room(.1)],
-  [16, note("<g1 c2 d2 b1>").s("gm_acoustic_bass").decay(.4).sustain(.4).gain(.75).room(.1)],
-  [16, note("<g1 c2 d2 b1>").s("gm_acoustic_bass").struct("x(3,8)").decay(.3).sustain(.5).gain(.8).room(.1)],
-  [8,  note("<g1 c1>/2").s("gm_acoustic_bass").gain(.6).lpf(400)],
-  [8,  silence]
-)
-
-$: arrange(
-  [8,  chord("<Gmaj7 Cmaj7 D7 Bm7>").dict('ireal').voicing().s("gm_epiano2").attack(.5).release(1).gain(.4).room(.8).lpf(1200)],
-  [16, chord("<Gmaj7 Cmaj7 D7 Bm7>").dict('ireal').voicing().s("gm_epiano1").struct("~ x ~ x").gain(.5).room(.5).delay(".2:.1:.3")],
-  [16, chord("<Gmaj7 Cmaj7 D7 Bm7>").dict('ireal').voicing().s("gm_epiano1").struct("x ~ x ~").gain(.55).room(.4).delay(".2:.1:.3")],
-  [16, chord("<Gmaj7 Cmaj7 D7 Bm7>").dict('ireal').voicing().s("gm_epiano1").struct("~ x ~ x").gain(.5).room(.5).delay(".2:.1:.3")],
-  [16, chord("<Gmaj7 Cmaj7 D7 Bm7>").dict('ireal').voicing().s("gm_epiano1").struct("x ~ x ~").gain(.55).room(.4).delay(".2:.1:.3")],
-  [8,  chord("<Gmaj7 Cmaj7>/2").dict('ireal').voicing().s("gm_epiano2").attack(1).release(2).gain(.35).room(.9)],
-  [8,  chord("<Gmaj7>").dict('ireal').voicing().s("gm_epiano2").gain(saw.slow(8).range(.3, 0)).room(1)]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, silence],
-  [16, n("<[0 2 4 7] [9 7 4 ~] [7 4 2 0] [~ 0 2 4]>").scale("G4:major").s("gm_flute").gain(.35).room(.6).delay(".3:.2:.4").vib(4).vibmod(.4)],
-  [16, n("<[7 ~ 9 11] [12 11 9 7] [9 7 4 2] [0 ~ ~ ~]>").scale("G4:major").s("gm_flute").gain(.38).room(.6).delay(".3:.2:.4").vib(5).vibmod(.5)],
-  [16, n("<[0 2 4 7] [9 7 4 ~] [7 4 2 0] [~ 0 2 4]>").scale("G4:major").s("gm_flute").gain(.35).room(.6).delay(".3:.2:.4").vib(4).vibmod(.4)],
-  [8,  n("<7 4 2 0>/2").scale("G4:major").s("gm_flute").gain(.25).room(.8).attack(.5).release(.5)],
-  [8,  silence]
-)
-
-$: arrange(
-  [8,  s("triangle").note("<g5 c6 d6 b5>").gain(.1).room(1).lpf(sine.range(1000, 3000).slow(8))],
-  [16, silence],
-  [16, s("triangle").note("<g5 c6 d6 b5>").struct("x*8").gain(perlin.range(0, .12)).room(.8).pan(sine.slow(4))],
-  [16, silence],
-  [16, s("triangle").note("<g5 c6 d6 b5>").struct("x*8").gain(perlin.range(0, .12)).room(.8).pan(sine.slow(4))],
-  [8,  silence],
-  [8,  silence]
-)
+.reset(16)
+.slow(2)

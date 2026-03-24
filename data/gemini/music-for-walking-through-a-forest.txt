@@ -1,66 +1,10 @@
-// 🎵 "Forest Whisper" — Ambient Folk / Orchestral Lo-Fi
-// At 90 BPM: intro(8) + verse1(16) + chorus1(16) + verse2(16) + bridge(16) + chorus2(16) + outro(8) = 96 bars ≈ 4:16
-
-setcpm(90 / 4)
-
-$: s("vinyl:2").gain(.12).room(1).loop(1).lpf(2200)
-
-$: arrange(
-  [8,  silence],
-  [16, s("bd ~ ~ ~, ~ woodblock:2 ~ woodblock:1, [hh*2]").bank("RolandTR808").gain(.55).room(.4).swing(2)],
-  [16, s("bd ~ bd ~, ~ [sd:3] ~ [sd:3], [hh*4, woodblock(3,8)]").bank("RolandTR808").gain(.65).room(.3).swing(3)],
-  [16, s("bd ~ ~ ~, ~ woodblock:2 ~ woodblock:1, [hh*2]").bank("RolandTR808").gain(.55).room(.4).swing(2)],
-  [16, silence],
-  [16, s("bd ~ bd ~, ~ [sd:3] ~ [sd:3], [hh*4, woodblock(5,8)]").bank("RolandTR808").gain(.7).room(.3).swing(4)],
-  [8,  s("~ ~ ~ ~, ~ woodblock:1 ~ ~").bank("RolandTR808").gain(saw.slow(8).range(.5, 0)).room(.6)]
-)
-
-$: arrange(
-  [8,  note("<f1 c2 f1 c2>/2").s("gm_acoustic_bass").decay(.8).gain(.45).room(.5)],
-  [16, note("<f1 c2 d2 bb1>").s("gm_acoustic_bass").decay(.4).sustain(.5).gain(.65).room(.2)],
-  [16, note("<f1 c2 d2 bb1>").s("gm_acoustic_bass").decay(.3).sustain(.6).gain(.75).room(.2)],
-  [16, note("<f1 c2 d2 bb1>").s("gm_acoustic_bass").decay(.4).sustain(.5).gain(.65).room(.2)],
-  [16, note("<f2 c3 d3 bb2>/2").s("gm_acoustic_bass").decay(1).sustain(.4).gain(.45).lpf(800)],
-  [16, note("<f1 c2 d2 bb1>").s("gm_acoustic_bass").decay(.3).sustain(.6).gain(.75).room(.2)],
-  [8,  note("f1/2").s("gm_acoustic_bass").decay(2).gain(saw.slow(8).range(.5, 0))]
-)
-
-$: arrange(
-  [8,  chord("<Fmaj7 Cmaj7>/2").dict('ireal').voicing().s("gm_acoustic_guitar_nylon").struct("x ~ ~ ~").gain(.38).room(.6)],
-  [16, chord("<Fmaj7 Cmaj7 Dm7 Bbmaj7>").dict('ireal').voicing().s("gm_acoustic_guitar_nylon").struct("[x ~ x ~]").gain(.48).room(.4).speed(.98)],
-  [16, chord("<Fmaj7 C6 Dm9 Bbmaj7>").dict('ireal').voicing().s("gm_acoustic_guitar_nylon").struct("[x x] [x ~]").gain(.58).room(.3).speed(.99)],
-  [16, chord("<Fmaj7 Cmaj7 Dm7 Bbmaj7>").dict('ireal').voicing().s("gm_acoustic_guitar_nylon").struct("[x ~ x ~]").gain(.48).room(.4).speed(.98)],
-  [16, chord("<Fmaj7 Cmaj7 Dm7 Bbmaj7>").dict('ireal').voicing().s("gm_synth_strings_1").attack(2).release(2).gain(.28).lpf(1200)],
-  [16, chord("<Fmaj7 C6 Dm9 Bbmaj7>").dict('ireal').voicing().s("gm_acoustic_guitar_nylon").struct("[x x] [x ~]").gain(.58).room(.3).speed(.99)],
-  [8,  chord("Fmaj7").dict('ireal').voicing().s("gm_acoustic_guitar_nylon").struct("x").gain(saw.slow(8).range(.4, 0)).room(.8)]
-)
-
-$: arrange(
-  [8,  n("<0 2 4 7>/2").scale("F4:major").s("gm_flute").attack(.5).gain(.28).room(.8).delay(".5:.3:.6")],
-  [16, silence],
-  [16, n("<[0 2 4 0] [7 4 2 0] [~ 5 4 2] [0 ~ ~ ~]>").scale("F5:major").s("gm_flute").gain(.42).room(.6).vib(4).delay(".3:.2:.4")],
-  [16, n("<[~ 0 ~ 2] [4 ~ ~ 0] [~ 2 ~ 4] [0 ~ ~ ~]>").scale("F5:major").s("gm_epiano1").gain(.38).room(.5).delay(".4:.2:.5")],
-  [16, n("<4 7 9 11>/2").scale("F5:major").s("gm_flute").attack(1).gain(.32).room(.9).lpf(sine.range(1000, 3000).slow(8))],
-  [16, n("<[0 2 4 7] [9 7 4 2] [5 4 2 0] [~ 7 4 2]>").scale("F5:major").s("gm_flute").gain(.48).room(.5).vib(5).delay(".25:.2:.3")],
-  [8,  n("0").scale("F4:major").s("gm_flute").attack(1).gain(saw.slow(8).range(.3, 0)).room(1)]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, n("<[~ ~ 7 ~] [~ 4 ~ ~] [2 ~ ~ 0] [~ ~ ~ ~]>").scale("F5:major").s("gm_epiano2").gain(.25).room(.7).delay(".6:.4:.7")],
-  [16, silence],
-  [16, n("<[~ ~ 7 ~] [~ 4 ~ ~] [2 ~ ~ 0] [~ ~ ~ ~]>").scale("F5:major").s("gm_epiano2").gain(.25).room(.7).delay(".6:.4:.7")],
-  [16, silence],
-  [16, silence],
-  [8,  silence]
-)
-
-$: arrange(
-  [8,  chord("<Fmaj7 Cmaj7>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(3).gain(.2).room(.9).lpf(800)],
-  [16, silence],
-  [16, chord("<Fmaj7 C6 Dm9 Bbmaj7>").dict('ireal').voicing().s("gm_synth_strings_1").attack(2).gain(.25).room(.8).lpf(1000)],
-  [16, silence],
-  [16, chord("<Fmaj7 Cmaj7 Dm7 Bbmaj7>").dict('ireal').voicing().s("gm_synth_strings_1").attack(4).gain(.3).room(1).lpf(sine.range(600, 1400).slow(12))],
-  [16, chord("<Fmaj7 C6 Dm9 Bbmaj7>").dict('ireal').voicing().s("gm_synth_strings_1").attack(2).gain(.28).room(.8).lpf(1200)],
-  [8,  chord("Fmaj7").dict('ireal').voicing().s("gm_synth_strings_1").attack(4).gain(saw.slow(8).range(.2, 0)).room(1)]
-)
+// "Timber Shadow" — shifting layers of woodland textures and soft drifting piano
+samples('github:tidalcycles/dirt-samples');
+setcps(0.42);
+stack(
+  s("birds(3,8)").n(irand(20)).gain(perlin.range(0.1, 0.4)).room(0.95).pan(perlin),
+  s("superpiano").note("<[e3,g3,b3,d4] [f2,a2,c3,e3] [g2,b2,d3,f3] [c3,e3,g3,b3]>").gain(0.55).room(0.85).delay(0.5).lpf(perlin.range(400, 1800)).slow(2),
+  s("superpiano").note("~ <g4 a4 b4 d5 e5>*2").gain(0.25).room(1).delay(0.8).pan(sine).iter(8),
+  s("<clak(2,4) [clak(3,8) can(5,8)]>").gain(perlin.range(0.2, 0.5)).room(0.4).pan(perlin.range(0.4, 0.6)),
+  s("v(1,16)").n(irand(8)).gain(0.15).room(1).rev().slow(4)
+).reset(32)

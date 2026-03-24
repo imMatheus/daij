@@ -1,58 +1,18 @@
-// 🎵 "Canopy Steps" — Organic downtempo folktronica for walking through a forest
-// At 92 BPM: intro(8) + verse(16) + chorus(16) + verse2(16) + chorus2(16) + outro(8) = 80 bars ≈ 2:10
-
-setcpm(92 / 4)
-
-$: arrange(
-  [8,  s("vinyl:2").gain(.18).room(1).loop(1).lpf(2400)],
-  [16, s("vinyl:2").gain(.16).room(1).loop(1).lpf(2600)],
-  [16, s("vinyl:2").gain(.14).room(1).loop(1).lpf(sine.range(2200,3400).slow(8))],
-  [16, s("vinyl:2").gain(.16).room(1).loop(1).lpf(2600)],
-  [16, s("vinyl:2").gain(.14).room(1).loop(1).lpf(sine.range(2200,3400).slow(8))],
-  [8,  s("vinyl:2").gain(saw.slow(8).range(.14,.03)).room(1).loop(1).lpf(2000)]
-)
-
-$: arrange(
-  [8,  s("~ ~ [hh hh]*2 ~, bd ~ ~ ~").bank("RolandTR808").cut(1).swing(4).gain(".2 .45").room(.35)],
-  [16, s("bd ~ ~ [bd ~], ~ cp ~ ~, hh*8").bank("RolandTR808").cut(1).swing(4).gain(".82 .74").room(.3)],
-  [16, s("bd ~ [bd ~] ~, ~ [cp,sd:1] ~ [cp ~], [hh hh oh hh]*2").bank("RolandTR808").cut(1).swing(4).gain(".9 .82").room(.28).every(4, x => x.fast(2).gain(.6))],
-  [16, s("bd(5,16), ~ cp ~ ~, hh*8").bank("RolandTR808").cut(1).swing(4).gain(".84 .76").room(.32).sometimes(x => x.press())],
-  [16, s("bd ~ [bd ~] ~, ~ [cp,sd:1] ~ [cp ~], [hh hh oh hh]*2").bank("RolandTR808").cut(1).swing(4).gain(".9 .82").room(.28).every(8, x => x.rev())],
-  [8,  s("bd ~ ~ ~, ~ ~ cp ~, hh*4").bank("RolandTR808").cut(1).swing(4).gain(saw.slow(8).range(.6,.15)).room(.45)]
-)
-
-$: arrange(
-  [8,  note("<e2 ~ ~ ~ c2 ~ ~ ~>/2").s("gm_acoustic_bass").decay(.45).sustain(.35).room(.3).gain(.58)],
-  [16, note("<[e2 ~ ~ e2] [c2 ~ ~ ~] [g1 ~ ~ g1] [d2 ~ ~ ~]>").s("gm_acoustic_bass").decay(.32).sustain(.5).room(.24).gain(.8)],
-  [16, note("<[e2 ~ e2 ~] [c2 ~ ~ c2] [g1 ~ g1 ~] [d2 ~ ~ d2]>").s("gm_acoustic_bass").decay(.28).sustain(.54).room(.22).gain(.84)],
-  [16, note("<[e2 ~ ~ e2] [c2 ~ ~ ~] [g1 ~ ~ g1] [d2 ~ ~ ~]>").s("gm_acoustic_bass").decay(.32).sustain(.5).room(.24).gain(.8)],
-  [16, note("<[e2 ~ e2 ~] [c2 ~ ~ c2] [g1 ~ g1 ~] [d2 ~ ~ d2]>").s("gm_acoustic_bass").decay(.28).sustain(.54).room(.22).gain(.84)],
-  [8,  note("<e2 ~ c2 ~ g1 ~ d2 ~>/2").s("gm_acoustic_bass").decay(.6).sustain(.35).room(.35).gain(.58).speed(.98)]
-)
-
-$: arrange(
-  [8,  chord("<Em9 Cmaj7>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(.9).decay(1).sustain(.75).release(2.2).lpf(1400).room(.75).gain(.34)],
-  [16, chord("<Em9 Cmaj7 Gmaj7 D7>").dict('ireal').voicing().s("gm_acoustic_guitar_nylon").struct("x ~ ~ [x ~]").lpf(3200).room(.5).delay(".22:.15:.2").gain(.52).speed(.99)],
-  [16, chord("<Em9 Cmaj7 Gmaj7 D7>").dict('ireal').voicing().s("gm_acoustic_guitar_nylon").struct("[x ~ x ~]*2").lpf(3600).room(.45).delay(".25:.2:.28").gain(.58).every(4, x => x.fast(2).gain(.7))],
-  [16, chord("<Em9 Cmaj7 Gmaj7 D7>").dict('ireal').voicing().s("gm_acoustic_guitar_nylon").struct("x ~ ~ [x ~]").lpf(3200).room(.5).delay(".22:.15:.2").gain(.52).speed(.99)],
-  [16, chord("<Em9 Cmaj7 Gmaj7 D7>").dict('ireal').voicing().s("gm_acoustic_guitar_nylon").struct("[x ~ x ~]*2").lpf(3600).room(.45).delay(".25:.2:.28").gain(.58).every(8, x => x.rev())],
-  [8,  chord("<Em9 Cmaj7>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(.8).sustain(.6).release(3).lpf(sine.range(700,1600).slow(8)).room(.85).gain(saw.slow(8).range(.3,.04))]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, n("<[~ 0 2 ~] [3 ~ ~ 5] [~ 7 5 ~] [3 ~ 2 0]>").scale("E5:dorian").s("gm_flute").lpf(sine.range(1200,3600).slow(10)).room(.62).delay(".35:.25:.45").gain(.36).vib(4).vibmod(.5)],
-  [16, n("<[0 ~ 2 3] [~ 5 7 ~] [3 ~ 2 ~] [~ 5 3 0]>").scale("E5:dorian").s("gm_flute").lpf(sine.range(1500,4200).slow(7)).room(.58).delay(".3:.2:.38").gain(.44).vib(5).vibmod(.55).sometimes(x => x.add(note(12)))],
-  [16, n("<[~ 0 2 ~] [3 ~ ~ 5] [~ 7 5 ~] [3 ~ 2 0]>").scale("E5:dorian").s("gm_flute").lpf(sine.range(1200,3600).slow(10)).room(.62).delay(".35:.25:.45").gain(.36).vib(4).vibmod(.5)],
-  [16, n("<[0 ~ 2 3] [~ 5 7 ~] [3 ~ 2 ~] [~ 5 3 0]>").scale("E5:dorian").s("gm_flute").lpf(sine.range(1500,4200).slow(7)).room(.58).delay(".3:.2:.38").gain(.44).vib(5).vibmod(.55).sometimes(x => x.add(note(12)))],
-  [8,  n("<[~ ~ 2 ~] [~ 3 ~ ~] [~ 0 ~ ~] [~ ~ ~ ~]>").scale("E5:dorian").s("gm_flute").room(.85).delay(".6:.45:.7").gain(.24).lpf(1800).attack(.2).release(.8)]
-)
-
-$: arrange(
-  [8,  n("<0 ~ ~ 2>/2").scale("E4:dorian").s("gm_clarinet").room(.7).delay(".45:.3:.55").gain(.2).lpf(2600)],
-  [16, silence],
-  [16, n("<[~ ~ 5 ~] [7 ~ ~ ~] [~ 3 ~ 2] [0 ~ ~ ~]>").scale("E4:dorian").s("gm_oboe").room(.6).delay(".4:.3:.5").gain(.28).lpf(3200).attack(.05).decay(.2).sustain(.55).release(.3)],
-  [16, silence],
-  [16, n("<[~ 2 ~ 5] [~ ~ 7 ~] [5 ~ ~ 3] [~ 2 ~ 0]>").scale("E4:dorian").s("gm_clarinet").room(.62).delay(".38:.28:.45").gain(.26).lpf(3000).rarely(x => x.rev())],
-  [8,  silence]
-)
+// "Moss Path" - soft footfalls, canopy shimmer, and distant birds
+samples('github:tidalcycles/dirt-samples')
+setcps(0.62)
+$: s("<[bd(3,8) ~] [bd(5,13) ~]>")
+  .stack(
+    s("<~ hh(5,8) [~ hh] hh(3,8)>").gain(0.35).lpf(perlin.range(2200,7600).slow(4)),
+    s("<~ ~ cp ~> <~ rim ~ rim>").gain(0.28).room(0.5),
+    s("shaker(7,16)").gain(0.22).hpf(2500).delay(0.125).delayfeedback(0.35),
+    n("<[0 2 4 7] [0 3 5 7] [0 2 5 9] [0 3 7 10]>").scale("dorian").slow(4).s("sawtooth").legato(1.2).lpf(sine.range(400,1800).slow(6)).gain(0.2),
+    n("<[0 7 12] [2 9 14] [3 10 15] [5 12 17]>").scale("dorian").slow(8).s("triangle").gain(0.16).room(0.8),
+    s("<~ ~ ~ birds3:1 [~ birds3:2] ~ birds3:3>").slow(2).gain(0.18).room(0.9).delay(0.25)
+  )
+  .reset("<32 48 64>")
+  .room(perlin.range(0.2,0.75).slow(8))
+  .delay("<0 0.125 0.25>")
+  .delayfeedback(0.35)
+  .lpf(perlin.range(700,3200).slow(7))
+  .shape(0.08)

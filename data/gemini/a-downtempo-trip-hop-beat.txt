@@ -1,56 +1,21 @@
-// 🌧️ "Submerged" — Downtempo Trip Hop
-// At 90 BPM: intro(8) + verse1(16) + chorus1(16) + verse2(16) + chorus2(16) + outro(8) = 80 bars ≈ 3:33
+// "Midnight Dust" — a hazy downtempo trip hop beat with dusty drums and a deep bassline
 
-setcpm(90 / 4)
+setcps(84 / 60 / 4);
 
-$: s("vinyl:2").gain(.15).room(1).loop(1).lpf(1800)
+samples('github:tidalcycles/dirt-samples');
 
-$: arrange(
-  [8,  s("bd ~ ~ ~").bank("RolandTR808").gain(.75).room(.4).swing(4)],
-  [16, s("bd [~ bd] [sd,cp] [~ bd], hh*8").bank("RolandTR808").gain(".85 .75").room(.35).swing(4)],
-  [16, s("bd [~ bd] [sd,cp] [~ bd], [hh oh hh hh]*2").bank("RolandTR808").gain(".9 .8").room(.3).swing(4).every(4, x=>x.fast(2))],
-  [16, s("bd [~ bd] [sd,cp] [~ bd], hh*8").bank("RolandTR808").gain(".85 .75").room(.35).swing(4).sometimes(x=>x.press())],
-  [16, s("bd [~ bd] [sd,cp] [~ bd], [hh oh hh hh]*2").bank("RolandTR808").gain(".92 .85").room(.3).swing(4).every(4, x=>x.fast(2))],
-  [8,  s("bd ~ ~ ~").bank("RolandTR808").gain(saw.slow(8).range(.75, .1)).room(.5)]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, note("<[d1 ~ ~ d1] [g1 ~ ~ ~] [bb0 ~ ~ bb0] [a0 ~ ~ ~]>").s("gm_acoustic_bass").decay(.4).sustain(.5).room(.2).gain(.82)],
-  [16, note("<[d1 ~ d1 ~] [g1 ~ g1 ~] [bb0 ~ bb0 ~] [a0 ~ ~ a0]>").s("gm_acoustic_bass").decay(.3).sustain(.6).room(.2).gain(.88)],
-  [16, note("<[d1 ~ ~ d1] [g1 ~ ~ ~] [bb0 ~ ~ bb0] [a0 ~ ~ ~]>").s("gm_acoustic_bass").decay(.4).sustain(.5).room(.2).gain(.82)],
-  [16, note("<[d1 ~ d1 ~] [g1 ~ g1 ~] [bb0 ~ bb0 ~] [a0 ~ ~ a0]>").s("gm_acoustic_bass").decay(.3).sustain(.6).room(.2).gain(.88)],
-  [8,  note("<d1 ~ g1 ~ bb0 ~ a0 ~>/2").s("gm_acoustic_bass").decay(.6).sustain(.4).room(.4).gain(.65).speed(.97)]
-)
-
-$: arrange(
-  [8,  chord("<Dm9 Bbmaj7>/2").dict('ireal').voicing().s("gm_epiano1").lpf(1200).room(.7).gain(.4).attack(1)],
-  [16, chord("<Dm9 Gm7 Bbmaj7 A7b13>").dict('ireal').voicing().s("gm_epiano1").struct("~ x ~ [~ x]").lpf(1800).room(.5).delay(".25:.2:.3").gain(.55).speed(.98)],
-  [16, chord("<Dm9 Gm7 Bbmaj7 A7b13>").dict('ireal').voicing().s("gm_epiano1").struct("[x ~] [~ x]").lpf(2200).room(.45).delay(".2:.15:.25").gain(.6).speed(.99)],
-  [16, chord("<Dm9 Gm7 Bbmaj7 A7b13>").dict('ireal').voicing().s("gm_epiano1").struct("~ x ~ [~ x]").lpf(1800).room(.5).delay(".25:.2:.3").gain(.55).speed(.98)],
-  [16, chord("<Dm9 Gm7 Bbmaj7 A7b13>").dict('ireal').voicing().s("gm_epiano1").struct("[x ~] [~ x]").lpf(2200).room(.45).delay(".2:.15:.25").gain(.6).speed(.99)],
-  [8,  chord("<Dm9 Bbmaj7>/2").dict('ireal').voicing().s("gm_epiano1").struct("x ~ ~ ~").lpf(1400).room(.8).gain(saw.slow(8).range(.45, .05)).speed(.95)]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, silence],
-  [16, chord("<Dm9 Gm7 Bbmaj7 A7b13>").dict('ireal').voicing().s("gm_synth_strings_1").attack(2).sustain(.7).release(2).lpf(sine.range(800, 2400).slow(8)).room(.8).gain(.32)],
-  [16, silence],
-  [16, chord("<Dm9 Gm7 Bbmaj7 A7b13>").dict('ireal').voicing().s("gm_synth_strings_1").attack(2).sustain(.7).release(2).lpf(sine.range(800, 2400).slow(8)).room(.8).gain(.32)],
-  [8,  silence]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, silence],
-  [16, silence],
-  [16, n("<[~ 0 2 3] [~ 5 3 2] [~ 7 ~ 5] [3 ~ 2 0]>").scale("D5:dorian").s("gm_flute").room(.6).delay(".4:.3:.5").gain(.35).vib(5).vibmod(.6).lpf(3500)],
-  [16, n("<[0 ~ 3 5] [~ 7 5 3] [~ 2 ~ 0] [~ ~ ~ ~]>").scale("D5:dorian").s("gm_flute").room(.6).delay(".4:.3:.5").gain(.38).vib(4).vibmod(.7).lpf(3000)],
-  [8,  n("<[~ 0 ~ ~] [~ ~ 2 ~] [~ 3 ~ ~] [~ ~ ~ ~]>").scale("D5:dorian").s("gm_flute").room(.9).gain(.25).lpf(1500).attack(1)]
-)
-
-$: note("<d1 g1 bb0 a0>/4")
-   .s("sine")
-   .attack(2).sustain(.8).release(3)
-   .gain(.2).room(.7).lpf(150)
+stack(
+  s("noise").gain(0.15).lpf(sine.range(400, 1200).slow(16)).hpf(200).room(0.4),
+  s("bd:4 [~ bd:4] <bd:4 [~ bd:4]> [~ bd:4]").gain(1.2).room(0.1).lpf(800),
+  s("~ <sn:2 [~ sn:2]> ~ <sn:2 [sn:2*2]>").gain(0.7).room(0.6).delay(0.2).delayfb(0.3).pan(0.6),
+  s("hh*16").gain(perlin.range(0.2, 0.6)).pan(sine.range(0.3, 0.7).slow(8)).cutoff(5000),
+  note("<c2 f1 g1 eb1>").s("bass").lpf(300).gain(0.8).room(0.2),
+  note("<[c3,eb3,g3,bb3] [f3,ab3,c4,eb4] [g3,bb3,d4,f4] [ab3,c4,eb4,g4]>")
+    .s("supervibe")
+    .gain(0.5)
+    .room(0.9)
+    .lpf(sine.range(500, 1800).slow(12))
+    .delay(0.4)
+    .delayfb(0.5)
+    .pan(perlin.range(0.2, 0.8).slow(4))
+).reset(16)

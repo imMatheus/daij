@@ -1,0 +1,155 @@
+// 🍂 "Turning Year" — Ambient Cinematic / Pastoral Electronic
+// At 76 BPM: spring(20) + summer(20) + autumn(20) + winter(20) = 80 bars ≈ 4:13
+
+setcpm(76 / 4)
+
+// vinyl warmth throughout
+$: s("vinyl:2").gain(.13).room(1).loop(1).lpf(2400)
+
+// drums — light in spring, full in summer, shuffled in autumn, sparse in winter
+$: arrange(
+  [20, s("bd ~ ~ ~, ~ ~ ~ ~, [hh hh]*4")
+       .bank("RolandTR808").swing(3)
+       .gain(perlin.range(.3,.55))
+       .room(.5).lpf(3000)],
+  [20, s("bd ~ bd ~, ~ [cp,sd:1] ~ [cp,sd:1], [hh oh hh hh]*2")
+       .bank("RolandTR909").cut(1).swing(4)
+       .gain(perlin.range(.75,.95))
+       .room(.3)
+       .every(4, x => x.fast(2).gain(.5))],
+  [20, s("bd(3,8), ~ [cp,sd:2] ~ ~, [hh ~ oh ~]*2")
+       .bank("RolandTR808").cut(1).swing(5)
+       .gain(perlin.range(.6,.85))
+       .room(.4).crush(14)
+       .every(5, x => x.press())],
+  [20, s("bd ~ ~ ~, ~ ~ [sd:1] ~")
+       .bank("RolandTR808").swing(3)
+       .gain(saw.slow(20).range(.55,.08))
+       .room(.7).roomsize(6)]
+)
+
+// bass — bright in spring/summer, darker in autumn/winter
+$: arrange(
+  [20, note("<[g2 ~ ~ g2] [a2 ~ ~ ~] [c3 ~ ~ c3] [d3 ~ ~ ~]>")
+       .s("gm_acoustic_bass")
+       .decay(.35).sustain(.5).room(.25).gain(.72)],
+  [20, note("<[g2 ~ g2 ~] [a2 ~ ~ a2] [c3 ~ c3 ~] [d3 ~ ~ d3]>")
+       .s("gm_acoustic_bass")
+       .decay(.2).sustain(.6).room(.2).gain(.85)],
+  [20, note("<[e2 ~ ~ e2] [d2 ~ ~ ~] [c2 ~ ~ c2] [a1 ~ ~ ~]>")
+       .s("gm_acoustic_bass")
+       .decay(.4).sustain(.4).room(.3).gain(.78).speed(.97)],
+  [20, note("<[c2 ~ ~ ~] [eb2 ~ ~ ~] [ab1 ~ ~ ~] [g1 ~ ~ ~]>")
+       .s("gm_acoustic_bass")
+       .decay(.6).sustain(.3).room(.4).gain(.6).lpf(800)]
+)
+
+// chords — flute-like spring, bright summer keys, warm autumn guitar, cold winter strings
+$: arrange(
+  [20, chord("<G^7 Am7 Cmaj7 D7>")
+       .dict('ireal').voicing()
+       .s("gm_acoustic_guitar_nylon")
+       .struct("~ [x ~] ~ [x ~]")
+       .lpf(3500).room(.55)
+       .delay(".2:.15:.3")
+       .gain(.48).speed(.98)],
+  [20, chord("<G^7 Am7 Cmaj7 D7>")
+       .dict('ireal').voicing()
+       .s("gm_epiano1")
+       .struct("[~ x]*2")
+       .lpf(4500).room(.4)
+       .delay(".15:.1:.2")
+       .gain(.58)
+       .every(4, x => x.fast(2).gain(.35))],
+  [20, chord("<Em7 Dm7 Cmaj7 Am7>")
+       .dict('ireal').voicing()
+       .s("gm_acoustic_guitar_nylon")
+       .struct("<[x ~ x ~] [~ x ~ x]>/2")
+       .lpf(2400).room(.5)
+       .delay(".25:.2:.35")
+       .gain(.5).crush(13).speed(.97)],
+  [20, chord("<Cm9 Ebmaj7 Ab^7 G7b9>")
+       .dict('ireal').voicing()
+       .s("gm_synth_strings_1")
+       .attack(.8).decay(1).sustain(.7).release(2)
+       .lpf(sine.range(600,1800).slow(10))
+       .room(.8).roomsize(6)
+       .gain(.4)]
+)
+
+// melody — birdsong spring, bright summer, wistful autumn, sparse winter
+$: arrange(
+  [20, n("<[~ 0 2 ~] [3 ~ 5 ~] [~ 7 5 ~] [3 ~ 2 0]>")
+       .scale("G5:major:pentatonic")
+       .s("gm_flute")
+       .lpf(6000).room(.6)
+       .delay(".3:.2:.4").gain(.4)
+       .vib(5).vibmod(.7)
+       .attack(.05).decay(.2).sustain(.7).release(.4)
+       .rarely(x => x.add(note(12)))],
+  [20, n("<[0 ~ 3 5] [~ 7 5 ~] [3 5 7 ~] [~ 5 3 0]>")
+       .scale("G5:major:pentatonic")
+       .s("gm_epiano1")
+       .lpf(sine.range(1500,4500).slow(8))
+       .room(.5).delay(".25:.2:.35").gain(.48)
+       .sometimes(x => x.add(note(12)))],
+  [20, n("<[~ 0 ~ 3] [5 ~ 3 ~] [~ 2 ~ 5] [3 ~ ~ 0]>")
+       .scale("E4:minor:pentatonic")
+       .s("gm_epiano1")
+       .lpf(sine.range(800,2800).slow(12))
+       .room(.6).delay(".35:.25:.45").gain(.4)
+       .vib(4).vibmod(.5)],
+  [20, n("<[~ 0 ~ ~] [~ ~ 3 ~] [~ 5 ~ ~] [~ ~ 0 ~]>")
+       .scale("C5:minor:pentatonic")
+       .s("gm_epiano1")
+       .room(.9).roomsize(8)
+       .delay(".6:.4:.7").gain(.3)
+       .lpf(sine.range(400,1600).slow(10))]
+)
+
+// texture — spring birds, summer shimmer, autumn leaves, winter wind
+$: arrange(
+  [20, n("<0 2 5 7>/2")
+       .scale("G6:major:pentatonic")
+       .s("gm_flute")
+       .attack(.1).decay(.15).sustain(.4).release(.5)
+       .room(.7).delay(".5:.35:.6").gain(.25)
+       .lpf(5500).vib(6).vibmod(.9)
+       .pan(sine.slow(4))],
+  [20, s("hh*16")
+       .bank("RolandTR909")
+       .gain(perlin.range(.05,.25))
+       .pan(sine.slow(3))
+       .lpf(sine.range(3000,8000).slow(6))
+       .room(.5).cut(1)],
+  [20, n("<[~ ~ 5 ~] [~ 7 ~ ~] [5 ~ ~ 3] [~ ~ 0 ~]>")
+       .scale("E4:minor:pentatonic")
+       .s("gm_acoustic_guitar_nylon")
+       .room(.7).delay(".5:.35:.6").gain(.25)
+       .lpf(2000).speed(.96).crush(12)],
+  [20, note("<c2 eb2 ab1 g1>/4")
+       .s("sine")
+       .attack(2).decay(1).sustain(.8).release(3)
+       .gain(.2).room(.7).roomsize(8)
+       .lpf(180)]
+)
+
+// sub-bass drone — seasonal root notes
+$: arrange(
+  [20, note("<g1 a1 c2 d2>/4")
+       .s("sine")
+       .attack(1.5).decay(.5).sustain(.9).release(2)
+       .gain(.18).room(.4).lpf(120)],
+  [20, note("<g1 a1 c2 d2>/4")
+       .s("sine")
+       .attack(1).decay(.5).sustain(.9).release(1.5)
+       .gain(.22).room(.3).lpf(150)],
+  [20, note("<e1 d1 c1 a0>/4")
+       .s("sine")
+       .attack(1.5).decay(.8).sustain(.8).release(2)
+       .gain(.2).room(.5).lpf(130)],
+  [20, note("<c1 eb1 ab0 g0>/4")
+       .s("sine")
+       .attack(2).decay(1).sustain(.7).release(3)
+       .gain(.18).room(.6).lpf(100)]
+)

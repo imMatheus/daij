@@ -1,0 +1,68 @@
+// 🎵 "La Noche Blanca" — Flamenco-Reggaeton Fusion (Style of Rosalía)
+// At 92 BPM: intro(8) + verse(16) + chorus(16) + verse2(16) + chorus2(16) + outro(8) = 80 bars ≈ 3:28
+
+setcpm(92 / 4)
+
+$: s("vinyl:1").gain(.12).loop(1).lpf(1800).room(1).pan(sine.slow(10))
+
+$: arrange(
+  [8,  s("cp*6").bank("RolandTR808").gain(".6 .4 .5 .7 .3 .5").room(.5).swing(2)],
+  [16, s("cp*12").bank("RolandTR808").gain(".7 .4 .6 .3").room(.4).sometimes(x=>x.fast(2))],
+  [16, s("[cp cp] [cp ~ cp] [cp cp] [~ cp cp]").bank("RolandTR808").gain(".85 .6 .8").room(.3)],
+  [16, s("cp*12").bank("RolandTR808").gain(".7 .4 .6 .3").room(.4)],
+  [16, s("[cp cp] [cp ~ cp] [cp cp] [~ cp cp]").bank("RolandTR808").gain(".85 .6 .8").room(.3)],
+  [8,  s("cp*6").bank("RolandTR808").gain(saw.slow(8).range(.6, 0)).room(.6)]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, s("bd ~ ~ bd, ~ ~ ~ ~").bank("RolandTR909").gain(.9).room(.2)],
+  [16, s("bd ~ [~ bd] ~, ~ [sd:1] ~ [sd:1]").bank("RolandTR808").gain(.95).room(.1).swing(4)],
+  [16, s("bd ~ ~ bd, ~ ~ ~ ~").bank("RolandTR909").gain(.9).room(.2)],
+  [16, s("bd ~ [~ bd] ~, ~ [sd:1] ~ [sd:1]").bank("RolandTR808").gain(.95).room(.1).swing(4)],
+  [8,  s("bd ~ ~ ~").bank("RolandTR909").gain(saw.slow(8).range(.8, 0)).room(.4)]
+)
+
+$: arrange(
+  [8,  chord("<Am Bb>").dict('ireal').voicing().s("gm_acoustic_guitar_nylon").struct("x(3,8)").gain(.7).room(.6).attack(.02)],
+  [16, chord("<Am Bb C Bb>").dict('ireal').voicing().s("gm_acoustic_guitar_nylon").struct("[x ~ x x] [~ x x ~]").gain(.75).room(.4).delay(".2:.1:.3")],
+  [16, chord("<Am G F E>").dict('ireal').voicing().s("gm_acoustic_guitar_nylon").struct("x*4").gain(.85).room(.3).crush(14).speed(.98)],
+  [16, chord("<Am Bb C Bb>").dict('ireal').voicing().s("gm_acoustic_guitar_nylon").struct("[x ~ x x] [~ x x ~]").gain(.75).room(.4)],
+  [16, chord("<Am G F E>").dict('ireal').voicing().s("gm_acoustic_guitar_nylon").struct("x*4").gain(.85).room(.3).crush(14).speed(.98)],
+  [8,  chord("<Am Bb>/2").dict('ireal').voicing().s("gm_acoustic_guitar_nylon").struct("x ~ ~ ~").gain(saw.slow(8).range(.6, 0)).room(.8)]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, note("<[a1 ~ ~ a1] [bb0 ~ ~ bb0] [c1 ~ ~ c1] [bb0 ~ ~ ~]>").s("gm_acoustic_bass").decay(.4).sustain(.5).gain(.8).lpf(450)],
+  [16, note("<[a1 ~ a1 ~] [g1 ~ g1 ~] [f1 ~ f1 ~] [e1 ~ e1 ~]>").s("gm_acoustic_bass").decay(.3).sustain(.6).gain(.9).lpf(650)],
+  [16, note("<[a1 ~ ~ a1] [bb0 ~ ~ bb0] [c1 ~ ~ c1] [bb0 ~ ~ ~]>").s("gm_acoustic_bass").decay(.4).sustain(.5).gain(.8).lpf(450)],
+  [16, note("<[a1 ~ a1 ~] [g1 ~ g1 ~] [f1 ~ f1 ~] [e1 ~ e1 ~]>").s("gm_acoustic_bass").decay(.3).sustain(.6).gain(.9).lpf(650)],
+  [8,  note("<a1 ~ bb0 ~>/2").s("gm_acoustic_bass").gain(saw.slow(8).range(.7, 0)).lpf(200)]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, n("<[0 1 3 4] [3 1 0 ~]>").scale("A:phrygian").s("gm_flute").gain(.42).room(.75).delay(".3:.2:.4").vib(5).vibmod(.4)],
+  [16, n("<[7 8 7 5] [4 5 4 1] [0 ~ ~ ~]>").scale("A:phrygian").s("gm_flute").gain(.52).room(.65).delay(".2:.1:.3").vib(6).vibmod(.6)],
+  [16, n("<[0 1 3 4] [3 1 0 ~]>").scale("A:phrygian").s("gm_flute").gain(.42).room(.75).delay(".3:.2:.4")],
+  [16, n("<[7 8 7 5] [4 5 4 1] [0 ~ ~ ~]>").scale("A:phrygian").s("gm_flute").gain(.52).room(.65).delay(".2:.1:.3")],
+  [8,  silence]
+)
+
+$: arrange(
+  [24, silence],
+  [16, s("gm_synth_strings_1").note("<a3 bb3 c4 bb3>").attack(1.2).release(1.5).gain(.32).room(.85).lpf(1200)],
+  [16, silence],
+  [16, s("gm_synth_strings_1").note("<a3 g3 f3 e3>").attack(1.2).release(1.5).gain(.38).room(.85).lpf(1500)],
+  [8,  silence]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, silence],
+  [16, s("sine").n("<[0 ~ 1 ~] [3 ~ 4 ~] [3 ~ 1 ~] [0 ~ ~ ~]>").scale("A:phrygian").gain(.15).room(.9).delay(".4:.3:.6").lpf(800).attack(.1)],
+  [16, silence],
+  [16, s("sine").n("<[0 ~ 1 ~] [3 ~ 4 ~] [3 ~ 1 ~] [0 ~ ~ ~]>").scale("A:phrygian").gain(.15).room(.9).delay(".4:.3:.6").lpf(800).attack(.1)],
+  [8,  silence]
+)

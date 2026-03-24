@@ -1,176 +1,70 @@
-// 🚀 "Beyond the Heliosphere" — Cinematic Space Ambient / Downtempo
-// At 72 BPM: intro(8) + verse(16) + chorus(16) + verse2(16) + chorus2(16) + bridge(8) + outro(8) = 88 bars ≈ 2:56
+// 🛸 "Event Horizon" — Cinematic Space Ambient / Dark Electronic
+// At cps 0.4: launch(4) + orbit(8) + deepspace(8) + encounter(8) + void(4) = 32 bars ≈ 80s
 
-setcpm(72 / 4)
+setcps(0.4)
 
-// deep space hiss
-$: s("vinyl:2").gain(.12).room(1).loop(1).lpf(2200)
+// cosmic background radiation
+$: s("vinyl:2").gain(.08).room(1).loop(1).lpf(1600)
 
-// sub drone — the void hums
-$: note("<c1 g1 eb1 bb0>/4")
-   .s("sine")
-   .attack(3).decay(1).sustain(.8).release(3)
-   .gain(.2).room(.7).roomsize(8)
-   .lpf(180)
-
-// drums — sparse, weightless
+// gravitational drone — the fabric of spacetime
 $: arrange(
+  [4,  note("d1").s("sine").attack(3).decay(2).sustain(.9).release(4).gain(saw.slow(4).range(.05,.22)).room(.85).roomsize(8).lpf(130)],
+  [8,  note("<d1 a0>/4").s("sine").attack(2).decay(1.5).sustain(.9).release(3).gain(.24).room(.85).roomsize(8).lpf(sine.range(90,220).slow(16))],
+  [8,  note("<d1 a0 f1 c1>/4").s("sine").attack(2).decay(1.5).sustain(.85).release(3).gain(.26).room(.85).roomsize(8).lpf(sine.range(100,280).slow(12))],
+  [8,  note("<d1 a0>/4").s("sine").attack(2).decay(1.5).sustain(.85).release(3).gain(.22).room(.85).roomsize(8).lpf(sine.range(80,200).slow(16))],
+  [4,  note("d1").s("sine").attack(3).sustain(.7).release(6).gain(saw.slow(4).range(.2,.02)).room(.9).roomsize(8).lpf(100)]
+)
+
+// engine pulse — propulsion through the dark
+$: arrange(
+  [4,  s("bd*2").bank("RolandTR808").gain(saw.slow(4).range(.2,.6)).room(.6).roomsize(5).lpf(1800)],
+  [8,  s("bd ~ [~ bd] ~, ~ ~ ~ rim(3,8), [~ hh]*4").bank("RolandTR808").gain(perlin.range(.35,.6)).room(.55).roomsize(4).lpf(2800)],
+  [8,  s("bd ~ [bd ~] ~, ~ cp:3 ~ [~ rim], [hh oh hh hh]*2").bank("RolandTR808").cut(1).gain(perlin.range(.4,.7)).room(.5).roomsize(3).lpf(3200).every(4, x => x.press())],
+  [8,  s("bd ~ [~ bd] ~, ~ ~ ~ rim(3,8), [~ hh]*4").bank("RolandTR808").gain(perlin.range(.3,.55)).room(.6).roomsize(4).lpf(2200).sometimes(x => x.gain(.2))],
+  [4,  s("bd ~ ~ ~").bank("RolandTR808").gain(saw.slow(4).range(.55,.05)).room(.9).roomsize(8)]
+)
+
+// orbital bass line
+$: arrange(
+  [4,  silence],
+  [8,  note("<[d2 ~ ~ d2] [a1 ~ ~ ~] [f2 ~ ~ f2] [c2 ~ ~ ~]>").s("sawtooth").lpf(sine.range(200,700).slow(10)).gain(.45).room(.3).decay(.4).sustain(.35).cut(2)],
+  [8,  note("<[d2 ~ d2 ~] [a1 ~ ~ a1] [f2 ~ f2 ~] [c2 ~ ~ c2]>").s("sawtooth").lpf(sine.range(300,1000).slow(8)).gain(.5).room(.25).decay(.3).sustain(.4).cut(2).distort(.05)],
+  [8,  note("<[d2 ~ ~ d2] [a1 ~ ~ ~] [f2 ~ ~ f2] [c2 ~ ~ ~]>").s("sawtooth").lpf(sine.range(200,600).slow(10)).gain(.4).room(.35).decay(.5).sustain(.3).cut(2)],
+  [4,  silence]
+)
+
+// nebula pads — vast orchestral wash
+$: arrange(
+  [4,  chord("<Dm9>/1").dict('ireal').voicing().s("gm_synth_strings_1").attack(2).sustain(.7).release(3).lpf(sine.range(400,900).slow(8)).room(.9).roomsize(8).gain(.2)],
+  [8,  chord("<Dm9 Am7 Fmaj7 C^7>").dict('ireal').voicing().s("gm_synth_strings_1").attack(.7).sustain(.7).release(2).lpf(sine.range(700,2000).slow(12)).room(.75).roomsize(6).gain(.36)],
+  [8,  chord("<Dm9 Am7 Fmaj7 C^7>").dict('ireal').voicing().s("gm_synth_strings_1").attack(.5).sustain(.75).release(2).lpf(sine.range(1000,2800).slow(10)).room(.7).roomsize(5).gain(.44).pan(sine.slow(14).range(.3,.7))],
+  [8,  chord("<Dm9 Am7 Fmaj7 C^7>").dict('ireal').voicing().s("gm_synth_strings_1").attack(.7).sustain(.65).release(2).lpf(sine.range(600,1600).slow(12)).room(.8).roomsize(6).gain(.32)],
+  [4,  chord("<Dm9>/1").dict('ireal').voicing().s("gm_synth_strings_1").attack(1.5).sustain(.5).release(4).lpf(sine.range(300,600).slow(4)).room(.95).roomsize(10).gain(saw.slow(4).range(.28,.03))]
+)
+
+// explorer's theme — lonely melody drifting through the cosmos
+$: arrange(
+  [4,  n("<~ ~ 0 ~>/1").scale("D5:minor:pentatonic").s("gm_flute").room(.85).roomsize(6).delay(".6:.4:.7").gain(.2).lpf(1800).attack(.3).vib(3).vibmod(.6)],
+  [8,  n("<[~ 0 ~ 3] [~ ~ 5 ~] [~ 3 ~ ~] [0 ~ ~ ~]>").scale("D5:minor:pentatonic").s("gm_flute").room(.7).roomsize(5).delay(".45:.35:.55").gain(.35).lpf(sine.range(1200,3800).slow(10)).vib(3).vibmod(.5)],
+  [8,  n("<[0 3 5 7] [~ 8 7 ~] [5 ~ 3 5] [7 ~ 5 0]>").scale("D5:minor:pentatonic").s("gm_flute").room(.6).roomsize(4).delay(".35:.25:.5").gain(.44).lpf(sine.range(1500,5000).slow(8)).vib(3).vibmod(.6).sometimes(x => x.add(note(12)).gain(.2))],
+  [8,  n("<[~ 0 ~ 3] [5 ~ 7 ~] [~ 5 ~ 3] [0 ~ ~ ~]>").scale("D5:minor:pentatonic").s("gm_flute").room(.75).roomsize(5).delay(".5:.35:.6").gain(.3).lpf(sine.range(900,2500).slow(10)).vib(4).vibmod(.5)],
+  [4,  silence]
+)
+
+// starfield shimmer — distant light refracted through cosmic dust
+$: arrange(
+  [4,  silence],
   [8,  silence],
-  [16, s("bd ~ ~ ~, ~ ~ [cp:3] ~, [~ hh ~ hh]*2")
-       .bank("RolandTR909").cut(1)
-       .gain(perlin.range(.5,.75))
-       .room(.6).roomsize(4)
-       .lpf(3000)
-       .every(4, x => x.press())],
-  [16, s("bd ~ bd ~, ~ [cp:3,sd:1] ~ [~ cp:3], [hh oh hh hh]*2")
-       .bank("RolandTR909").cut(1)
-       .gain(".85 .75 .8 .75")
-       .room(.5).roomsize(3)
-       .every(3, x => x.fast(2).gain(.4))],
-  [16, s("bd ~ ~ ~, ~ ~ [cp:3] ~, [~ hh ~ hh]*2")
-       .bank("RolandTR909").cut(1)
-       .gain(perlin.range(.5,.75))
-       .room(.6).roomsize(4)
-       .sometimes(x => x.gain(.3))],
-  [16, s("bd ~ bd ~, ~ [cp:3,sd:1] ~ [~ cp:3], [hh oh hh hh]*2")
-       .bank("RolandTR909").cut(1)
-       .gain(".85 .75 .8 .75")
-       .room(.5).roomsize(3)
-       .every(4, x => x.rev())],
-  [8,  s("bd ~ ~ ~, ~ ~ ~ cp:3")
-       .bank("RolandTR909")
-       .gain(saw.slow(8).range(.7,.15)).room(.8).roomsize(6)],
-  [8,  s("bd ~ ~ ~")
-       .bank("RolandTR909")
-       .gain(saw.slow(8).range(.5,.05)).room(.9).roomsize(8)]
+  [8,  n("<[~ 7 ~ 5] [3 ~ 0 ~] [~ 5 ~ 7] [8 ~ ~ 5]>").scale("D6:minor:pentatonic").s("gm_epiano2").room(.85).roomsize(7).delay(".55:.4:.65").gain(.18).lpf(4500).attack(.05).decay(.35).sustain(.25).release(1).pan(sine.slow(5))],
+  [8,  n("<[~ ~ 5 ~] [~ 3 ~ ~] [~ ~ 7 ~] [~ 5 ~ ~]>").scale("D6:minor:pentatonic").s("gm_epiano2").room(.9).roomsize(8).delay(".65:.5:.75").gain(.14).lpf(3200).pan(sine.slow(3))],
+  [4,  silence]
 )
 
-// bass — deep space pulse
+// harmonic overtone — triangle wave adding ethereal color
 $: arrange(
-  [8,  silence],
-  [16, note("<[c2 ~ ~ c2] [g1 ~ ~ ~] [eb2 ~ ~ eb2] [bb1 ~ ~ ~]>")
-       .s("gm_acoustic_bass")
-       .decay(.4).sustain(.4).room(.3).gain(.75)
-       .lpf(800)],
-  [16, note("<[c2 ~ c2 ~] [g1 ~ ~ g1] [eb2 ~ eb2 ~] [bb1 ~ ~ bb1]>")
-       .s("gm_acoustic_bass")
-       .decay(.3).sustain(.5).room(.25).gain(.8)
-       .lpf(900)],
-  [16, note("<[c2 ~ ~ c2] [g1 ~ ~ ~] [eb2 ~ ~ eb2] [bb1 ~ ~ ~]>")
-       .s("gm_acoustic_bass")
-       .decay(.4).sustain(.4).room(.3).gain(.75)
-       .lpf(800)],
-  [16, note("<[c2 ~ c2 ~] [g1 ~ ~ g1] [eb2 ~ eb2 ~] [bb1 ~ ~ bb1]>")
-       .s("gm_acoustic_bass")
-       .decay(.3).sustain(.5).room(.25).gain(.8)
-       .lpf(900)],
-  [8,  note("<c2 ~ g1 ~ eb2 ~ bb1 ~>/2")
-       .s("gm_acoustic_bass")
-       .decay(.6).sustain(.3).room(.5).gain(.55).speed(.96)],
-  [8,  silence]
-)
-
-// pads — vast orchestral wash
-$: arrange(
-  [8,  chord("<Cm9 Ebmaj7>/2").dict('ireal').voicing()
-       .s("gm_synth_strings_1")
-       .attack(1.5).decay(1).sustain(.7).release(3)
-       .lpf(sine.range(400,1200).slow(8)).room(.85).roomsize(8)
-       .gain(.3)],
-  [16, chord("<Cm9 Gm7 Ebmaj7 Bb^7>").dict('ireal').voicing()
-       .s("gm_synth_strings_1")
-       .attack(.8).decay(.8).sustain(.7).release(2)
-       .lpf(sine.range(800,2200).slow(12)).room(.7).roomsize(6)
-       .gain(.4)],
-  [16, chord("<Cm9 Gm7 Ebmaj7 Bb^7>").dict('ireal').voicing()
-       .s("gm_synth_strings_1")
-       .attack(.6).decay(.6).sustain(.75).release(2)
-       .lpf(sine.range(1000,2800).slow(10)).room(.65).roomsize(5)
-       .gain(.48)],
-  [16, chord("<Cm9 Gm7 Ebmaj7 Bb^7>").dict('ireal').voicing()
-       .s("gm_synth_strings_1")
-       .attack(.8).decay(.8).sustain(.7).release(2)
-       .lpf(sine.range(800,2200).slow(12)).room(.7).roomsize(6)
-       .gain(.4)],
-  [16, chord("<Cm9 Gm7 Ebmaj7 Bb^7>").dict('ireal').voicing()
-       .s("gm_synth_strings_1")
-       .attack(.6).decay(.6).sustain(.75).release(2)
-       .lpf(sine.range(1000,2800).slow(10)).room(.65).roomsize(5)
-       .gain(.48)],
-  [8,  chord("<Cm9 Ebmaj7 Gm7 Bb^7>/2").dict('ireal').voicing()
-       .s("gm_synth_strings_1")
-       .attack(1.2).sustain(.6).release(3)
-       .lpf(sine.range(500,1500).slow(8)).room(.9).roomsize(10)
-       .gain(.35)],
-  [8,  chord("<Cm9 Ebmaj7>/2").dict('ireal').voicing()
-       .s("gm_synth_strings_1")
-       .attack(2).sustain(.5).release(4)
-       .lpf(sine.range(300,800).slow(8)).room(.95).roomsize(10)
-       .gain(saw.slow(8).range(.32,.05))]
-)
-
-// melody — lonely astronaut theme
-$: arrange(
-  [8,  n("<~ 0 ~ 3>/1").scale("C5:minor:pentatonic")
-       .s("gm_flute")
-       .room(.85).roomsize(6).delay(".5:.4:.6").gain(.25)
-       .lpf(2000).attack(.3).vib(3).vibmod(.6)],
-  [16, n("<[~ 0 ~ 3] [5 ~ 7 ~] [~ 5 ~ 3] [0 ~ ~ ~]>")
-       .scale("C5:minor:pentatonic")
-       .s("gm_flute")
-       .lpf(sine.range(1200,4000).slow(10))
-       .room(.65).roomsize(4).delay(".35:.25:.45").gain(.4)
-       .vib(4).vibmod(.5)
-       .rarely(x => x.add(note(12)))],
-  [16, n("<[0 3 5 7] [~ 8 7 ~] [5 ~ 3 5] [7 ~ 5 0]>")
-       .scale("C5:minor:pentatonic")
-       .s("gm_flute")
-       .lpf(sine.range(1500,5000).slow(8))
-       .room(.6).roomsize(3).delay(".3:.2:.4").gain(.46)
-       .vib(3).vibmod(.7)
-       .sometimes(x => x.add(note(12)))],
-  [16, n("<[~ 0 ~ 3] [5 ~ 7 ~] [~ 5 ~ 3] [0 ~ ~ ~]>")
-       .scale("C5:minor:pentatonic")
-       .s("gm_flute")
-       .lpf(sine.range(1200,4000).slow(10))
-       .room(.65).roomsize(4).delay(".35:.25:.45").gain(.4)
-       .vib(4).vibmod(.5)],
-  [16, n("<[0 3 5 7] [~ 8 7 ~] [5 ~ 3 5] [7 ~ 5 0]>")
-       .scale("C5:minor:pentatonic")
-       .s("gm_flute")
-       .lpf(sine.range(1500,5000).slow(8))
-       .room(.6).roomsize(3).delay(".3:.2:.4").gain(.46)
-       .vib(3).vibmod(.7)
-       .sometimes(x => x.add(note(12)))],
-  [8,  n("<[~ 0 ~ ~] [~ ~ 3 ~] [~ 5 ~ ~] [~ ~ 0 ~]>")
-       .scale("C5:minor:pentatonic")
-       .s("gm_flute")
-       .room(.9).roomsize(8).delay(".7:.5:.8").gain(.28)
-       .lpf(sine.range(600,2000).slow(8)).vib(5).vibmod(.8)],
-  [8,  silence]
-)
-
-// shimmer — crystalline arpeggios like distant stars
-$: arrange(
-  [8,  silence],
-  [16, silence],
-  [16, n("<[~ 7 ~ 5] [3 ~ 0 ~] [~ 5 ~ 7] [8 ~ ~ 5]>")
-       .scale("C6:minor:pentatonic")
-       .s("gm_epiano2")
-       .room(.8).roomsize(6).delay(".5:.35:.6").gain(.22)
-       .lpf(4500).attack(.05).decay(.3).sustain(.3).release(.8)
-       .pan(sine.slow(5))],
-  [16, silence],
-  [16, n("<[~ 7 ~ 5] [3 ~ 0 ~] [~ 5 ~ 7] [8 ~ ~ 5]>")
-       .scale("C6:minor:pentatonic")
-       .s("gm_epiano2")
-       .room(.8).roomsize(6).delay(".5:.35:.6").gain(.22)
-       .lpf(4500).attack(.05).decay(.3).sustain(.3).release(.8)
-       .pan(sine.slow(5))],
-  [8,  n("<[~ ~ 7 ~] [~ 5 ~ ~] [~ ~ 3 ~] [~ 0 ~ ~]>")
-       .scale("C6:minor:pentatonic")
-       .s("gm_epiano2")
-       .room(.95).roomsize(10).delay(".8:.6:.85").gain(.15)
-       .lpf(3000).pan(sine.slow(3))],
-  [8,  silence]
+  [4,  silence],
+  [8,  note("d3").s("triangle").attack(4).decay(2).sustain(.6).release(4).gain(.07).room(.9).roomsize(8).lpf(sine.range(300,700).slow(20)).pan(sine.slow(12))],
+  [8,  note("<d3 a3>/6").s("triangle").attack(3).decay(2).sustain(.65).release(4).gain(.1).room(.85).roomsize(7).lpf(sine.range(400,1000).slow(16)).pan(sine.slow(10))],
+  [8,  note("d3").s("triangle").attack(4).decay(2).sustain(.55).release(5).gain(.07).room(.9).roomsize(8).lpf(sine.range(250,600).slow(20)).pan(sine.slow(12))],
+  [4,  note("d3").s("triangle").attack(5).sustain(.4).release(8).gain(saw.slow(4).range(.06,.0)).room(.95).roomsize(8).lpf(400).pan(.5)]
 )

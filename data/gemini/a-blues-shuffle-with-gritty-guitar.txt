@@ -1,64 +1,49 @@
-// 🎸 "Rusty Rail Blues" — Gritty Blues Shuffle
-// At 130 BPM: intro(8) + verse1(16) + chorus(16) + verse2(16) + solo(16) + chorus(16) + outro(8) = 96 bars ≈ 2:57
+// "Gritty Delta Shuffle" — A distorted blues stomp with a swing feel and overdriven guitar textures
 
-setcpm(130 / 4)
+setcps(0.8);
 
-$: s("vinyl:1").gain(.12).room(1).loop(1).lpf(2200)
+samples('github:tidalcycles/dirt-samples');
 
-$: arrange(
-  [8,  s("hh*8").bank("RolandTR909").gain(perlin.range(.1, .3)).cut(1)],
-  [16, s("[bd ~ bd ~, ~ sd ~ sd, [hh ~ hh]*2]").bank("RolandTR909").swing(3).gain(".9 .85").room(.2)],
-  [16, s("[bd ~ bd bd, ~ [sd,cp] ~ sd, [hh ~ hh]*4]").bank("RolandTR909").swing(3).gain(".95 .9").room(.25)],
-  [16, s("[bd ~ bd ~, ~ sd ~ sd, [hh ~ hh]*2]").bank("RolandTR909").swing(3).gain(".9 .85").room(.2)],
-  [16, s("[bd bd bd bd, ~ [sd,cp] ~ [sd,cp], [hh oh hh hh]*2]").bank("RolandTR909").swing(3).gain(1).room(.3).every(4, x=>x.fast(2))],
-  [16, s("[bd ~ bd bd, ~ [sd,cp] ~ sd, [hh ~ hh]*4]").bank("RolandTR909").swing(3).gain(".95 .9").room(.25)],
-  [8,  s("bd ~ ~ ~, ~ ~ sd ~").bank("RolandTR909").gain(saw.slow(8).range(.8, 0)).room(.5)]
+stack(
+  // The Shuffle Beat
+  s("bd [~ bd] bd ~")
+    .gain(1.2)
+    .room(0.2),
+  
+  s("~ [cp,hc] ~ [cp,hc]")
+    .gain(0.8)
+    .delay(0.2)
+    .delayfb(0.3),
+  
+  s("hh*8")
+    .gain(sine.range(0.4, 0.7).slow(4))
+    .n("<[0 2] [3 1]>")
+    .velocity(0.5 + Math.random() * 0.2),
+
+  // Gritty Guitar Chords (Shuffle Rhythm)
+  note("e2*2 g2 a2 a#2".off(1/8, n => n.add(12)))
+    .s("gtr")
+    .gain(0.9)
+    .crush(4)
+    .lpf(perlin.range(800, 3000).slow(8))
+    .room(0.5),
+
+  // Lead Licks
+  note("<e3 [g3 a3] b3 [d4 e4]>")
+    .s("gtr")
+    .struct("1(3,8, <0 2>)")
+    .gain(0.8)
+    .distort(0.4)
+    .pan(sine.slow(10))
+    .delay(0.4)
+    .delayfeedback(0.6)
+    .room(0.8),
+
+  // Walking Bass
+  note("e1 g1 a1 a#1 b1 d2 e2 g2".slow(2))
+    .s("bass")
+    .gain(1.1)
+    .lpf(400)
 )
-
-$: arrange(
-  [8,  note("<e1*4>").s("gm_electric_bass_finger").gain(.7).lpf(800)],
-  [16, note("<e1 e1 e1 e1 a1 a1 e1 e1 b1 a1 e1 b1>").s("gm_electric_bass_finger").struct("x [~ x] x [~ x]").swing(3).gain(.82).room(.1)],
-  [16, note("<e1 g1 a1 bb1 b1 d2 e2 ~>").s("gm_electric_bass_finger").struct("x*4").swing(3).gain(.88).room(.15)],
-  [16, note("<e1 e1 e1 e1 a1 a1 e1 e1 b1 a1 e1 b1>").s("gm_electric_bass_finger").struct("x [~ x] x [~ x]").swing(3).gain(.82).room(.1)],
-  [16, note("<e2 e2 d2 d2 c2 c2 b1 b1 a1 a1 g1 g1 e1 e1 b1 b1>/2").s("gm_electric_bass_finger").gain(.9).room(.1)],
-  [16, note("<e1 g1 a1 bb1 b1 d2 e2 ~>").s("gm_electric_bass_finger").struct("x*4").swing(3).gain(.88).room(.15)],
-  [8,  note("e1").s("gm_electric_bass_finger").gain(saw.slow(8).range(.7, 0)).room(.4)]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, chord("<E7!4 A7!2 E7!2 B7 A7 E7 B7>").dict('ireal').voicing().s("gm_electric_guitar_clean").struct("[x ~ x] ~ x ~").distort(.3).crush(10).gain(.45).room(.3)],
-  [16, chord("<E7!4 A7!2 E7!2 B7 A7 E7 B7>").dict('ireal').voicing().s("gm_electric_guitar_clean").struct("x [~ x] x [~ x]").distort(.4).crush(8).gain(.52).room(.4)],
-  [16, chord("<E7!4 A7!2 E7!2 B7 A7 E7 B7>").dict('ireal').voicing().s("gm_electric_guitar_clean").struct("[x ~ x] ~ x ~").distort(.3).crush(10).gain(.45).room(.3)],
-  [16, chord("<E7!4 A7!2 E7!2 B7 A7 E7 B7>").dict('ireal').voicing().s("gm_electric_guitar_clean").struct("x*4").distort(.5).crush(6).gain(.55).room(.4)],
-  [16, chord("<E7!4 A7!2 E7!2 B7 A7 E7 B7>").dict('ireal').voicing().s("gm_electric_guitar_clean").struct("x [~ x] x [~ x]").distort(.4).crush(8).gain(.52).room(.4)],
-  [8,  chord("E7").dict('ireal').voicing().s("gm_electric_guitar_clean").distort(.6).gain(saw.slow(8).range(.4, 0)).room(.6)]
-)
-
-$: arrange(
-  [8,  n("<0 3 4>/2").scale("E3:blues").s("gm_electric_guitar_clean").distort(.4).gain(.3).room(.8).attack(.1)],
-  [16, silence],
-  [16, n("<[~ 7] [10 12] [~ 7] [5 3]>").scale("E4:blues").s("gm_electric_guitar_clean").distort(.5).gain(.35).room(.5).delay(".2:.1:.3").swing(3)],
-  [16, silence],
-  [16, n("<[12 15 12 ~] [10 7 5 3] [0 3 5 6] [7 10 12 15]>").scale("E4:blues").s("gm_electric_guitar_clean").distort(.6).crush(8).gain(.42).room(.4).delay(".15:.1:.4").swing(3).sometimes(x=>x.add(note(12)))],
-  [16, n("<[12 ~ ~ ~] [15 ~ ~ ~] [12 ~ 10 ~] [7 ~ ~ ~]>").scale("E4:blues").s("gm_electric_guitar_clean").distort(.4).gain(.38).room(.6).vib(4).vibmod(.6)],
-  [8,  silence]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, n("<[0 4 7] [5 9 12]>/4").s("gm_organ_percussive").gain(.25).room(.7).attack(.5).release(1)],
-  [16, n("<[0 4 7] [5 9 12]>/4").s("gm_organ_percussive").gain(.28).room(.6).struct("x ~ x ~")],
-  [16, silence],
-  [16, n("<[0 4 7] [5 9 12]>/4").s("gm_organ_percussive").gain(.3).room(.5).struct("x x x x")],
-  [16, silence],
-  [8,  silence]
-)
-
-$: arrange(
-  [24, silence],
-  [8,  s("hh*16").bank("RolandTR909").gain(sine.slow(4).range(0, .2)).cut(1)],
-  [32, silence],
-  [16, n("<e1*4>").s("square").gain(.08).lpf(200).room(.9)],
-  [16, silence]
-)
+.reset(8)
+.swing(0.15)

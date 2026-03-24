@@ -1,0 +1,176 @@
+// 🎵 "Hollow Echoes" — Dark Pop / Billie Eilish-style with layered vocals
+// At 72 BPM: intro(8) + verse1(16) + prechorus(8) + chorus(16) + verse2(16) + chorus2(16) + outro(8) = 88 bars ≈ 2:56
+
+setcpm(72 / 4)
+
+$: s("vinyl:2").gain(.12).room(1).loop(1).lpf(2200)
+
+// Sparse, dark drums — minimal and breathy
+$: arrange(
+  [8,  s("bd ~ ~ ~").bank("RolandTR808").gain(.5).room(.6).lpf(800)],
+  [16, s("bd ~ ~ bd, ~ [cp,sd:1] ~ ~, hh*8")
+       .bank("RolandTR808").cut(1).swing(3)
+       .gain(".75 .6 .7 .6").room(.4).lpf(3000)
+       .every(4, x => x.press())],
+  [8,  s("bd ~ ~ ~, ~ cp ~ ~, hh*4")
+       .bank("RolandTR808").cut(1).swing(4)
+       .gain(".8 .65").room(.35)],
+  [16, s("bd ~ bd ~, ~ [cp,sd:1] ~ [~ cp], [hh oh hh hh]*2")
+       .bank("RolandTR808").cut(1).swing(3)
+       .gain(".92 .8 .88 .8").room(.3)
+       .every(3, x => x.fast(2).gain(.45))],
+  [16, s("bd ~ ~ bd, ~ [cp,sd:1] ~ ~, hh*8")
+       .bank("RolandTR808").cut(1).swing(3)
+       .gain(".75 .6 .7 .6").room(.4).lpf(3000)],
+  [16, s("bd ~ bd ~, ~ [cp,sd:1] ~ [~ cp], [hh oh hh hh]*2")
+       .bank("RolandTR808").cut(1).swing(3)
+       .gain(".92 .8 .88 .8").room(.3)
+       .every(4, x => x.fast(2).gain(.4))],
+  [8,  s("bd ~ ~ ~, ~ ~ cp ~")
+       .bank("RolandTR808").swing(4)
+       .gain(saw.slow(8).range(.7,.08)).room(.7)]
+)
+
+// Deep sub bass — ominous and minimal
+$: arrange(
+  [8,  silence],
+  [16, note("<[e1 ~ ~ ~] [~ ~ b0 ~] [c1 ~ ~ ~] [~ ~ a0 ~]>")
+       .s("sine").gain(.55)
+       .attack(.05).decay(.4).sustain(.7).release(.3)
+       .lpf(180).room(.3)],
+  [8,  note("<e1 ~ c1 ~>/2").s("sine").gain(.48)
+       .attack(.1).decay(.5).sustain(.6).release(.4)
+       .lpf(160).room(.35)],
+  [16, note("<[e1 ~ e1 ~] [~ b0 ~ b0] [c1 ~ c1 ~] [~ a0 ~ a0]>")
+       .s("sine").gain(.6)
+       .attack(.03).decay(.35).sustain(.75).release(.25)
+       .lpf(200).room(.25)],
+  [16, note("<[e1 ~ ~ ~] [~ ~ b0 ~] [c1 ~ ~ ~] [~ ~ a0 ~]>")
+       .s("sine").gain(.55)
+       .attack(.05).decay(.4).sustain(.7).release(.3)
+       .lpf(180).room(.3)],
+  [16, note("<[e1 ~ e1 ~] [~ b0 ~ b0] [c1 ~ c1 ~] [~ a0 ~ a0]>")
+       .s("sine").gain(.6)
+       .attack(.03).decay(.35).sustain(.75).release(.25)
+       .lpf(200).room(.25)],
+  [8,  note("<e1 ~ ~ ~>/1").s("sine").gain(saw.slow(8).range(.5,.05))
+       .attack(.2).decay(.8).sustain(.4).release(1)
+       .lpf(120).room(.5)]
+)
+
+// Dark pad — atmospheric bed
+$: arrange(
+  [8,  chord("<Em9 Am7>/2").dict('ireal').voicing()
+       .s("gm_synth_strings_1")
+       .attack(1.5).decay(1).sustain(.6).release(3)
+       .lpf(800).room(.8).roomsize(6).gain(.25)],
+  [16, chord("<Em9 Bm7b5 Cmaj7 Am7>").dict('ireal').voicing()
+       .s("gm_synth_strings_1")
+       .attack(1).decay(.8).sustain(.65).release(2)
+       .lpf(sine.range(600,1400).slow(16)).room(.7).roomsize(5).gain(.3)],
+  [8,  chord("<Em9 Cmaj7>/2").dict('ireal').voicing()
+       .s("gm_synth_strings_1")
+       .attack(1.2).decay(1).sustain(.6).release(2.5)
+       .lpf(1000).room(.75).roomsize(5).gain(.28)],
+  [16, chord("<Em9 Bm7b5 Cmaj7 Am7>").dict('ireal').voicing()
+       .s("gm_synth_strings_1")
+       .attack(.8).decay(.6).sustain(.7).release(2)
+       .lpf(sine.range(800,1800).slow(12)).room(.65).roomsize(4).gain(.35)],
+  [16, chord("<Em9 Bm7b5 Cmaj7 Am7>").dict('ireal').voicing()
+       .s("gm_synth_strings_1")
+       .attack(1).decay(.8).sustain(.65).release(2)
+       .lpf(sine.range(600,1400).slow(16)).room(.7).roomsize(5).gain(.3)],
+  [16, chord("<Em9 Bm7b5 Cmaj7 Am7>").dict('ireal').voicing()
+       .s("gm_synth_strings_1")
+       .attack(.8).decay(.6).sustain(.7).release(2)
+       .lpf(sine.range(800,1800).slow(12)).room(.65).roomsize(4).gain(.35)],
+  [8,  chord("<Em9 Am7>/2").dict('ireal').voicing()
+       .s("gm_synth_strings_1")
+       .attack(2).decay(1).sustain(.5).release(4)
+       .lpf(sine.range(300,800).slow(8)).room(.9).roomsize(8).gain(saw.slow(8).range(.28,.04))]
+)
+
+// Whispered vocal layer — breathy epiano melody (voice 1)
+$: arrange(
+  [8,  silence],
+  [16, n("<[~ 0 ~ 2] [3 ~ ~ ~] [~ 4 ~ 2] [0 ~ ~ ~]>")
+       .scale("E4:minor").s("gm_epiano2")
+       .lpf(1600).room(.7).delay(".35:.3:.5").gain(.32)
+       .attack(.08).decay(.3).sustain(.4).release(.6)
+       .speed(.97)],
+  [8,  n("<[0 ~ 2 ~] [~ 4 ~ ~]>")
+       .scale("E4:minor").s("gm_epiano2")
+       .lpf(1400).room(.75).delay(".4:.35:.55").gain(.28)
+       .attack(.1).decay(.4).sustain(.35).release(.8)],
+  [16, n("<[0 2 3 5] [~ 4 3 ~] [2 ~ 0 ~] [~ 5 4 2]>")
+       .scale("E5:minor").s("gm_epiano2")
+       .lpf(sine.range(1200,3500).slow(8)).room(.6)
+       .delay(".3:.25:.4").gain(.4)
+       .attack(.05).decay(.25).sustain(.5).release(.5)
+       .sometimes(x => x.add(note(12)).gain(.2))],
+  [16, n("<[~ 0 ~ 2] [3 ~ ~ ~] [~ 4 ~ 2] [0 ~ ~ ~]>")
+       .scale("E4:minor").s("gm_epiano2")
+       .lpf(1600).room(.7).delay(".35:.3:.5").gain(.32)
+       .attack(.08).decay(.3).sustain(.4).release(.6)],
+  [16, n("<[0 2 3 5] [~ 4 3 ~] [2 ~ 0 ~] [~ 5 4 2]>")
+       .scale("E5:minor").s("gm_epiano2")
+       .lpf(sine.range(1200,3500).slow(8)).room(.6)
+       .delay(".3:.25:.4").gain(.4)
+       .attack(.05).decay(.25).sustain(.5).release(.5)
+       .sometimes(x => x.add(note(12)).gain(.2))],
+  [8,  n("<[~ 0 ~ ~] [~ ~ 2 ~]>")
+       .scale("E4:minor").s("gm_epiano2")
+       .lpf(900).room(.9).roomsize(6).delay(".6:.5:.7").gain(.2)
+       .attack(.15).decay(.5).sustain(.3).release(1)]
+)
+
+// Doubled vocal layer — haunting octave-up ghost (voice 2)
+$: arrange(
+  [8,  silence],
+  [16, n("<[~ 0 ~ 2] [3 ~ ~ ~] [~ 4 ~ 2] [0 ~ ~ ~]>")
+       .scale("E5:minor").s("gm_epiano1")
+       .lpf(1200).room(.85).roomsize(5).delay(".5:.4:.6").gain(.18)
+       .attack(.12).decay(.4).sustain(.3).release(.8)
+       .speed(.96).pan(sine.slow(8))],
+  [8,  silence],
+  [16, n("<[0 2 3 5] [~ 4 3 ~] [2 ~ 0 ~] [~ 5 4 2]>")
+       .scale("E6:minor").s("gm_epiano1")
+       .lpf(2200).room(.8).roomsize(4).delay(".4:.35:.55").gain(.22)
+       .attack(.08).decay(.3).sustain(.35).release(.6)
+       .speed(.95).pan(sine.slow(6))
+       .rarely(x => x.add(note(7)))],
+  [16, n("<[~ 0 ~ 2] [3 ~ ~ ~] [~ 4 ~ 2] [0 ~ ~ ~]>")
+       .scale("E5:minor").s("gm_epiano1")
+       .lpf(1200).room(.85).roomsize(5).delay(".5:.4:.6").gain(.18)
+       .attack(.12).decay(.4).sustain(.3).release(.8)
+       .speed(.96).pan(sine.slow(8))],
+  [16, n("<[0 2 3 5] [~ 4 3 ~] [2 ~ 0 ~] [~ 5 4 2]>")
+       .scale("E6:minor").s("gm_epiano1")
+       .lpf(2200).room(.8).roomsize(4).delay(".4:.35:.55").gain(.22)
+       .attack(.08).decay(.3).sustain(.35).release(.6)
+       .speed(.95).pan(sine.slow(6))],
+  [8,  silence]
+)
+
+// Dark plucked texture — sparse and eerie
+$: arrange(
+  [8,  n("<0 ~ ~ 4>/1").scale("E3:phrygian").s("gm_acoustic_guitar_nylon")
+       .room(.9).roomsize(6).delay(".7:.5:.8").gain(.2).lpf(1000)
+       .attack(.01).decay(.6).sustain(.2).release(1)],
+  [16, silence],
+  [8,  n("<0 3 ~ 5>/1").scale("E3:phrygian").s("gm_acoustic_guitar_nylon")
+       .room(.85).delay(".6:.45:.7").gain(.22).lpf(1200)
+       .attack(.01).decay(.5).sustain(.25).release(.8)],
+  [16, n("<[~ 0 ~ ~] [~ ~ 3 ~] [5 ~ ~ ~] [~ 3 ~ 0]>")
+       .scale("E3:phrygian").s("gm_acoustic_guitar_nylon")
+       .room(.7).delay(".4:.3:.5").gain(.28).lpf(1800)
+       .attack(.01).decay(.4).sustain(.3).release(.6)],
+  [16, silence],
+  [16, n("<[~ 0 ~ ~] [~ ~ 3 ~] [5 ~ ~ ~] [~ 3 ~ 0]>")
+       .scale("E3:phrygian").s("gm_acoustic_guitar_nylon")
+       .room(.7).delay(".4:.3:.5").gain(.28).lpf(1800)
+       .attack(.01).decay(.4).sustain(.3).release(.6)],
+  [8,  n("<0 ~ 3 ~>/2").scale("E3:phrygian").s("gm_acoustic_guitar_nylon")
+       .room(.95).roomsize(8).delay(".8:.6:.9").gain(saw.slow(8).range(.2,.03)).lpf(600)
+       .attack(.02).decay(.8).sustain(.15).release(2)]
+)

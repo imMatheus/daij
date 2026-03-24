@@ -1,0 +1,47 @@
+// 🌃 "Deep Horizon" — Deep House with four-on-the-floor kick
+// At 124 BPM: intro(8) + groove(16) + main(32) + break(16) + main(16) + outro(8) = 96 bars ≈ 3:06
+
+setcpm(124 / 4)
+
+$: s("vinyl:2").gain(.12).room(1).loop(1).lpf(1800)
+
+$: arrange(
+  [8,  s("bd*4").bank("RolandTR909").gain(.85).room(.2)],
+  [16, s("bd*4, ~ cp ~ cp").bank("RolandTR909").gain(".9 .85").room(.25)],
+  [32, s("bd*4, ~ cp ~ cp, [hh*2]*4").bank("RolandTR909").gain(".92 .88 .4").room(.2).cut(1).every(8, x=>x.fast(2))],
+  [16, s("~ ~ ~ ~, ~ cp ~ cp, [hh*4]*4").bank("RolandTR909").gain(".6 .3").room(.6).lpf(sine.range(800, 2000).slow(4))],
+  [16, s("bd*4, ~ cp ~ cp, [hh*2]*4").bank("RolandTR909").gain(".92 .88 .4").room(.2).cut(1)],
+  [8,  s("bd*4").bank("RolandTR909").gain(saw.slow(8).range(.8, 0)).room(.4)]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, note("<c1 f1 bb0 eb1>").struct("~ x x ~").s("gm_electric_bass_finger").decay(.2).sustain(.4).gain(.85).room(.1)],
+  [32, note("<c1 f1 bb0 eb1>").struct("~ x x x").s("gm_electric_bass_finger").decay(.15).sustain(.5).gain(.9).room(.1).sometimes(x=>x.add(note(12)))],
+  [16, note("<c1 f1 bb0 eb1>/2").s("gm_electric_bass_finger").decay(.5).sustain(.6).gain(.7).lpf(400).room(.3)],
+  [16, note("<c1 f1 bb0 eb1>").struct("~ x x x").s("gm_electric_bass_finger").decay(.15).sustain(.5).gain(.9).room(.1)],
+  [8,  note("c1/2").s("gm_electric_bass_finger").gain(saw.slow(8).range(.7, 0))]
+)
+
+$: arrange(
+  [8,  chord("<Cm9 F11 Bbmaj7 Ebmaj7>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(2).gain(.3).lpf(800).room(.8)],
+  [16, chord("<Cm9 F11 Bbmaj7 Ebmaj7>").dict('ireal').voicing().s("gm_epiano2").struct("x ~ ~ x").room(.5).gain(.45).lpf(sine.range(1200, 3000).slow(16))],
+  [32, chord("<Cm9 F11 Bbmaj7 Ebmaj7>").dict('ireal').voicing().s("gm_epiano2").struct("x [~ x] ~ x").room(.4).gain(.52).delay(".25:.2:.3").lpf(sine.range(1500, 4000).slow(8))],
+  [16, chord("<Cm9 F11 Bbmaj7 Ebmaj7>").dict('ireal').voicing().s("gm_synth_strings_1").attack(1).release(2).gain(.4).lpf(sine.range(400, 1500).slow(8)).room(.9)],
+  [16, chord("<Cm9 F11 Bbmaj7 Ebmaj7>").dict('ireal').voicing().s("gm_epiano2").struct("x [~ x] ~ x").room(.4).gain(.52).delay(".25:.2:.3")],
+  [8,  chord("Cm9").dict('ireal').voicing().s("gm_epiano2").gain(saw.slow(8).range(.4, 0)).room(.8)]
+)
+
+$: arrange(
+  [24, silence],
+  [32, n("<[0 2 3 5] [7 5 3 2] [0 3 5 7] [10 7 5 3]>").scale("C4:minor").s("gm_marimba").struct("~ ~ x x").gain(.35).room(.6).delay(".3:.4:.5").lpf(2500)],
+  [16, n("<0 3 7 10>/4").scale("C5:minor").s("gm_flute").attack(2).release(2).gain(.25).room(.9).vib(4)],
+  [16, n("<[0 2 3 5] [7 5 3 2] [0 3 5 7] [10 7 5 3]>").scale("C4:minor").s("gm_marimba").struct("~ ~ x x").gain(.35).room(.6)],
+  [8,  silence]
+)
+
+$: arrange(
+  [56, silence],
+  [16, s("hh*16").bank("RolandTR909").gain(perlin.range(0, .4)).pan(sine.slow(4))],
+  [24, silence]
+)

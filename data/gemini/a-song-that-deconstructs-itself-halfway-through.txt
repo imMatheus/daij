@@ -1,70 +1,15 @@
-// 🧩 "The Great Unraveling" — Experimental IDM / Glitch
-// At 120 BPM: intro(8) + structured(36) + transition(4) + deconstructed(32) + dissolution(10) = 90 bars ≈ 3:00
-
-setcpm(120 / 4)
-
-$: arrange(
-  [44, s("vinyl:1").gain(.12).loop(1).lpf(3000)],
-  [46, s("vinyl:1").gain(.15).loop(1).crush(sine.slow(16).range(12, 4)).lpf(sine.slow(8).range(500, 4000))]
+// 🎵 "The Heat Death of a Groove" — A rhythmic industrial loop that disintegrates into a granular void
+samples('github:tidalcycles/dirt-samples');
+setcps(125/60/4);
+stack(
+  s("bd [~ sd] [bd*2] [~ sd]").gain(0.8),
+  s("hh*16").gain(0.4).pan(sine.slow(8)),
+  s("saw").note("0 [3 7] 5 [10 12]").struct("1*16").lpf(3000).lpq(15).gain(0.6),
+  s("superpiano").note("12 15 17 19").struct("1(5,8)").room(0.2).delay(0.3)
 )
-
-$: arrange(
-  [8,  s("bd(3,8)").bank("RolandTR909").gain(.8).room(.2)],
-  [36, s("[bd ~ bd ~, ~ sd ~ sd, hh*8]").bank("RolandTR909").swing(4).gain(".9 .8 .85 .8").room(.3)],
-  [4,  s("[bd [~ bd] bd ~, ~ [sd:1 sd:2] ~ sd, hh*16]").bank("RolandTR909").gain(.7).crush(8).room(.5)],
-  [32, s("bd(5,8), sd(3,8), hh(11,16)")
-       .bank("RolandTR808").cut(1)
-       .every(3, x => x.fast(1.5))
-       .every(5, x => x.rev())
-       .sometimes(x => x.crush(6))
-       .gain(perlin.range(.4, .8)).room(.6)],
-  [10, s("bd ~ ~ ~, ~ ~ [sd:3 ~] ~")
-       .bank("RolandTR808").gain(saw.slow(10).range(.6, 0)).room(.8).crush(4)]
-)
-
-$: arrange(
-  [8,  silence],
-  [36, note("<[c2 ~ ~ c2] [eb2 ~ ~ ~] [f1 ~ ~ f1] [ab1 ~ ~ g1]>").s("gm_synth_bass_1").gain(.75).room(.2)],
-  [4,  note("<c2 eb2 f1 ab1>").s("gm_synth_bass_1").gain(.6).crush(10).lpf(800)],
-  [32, note(perlin.range(24, 48).round())
-       .s("gm_synth_bass_1").struct("x(5,8)")
-       .every(2, x => x.add(note("<0 7 -5 12>")))
-       .gain(.65).room(.4).lpf(sine.slow(4).range(400, 2000))],
-  [10, note("c1").s("gm_synth_bass_1").gain(saw.slow(10).range(.5, 0)).lpf(200)]
-)
-
-$: arrange(
-  [8,  chord("<Cm9 F13b9>/2").dict('ireal').voicing().s("gm_epiano2").attack(.5).gain(.4).room(.6)],
-  [36, chord("<Cm9 Ebmaj7 F13b9 Abmaj7>")
-       .dict('ireal').voicing().s("gm_epiano2")
-       .struct("~ x ~ x")
-       .gain(.55).room(.4).delay(".25:.2:.3")],
-  [4,  chord("<Cm9 Ebmaj7 F13b9 Abmaj7>").dict('ireal').voicing().s("gm_epiano2").crush(6).gain(.4)],
-  [32, chord("<Cm9 Ebmaj7 F13b9 Abmaj7>")
-       .dict('ireal').voicing().s("gm_epiano2")
-       .struct("x ~ x x ~ x x ~")
-       .every(4, x => x.fast(2))
-       .sometimes(x => x.rev())
-       .gain(.45).room(.7).delay(".1:.5:.6").crush(sine.slow(10).range(16, 6))],
-  [10, silence]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, n("<0 3 5 7 10>").scale("C5:minor").s("gm_glockenspiel").gain(.35).room(.8).delay(".4:.3:.5")],
-  [20, n("<[0 3] [7 5] [10 12] [7 3]>").scale("C5:minor").s("gm_glockenspiel").gain(.4).room(.6).delay(".2:.4:.4")],
-  [4,  n("0 1 2 3 4 5 6 7").scale("C5:minor").s("gm_glockenspiel").fast(4).crush(4).gain(.3)],
-  [32, n(perlin.range(0, 12).round()).scale("C6:minor")
-       .s("gm_glockenspiel")
-       .struct("x*16")
-       .mask(sine.slow(8).range(0, 1))
-       .gain(.38).room(.9).delay(".1:.8:.7")],
-  [10, n("0").scale("C4:minor").s("gm_glockenspiel").gain(saw.slow(10).range(.3, 0)).room(1)]
-)
-
-$: arrange(
-  [44, silence],
-  [4,  s("noise").gain(saw.range(0, .4)).lpf(sine.range(100, 5000))],
-  [32, s("gm_bird_tweet").n(random.range(0,12)).gain(.2).room(1).delay(".5:.5:.5")],
-  [10, s("sine").n("<c6 eb6 g6>").gain(saw.slow(10).range(.2, 0)).room(1)]
-)
+.slow("1 1 2 4 8 16 32 64".slow(32))
+.chop("1 1 16 64 128 256 512 1024".slow(32))
+.delay("0 0 0.5 0.7 0.8 0.9 0.95 0.98".slow(32)).delayfb(0.8)
+.room("0.1 0.1 0.5 0.7 0.9 0.95 0.98 1".slow(32))
+.lpf("5000 5000 2000 1000 500 200 100 50".slow(32))
+.gain("1 1 0.9 0.8 0.7 0.6 0.4 0.2".slow(32))

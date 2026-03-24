@@ -1,0 +1,14 @@
+Here's the song — "Emergent Drift", a generative ambient / evolving electronica piece at 72 BPM, 88 bars (~2:56):
+
+**Key generative techniques used:**
+- **Perlin noise** modulates gains, filter cutoffs, and playback speeds continuously — no two listens sound identical
+- **`.sometimes()` / `.rarely()`** randomly apply octave jumps, reversals, gain drops, and bitcrushing
+- **`.every(N, fn)`** with prime-number intervals (3, 5, 7, 9, 11) creates non-repeating polyrhythmic variation cycles
+- **Euclidean rhythms** (`bd(3,8)`, `hh(5,8)`, `oh(3,8)`) that morph via `.struct()` overrides
+- **Alternating structures** (`<[~ x ~ x] [x ~ x ~]>`) shift rhythmic emphasis each cycle
+- **Flute counter-melody** uses `.sometimes(x => x.gain(0))` to randomly silence notes, creating an unpredictable appearance/disappearance effect
+- **Sub drone** root note changes every 4 bars with perlin-modulated gain and filter
+
+**9 parallel voices:** sub drone, vinyl texture, drums, bass, chord pads, melody, counter-melody flute, and high sparkle bells.
+
+Would you like me to save it to the project or render it?

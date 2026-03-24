@@ -1,89 +1,45 @@
-It seems I'm unable to write to that directory. Let me output the song directly:
+// 🎵 "Pressure and Light" — Subaquatic Ambient
+// At 56 BPM: intro(3) + drift(6) + deep(5) + fade(3) = 17 bars ≈ 73s
 
-```
-// 🌊 "Abyssal Lullaby" — Ambient Subaquatic Drift
-// At 68 BPM: intro(8) + verse(16) + chorus(16) + verse2(16) + bridge(12) + chorus2(16) + outro(8) = 92 bars ≈ 3:14
+setcpm(56 / 4)
 
-setcpm(68 / 4)
+$: note("c1")
+   .s("sine")
+   .attack(3).decay(2).sustain(.9).release(4)
+   .gain(.2).room(.9).roomsize(10)
+   .lpf(100)
 
-// constant low rumble — the ocean floor
-$: note("c1").s("sine")
-   .attack(4).decay(2).sustain(.9).release(4)
-   .gain(.18).room(.9).roomsize(8)
-   .lpf(120)
-
-// bubbles — randomized high blips
 $: arrange(
-  [8,  s("hh*8").bank("RolandTR808").gain(perlin.range(.02,.12)).pan(sine.slow(3)).hpf(6000).room(.9).roomsize(6).delay(".5:.4:.7")],
-  [16, s("hh*12").bank("RolandTR808").gain(perlin.range(.04,.18)).pan(perlin.range(0,1)).hpf(5500).room(.85).roomsize(5).delay(".4:.35:.6")],
-  [16, s("hh*16").bank("RolandTR808").gain(perlin.range(.05,.22)).pan(perlin.range(0,1)).hpf(5000).room(.8).roomsize(5).delay(".35:.3:.55").sometimes(x=>x.speed(1.5))],
-  [16, s("hh*12").bank("RolandTR808").gain(perlin.range(.04,.18)).pan(perlin.range(0,1)).hpf(5500).room(.85).roomsize(5).delay(".4:.35:.6")],
-  [12, s("hh*8").bank("RolandTR808").gain(perlin.range(.03,.15)).pan(sine.slow(4)).hpf(6000).room(.9).roomsize(7).delay(".6:.45:.75")],
-  [16, s("hh*16").bank("RolandTR808").gain(perlin.range(.05,.22)).pan(perlin.range(0,1)).hpf(5000).room(.8).roomsize(5).delay(".35:.3:.55")],
-  [8,  s("hh*4").bank("RolandTR808").gain(perlin.range(.02,.08)).pan(sine.slow(2)).hpf(7000).room(.95).roomsize(8).delay(".7:.5:.8")]
+  [3, note("g0").s("sine").attack(4).decay(2).sustain(.85).release(5).gain(.12).room(.9).roomsize(10).lpf(80)],
+  [6, note("<g0 ab0>/6").s("sine").attack(3).decay(2).sustain(.85).release(5).gain(.15).room(.9).roomsize(10).lpf(sine.range(60,120).slow(12))],
+  [5, note("<g0 f0>/5").s("sine").attack(3).decay(2).sustain(.85).release(5).gain(.16).room(.9).roomsize(10).lpf(sine.range(70,140).slow(10))],
+  [3, note("g0").s("sine").attack(4).decay(2).sustain(.8).release(6).gain(saw.slow(3).range(.12,.02)).room(.95).roomsize(10).lpf(80)]
 )
 
-// muted pulse — like a heartbeat heard through water
 $: arrange(
-  [8,  silence],
-  [16, s("bd ~ ~ ~, ~ ~ ~ ~").bank("RolandTR808").gain(.45).lpf(280).room(.7).roomsize(6).speed(.7)],
-  [16, s("bd ~ ~ bd, ~ ~ [cp ~] ~").bank("RolandTR808").gain(.5).lpf(320).room(.65).roomsize(5).speed(.72).every(4, x=>x.gain(.3))],
-  [16, s("bd ~ ~ ~, ~ ~ ~ ~").bank("RolandTR808").gain(.45).lpf(280).room(.7).roomsize(6).speed(.7)],
-  [12, s("bd ~ ~ ~").bank("RolandTR808").gain(.35).lpf(200).room(.8).roomsize(7).speed(.65)],
-  [16, s("bd ~ ~ bd, ~ ~ [cp ~] ~").bank("RolandTR808").gain(.5).lpf(320).room(.65).roomsize(5).speed(.72)],
-  [8,  s("bd ~ ~ ~").bank("RolandTR808").gain(saw.slow(8).range(.4,.05)).lpf(180).room(.9).roomsize(8).speed(.6)]
+  [3, silence],
+  [6, chord("<Cm7 Abmaj7 Ebmaj7 Bbm7>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(2).decay(2).sustain(.6).release(3).lpf(sine.range(300,800).slow(12)).room(.95).roomsize(10).gain(.15).pan(sine.slow(14).range(.3,.7))],
+  [5, chord("<Cm7 Fm7 Abmaj7 Gm7>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(2).decay(2).sustain(.6).release(3).lpf(sine.range(350,900).slow(10)).room(.95).roomsize(10).gain(.18).pan(sine.slow(12).range(.25,.75))],
+  [3, chord("<Cm7>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(3).decay(2).sustain(.5).release(4).lpf(saw.slow(3).range(250,600)).room(.95).roomsize(10).gain(saw.slow(3).range(.14,.02))]
 )
 
-// deep bass — slow and murky
 $: arrange(
-  [8,  note("<c2 ~ ~ ~>/1").s("gm_acoustic_bass").lpf(400).room(.6).roomsize(4).gain(.5).decay(.8).sustain(.6).speed(.92)],
-  [16, note("<[c2 ~ ~ ~] [eb2 ~ ~ ~] [ab1 ~ ~ ~] [bb1 ~ ~ ~]>").s("gm_acoustic_bass").lpf(sine.range(300,600).slow(16)).room(.55).roomsize(4).gain(.65).decay(.5).sustain(.55).speed(.94)],
-  [16, note("<[c2 ~ c2 ~] [eb2 ~ ~ eb2] [ab1 ~ ab1 ~] [bb1 ~ ~ bb1]>").s("gm_acoustic_bass").lpf(sine.range(350,700).slow(12)).room(.5).roomsize(3).gain(.7).decay(.4).sustain(.6).speed(.95)],
-  [16, note("<[c2 ~ ~ ~] [eb2 ~ ~ ~] [ab1 ~ ~ ~] [bb1 ~ ~ ~]>").s("gm_acoustic_bass").lpf(sine.range(300,600).slow(16)).room(.55).roomsize(4).gain(.65).decay(.5).sustain(.55).speed(.94)],
-  [12, note("<c2 ~ eb2 ~ ab1 ~ bb1 ~>/2").s("gm_acoustic_bass").lpf(350).room(.7).roomsize(5).gain(.55).decay(.7).sustain(.4).speed(.9)],
-  [16, note("<[c2 ~ c2 ~] [eb2 ~ ~ eb2] [ab1 ~ ab1 ~] [bb1 ~ ~ bb1]>").s("gm_acoustic_bass").lpf(sine.range(350,700).slow(12)).room(.5).roomsize(3).gain(.7).decay(.4).sustain(.6).speed(.95)],
-  [8,  note("<c2 ~ ~ ~>/1").s("gm_acoustic_bass").lpf(sine.range(200,400).slow(8)).room(.8).roomsize(6).gain(saw.slow(8).range(.55,.1)).decay(1).sustain(.4).speed(.88)]
+  [3, silence],
+  [6, n("<[~ ~ 4 ~] [~ 2 ~ ~] [~ ~ ~ 3] [~ ~ ~ ~]>").scale("C6:minor:pentatonic").s("gm_celesta").attack(.01).decay(.3).sustain(.1).release(.8).room(.9).roomsize(8).delay(".6:.4:.7").gain(.14).lpf(sine.range(2000,5000).slow(16)).pan(perlin.range(.2,.8))],
+  [5, n("<[~ 0 ~ ~] [~ ~ 4 ~] [2 ~ ~ ~] [~ ~ 3 ~]>").scale("C6:minor:pentatonic").s("gm_celesta").attack(.01).decay(.25).sustain(.1).release(.6).room(.9).roomsize(8).delay(".55:.35:.65").gain(.16).lpf(sine.range(2500,5500).slow(14)).pan(perlin.range(.15,.85)).sometimes(x => x.add(note(12)).gain(.06))],
+  [3, n("<[~ ~ 4 ~] [~ ~ ~ ~] [~ ~ ~ ~] [~ ~ ~ ~]>").scale("C6:minor:pentatonic").s("gm_celesta").attack(.01).decay(.4).sustain(.05).release(1).room(.95).roomsize(10).delay(".7:.5:.8").gain(saw.slow(3).range(.12,.01)).lpf(3000)]
 )
 
-// pads — massive reverb, heavy filtering like sound through water
 $: arrange(
-  [8,  chord("<Cm9 Abmaj7>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(2).decay(1.5).sustain(.8).release(3).lpf(sine.range(400,900).slow(8)).room(.9).roomsize(8).gain(.3)],
-  [16, chord("<Cm9 Ebmaj7 Abmaj7 Bb7sus4>").dict('ireal').voicing().s("gm_synth_strings_1").attack(1.5).decay(1).sustain(.75).release(2.5).lpf(sine.range(500,1200).slow(16)).room(.85).roomsize(7).gain(.38).pan(sine.slow(12))],
-  [16, chord("<Cm9 Ebmaj7 Abmaj7 Bb7sus4>").dict('ireal').voicing().s("gm_synth_strings_1").attack(1).decay(.8).sustain(.8).release(2).lpf(sine.range(600,1500).slow(10)).room(.8).roomsize(6).gain(.44).pan(sine.slow(8))],
-  [16, chord("<Cm9 Ebmaj7 Abmaj7 Bb7sus4>").dict('ireal').voicing().s("gm_synth_strings_1").attack(1.5).decay(1).sustain(.75).release(2.5).lpf(sine.range(500,1200).slow(16)).room(.85).roomsize(7).gain(.38).pan(sine.slow(12))],
-  [12, chord("<Cm9 Abmaj7 Ebmaj7>/3").dict('ireal').voicing().s("gm_synth_strings_1").attack(2).decay(1.5).sustain(.7).release(3).lpf(sine.range(350,800).slow(12)).room(.95).roomsize(9).gain(.32).pan(sine.slow(16))],
-  [16, chord("<Cm9 Ebmaj7 Abmaj7 Bb7sus4>").dict('ireal').voicing().s("gm_synth_strings_1").attack(1).decay(.8).sustain(.8).release(2).lpf(sine.range(600,1500).slow(10)).room(.8).roomsize(6).gain(.44)],
-  [8,  chord("<Cm9 Abmaj7>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(3).decay(2).sustain(.6).release(4).lpf(sine.range(200,600).slow(8)).room(.95).roomsize(10).gain(saw.slow(8).range(.32,.05))]
+  [3, silence],
+  [6, n("<[~ ~ 0 ~] [~ ~ ~ ~] [~ 2 ~ ~] [~ ~ ~ 1]>/2").scale("C4:minor:pentatonic").s("gm_flute").attack(.4).decay(1).sustain(.5).release(2).room(.9).roomsize(8).delay(".5:.4:.6").gain(.12).lpf(sine.range(500,1200).slow(18)).vib(2).vibmod(.6).pan(sine.slow(20))],
+  [5, n("<[~ 0 ~ ~] [~ ~ 2 ~] [~ ~ ~ 4] [~ 3 ~ ~]>/2").scale("C4:minor:pentatonic").s("gm_flute").attack(.3).decay(.8).sustain(.5).release(2).room(.85).roomsize(8).delay(".45:.35:.55").gain(.15).lpf(sine.range(600,1400).slow(14)).vib(2.5).vibmod(.7).pan(sine.slow(16))],
+  [3, silence]
 )
 
-// melody — distant, warped, like hearing music from the surface
 $: arrange(
-  [8,  silence],
-  [16, n("<[~ 0 ~ ~] [~ ~ 3 ~] [~ 5 ~ ~] [3 ~ ~ 0]>").scale("C5:minor:pentatonic").s("gm_epiano2").lpf(sine.range(600,1800).slow(14)).room(.85).roomsize(7).delay(".5:.4:.65").gain(.3).attack(.15).speed(.94).pan(sine.slow(7))],
-  [16, n("<[0 ~ 3 ~] [5 ~ ~ 7] [~ 5 3 ~] [~ 3 0 ~]>").scale("C5:minor:pentatonic").s("gm_epiano2").lpf(sine.range(800,2200).slow(10)).room(.8).roomsize(6).delay(".4:.35:.55").gain(.38).attack(.1).speed(.96).pan(sine.slow(5)).sometimes(x=>x.add(note(12)).gain(.2))],
-  [16, n("<[~ 0 ~ ~] [~ ~ 3 ~] [~ 5 ~ ~] [3 ~ ~ 0]>").scale("C5:minor:pentatonic").s("gm_epiano2").lpf(sine.range(600,1800).slow(14)).room(.85).roomsize(7).delay(".5:.4:.65").gain(.3).attack(.15).speed(.94).pan(sine.slow(7))],
-  [12, n("<[~ ~ 0 ~] [~ 3 ~ ~] [~ ~ 5 ~] [~ 0 ~ ~]>").scale("C5:minor:pentatonic").s("gm_epiano2").lpf(sine.range(500,1200).slow(16)).room(.9).roomsize(8).delay(".65:.5:.8").gain(.25).attack(.2).speed(.92).pan(sine.slow(10))],
-  [16, n("<[0 ~ 3 ~] [5 ~ ~ 7] [~ 5 3 ~] [~ 3 0 ~]>").scale("C5:minor:pentatonic").s("gm_epiano2").lpf(sine.range(800,2200).slow(10)).room(.8).roomsize(6).delay(".4:.35:.55").gain(.38).attack(.1).speed(.96).sometimes(x=>x.add(note(12)).gain(.2))],
-  [8,  silence]
+  [3, silence],
+  [6, silence],
+  [5, note("<c3 eb3>/5").s("sawtooth").attack(4).decay(3).sustain(.4).release(5).lpf(sine.range(150,450).slow(10)).room(.95).roomsize(10).gain(.05).pan(sine.slow(18).range(.2,.8))],
+  [3, note("c3").s("sawtooth").attack(4).decay(3).sustain(.3).release(6).lpf(sine.range(100,300).slow(6)).room(.95).roomsize(10).gain(saw.slow(3).range(.04,.0)).pan(.5)]
 )
-
-// flute ghost — emerges only in choruses like a whale song
-$: arrange(
-  [8,  silence],
-  [16, silence],
-  [16, n("<[~ ~ 5 ~] [7 ~ ~ ~] [~ 5 ~ 3] [~ ~ ~ ~]>").scale("C5:minor:pentatonic").s("gm_flute").lpf(sine.range(800,2500).slow(8)).room(.9).roomsize(8).delay(".6:.45:.75").gain(.24).vib(5).vibmod(.9).attack(.15).decay(.4).sustain(.5).release(.8).pan(perlin.range(.2,.8))],
-  [16, silence],
-  [12, n("<[~ 3 ~ ~] [~ ~ 5 ~] [~ ~ ~ 7] [5 ~ ~ ~]>").scale("C5:minor:pentatonic").s("gm_flute").lpf(sine.range(600,2000).slow(12)).room(.95).roomsize(9).delay(".7:.5:.85").gain(.2).vib(4).vibmod(1).attack(.2).decay(.5).sustain(.4).release(1).pan(perlin.range(.3,.7))],
-  [16, n("<[~ ~ 5 ~] [7 ~ ~ ~] [~ 5 ~ 3] [~ ~ ~ ~]>").scale("C5:minor:pentatonic").s("gm_flute").lpf(sine.range(800,2500).slow(8)).room(.9).roomsize(8).delay(".6:.45:.75").gain(.24).vib(5).vibmod(.9).attack(.15).decay(.4).sustain(.5).release(.8).pan(perlin.range(.2,.8))],
-  [8,  silence]
-)
-```
-
-Song written to the file. The underwater feel comes from:
-- **Sub-bass drone** (C1 sine at 120Hz lpf) simulating ocean floor pressure
-- **Aggressive low-pass filtering** on everything — sounds muffled as if heard through water
-- **Massive reverb/roomsize** values creating cavernous, diffused space
-- **Slow pitch-shifted samples** (`.speed(.7-.94)`) making everything feel sluggish and heavy
-- **Bubble textures** from high-passed hi-hats with perlin-modulated gain and wide stereo panning
-- **Whale-song flute** appearing only in choruses with heavy vibrato and long delay tails
-- **Cm9 → Ebmaj7 → Abmaj7 → Bb7sus4** progression for dreamy, suspended harmonic movement

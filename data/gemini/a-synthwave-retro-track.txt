@@ -1,65 +1,8 @@
-// 🎵 "Neon Sunset" — Synthwave Retro Track
-// At 120 BPM: intro(8) + verse1(16) + chorus1(16) + verse2(16) + chorus2(16) + bridge(12) + outro(8) = 92 bars ≈ 3:04
-
-setcpm(120 / 4)
-
-$: arrange(
-  [8,  s("bd*4").bank("RolandTR808").gain(saw.slow(8).range(.4, .8)).room(.2)],
-  [16, s("bd*4, ~ cp ~ cp").bank("RolandTR808").gain(".85 .7").room(.25).swing(2)],
-  [16, s("bd*4, ~ cp ~ cp, [hh*2]*8").bank("RolandTR808").gain(".9 .75 .4").room(.2).cut(1)],
-  [16, s("bd*4, ~ cp ~ cp").bank("RolandTR808").gain(".85 .7").room(.25)],
-  [16, s("bd*4, ~ cp ~ cp, [hh*2]*8").bank("RolandTR808").gain(".9 .75 .4").room(.2).cut(1).every(4, x=>x.fast(2))],
-  [12, s("~ ~ cp ~").bank("RolandTR808").gain(.4).room(.6)],
-  [8,  s("bd*4").bank("RolandTR808").gain(saw.slow(8).range(.8, .1)).room(.4)]
-)
-
-$: arrange(
-  [4,  silence],
-  [4,  note("<a1 g1 f1 g1>").s("sawtooth").lpf(400).gain(.5).attack(.5)],
-  [16, note("<a1*8 g1*8 f1*8 g1*8>").s("sawtooth").lpf(600).gain(.75).room(.1).distort(.1)],
-  [16, note("<a1*8 g1*8 f1*8 g1*8>").s("sawtooth").lpf(800).gain(.82).room(.1).distort(.15)],
-  [16, note("<a1*8 g1*8 f1*8 g1*8>").s("sawtooth").lpf(600).gain(.75).room(.1)],
-  [16, note("<a1*8 g1*8 f1*8 g1*8>").s("sawtooth").lpf(800).gain(.82).room(.1).distort(.15)],
-  [12, note("<a1 g1 f1 g1>/3").s("sawtooth").lpf(300).gain(.6).attack(1).release(2)],
-  [8,  silence]
-)
-
-$: arrange(
-  [8,  n("0 7 12 7").scale("A3:minor").s("sawtooth").fast(4).lpf(1200).gain(.25).room(.6)],
-  [16, n("0 7 12 7").scale("A3:minor").s("sawtooth").fast(4).lpf(sine.range(1000, 2500).slow(16)).gain(.35).room(.4)],
-  [16, n("0 7 12 7").scale("A3:minor").s("sawtooth").fast(4).lpf(2800).gain(.4).room(.4).delay(".25:.2:.3")],
-  [16, n("0 7 12 7").scale("A3:minor").s("sawtooth").fast(4).lpf(sine.range(1000, 2500).slow(16)).gain(.35).room(.4)],
-  [16, n("0 7 12 7").scale("A3:minor").s("sawtooth").fast(4).lpf(2800).gain(.4).room(.4).delay(".25:.2:.3")],
-  [12, n("0 7 12 7").scale("A3:minor").s("sawtooth").fast(4).lpf(saw.slow(12).range(3000, 500)).gain(.2).room(.8)],
-  [8,  n("0 7 12 7").scale("A3:minor").s("sawtooth").fast(4).lpf(800).gain(saw.slow(8).range(.2, 0)).room(.8)]
-)
-
-$: arrange(
-  [8,  chord("<Am7 G7 Fmaj7 G7>/2").s("gm_synth_strings_1").attack(2).release(2).gain(.3).room(.8).lpf(1200)],
-  [16, silence],
-  [16, chord("<Am7 G7 Fmaj7 G7>").s("gm_synth_strings_1").struct("x ~ ~ ~").attack(.1).release(1).gain(.45).room(.6).lpf(2000)],
-  [16, silence],
-  [16, chord("<Am7 G7 Fmaj7 G7>").s("gm_synth_strings_1").struct("x ~ ~ ~").attack(.1).release(1).gain(.45).room(.6).lpf(2000)],
-  [12, chord("<Am7 G7 Fmaj7 G7>/3").s("gm_synth_strings_1").attack(3).release(4).gain(.35).room(.9).lpf(sine.range(800, 1800).slow(12))],
-  [8,  chord("<Am7 G7>/2").s("gm_synth_strings_1").attack(2).release(4).gain(.2).room(1).lpf(600)]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, silence],
-  [16, n("<[0 7 5 4] [~ 2 ~ 0] [3 ~ 5 ~] [7 ~ ~ ~]>").scale("A4:minor").s("sawtooth").room(.8).delay(".3:.2:.4").gain(.45).vib(4).vibmod(.4)],
-  [16, silence],
-  [16, n("<[0 7 10 12] [~ 10 ~ 7] [5 ~ 7 ~] [4 ~ 2 ~]>").scale("A4:minor").s("sawtooth").room(.8).delay(".3:.2:.4").gain(.48).vib(5).vibmod(.6)],
-  [12, silence],
-  [8,  silence]
-)
-
-$: arrange(
-  [92, s("vinyl:1").gain(.1).loop(1).lpf(2000).room(1)]
-)
-
-$: arrange(
-  [40, silence],
-  [16, n("<12 11 7 4>/4").scale("A4:minor").s("gm_epiano2").gain(.3).room(.7).delay(".5:.4:.6").lpf(1500)],
-  [36, silence]
-)
+// 🎵 "Neon Horizon" — 80s Synthwave Retro track
+setcps(110/60/4);
+stack(
+  s("bd:5*4, [~ sd:2]*2, [hh:8*2]*4").gain(0.8).room(0.4).dry(0.7),
+  note("eb2*16").s("saw").lpf(sine.range(400, 2200).slow(8)).resonance(15).gain(0.7),
+  note("<[eb3,gb3,bb3,d4] [f3,ab3,c4,eb4] [ab2,c3,eb3,g3] [bb2,d3,f3,a3]>").s("triangle").slow(4).attack(1).release(1).room(1).gain(0.5),
+  note("<[eb4 gb4] [bb4 db5] [f5 c5] [bb4 eb4]>").s("saw").jux(rev).vibrato(6, 0.1).delay(0.5).feedback(0.5).room(0.6).gain(0.3).lpf(3500)
+).reset(32)

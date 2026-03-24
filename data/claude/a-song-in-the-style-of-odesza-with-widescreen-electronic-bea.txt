@@ -1,69 +1,61 @@
-// 🎵 "Horizon Signal" — Widescreen Electronic / ODESZA-style Cinematic Synth-Pop
-// At 88 BPM: intro(8) + buildup(8) + verse(16) + chorus(16) + verse2(16) + chorus2(16) + outro(8) = 88 bars ≈ 2:24
+// 🎵 "Golden Hour" — Widescreen Electronic / ODESZA-style Anthemic Beats
+// At 84 BPM: intro(4) + verse(8) + chorus(12) + outro(4) = 28 bars ≈ 80s
 
-setcpm(88 / 4)
+setcpm(84 / 4)
 
-// Warm vinyl texture throughout
-$: s("vinyl:2").gain(.12).room(1).loop(1).lpf(3200)
+$: s("vinyl:2").gain(.1).room(1).loop(1).lpf(2600)
 
-// Drums — cinematic percussion with big reverb hits
+// Drums — cinematic 808 with swing and space
 $: arrange(
-  [8,  s("~ ~ ~ ~, [hh hh]*4").bank("RolandTR808").gain(perlin.range(.05,.2)).room(.7).lpf(3000)],
-  [8,  s("bd ~ ~ ~, ~ ~ cp ~, [hh hh]*4").bank("RolandTR808").gain(".6 .5 .55 .5").room(.5).swing(2)],
-  [16, s("bd ~ [~ bd] ~, ~ cp ~ [~ cp], [hh hh oh hh]*2").bank("RolandTR808").cut(1).swing(3).gain(perlin.range(.75,.95)).room(.4).every(4, x => x.fast(2).gain(.5))],
-  [16, s("bd [~ bd] ~ bd, ~ cp ~ cp, [hh oh hh hh]*2, ~ ~ ~ [sd:1 sd:1]").bank("RolandTR808").cut(1).swing(3).gain(".95 .85 .9 .88").room(.35).every(8, x => x.press())],
-  [16, s("bd ~ [~ bd] ~, ~ cp ~ [~ cp], [hh hh oh hh]*2").bank("RolandTR808").cut(1).swing(3).gain(perlin.range(.75,.95)).room(.4).sometimes(x => x.gain(.45))],
-  [16, s("bd [~ bd] ~ bd, ~ cp ~ cp, [hh oh hh hh]*2, ~ ~ ~ [sd:1 sd:1]").bank("RolandTR808").cut(1).swing(3).gain(".95 .85 .9 .88").room(.35).every(4, x => x.fast(2).gain(.5))],
-  [8,  s("bd ~ ~ ~, ~ ~ cp ~").bank("RolandTR808").swing(4).gain(saw.slow(8).range(.7,.08)).room(.7)]
+  [4,  s("[hh hh]*4").bank("RolandTR808").gain(perlin.range(.04,.16)).room(.75).lpf(sine.range(1200,3000).slow(4)).pan(perlin.range(.3,.7))],
+  [8,  s("bd ~ [~ bd] ~, ~ cp ~ ~, [hh hh oh hh]*2").bank("RolandTR808").cut(1).swing(3).gain(perlin.range(.68,.9)).room(.42)],
+  [12, s("bd [~ bd] ~ bd, ~ cp ~ cp, [oh hh hh hh]*2, ~ ~ ~ [sd:1 sd:1]").bank("RolandTR808").cut(1).swing(3).gain(".9 .83 .87 .85").room(.35).every(4, x => x.press())],
+  [4,  s("bd ~ ~ ~, ~ ~ cp ~").bank("RolandTR808").swing(4).gain(saw.slow(4).range(.6,.05)).room(.7)]
 )
 
-// Deep sub bass
+// Deep bass — Bb minor foundation
 $: arrange(
+  [4,  silence],
+  [8,  note("<[bb1 ~ ~ bb1] [gb1 ~ ~ ~] [db2 ~ ~ db2] [ab1 ~ ~ ~]>").s("gm_acoustic_bass").decay(.3).sustain(.5).room(.2).gain(.76)],
+  [12, note("<[bb1 ~ bb1 ~] [gb1 ~ ~ gb1] [db2 ~ db2 ~] [ab1 ~ ~ ab1]>").s("gm_acoustic_bass").decay(.25).sustain(.55).room(.2).gain(.84)],
+  [4,  note("<bb1 ~ db2 ~>/2").s("sine").lpf(100).gain(saw.slow(4).range(.42,.04)).decay(.8).sustain(.3).room(.3)]
+)
+
+// Wide pad — cinematic string wash with breathing filter
+$: arrange(
+  [4,  chord("<Bbm9 Gbmaj7>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(1.5).decay(1).sustain(.8).release(3).lpf(sine.range(350,1000).slow(4)).room(.88).roomsize(7).gain(.27).pan(sine.slow(14))],
+  [8,  chord("<Bbm9 Gbmaj7 Db Ab>").dict('ireal').voicing().s("gm_synth_strings_1").attack(.6).decay(.8).sustain(.72).release(2).lpf(2000).room(.72).roomsize(5).gain(.4).pan(sine.slow(9))],
+  [12, chord("<Bbm9 Gbmaj7 Db Ab>").dict('ireal').voicing().s("gm_synth_strings_1").attack(.4).decay(.6).sustain(.76).release(1.5).lpf(2600).room(.65).roomsize(4).gain(.47).pan(sine.slow(7))],
+  [4,  chord("<Bbm9 Gbmaj7>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(1.5).sustain(.55).release(4).lpf(sine.range(280,800).slow(4)).room(.92).roomsize(9).gain(saw.slow(4).range(.3,.04))]
+)
+
+// Pluck synth — ODESZA signature staccato chords
+$: arrange(
+  [4,  silence],
+  [8,  chord("<Bbm9 Gbmaj7 Db Ab>").dict('ireal').voicing().s("gm_epiano1").struct("[~ x] [x ~] [~ x] [x ~]").lpf(2200).room(.45).delay(".25:.15:.3").gain(.44).speed(.99)],
+  [12, chord("<Bbm9 Gbmaj7 Db Ab>").dict('ireal').voicing().s("gm_epiano1").struct("[x ~ x ~]*2").lpf(2700).room(.4).delay(".2:.12:.25").gain(.5).speed(.99).every(4, x => x.fast(2).gain(.28))],
+  [4,  chord("<Bbm9 Gbmaj7>/2").dict('ireal').voicing().s("gm_epiano1").struct("x ~ ~ ~").lpf(1100).room(.78).delay(".5:.35:.6").gain(.25).speed(.96).crush(13)]
+)
+
+// Lead melody — soaring minor pentatonic with delay trails
+$: arrange(
+  [4,  silence],
+  [8,  n("<[~ 0 ~ 2] [4 ~ 3 ~] [~ 5 3 ~] [2 ~ 0 ~]>").scale("Bb4:minor:pentatonic").s("gm_epiano2").lpf(sine.range(900,3200).slow(10)).room(.6).delay(".35:.25:.45").gain(.35).vib(3).vibmod(.4).rarely(x => x.add(note(12)))],
+  [12, n("<[0 2 4 5] [~ 7 ~ 5] [4 5 7 ~] [~ 5 4 0]>").scale("Bb4:minor:pentatonic").s("gm_epiano2").lpf(sine.range(1300,4000).slow(7)).room(.55).delay(".3:.2:.4").gain(.43).vib(4).vibmod(.5).sometimes(x => x.add(note(12)))],
+  [4,  n("<[~ 0 ~ ~] [~ ~ 4 ~] [~ 5 ~ ~] [~ ~ 0 ~]>").scale("Bb4:minor:pentatonic").s("gm_epiano2").room(.9).roomsize(8).delay(".7:.5:.8").gain(.2).lpf(sine.range(400,1400).slow(4))]
+)
+
+// Horn counter-melody — ODESZA brass moment in chorus
+$: arrange(
+  [4,  silence],
   [8,  silence],
-  [8,  note("<ab1 ~ ~ ~ eb2 ~ ~ ~>/2").s("sine").lpf(120).gain(.55).decay(.6).sustain(.4).room(.2)],
-  [16, note("<[ab1 ~ ~ ab1] [db2 ~ ~ ~] [eb2 ~ ~ eb2] [bb1 ~ ~ ~]>").s("gm_acoustic_bass").decay(.3).sustain(.5).room(.2).gain(.8)],
-  [16, note("<[ab1 ~ ab1 ~] [db2 ~ ~ db2] [eb2 ~ eb2 ~] [bb1 ~ ~ bb1]>").s("gm_acoustic_bass").decay(.25).sustain(.55).room(.2).gain(.85)],
-  [16, note("<[ab1 ~ ~ ab1] [db2 ~ ~ ~] [eb2 ~ ~ eb2] [bb1 ~ ~ ~]>").s("gm_acoustic_bass").decay(.3).sustain(.5).room(.2).gain(.8)],
-  [16, note("<[ab1 ~ ab1 ~] [db2 ~ ~ db2] [eb2 ~ eb2 ~] [bb1 ~ ~ bb1]>").s("gm_acoustic_bass").decay(.25).sustain(.55).room(.2).gain(.85)],
-  [8,  note("<ab1 ~ eb2 ~ bb1 ~ db2 ~>/2").s("sine").lpf(100).gain(saw.slow(8).range(.5,.05)).decay(.8).sustain(.3).room(.3)]
+  [12, n("<[~ ~ 3 ~] [5 ~ ~ ~] [~ 4 ~ 2] [~ ~ 0 ~]>").scale("Bb4:minor:pentatonic").s("gm_french_horn").room(.7).delay(".4:.28:.5").gain(.26).lpf(3800).vib(4).vibmod(.5).attack(.08).decay(.3).sustain(.6).release(.5)],
+  [4,  silence]
 )
 
-// Wide pad — the cinematic string wash
-$: arrange(
-  [8,  chord("<Abmaj7 Ebmaj7>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(1.5).decay(1).sustain(.8).release(3).lpf(sine.range(400,1200).slow(8)).room(.85).roomsize(6).gain(.3).pan(sine.slow(12))],
-  [8,  chord("<Abmaj7 Dbmaj7 Ebmaj7 Bbm7>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(1).decay(.8).sustain(.75).release(2).lpf(sine.range(600,1800).slow(6)).room(.8).roomsize(5).gain(.38).pan(sine.slow(10))],
-  [16, chord("<Abmaj7 Dbmaj7 Eb7sus4 Bbm7>").dict('ireal').voicing().s("gm_synth_strings_1").attack(.6).decay(.8).sustain(.7).release(2).lpf(2200).room(.7).roomsize(4).gain(.42).pan(sine.slow(8))],
-  [16, chord("<Abmaj7 Dbmaj7 Eb7sus4 Bbm7>").dict('ireal').voicing().s("gm_synth_strings_1").attack(.4).decay(.6).sustain(.75).release(1.5).lpf(2800).room(.65).roomsize(4).gain(.48).pan(sine.slow(7))],
-  [16, chord("<Abmaj7 Dbmaj7 Eb7sus4 Bbm7>").dict('ireal').voicing().s("gm_synth_strings_1").attack(.6).decay(.8).sustain(.7).release(2).lpf(2200).room(.7).roomsize(4).gain(.42).pan(sine.slow(8))],
-  [16, chord("<Abmaj7 Dbmaj7 Eb7sus4 Bbm7>").dict('ireal').voicing().s("gm_synth_strings_1").attack(.4).decay(.6).sustain(.75).release(1.5).lpf(2800).room(.65).roomsize(4).gain(.48).pan(sine.slow(7))],
-  [8,  chord("<Abmaj7 Ebmaj7>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(1.5).sustain(.6).release(4).lpf(sine.range(300,900).slow(8)).room(.9).roomsize(8).gain(saw.slow(8).range(.35,.05))]
-)
-
-// Pluck synth — rhythmic chords, ODESZA signature staccato feel
-$: arrange(
-  [8,  silence],
-  [8,  chord("<Abmaj7 Dbmaj7 Ebmaj7 Bbm7>/2").dict('ireal').voicing().s("gm_epiano1").struct("~ x ~ ~").lpf(1600).room(.5).delay(".3:.2:.35").gain(.3).speed(.98)],
-  [16, chord("<Abmaj7 Dbmaj7 Eb7sus4 Bbm7>").dict('ireal').voicing().s("gm_epiano1").struct("[~ x] [x ~] [~ x] [x ~]").lpf(2400).room(.45).delay(".25:.15:.3").gain(.48).speed(.99)],
-  [16, chord("<Abmaj7 Dbmaj7 Eb7sus4 Bbm7>").dict('ireal').voicing().s("gm_epiano1").struct("[x ~ x ~]*2").lpf(2800).room(.4).delay(".2:.125:.25").gain(.52).speed(.99).every(4, x => x.fast(2).gain(.3))],
-  [16, chord("<Abmaj7 Dbmaj7 Eb7sus4 Bbm7>").dict('ireal').voicing().s("gm_epiano1").struct("[~ x] [x ~] [~ x] [x ~]").lpf(2400).room(.45).delay(".25:.15:.3").gain(.48).speed(.98)],
-  [16, chord("<Abmaj7 Dbmaj7 Eb7sus4 Bbm7>").dict('ireal').voicing().s("gm_epiano1").struct("[x ~ x ~]*2").lpf(2800).room(.4).delay(".2:.125:.25").gain(.52).speed(.99).every(4, x => x.fast(2).gain(.3))],
-  [8,  chord("<Abmaj7 Ebmaj7>/2").dict('ireal').voicing().s("gm_epiano1").struct("x ~ ~ ~").lpf(1200).room(.75).delay(".5:.35:.6").gain(.3).speed(.96).crush(13)]
-)
-
-// Lead melody — soaring pentatonic lines
-$: arrange(
-  [8,  silence],
-  [8,  silence],
-  [16, n("<[~ 0 ~ 2] [3 ~ 5 ~] [~ 7 5 ~] [3 ~ 2 0]>").scale("Ab5:major:pentatonic").s("gm_epiano2").lpf(sine.range(1000,3500).slow(10)).room(.6).delay(".35:.25:.45").gain(.38).vib(3).vibmod(.4).rarely(x => x.add(note(12)))],
-  [16, n("<[0 2 3 5] [~ 7 ~ 5] [3 5 7 ~] [~ 5 3 0]>").scale("Ab5:major:pentatonic").s("gm_epiano2").lpf(sine.range(1400,4200).slow(7)).room(.55).delay(".3:.2:.4").gain(.45).vib(3).vibmod(.5).sometimes(x => x.add(note(12)))],
-  [16, n("<[~ 0 ~ 2] [3 ~ 5 ~] [~ 7 5 ~] [3 ~ 2 0]>").scale("Ab5:major:pentatonic").s("gm_epiano2").lpf(sine.range(1000,3500).slow(10)).room(.6).delay(".35:.25:.45").gain(.38).vib(3).vibmod(.4)],
-  [16, n("<[0 2 3 5] [~ 7 ~ 5] [3 5 7 ~] [~ 5 3 0]>").scale("Ab5:major:pentatonic").s("gm_epiano2").lpf(sine.range(1400,4200).slow(7)).room(.55).delay(".3:.2:.4").gain(.45).vib(3).vibmod(.5).sometimes(x => x.add(note(12)))],
-  [8,  n("<[~ 0 ~ ~] [~ ~ 3 ~] [~ 5 ~ ~] [~ ~ 0 ~]>").scale("Ab5:major:pentatonic").s("gm_epiano2").room(.9).roomsize(8).delay(".7:.5:.8").gain(.25).lpf(sine.range(500,1800).slow(8))]
-)
-
-// Sub drone — deep foundation tone
-$: note("<ab0 eb1 db1 bb0>/4")
+// Sub drone — deep Bb foundation
+$: note("<bb0 gb0 db1 ab0>/4")
    .s("sine")
    .attack(2).decay(1).sustain(.85).release(3)
-   .gain(.2).room(.5).roomsize(6)
-   .lpf(150)
+   .gain(.18).room(.5).roomsize(6)
+   .lpf(140)

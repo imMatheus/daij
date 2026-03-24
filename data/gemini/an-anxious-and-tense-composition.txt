@@ -1,82 +1,10 @@
-// 🕸️ "The Narrow Corridor" — Anxious and Tense Industrial Ambient
-// At 132 BPM: intro(8) + tensionA(24) + collapse(16) + tensionB(24) + outro(16) = 88 bars ≈ 2:40
-
-setcpm(132 / 4)
-
-$: arrange(
-  [8,  s("vinyl:2").gain(.15).room(1).loop(1).lpf(1200)],
-  [24, s("vinyl:2").gain(.18).room(1).loop(1).lpf(sine.range(1000, 3000).slow(16))],
-  [16, s("vinyl:2").gain(.22).room(1).loop(1).lpf(4000).crush(8)],
-  [24, s("vinyl:2").gain(.18).room(1).loop(1).lpf(sine.range(1000, 3000).slow(16))],
-  [16, s("vinyl:2").gain(saw.slow(16).range(.15, 0)).room(1).lpf(800)]
-)
-
-$: arrange(
-  [8,  silence],
-  [24, s("bd(3,8), [hh*8]?, [~ sd:2 ~ ~]?")
-       .bank("RolandTR909").gain(perlin.range(.6, .85))
-       .room(.2).every(4, x => x.fast(1.5))],
-  [16, s("bd(5,8), [hh*16], [~ sd:3]*2, [cp*4]?")
-       .bank("RolandTR909").gain(.9).room(.4).distort(.2)
-       .sometimes(x => x.fast(2)).every(3, x => x.rev())],
-  [24, s("bd(3,8), [hh*8]?, [~ sd:2 ~ ~]?")
-       .bank("RolandTR909").gain(perlin.range(.6, .85))
-       .room(.2).every(6, x => x.press())],
-  [16, s("bd(1,8)").bank("RolandTR909").gain(saw.slow(16).range(.7, 0)).room(.5)]
-)
-
-$: arrange(
-  [8,  note("<c1 ~ b0 ~>").s("gm_acoustic_bass").gain(.7).lpf(400)],
-  [24, note("<c1 [c1 b0] gb0 f0>").s("gm_acoustic_bass")
-       .decay(.2).sustain(.4).gain(.85).distort(.1)
-       .sometimes(x => x.add(note(12)).gain(.4))],
-  [16, note("<c1 [c1 b0] [gb0 f0] [f0 gb0]>").s("gm_acoustic_bass")
-       .decay(.1).sustain(.3).gain(.95).distort(.3).crush(12)],
-  [24, note("<c1 [c1 b0] gb0 f0>").s("gm_acoustic_bass")
-       .decay(.2).sustain(.4).gain(.85).distort(.1)],
-  [16, note("<c1 ~ ~ ~>").s("gm_acoustic_bass").gain(saw.slow(16).range(.7, 0)).lpf(200)]
-)
-
-$: arrange(
-  [8,  chord("<Cm7b5 Gb7#11>/2").dict('ireal').voicing().s("gm_epiano2").gain(.3).room(.8).lpf(800).attack(1)],
-  [24, chord("<Cm7b5 Bm7b5 Gb7#11 F7b9>").dict('ireal').voicing()
-       .s("gm_epiano2").struct("x ~ x [~ x]").gain(.45).room(.5)
-       .delay(".1:.05:.3").speed(.97).every(5, x => x.press())],
-  [16, chord("<Cm7b5 Bm7b5 Gb7#11 F7b9>").dict('ireal').voicing()
-       .s("gm_epiano2").struct("x x x x").gain(.55).room(.4)
-       .distort(.2).crush(14).delay(".05:.05:.4")],
-  [24, chord("<Cm7b5 Bm7b5 Gb7#11 F7b9>").dict('ireal').voicing()
-       .s("gm_epiano2").struct("x ~ x [~ x]").gain(.45).room(.5)
-       .delay(".1:.05:.3").speed(.97)],
-  [16, chord("<Cm7b5 Gb7#11>/4").dict('ireal').voicing().s("gm_epiano2").gain(saw.slow(16).range(.3, 0)).room(.9).attack(2)]
-)
-
-$: arrange(
-  [8,  silence],
-  [24, n("<[0 1] [6 7] [13 12] [1 0]>").scale("C4:locrian")
-       .s("gm_oboe").gain(.35).room(.6).vib(6).vibmod(.8)
-       .delay(".3:.2:.5").pan(sine.slow(4))],
-  [16, n("<[0 1 6 7] [13 12 7 6] [1 0 1 3]>").scale("C5:locrian")
-       .s("gm_oboe").gain(.45).room(.5).vib(8).vibmod(1)
-       .delay(".15:.1:.4").fast(2).rarely(x => x.add(note(12)))],
-  [24, n("<[0 1] [6 7] [13 12] [1 0]>").scale("C4:locrian")
-       .s("gm_oboe").gain(.35).room(.6).vib(6).vibmod(.8)
-       .delay(".3:.2:.5")],
-  [16, silence]
-)
-
-$: arrange(
-  [8,  n("0*8").scale("C6:locrian").s("sine").gain(perlin.range(0, .2)).room(1).hpf(4000)],
-  [24, n("0*16").scale("C6:locrian").s("sine").gain(perlin.range(.05, .25)).room(.8).hpf(5000).pan(sine.slow(2))],
-  [16, n("[0 1 0 3]*4").scale("C6:locrian").s("sine").gain(.3).room(.6).hpf(3000).delay(".1:.1:.5")],
-  [24, n("0*16").scale("C6:locrian").s("sine").gain(perlin.range(.05, .25)).room(.8).hpf(5000)],
-  [16, n("0*4").scale("C6:locrian").s("sine").gain(saw.slow(16).range(.2, 0)).room(1).hpf(6000)]
-)
-
-$: arrange(
-  [8,  silence],
-  [24, silence],
-  [16, s("gm_synth_strings_1").note("<c4 b3 gb3 f3>").gain(.25).room(1).attack(.5).release(.5).lpf(sine.range(400, 2000).slow(4))],
-  [24, silence],
-  [16, silence]
-)
+// 🎵 "Adrenaline spike" — Anxious Microtonal Glitch
+setcps(160/60/4);
+stack(
+  s("bd(5,8)").lpf(200).gain(1).room(0.4),
+  s("~ [sn:2 <sn:2 [~ sn:2]>]").gain(0.7).delay(0.2).room(0.5),
+  s("hc(13,16)").n(irand(10)).gain(perlin.range(0.2, 0.8)).pan(sine),
+  note("<[0,1,4.5] [1,2,5.5] [0,0.5,6]>").s("supersaw").lpf(perlin.range(300, 2000)).gain(0.4).room(1),
+  s("glitch(11,16)").speed(range(1, 8, perlin)).gain(0.5).delay(0.4).delayfb(0.7),
+  note("12*16").s("supertron").struct("1(7,16)").gain(sine.range(0, 0.3)).hpf(3000)
+).reset(16)

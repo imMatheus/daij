@@ -1,62 +1,9 @@
-// 🎵 "Pixelated Highway" — Retro Arcade / Chiptune
-// At 145 BPM: intro(8) + verseA(16) + chorus(16) + verseB(16) + bridge(16) + chorus(16) + outro(8) = 96 bars ≈ 2:38
-
-setcpm(145 / 4)
-
-// 🕹️ Master Bus Effects
-$: s("sine").gain(0) // Dummy track to set context if needed, mostly handled per voice
-
-// 🥁 Drums - Bitcrushed Beat
-$: arrange(
-  [8,  s("bd*4, [~ hh]*4").bank("RolandTR909").crush(6).gain(.6)],
-  [16, s("bd ~ sd ~").bank("RolandTR909").crush(8).gain(.7)],
-  [16, s("bd [~ bd] [sd,cp] ~, hh*8").bank("RolandTR909").crush(6).gain(.75)],
-  [16, s("bd ~ sd ~").bank("RolandTR909").crush(8).gain(.7)],
-  [16, s("bd*8, [sd sd] [sd sd] [sd sd] [sd*4]").bank("RolandTR909").crush(5).gain(.8).every(4, x=>x.fast(2))],
-  [16, s("bd [~ bd] [sd,cp] ~, hh*8").bank("RolandTR909").crush(6).gain(.75)],
-  [8,  s("bd*2 [sd*2] [bd*2] [sd*4]").bank("RolandTR909").crush(4).gain(.7)]
-)
-
-// 🎸 Bass - Driving Square Wave
-$: arrange(
-  [8,  note("f1*8").s("square").decay(.1).sustain(.1).gain(.5).lpf(800)],
-  [16, note("<f1 eb1 bb1 f1>").s("square").struct("x*8").decay(.15).sustain(.4).gain(.6).lpf(1200)],
-  [16, note("<f1 eb1 bb1 c2>").s("sawtooth").struct("[x x] [x ~] [x x] [x ~]").decay(.2).sustain(.6).gain(.55).lpf(2000).distort(.2)],
-  [16, note("<f1 eb1 bb1 f1>").s("square").struct("x*8").decay(.15).sustain(.4).gain(.6).lpf(1200)],
-  [16, note("<d1 c1 bb0 c1>").s("triangle").struct("x*16").decay(.1).sustain(.8).gain(.65).lpf(1500)],
-  [16, note("<f1 eb1 bb1 c2>").s("sawtooth").struct("[x x] [x ~] [x x] [x ~]").decay(.2).sustain(.6).gain(.55).lpf(2000).distort(.2)],
-  [8,  note("f1").s("square").decay(1).gain(.5).lpf(400)]
-)
-
-// 🎹 Arpeggio - Fast "Coin" Runs
-$: arrange(
-  [8,  silence],
-  [16, n("0 4 7 12").scale("F3:mixolydian").s("triangle").fast(4).decay(.1).sustain(.1).gain(.35).pan(sine.slow(4))],
-  [16, n("0 2 4 7 12 7 4 2").scale("F4:mixolydian").s("square").fast(4).decay(.05).sustain(.05).gain(.3).lpf(3000).crush(8)],
-  [16, n("0 4 7 12").scale("F3:mixolydian").s("triangle").fast(4).decay(.1).sustain(.1).gain(.35).pan(sine.slow(4))],
-  [16, n("0 1 2 3 4 5 6 7").scale("F4:chromatic").s("sawtooth").fast(8).decay(.05).gain(.25).lpf(sine.range(500, 4000).slow(8))],
-  [16, n("0 2 4 7 12 7 4 2").scale("F4:mixolydian").s("square").fast(4).decay(.05).sustain(.05).gain(.3).lpf(3000).crush(8)],
-  [8,  n("12 7 4 0").scale("F3:mixolydian").s("triangle").fast(2).decay(.3).gain(.3)]
-)
-
-// 🕹️ Melody - Heroic Lead
-$: arrange(
-  [8,  n("12").scale("F5:mixolydian").s("square").decay(.1).gain(.4).every(8, x=>x.add(note(12)))], // Coin sounds
-  [16, silence],
-  [16, n("<[4 ~ 2 4] [7 ~ ~ ~] [5 ~ 4 5] [2 ~ ~ ~]>").scale("F4:mixolydian").s("square").decay(.2).sustain(.4).gain(.4).vib(5).vibmod(.2).delay(".2:.4:.3")],
-  [16, n("<[0 ~ ~ ~] [~ 7 4 2] [0 ~ ~ ~] [~ ~ ~ ~]>").scale("F5:mixolydian").s("square").decay(.1).gain(.3).distort(.1)],
-  [16, n("<[2 3 4 5] [6 7 8 9]>").scale("D4:minor").s("sawtooth").fast(2).decay(.1).gain(.35).lpf(2500)],
-  [16, n("<[12 ~ 7 12] [14 ~ ~ ~] [11 ~ 9 11] [7 ~ ~ ~]>").scale("F4:mixolydian").s("square").decay(.2).sustain(.4).gain(.4).vib(5).vibmod(.2).delay(".2:.4:.3").crush(4)],
-  [8,  silence]
-)
-
-// ✨ Texture - Noise Sweeps
-$: arrange(
-  [8,  s("white").decay(.1).gain(.1).fast(8).lpf(sine.range(100, 2000).slow(4))],
-  [16, silence],
-  [16, s("white").decay(.2).gain(.15).struct("x ~ ~ ~").lpf(3000).room(1)],
-  [16, silence],
-  [16, s("pink").decay(1).gain(.2).slow(2).lpf(sine.range(200, 3000).slow(4))],
-  [16, s("white").decay(.2).gain(.15).struct("x ~ ~ ~").lpf(3000).room(1)],
-  [8,  s("white").decay(2).gain(.1).lpf(100)]
-)
+// 🎵 "Insert Coin" — Retro Arcade Chiptune
+setcps(0.75)
+stack(
+  s("bd(3,8), [~ sd(2,8)]").bank("superkick").crush(4).gain(0.8),
+  s("hh*16").bank("superhat").crush(2).gain(0.6).pan(sine.slow(2)),
+  note("<c2 f1 g1 eb1>*8").s("supersquare").decay(0.05).lpf(500).gain(0.7),
+  note("<[c4,g4] [f4,c5] [g4,d5] [eb4,bb4]>").s("supertri").gain(0.4).room(0.2),
+  note("<c5 g4 c6 eb5 f5 g5 c6 bb5>*16").s("supersquare").vibrato(12,0.1).gain(0.5).lpf(sine.range(1000,6000).slow(4))
+).jux(rev).delay(0.25).room(0.3).reset(16)

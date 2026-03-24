@@ -1,63 +1,10 @@
-// 🎵 "Shadows in the Fog" — Suspenseful & Eerie Cinematic
-// At 120 BPM: intro(8) + tensionA(16) + bridge(16) + tensionB(16) + climax(16) + outro(8) = 80 bars ≈ 2:40
-
-setcpm(120 / 4)
-
-$: arrange(
-  [8, s("vinyl:1").gain(.12).room(1).loop(1).lpf(1200)],
-  [64, s("vinyl:1").gain(.15).room(1).loop(1).lpf(sine.range(800, 2000).slow(16))],
-  [8, s("vinyl:1").gain(saw.slow(8).range(.12, 0)).room(1).lpf(600)]
-)
-
-$: arrange(
-  [8, silence],
-  [16, s("bd ~ ~ ~").bank("RolandTR808").gain(.6).lpf(200).room(.5)],
-  [16, s("bd ~ ~ [~ bd]").bank("RolandTR808").gain(.7).lpf(250).room(.4)],
-  [16, s("bd ~ ~ ~").bank("RolandTR808").gain(.6).lpf(200).room(.5)],
-  [16, s("bd ~ bd ~, ~ ~ ~ [bd bd]").bank("RolandTR808").gain(.75).lpf(300).room(.3)],
-  [8, s("bd ~ ~ ~").bank("RolandTR808").gain(saw.slow(8).range(.5, 0)).lpf(150)]
-)
-
-$: arrange(
-  [8, silence],
-  [16, s("~ ~ ~ [hh:2*2]").bank("RolandTR808").gain(.3).room(.8).hpf(2000).crush(8)],
-  [16, s("~ hh:2 ~ hh:2").bank("RolandTR808").gain(.35).room(.6).hpf(2500).sometimes(x=>x.fast(2))],
-  [16, s("~ ~ ~ [hh:2*2]").bank("RolandTR808").gain(.3).room(.8).hpf(2000)],
-  [16, s("[hh:2*4] ~ [hh:2*2] ~").bank("RolandTR808").gain(.4).room(.5).hpf(3000).every(4, x=>x.press())],
-  [8, silence]
-)
-
-$: arrange(
-  [8, note("c1").s("sine").attack(2).sustain(4).release(4).gain(.3).lpf(150)],
-  [16, note("<c1 eb1 b0 ab0>").s("gm_acoustic_bass").attack(.1).decay(.5).sustain(.7).release(1).gain(.7).lpf(300).room(.4)],
-  [16, note("<c1 b0 eb1 g0>").s("gm_acoustic_bass").attack(.1).decay(.4).sustain(.6).release(.8).gain(.75).lpf(400).room(.3)],
-  [16, note("<c1 eb1 b0 ab0>").s("gm_acoustic_bass").attack(.1).decay(.5).sustain(.7).release(1).gain(.7).lpf(300).room(.4)],
-  [16, note("<c1 b0 eb1 d1>").s("gm_acoustic_bass").attack(.05).decay(.3).sustain(.8).release(.5).gain(.8).lpf(500).room(.2)],
-  [8, note("c1").s("sine").attack(1).sustain(4).release(6).gain(saw.slow(8).range(.4, 0)).lpf(100)]
-)
-
-$: arrange(
-  [8, chord("Cm9b5").s("gm_synth_strings_1").attack(4).release(4).gain(.2).lpf(800).room(.9)],
-  [16, chord("<Cm9b5 Bdim7 Abmaj7#11 G7b9>").dict('ireal').voicing().s("gm_synth_strings_1").attack(2).sustain(2).release(2).gain(.35).lpf(sine.range(600, 1200).slow(8)).room(.8)],
-  [16, chord("<Cm9b5 Ddim7 Ebmaj7#5 Baug7>").dict('ireal').voicing().s("gm_synth_strings_1").attack(1).sustain(2).release(1).gain(.4).lpf(1500).room(.7).delay(".5:.4:.3")],
-  [16, chord("<Cm9b5 Bdim7 Abmaj7#11 G7b9>").dict('ireal').voicing().s("gm_synth_strings_1").attack(2).sustain(2).release(2).gain(.35).lpf(sine.range(600, 1200).slow(8)).room(.8)],
-  [16, chord("<Cm9b5 Bdim7 Abmaj7#11 G7b9>").dict('ireal').voicing().s("gm_epiano2").struct("x ~ ~ ~").gain(.45).room(.6).delay(".25:.5:.4").crush(12).lpf(2000)],
-  [8, chord("Cm9b5").s("gm_synth_strings_1").attack(2).release(8).gain(saw.slow(8).range(.3, 0)).lpf(600)]
-)
-
-$: arrange(
-  [8, silence],
-  [16, silence],
-  [16, n("<[0 1 ~ 3] [~ 6 4 ~] [~ 3 1 ~] [0 ~ ~ ~]>").scale("C5:locrian").s("gm_oboe").gain(.3).room(.9).delay(".6:.5:.6").vib(6).vibmod(.8).attack(.8)],
-  [16, silence],
-  [16, n("<[7 6 4 3] [1 0 ~ ~] [~ 3 4 6] [7 ~ ~ ~]>").scale("C6:locrian").s("gm_flute").gain(.28).room(.8).delay(".4:.6:.5").vib(5).vibmod(.7).attack(.4).release(.6)],
-  [8, silence]
-)
-
-$: arrange(
-  [24, silence],
-  [16, s("sine").note("<c6 b5 ab5 g5>/2").gain(perlin.range(0, .15)).room(1).lpf(4000).delay(".8:.7:.6")],
-  [16, silence],
-  [16, s("square").note("<c2 b1 eb2 g1>/4").gain(.1).lpf(200).room(.9).detune(sine.range(-10, 10).slow(4))],
-  [8, silence]
-)
+// 🎵 "The Deep Unrest" — A suspenseful and eerie atmospheric piece
+setcps(0.3);
+stack(
+  note("c1*2 <c1 b0 g0>").s("saw").lpf(perlin.range(80, 400)).gain(0.7).room(0.8).resonance(0.2),
+  s("bd(3,8)").gain(sine.range(0.5, 1)).lpf(150).room(0.3),
+  note("c5 eb5 f#5 <b5 g5>").s("sine").struct("1(5,13,2)").gain(0.25).room(1).delay(0.8).pan(sine).rev(),
+  s("[~ hc]*4").gain(0.35).crush(sine.range(2, 16)).room(0.5).hpf(2000),
+  note("<[c4,gb4] [db4,g4]>").s("superfm").gain(0.2).attack(1).release(3).room(1).lpf(1200).detune(sine.range(0, 15)),
+  s("~ <cpu:3 cpu:4>").gain(0.3).room(0.8).delay(0.5).speed("<1 0.8 1.2>")
+).reset(12)

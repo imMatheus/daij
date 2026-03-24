@@ -1,57 +1,12 @@
-// 🕵️ "The Midnight Vault" — Heist Movie Soundtrack / Acid Jazz-Funk
-// At 112 BPM: intro(8) + verse1(16) + chorus(16) + verse2(16) + bridge(16) + outro(8) = 80 bars ≈ 2:51
+// 🎵 "The Midnight Vault" — Cinematic Heist / Tension Funk
+samples('github:tidalcycles/dirt-samples');
+setcps(125/120);
 
-setcpm(112 / 4)
-
-$: s("gm_woodblock*4")
-  .gain(".35 .15 .25 .15")
-  .room(.2)
-  .pan(sine.slow(8).range(-0.5, 0.5))
-  .every(4, x => x.fast(2).gain(.2))
-
-$: arrange(
-  [8,  s("~ hh ~ hh").bank("RolandTR909").gain(.6).room(.2)],
-  [16, s("bd [~ sd] [bd ~] sd, hh*8").bank("RolandTR909").gain(".9 .8 .85 .8, .6").room(.3).swing(3)],
-  [16, s("bd [~ sd] bd [sd bd], [hh oh hh hh]*2").bank("RolandTR909").cut(1).gain(".95 .85 .9 .8, .7").room(.25).swing(4).every(4, x => x.fast(2))],
-  [16, s("bd [~ sd] [bd ~] sd, hh*8").bank("RolandTR909").gain(".9 .8 .85 .8, .6").room(.3).swing(3)],
-  [16, s("bd ~ sd ~, [hh*4] [oh*2]").bank("RolandTR909").gain(".8 .7 .75 .7, .5").room(.5).lpf(sine.range(800, 2000).slow(4))],
-  [8,  s("bd ~ ~ ~, ~ ~ sd ~").bank("RolandTR909").gain(saw.slow(8).range(.7, 0)).room(.6)]
-)
-
-$: arrange(
-  [8,  note("<d1 [d1 f1] g1 [g1 ab1]>").s("gm_electric_bass_finger").gain(.85).room(.2).decay(.2).sustain(.4)],
-  [16, note("<d1 d1 f1 g1, d1 d1 g1 ab1>").s("gm_electric_bass_finger").struct("x [~ x] x [~ x]").gain(.88).room(.2).decay(.15).sustain(.5)],
-  [16, note("<d1 f1 g1 ab1, d1 f1 g1 bb1>").s("gm_electric_bass_finger").struct("x x ~ x, x ~ x x").gain(.92).room(.15).decay(.1).sustain(.6)],
-  [16, note("<d1 d1 f1 g1, d1 d1 g1 ab1>").s("gm_electric_bass_finger").struct("x [~ x] x [~ x]").gain(.88).room(.2).decay(.15).sustain(.5)],
-  [16, note("<d1 ~ ~ ~, f1 ~ ~ ~, g1 ~ ~ ~, ab1 ~ ~ ~>").s("gm_electric_bass_finger").gain(.8).room(.4).lpf(600)],
-  [8,  note("d1").s("gm_electric_bass_finger").gain(saw.slow(8).range(.7, 0)).room(.5)]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, chord("<Dm9 G13 Bbmaj9 A7b13>").dict('ireal').voicing().s("gm_epiano1").struct("~ x ~ x").gain(.55).room(.4).delay(".2:.1:.3")],
-  [16, chord("<Dm9 G13 Bbmaj9 A7b13>").dict('ireal').voicing().s("gm_epiano1").struct("x [~ x] x x").gain(.6).room(.3).delay(".15:.1:.2").crush(14)],
-  [16, chord("<Dm9 G13 Bbmaj9 A7b13>").dict('ireal').voicing().s("gm_epiano1").struct("~ x ~ x").gain(.55).room(.4).delay(".2:.1:.3")],
-  [16, chord("<Dm9 Bbmaj9>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(2).sustain(.8).release(2).gain(.35).lpf(sine.range(400, 1200).slow(8))],
-  [8,  chord("Dm9").dict('ireal').voicing().s("gm_epiano1").gain(saw.slow(8).range(.4, 0)).room(.6)]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, n("<[~ 0 ~ 3] [5 ~ 6 7] [~ 10 ~ 7] [5 ~ 3 0]>").scale("D4:blues").s("gm_flute").gain(.38).room(.5).vib(4).delay(".3:.2:.4")],
-  [16, n("<0 3 5 6, 7 10 12 13>").scale("D5:blues").s("gm_brass_section").struct("x ~ x x").gain(.45).room(.4).attack(.05).decay(.1)],
-  [16, n("<[~ 12 ~ 10] [7 ~ 6 5] [~ 3 ~ 5] [0 ~ ~ ~]>").scale("D4:blues").s("gm_flute").gain(.42).room(.5).vib(5).delay(".25:.2:.3")],
-  [16, silence],
-  [8,  silence]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, silence],
-  [16, s("gm_shaker*16").gain(perlin.range(.1, .4)).pan(0.6)],
-  [16, s("gm_shaker*16").gain(perlin.range(.1, .4)).pan(-0.6)],
-  [16, silence],
-  [8,  silence]
-)
-
-$: s("sine").note("d0").gain(.12).lpf(150).room(1).pan(sine.slow(10))
+stack(
+  s("bd:5(3,8), [~ sd:2]*2, hh*16").gain(0.9),
+  s("hc*8").gain(perlin.range(0.3, 0.6)).pan(sine.range(0.2, 0.8)),
+  note("e2(3,8,1)").s("bass1").lpf(1200).lpq(5).gain(1.2),
+  note("<[e2,g2,b2] [a2,c3,e3] [b2,d3,f#3]>").s("rhodes").struct("1(5,8,2)").gain(0.7).room(0.4).delay(0.2),
+  note("b3(3,8,4)").s("supervibe").gain(0.6).room(0.9).delay(0.4).delayfb(0.7),
+  note("e5 b4 g4 e4").s("superflute").struct("<0 [1 1] 0 0> <1 0 [1 1] 0>").gain(0.4).lpf(sine.range(1000, 3000)).room(1)
+).reset(16)

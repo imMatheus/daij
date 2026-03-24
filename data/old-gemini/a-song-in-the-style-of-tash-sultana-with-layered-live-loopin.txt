@@ -1,0 +1,62 @@
+// 🎸 "Flowing Through the Jungle" — Tash Sultana Style Layered Looping
+// At 92 BPM: intro(8) + loop_buildup(16) + verse(16) + chorus(16) + jam(16) + outro(8) = 80 bars ≈ 3:28
+
+setcpm(92 / 4)
+
+$: s("vinyl:2").gain(.12).room(1).loop(1).lpf(2400)
+
+$: arrange(
+  [8,  n("<[0 4 7 11] [~ 7 4 ~]>").scale("E3:minor").s("gm_electric_guitar_clean").gain(.45).room(.6).delay(".3:.2:.4").vib(4).vibmod(.3).attack(.1)],
+  [16, n("<[0 4 7 11] [~ 7 4 ~] [~ 11 7 4] [7 4 0 ~]>").scale("E3:minor").s("gm_electric_guitar_clean").gain(.5).room(.5).delay(".25:.3:.3").vib(5).vibmod(.4)],
+  [16, n("<[0 4 7 11] [~ 7 4 ~] [~ 11 7 4] [7 4 0 ~]>").scale("E3:minor").s("gm_electric_guitar_clean").gain(.55).room(.4).delay(".25:.3:.3").vib(5).vibmod(.4).crush(14)],
+  [16, n("<[0 4 7 11] [~ 7 4 ~] [~ 11 7 4] [7 4 0 ~]>").scale("E3:minor").s("gm_electric_guitar_clean").gain(.6).room(.4).delay(".25:.3:.3").vib(5).vibmod(.4).crush(12)],
+  [16, n("<[0 4 7 11] [~ 7 4 ~] [~ 11 7 4] [7 4 0 ~]>").scale("E3:minor").s("gm_electric_guitar_clean").gain(.65).room(.3).delay(".2:.4:.5").vib(6).vibmod(.5).distort(.2)],
+  [8,  n("<[0 4 7 11] [~ 7 4 ~]>").scale("E3:minor").s("gm_electric_guitar_clean").gain(saw.slow(8).range(.5, .1)).room(.8).delay(".4:.5:.6").vib(2)]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, s("bd ~ ~ ~, ~ ~ [sd:2,cp] ~").bank("RolandTR808").gain(.7).room(.3).swing(4)],
+  [16, s("bd ~ bd ~, ~ [sd:2,cp] ~ [sd:2,cp], hh*8").bank("RolandTR808").gain(".8 .75").room(.25).swing(4).cut(1)],
+  [16, s("bd bd bd ~, ~ [sd:2,cp] ~ [sd:2,cp], [hh oh hh hh]*2").bank("RolandTR808").gain(".85 .8").room(.2).swing(4).cut(1).every(4, x=>x.fast(2))],
+  [16, s("[bd*2] bd bd ~, ~ [sd:2,cp] ~ [sd:2,cp], [hh oh hh oh]*2").bank("RolandTR808").gain(".9 .85").room(.2).swing(4).cut(1).every(2, x=>x.press())],
+  [8,  s("bd ~ ~ ~, ~ ~ cp ~").bank("RolandTR808").gain(saw.slow(8).range(.7, .1)).room(.5)]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, note("<[e1 ~ ~ e1] [g1 ~ ~ ~] [a1 ~ ~ a1] [b1 ~ ~ ~]>").s("gm_acoustic_bass").gain(.75).decay(.2).sustain(.6).room(.3)],
+  [16, note("<[e1 ~ e1 ~] [g1 ~ ~ g1] [a1 ~ a1 ~] [b1 ~ ~ b1]>").s("gm_acoustic_bass").gain(.8).decay(.15).sustain(.7).room(.25)],
+  [16, note("<[e1 e1 ~ e1] [g1 ~ g1 ~] [a1 a1 ~ a1] [b1 ~ b1 b1]>").s("gm_acoustic_bass").gain(.85).decay(.1).sustain(.8).room(.2)],
+  [16, note("<[e1 e1 e1 ~] [g1 g1 ~ g1] [a1 a1 a1 ~] [b1 b1 ~ b1]>").s("gm_acoustic_bass").gain(.9).decay(.1).sustain(.8).room(.2)],
+  [8,  note("<e1 ~ g1 ~ a1 ~ b1 ~>/2").s("gm_acoustic_bass").gain(saw.slow(8).range(.7, .2)).decay(.4).sustain(.4).room(.4)]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, silence],
+  [16, chord("<Em7 Gmaj7 Am7 Bm7>").dict('ireal').voicing().s("gm_synth_strings_1").gain(.3).attack(2).release(3).lpf(1500).room(.8)],
+  [16, chord("<Em7 Gmaj7 Am7 Bm7>").dict('ireal').voicing().s("gm_synth_strings_1").gain(.35).attack(1).release(2).lpf(1800).room(.7)],
+  [16, chord("<Em7 Gmaj7 Am7 Bm7>").dict('ireal').voicing().s("gm_synth_strings_1").gain(.4).attack(.5).release(1.5).lpf(2200).room(.6)],
+  [8,  chord("<Em7 Gmaj7 Am7 Bm7>/2").dict('ireal').voicing().s("gm_synth_strings_1").gain(saw.slow(8).range(.3, .05)).attack(3).release(4).lpf(1000).room(.9)]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, silence],
+  [16, n("<[0 2 3 5] [7 ~ 5 ~] [3 ~ 2 0] [~ ~ ~ ~]>").scale("E5:minor").s("gm_flute").gain(.38).room(.7).delay(".4:.3:.5").vib(5).vibmod(.6).attack(.2)],
+  [16, n("<[7 10 12 ~] [10 ~ 7 5] [3 5 7 ~] [5 3 2 0]>").scale("E5:minor").s("gm_flute").gain(.42).room(.6).delay(".3:.4:.4").vib(6).vibmod(.7).attack(.1)],
+  [16, n("<[12 14 15 17] [15 ~ 14 12] [10 12 14 ~] [12 10 7 5]>").scale("E5:minor").s("gm_flute").gain(.48).room(.5).delay(".2:.3:.4").vib(8).vibmod(.9).sometimes(x=>x.add(note(12)))],
+  [8,  silence]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, silence],
+  [16, silence],
+  [16, n("<[~ ~ 7 ~] [~ 10 ~ ~] [~ 5 ~ ~] [~ ~ 3 ~]>").scale("E4:minor").s("gm_electric_guitar_clean").gain(.35).room(.8).delay(".6:.5:.7").vib(3).lpf(2000)],
+  [16, n("<[~ 7 10 ~] [12 ~ ~ 10] [~ 5 7 ~] [3 ~ ~ 0]>").scale("E4:minor").s("gm_electric_guitar_clean").gain(.45).room(.7).delay(".4:.4:.5").vib(4).lpf(2500).distort(.1)],
+  [8,  silence]
+)
+
+$: note("<e0 g0 a0 b0>/4").s("sine").gain(.2).attack(4).release(4).lpf(150).room(.9)

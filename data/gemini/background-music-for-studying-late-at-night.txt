@@ -1,62 +1,33 @@
-// 🎵 "Midnight Library" — Lo-Fi Study Beats / Ambient Jazz
-// At 84 BPM: intro(8) + verse1(16) + chorus1(16) + verse2(16) + bridge(8) + chorus2(16) + outro(8) = 88 bars ≈ 2:32
-
-setcpm(84 / 4)
-
-$: s("vinyl:2").gain(.15).room(1).loop(1).lpf(2500)
-
-$: s("hh*16")
-   .bank("RolandTR808")
-   .gain(perlin.range(.1, .35))
-   .pan(sine.slow(8))
-   .cut(1)
-
-$: arrange(
-  [8,  s("bd ~ ~ ~").bank("RolandTR808").gain(.7).room(.5)],
-  [16, s("bd ~ ~ bd, ~ cp ~ ~").bank("RolandTR808").swing(4).gain(".85 .75").room(.3)],
-  [16, s("bd ~ bd ~, ~ [cp,sd:1] ~ [cp,sd:1], [hh oh hh hh]*2").bank("RolandTR808").cut(1).swing(4).gain(".9 .8").room(.25).every(4, x=>x.fast(2))],
-  [16, s("bd ~ ~ bd, ~ cp ~ ~").bank("RolandTR808").swing(4).gain(".85 .75").room(.3)],
-  [8,  s("bd ~ ~ ~, ~ ~ cp ~").bank("RolandTR808").swing(4).gain(".7 .6").room(.4)],
-  [16, s("bd ~ bd ~, ~ [cp,sd:1] ~ [cp,sd:1], [hh oh hh hh]*2").bank("RolandTR808").cut(1).swing(4).gain(".9 .8").room(.25).every(4, x=>x.fast(2))],
-  [8,  s("bd ~ ~ ~").bank("RolandTR808").gain(saw.slow(8).range(.6, 0)).room(.6)]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, note("<[f2 ~ ~ f2] [d2 ~ ~ ~] [bb1 ~ ~ bb1] [c2 ~ ~ ~]>").s("gm_acoustic_bass").decay(.4).sustain(.5).room(.2).gain(.75)],
-  [16, note("<[f2 ~ f2 ~] [d2 ~ ~ d2] [bb1 ~ bb1 ~] [c2 ~ ~ c2]>").s("gm_acoustic_bass").decay(.3).sustain(.6).room(.2).gain(.8)],
-  [16, note("<[f2 ~ ~ f2] [d2 ~ ~ ~] [bb1 ~ ~ bb1] [c2 ~ ~ ~]>").s("gm_acoustic_bass").decay(.4).sustain(.5).room(.2).gain(.75)],
-  [8,  note("<f2 ~ d2 ~ bb1 ~ c2 ~>/2").s("gm_acoustic_bass").decay(.6).sustain(.4).room(.4).gain(.6).speed(.97)],
-  [16, note("<[f2 ~ f2 ~] [d2 ~ ~ d2] [bb1 ~ bb1 ~] [c2 ~ ~ c2]>").s("gm_acoustic_bass").decay(.3).sustain(.6).room(.2).gain(.8)],
-  [8,  silence]
-)
-
-$: arrange(
-  [8,  chord("<Fmaj9 Dm9>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(1).sustain(.7).release(2.5).lpf(1100).room(.8).gain(.3)],
-  [16, chord("<Fmaj9 Dm9 Bbmaj7 C13sus4>").dict('ireal').voicing().s("gm_epiano2").struct("~ [x ~] ~ [x ~]").lpf(1600).room(.5).delay(".3:.2:.3").gain(.5).speed(.98)],
-  [16, chord("<Fmaj9 Dm9 Bbmaj7 C13sus4>").dict('ireal').voicing().s("gm_epiano2").struct("[~ x]*2").lpf(1900).room(.4).delay(".25:.15:.25").gain(.55).speed(.99)],
-  [16, chord("<Fmaj9 Dm9 Bbmaj7 C13sus4>").dict('ireal').voicing().s("gm_epiano2").struct("~ [x ~] ~ [x ~]").lpf(1600).room(.5).delay(".3:.2:.3").gain(.5).speed(.98)],
-  [8,  chord("<Fmaj9 Dm9 Bbmaj7 C13sus4>/2").dict('ireal').voicing().s("gm_epiano2").struct("x ~ ~ ~").lpf(1400).room(.7).delay(".4:.3:.5").gain(.45).speed(.96).crush(14)],
-  [16, chord("<Fmaj9 Dm9 Bbmaj7 C13sus4>").dict('ireal').voicing().s("gm_epiano2").struct("[~ x]*2").lpf(1900).room(.4).delay(".25:.15:.25").gain(.55).speed(.99)],
-  [8,  chord("<Fmaj9 Dm9>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(1.2).sustain(.6).release(4).lpf(sine.range(400,1000).slow(10)).room(.9).gain(saw.slow(8).range(.3, 0))]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, n("<[~ 0 ~ 2] [4 ~ 2 ~] [~ 7 ~ 4] [2 ~ ~ 0]>").scale("F4:major").s("gm_epiano1").lpf(sine.range(900, 2500).slow(14)).room(.6).delay(".4:.3:.4").gain(.35).rarely(x=>x.add(note(12)))],
-  [16, n("<[0 ~ 4 7] [~ 9 7 ~] [4 ~ 0 ~] [~ 7 4 0]>").scale("F5:major").s("gm_epiano1").lpf(sine.range(1100, 3200).slow(9)).room(.5).delay(".3:.2:.3").gain(.4).sometimes(x=>x.add(note(12)))],
-  [16, n("<[~ 0 ~ 2] [4 ~ 2 ~] [~ 7 ~ 4] [2 ~ ~ 0]>").scale("F4:major").s("gm_epiano1").lpf(sine.range(900, 2500).slow(14)).room(.6).delay(".4:.3:.4").gain(.35).rarely(x=>x.add(note(12)))],
-  [8,  silence],
-  [16, n("<[0 ~ 4 7] [~ 9 7 ~] [4 ~ 0 ~] [~ 7 4 0]>").scale("F5:major").s("gm_epiano1").lpf(sine.range(1100, 3200).slow(9)).room(.5).delay(".3:.2:.3").gain(.4).sometimes(x=>x.add(note(12)))],
-  [8,  silence]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, silence],
-  [16, n("<[~ ~ 7 ~] [~ 9 ~ ~] [7 ~ ~ 4] [~ ~ 0 ~]>").scale("F4:major").s("gm_flute").room(.7).delay(".5:.4:.6").gain(.25).lpf(2000).vib(4).vibmod(.4)],
-  [16, silence],
-  [8,  silence],
-  [16, n("<[~ ~ 7 ~] [~ 9 ~ ~] [7 ~ ~ 4] [~ ~ 0 ~]>").scale("F4:major").s("gm_flute").room(.7).delay(".5:.4:.6").gain(.25).lpf(2000).vib(4).vibmod(.4)],
-  [8,  silence]
-)
+// "Midnight Oil" — A tranquil lo-fi study session with warm keys and vinyl crackle
+setcps(0.42);
+stack(
+  s("superpiano")
+    .note("<[c3,e3,g3,b3] [a2,c3,e3,g3] [f2,a2,c3,e3] [g2,b2,d3,f3]>")
+    .struct("1(3,8)")
+    .velocity(perlin.range(0.3, 0.4).slow(4))
+    .lpf(sine.range(400, 1000).slow(12))
+    .room(0.8).size(0.9),
+  s("superpiano")
+    .note("~ <g4 a4 f4 e4>")
+    .velocity(0.15)
+    .delay(0.6).delaytime(1/3).delayfb(0.5),
+  s("superpiano")
+    .note("<c2 a1 f1 g1>")
+    .velocity(0.3)
+    .lpf(200),
+  s("bd:5([3 5],8)")
+    .gain(0.6)
+    .lpf(500),
+  s("sn:2")
+    .struct("~ 1 ~ 1")
+    .gain(0.4)
+    .room(0.2)
+    .lpf(2000),
+  s("hh*[8 12]")
+    .velocity(perlin.range(0.1, 0.3).slow(2))
+    .gain(0.25)
+    .hpf(3000),
+  s("crackle*8")
+    .gain(0.08)
+    .lpf(800)
+).reset(16)

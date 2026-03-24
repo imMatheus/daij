@@ -1,59 +1,13 @@
-// 🎵 "Solar Ecstasy" — Uplifting Progressive House
-// At 128 BPM: intro(8) + build(8) + chorus(16) + verse(16) + breakdown(8) + chorus2(16) + outro(12) = 84 bars ≈ 2:37
-
-setcpm(128 / 4)
-
-$: arrange(
-  [8,  s("bd*4").bank("RolandTR909").gain(.85).lpf(saw.slow(8).range(400, 2000))],
-  [8,  s("bd*4, ~ cp ~ cp").bank("RolandTR909").gain(.9)],
-  [16, s("bd*4, ~ cp ~ cp, [~ hh]*4").bank("RolandTR909").gain(.95).room(.2)],
-  [16, s("bd*4, ~ [cp,sd] ~ cp, [~ hh]*4").bank("RolandTR909").gain(.9).room(.1)],
-  [8,  s("~ hh").bank("RolandTR909").gain(saw.slow(8).range(.6, 0)).lpf(4000)],
-  [16, s("bd*4, ~ [cp,sd] ~ cp, [hh oh]*4").bank("RolandTR909").gain(.98).room(.2).every(4, x=>x.fast(2))],
-  [12, s("bd*4").bank("RolandTR909").gain(saw.slow(12).range(.8, 0)).lpf(1000)]
-)
-
-$: arrange(
-  [8,  silence],
-  [8,  note("<g1 g1 f1 eb1>").s("sawtooth").lpf(saw.slow(8).range(200, 800)).gain(.6).attack(.05).decay(.2).sustain(.4)],
-  [16, note("<g1 g1 f1 eb1>").s("sawtooth").lpf(1200).gain(.75).struct("x x [~ x] x").room(.1)],
-  [16, note("<g1 g1 f1 eb1>").s("sawtooth").lpf(1000).gain(.7).struct("x*4").room(.1)],
-  [8,  note("<g1 g1 f1 eb1>/2").s("sawtooth").lpf(400).gain(.5).attack(.1)],
-  [16, note("<g1 g1 f1 eb1>").s("sawtooth").lpf(1500).gain(.8).struct("x x [~ x] x").room(.1)],
-  [12, silence]
-)
-
-$: arrange(
-  [16, silence],
-  [16, chord("<Gmaj7 Gmaj7 Fmaj7 Ebmaj7>").dict('ireal').voicing().s("gm_synth_strings_1").attack(1).release(1).gain(.35).lpf(sine.range(800, 2000).slow(4))],
-  [16, chord("<Gmaj7 Gmaj7 Fmaj7 Ebmaj7>").dict('ireal').voicing().s("gm_epiano2").struct("~ x ~ x").room(.5).gain(.45).delay(".25:.2:.3")],
-  [8,  chord("<Gmaj7 Gmaj7 Fmaj7 Ebmaj7>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(2).gain(.4).room(1)],
-  [16, chord("<Gmaj7 Gmaj7 Fmaj7 Ebmaj7>").dict('ireal').voicing().s("gm_epiano2").struct("x ~ x ~").room(.4).gain(.5).delay(".25:.2:.3")],
-  [12, silence]
-)
-
-$: arrange(
-  [16, silence],
-  [16, n("<[7 9 10 12] [14 12 10 7] [5 7 9 10] [7 5 3 2]>").scale("G4:major").s("sine").gain(.45).room(.6).delay(".3:.2:.4").vib(5).vibmod(.4).lpf(3000)],
-  [16, silence],
-  [8,  n("<7 10 12 14>/2").scale("G5:major").s("gm_flute").gain(.3).room(1).attack(1)],
-  [16, n("<[7 9 10 12] [14 12 10 7] [5 7 9 10] [12 14 16 19]>").scale("G4:major").s("sawtooth").gain(.4).room(.5).delay(".2:.15:.3").lpf(sine.range(1000, 4000).slow(8))],
-  [12, n("<7 5 3 0>/2").scale("G4:major").s("sine").gain(saw.slow(12).range(.3, 0)).room(.8)]
-)
-
-$: s("hh*16").bank("RolandTR909").gain(perlin.range(.1, .3)).pan(sine.slow(10)).cut(1).arrange([64, x=>x], [20, silence])
-
-$: arrange(
-  [16, s("noise").gain(saw.slow(16).range(0, .15)).lpf(saw.slow(16).range(100, 4000))],
-  [16, silence],
-  [16, silence],
-  [8,  s("noise").gain(saw.slow(8).range(0, .2)).lpf(saw.slow(8).range(100, 6000))],
-  [16, silence],
-  [12, s("noise").gain(saw.slow(12).range(.15, 0)).lpf(saw.slow(12).range(4000, 100))]
-)
-
-$: arrange(
-  [32, silence],
-  [16, n("0 2 4 5 7 9 11 12").scale("G3:major").s("gm_clavinet").struct("x*8").gain(.35).room(.3).lpf(2000).sometimes(x=>x.add(note(12)))],
-  [36, silence]
-)
+// 🎵 "Ecstatic Radiance" — Euphoric Progressive House
+setcps(135/60/4);
+stack(
+  s("bd:5*4").gain(1.3),
+  s("~ cp:2").gain(0.8).room(0.4).delay(0.2),
+  s("hh27*16").gain(perlin.range(0.4, 0.9).slow(4)),
+  s("oh:1").struct("0 1 0 1").gain(1).room(0.2),
+  note("c2(3,8) g1(3,8)".scale("c:major")).s("saw").lpf(perlin.range(400, 2000).slow(4)).decay(0.08).gain(0.7),
+  note("<[c4,e4,g4,b4] [f4,a4,c5,e5] [g4,b4,d5,f5] [e4,g4,b4,d5]>").s("saw")
+    .room(0.9).sz(0.9).delay(0.5).delayfb(0.6).gain(0.4).lpf(sine.range(1000, 6000).slow(24)),
+  note("c5 e5 g5 b5 c6 g5 e5 c5".scale("c:major").segment(16).struct("1(13,16,3)")).s("saw")
+    .gain(0.55).decay(0.12).room(0.6).delay(0.375).lpf(sine.range(4000, 14000).slow(8)).jux(rev)
+).reset(64)

@@ -1,61 +1,11 @@
-// 🌾 "Dusty Trail" — Country Folk song with acoustic guitar
-// At 120 BPM: intro(8) + verse(16) + chorus(16) + verse(16) + chorus(16) + bridge(8) + outro(8) = 88 bars ≈ 2:56
-
-setcpm(120 / 4)
-
-$: s("vinyl:1").gain(.08).room(.4).loop(1).lpf(1800)
-
-$: arrange(
-  [8,  s("hh*4").bank("RolandTR808").gain(".2 .1 .15 .1")],
-  [16, s("bd ~ [sd,cp] ~, hh*8").bank("RolandTR808").gain(".6 0 .5 0, .2").room(.2)],
-  [16, s("bd ~ [sd,cp] ~, hh*8").bank("RolandTR808").gain(".7 0 .6 0, .25").room(.2).every(4, x=>x.fast(2))],
-  [16, s("bd ~ [sd,cp] ~, hh*8").bank("RolandTR808").gain(".6 0 .5 0, .2")],
-  [16, s("bd ~ [sd,cp] ~, hh*8").bank("RolandTR808").gain(".7 0 .6 0, .25").room(.2).every(4, x=>x.fast(2))],
-  [8,  s("bd ~ ~ ~, hh*4").bank("RolandTR808").gain(".5 0 0 0, .15")],
-  [8,  s("bd ~ ~ ~").bank("RolandTR808").gain(saw.slow(8).range(.5, 0))]
-)
-
-$: arrange(
-  [8,  note("<g1 d2 g1 d2>").s("gm_acoustic_bass").gain(.7).decay(.4).sustain(.2)],
-  [16, note("<[g1 ~ d2 ~] [c1 ~ g1 ~] [g1 ~ d2 ~] [d1 ~ a1 ~]>").s("gm_acoustic_bass").gain(.8).decay(.3).sustain(.3)],
-  [16, note("<[g1 ~ d2 ~] [d1 ~ a1 ~] [e1 ~ b1 ~] [c1 ~ g1 ~]>").s("gm_acoustic_bass").gain(.85).decay(.2).sustain(.4)],
-  [16, note("<[g1 ~ d2 ~] [c1 ~ g1 ~] [g1 ~ d2 ~] [d1 ~ a1 ~]>").s("gm_acoustic_bass").gain(.8).decay(.3).sustain(.3)],
-  [16, note("<[g1 ~ d2 ~] [d1 ~ a1 ~] [e1 ~ b1 ~] [c1 ~ g1 ~]>").s("gm_acoustic_bass").gain(.85).decay(.2).sustain(.4)],
-  [8,  note("<e1 b1 c1 g1>").s("gm_acoustic_bass").gain(.75).decay(.5).sustain(.2)],
-  [8,  note("g1*2").s("gm_acoustic_bass").gain(saw.slow(8).range(.7, 0))]
-)
-
-$: arrange(
-  [8,  chord("<Gmaj Cmaj>/2").dict('ireal').voicing().s("gm_acoustic_guitar_nylon").struct("x ~ x x").gain(.5).room(.3)],
-  [16, chord("<Gmaj Cmaj Gmaj D7>").dict('ireal').voicing().s("gm_acoustic_guitar_nylon").struct("x [~ x] x [x ~]").gain(.6).room(.3).speed(.99)],
-  [16, chord("<Gmaj D7 Eminor Cmaj>").dict('ireal').voicing().s("gm_acoustic_guitar_nylon").struct("x x [~ x] x").gain(.7).room(.4).speed(1.01)],
-  [16, chord("<Gmaj Cmaj Gmaj D7>").dict('ireal').voicing().s("gm_acoustic_guitar_nylon").struct("x [~ x] x [x ~]").gain(.6).room(.3).speed(.99)],
-  [16, chord("<Gmaj D7 Eminor Cmaj>").dict('ireal').voicing().s("gm_acoustic_guitar_nylon").struct("x x [~ x] x").gain(.7).room(.4).speed(1.01)],
-  [8,  chord("<Eminor Cmaj Gmaj D7>").dict('ireal').voicing().s("gm_acoustic_guitar_nylon").struct("x ~ ~ ~").gain(.55).room(.5).speed(.98)],
-  [8,  chord("Gmaj").dict('ireal').voicing().s("gm_acoustic_guitar_nylon").gain(saw.slow(8).range(.5, 0)).room(.6)]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, n("<[0 2 4 ~] [~ 7 4 ~] [0 2 4 ~] [~ 2 0 ~]>").scale("G4:major").s("gm_flute").gain(.35).room(.6).delay(".3:.2:.4").vib(4)],
-  [16, n("<[7 7 9 7] [~ 4 2 0] [~ 2 4 7] [~ 4 2 0]>").scale("G4:major").s("gm_flute").gain(.45).room(.5).delay(".2:.1:.3").vib(5)],
-  [16, n("<[0 2 4 ~] [~ 7 4 ~] [0 2 4 ~] [~ 2 0 ~]>").scale("G4:major").s("gm_flute").gain(.35).room(.6).delay(".3:.2:.4").vib(4)],
-  [16, n("<[7 7 9 7] [~ 4 2 0] [~ 2 4 7] [~ 4 2 0]>").scale("G4:major").s("gm_flute").gain(.45).room(.5).delay(".2:.1:.3").vib(5)],
-  [8,  silence],
-  [8,  silence]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, silence],
-  [16, n("<[~ ~ 0 2] [4 ~ ~ ~] [~ ~ 7 4] [2 ~ ~ ~]>").scale("G5:major").s("gm_epiano1").gain(.25).room(.8).delay(".4:.3:.5").lpf(2000)],
-  [16, silence],
-  [16, n("<[~ ~ 0 2] [4 ~ ~ ~] [~ ~ 7 4] [2 ~ ~ ~]>").scale("G5:major").s("gm_epiano1").gain(.25).room(.8).delay(".4:.3:.5").lpf(2000)],
-  [8,  silence],
-  [8,  silence]
-)
-
-$: note("<g2 d3 g2 d3>/4")
-   .s("gm_string_ensemble_1")
-   .attack(2).sustain(.5).release(2)
-   .gain(.15).room(.7).lpf(1200)
+// "Dusty Boots" — rustic country folk with rhythmic acoustic guitar and a steady pulse
+samples('github:tidalcycles/dirt-samples')
+setcps(0.8)
+stack(
+  s("bd <bd [~ bd]> bd [~ bd]").gain(0.8).room(0.2),
+  s("~ <sd:3 [sd:3*2]>").gain(0.5),
+  s("hh*16").gain(perlin.range(0.2,0.5).slow(8)),
+  s("bass:4").note("<c2 g1 f1 g1>").struct("1 0 1 0").gain(0.7),
+  s("gtr").note("<[c3,e3,g3] [c3,e3,g3] [f3,a3,c4] [g3,b3,d4]>").struct("0 1 0 1").gain(1.3).room(0.4).velocity(perlin.range(0.7,1.1).slow(4)),
+  s("gtr").note("<c4 d4 e4 g4>(3,8,<0 2>)").delay(0.2).delayfb(0.2).pan(sine.range(0.2,0.8).slow(6)).gain(0.8).lpf(perlin.range(3000, 6000).slow(12))
+).reset(16)

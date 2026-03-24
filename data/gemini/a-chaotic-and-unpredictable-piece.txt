@@ -1,85 +1,14 @@
-// 🎵 "Entropy's Playground" — Experimental Glitch / IDM
-// At 132 BPM: intro(8) + verse(24) + bridge(16) + verse2(24) + outro(12) = 84 bars ≈ 2:32
+// "Entropic Drift" — A fractured landscape of glitching percussives and unstable oscillators
 
-setcpm(132 / 4)
+samples('github:tidalcycles/dirt-samples');
+setcps(1.85);
 
-$: s("noise").gain(perlin.range(0.05, 0.15)).lpf(sine.range(500, 4000).slow(16)).room(1)
-
-$: arrange(
-  [8,  s("bd(3,8)").bank("RolandTR909").gain(0.8).room(0.2)],
-  [24, s("bd(5,8), [sd:1 ~ sd:2 ~], [hh*4 oh]*2")
-       .bank("RolandTR909").cut(1).swing(2)
-       .sometimes(x => x.fast(2).crush(8))
-       .every(4, x => x.rev())
-       .gain(perlin.range(0.7, 0.95))],
-  [16, s("bd [~ cp] bd [cp ~], [hh oh hh hh]*4")
-       .bank("RolandTR808").distort(0.4).speed(1.2)
-       .rarely(x => x.slow(2))
-       .every(3, x => x.press())],
-  [24, s("bd(7,16), [sd:1!3 sd:3], [hh*16]")
-       .bank("RolandTR909").cut(1)
-       .sometimes(x => x.fast(1.5).distort(0.2))
-       .every(2, x => x.rev())
-       .gain(perlin.range(0.8, 1))],
-  [12, s("bd ~ ~ ~, ~ ~ sd:1 ~")
-       .bank("RolandTR909").room(0.8).gain(saw.slow(12).range(0.8, 0))]
-)
-
-$: arrange(
-  [8,  silence],
-  [24, note("<[c1 ~ ~ c1] [eb1 ~ f1 ~] [ab0 ~ ~ ab0] [g0 ~ ~ ~]>")
-       .s("sawtooth").lpf(800).distort(0.3).decay(0.2).sustain(0.4).gain(0.7)
-       .sometimes(x => x.add(note(7)))],
-  [16, note("<c1 eb1 g1 ab0>/2")
-       .s("square").lpf(400).room(0.3).gain(0.75)
-       .every(4, x => x.fast(2).lpf(2000))],
-  [24, note("<[c1 ~ eb1 c1] [f1 ~ ab1 f1] [g1 ~ b0 g1] [c1 ~ ~ ~]>")
-       .s("sawtooth").lpf(sine.range(400, 1200).slow(8)).distort(0.5).gain(0.8)],
-  [12, note("c1").s("sine").lpf(100).gain(saw.slow(12).range(0.6, 0))]
-)
-
-$: arrange(
-  [8,  chord("<Cm9 Abmaj7>/2").dict('ireal').voicing().s("gm_epiano2").room(0.7).gain(0.4)],
-  [24, chord("<Cm9 Ebmaj7 Ab^7 G7b9>").dict('ireal').voicing()
-       .s("gm_clavinet").struct("x(3,8)").gain(0.5)
-       .every(3, x => x.add(note("<0 12 7 -12>")))
-       .sometimes(x => x.crush(10))],
-  [16, chord("<Fm9 Bb13 Ebmaj7 Abmaj7>").dict('ireal').voicing()
-       .s("gm_epiano1").struct("[x ~ x x] [~ x x ~]").gain(0.55).delay("0.2:0.4:0.3")],
-  [24, chord("<Cm9 Ebmaj7 Ab^7 G7b9>").dict('ireal').voicing()
-       .s("gm_clavinet").struct("x(5,8)").gain(0.6).distort(0.2)
-       .every(2, x => x.fast(2).rev())],
-  [12, chord("<Cm9>").dict('ireal').voicing().s("gm_synth_strings_1").attack(2).gain(saw.slow(12).range(0.4, 0))]
-)
-
-$: arrange(
-  [8,  silence],
-  [24, n("0 3 7 10 12").scale("C5:minor").s("triangle")
-       .struct("x*8").gain(0.35).room(0.5).pan(sine.slow(4))
-       .sometimes(x => x.fast(2).add(note(12)))
-       .rarely(x => x.rev())],
-  [16, n("<[0 7 5 3] [12 10 7 5] [~ 3 2 0] [7 5 3 2]>").scale("C6:minor").s("gm_flute")
-       .gain(0.4).room(0.6).delay("0.3:0.2:0.4").vib(6).vibmod(0.8)],
-  [24, n("0 2 3 5 7 8 11").scale("C5:minor").s("square")
-       .struct("x(11,16)").gain(0.4).lpf(sine.range(1000, 5000).slow(4))
-       .every(4, x => x.fast(1.5).crush(12))],
-  [12, silence]
-)
-
-$: arrange(
-  [8,  silence],
-  [24, silence],
-  [16, s("gm_glockenspiel").note("c7 eb7 g7").gain(0.3).room(0.9).delay("0.5:0.5:0.6")
-       .struct("~ x ~ ~").sometimes(x => x.add(note(2)))],
-  [24, s("sine").note("<c6 g5 eb6 b5>").gain(0.25).room(0.8).attack(0.1).release(0.1)
-       .struct("x*16").every(3, x => x.slow(2))],
-  [12, silence]
-)
-
-$: arrange(
-  [8,  silence],
-  [24, silence],
-  [16, silence],
-  [24, s("vinyl:1").gain(0.2).loop(1).lpf(sine.range(200, 2000).slow(10))],
-  [12, silence]
-)
+stack(
+  s("bd:4(<3 5>, 8, <0 2>)").room(0.3).lpf(perlin.range(100, 800).slow(4)),
+  s("~ [sn:2 sn:3*2] ~ <sn:5(3,8)>").delay(0.4).delayfb(0.7).pan(perlin.slow(2)),
+  s("hh*16").gain(range(0, 1, rand)).hpf(sine.range(2000, 12000).slow(8)),
+  s("glitch:<0 1 2 3>(<7 9 11 13>, 16)").speed(range(0.5, 4, rand)).note(irand(7)).pan(rand).room(0.5),
+  s("superchip").note(scale("locrian", irand(24)).segment(16).scramble()).slow("<2 1 4>").lpf(perlin.range(400, 4000).slow(0.25)).room(0.9).phaser(0.8),
+  s("industrial:10(<5 7>, 12)").speed(perlin.range(-2, 2)).gain(0.6).delay(0.2).delayfb(0.8),
+  s("peri:4*8").note(irand(12)).speed(range(0.1, 2, rand)).gain(sine.range(0.2, 0.7).slow(5))
+).reset(16).slow(sine.range(0.9, 1.1).slow(12))

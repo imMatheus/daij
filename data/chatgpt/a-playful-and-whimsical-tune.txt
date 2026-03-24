@@ -1,58 +1,39 @@
-// 🎵 "Clockwork Carousel" — playful whimsical chamber-pop groove
-// At 110 BPM: intro(8) + verse(16) + chorus(16) + verse2(16) + bridge(16) + outro(8) = 80 bars ≈ 2:55
-
-setcpm(110 / 4)
-
-$: arrange(
-  [8,  s("vinyl:2").gain(.11).room(1).loop(1).lpf(3300).pan(sine.slow(10))],
-  [16, s("vinyl:2").gain(.13).room(1).loop(1).lpf(3000).pan(sine.slow(9))],
-  [16, s("vinyl:2").gain(.14).room(1).loop(1).lpf(2800).pan(sine.slow(8))],
-  [16, s("vinyl:2").gain(.13).room(1).loop(1).lpf(3000).pan(sine.slow(9))],
-  [16, s("vinyl:2").gain(.12).room(1).loop(1).lpf(2600).pan(sine.slow(7))],
-  [8,  s("vinyl:2").gain(saw.slow(8).range(.11,.02)).room(1).loop(1).lpf(2400)]
-)
-
-$: arrange(
-  [8,  s("bd ~ ~ ~, ~ ~ sd ~, hh*8").bank("RolandTR808").cut(1).swing(4).gain(".72 .68 .28").room(.35)],
-  [16, s("bd ~ ~ bd, ~ [cp,sd:1] ~ ~, hh*8").bank("RolandTR808").cut(1).swing(4).gain(".9 .8 .32").room(.3)],
-  [16, s("bd ~ bd ~, ~ [cp,sd:1] ~ [cp,sd:1], [hh oh hh hh]*2").bank("RolandTR808").cut(1).swing(4).gain(".95 .86 .4").room(.28).every(4, x => x.fast(2).gain(.55))],
-  [16, s("bd ~ ~ bd, ~ [cp,sd:1] ~ cp, hh*8").bank("RolandTR808").cut(1).swing(4).gain(".9 .82 .34").room(.3).every(8, x => x.press())],
-  [16, s("bd(5,16), ~ cp ~ ~, [hh hh oh hh]*2").bank("RolandTR808").cut(1).swing(3).gain(".9 .78 .36").room(.35).every(4, x => x.rev())],
-  [8,  s("bd ~ ~ ~, ~ ~ cp ~, hh*4").bank("RolandTR808").cut(1).swing(4).gain(saw.slow(8).range(.75,.08)).room(.45)]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, note("<[c2 ~ g1 ~] [a1 ~ ~ e2] [f1 ~ c2 ~] [g1 ~ ~ d2]>").s("gm_acoustic_bass").decay(.28).sustain(.52).room(.22).gain(.78)],
-  [16, note("<[c2 ~ g1 c2] [a1 ~ e2 ~] [f1 c2 ~ c2] [g1 ~ d2 ~]>").s("gm_acoustic_bass").decay(.2).sustain(.55).room(.2).gain(.84).sometimes(x => x.add(note(12)).gain(.45))],
-  [16, note("<[c2 ~ ~ g1] [a1 ~ e2 ~] [f1 ~ c2 ~] [g1 ~ ~ d2]>").s("gm_acoustic_bass").decay(.26).sustain(.5).room(.22).gain(.8)],
-  [16, note("<[c2 d2 e2 ~] [a1 c2 e2 ~] [f1 g1 a1 ~] [g1 b1 d2 ~]>").s("gm_acoustic_bass").decay(.18).sustain(.45).room(.2).gain(.82)],
-  [8,  note("<c2 ~ a1 ~ f1 ~ g1 ~>/2").s("gm_acoustic_bass").decay(.5).sustain(.35).release(.3).room(.35).gain(.62).speed(.97)]
-)
-
-$: arrange(
-  [8,  chord("<Cmaj9 G6>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(.9).decay(1).sustain(.75).release(2).lpf(1500).room(.75).gain(.36)],
-  [16, chord("<Cmaj9 Am9 Fmaj9 G13>").dict('ireal').voicing().s("gm_epiano2").struct("<x ~ ~ x>").lpf(2600).room(.45).delay(".2:.12:.24").gain(.56).speed(.99)],
-  [16, chord("<Cmaj9 Am9 Fmaj9 G13>").dict('ireal').voicing().s("gm_clavinet").struct("[x ~ x ~]*2").lpf(3600).room(.35).delay(".18:.1:.2").gain(.5).every(4, x => x.fast(2).gain(.7))],
-  [16, chord("<Cmaj9 Am9 Fmaj9 G13>").dict('ireal').voicing().s("gm_epiano2").struct("<~ x ~ x>").lpf(2800).room(.42).delay(".2:.12:.24").gain(.54).speed(.99)],
-  [16, chord("<Cmaj9 Am9 Fmaj7 G7>").dict('ireal').voicing().s("gm_acoustic_guitar_nylon").struct("<x ~ x ~>").lpf(3300).room(.5).delay(".24:.16:.3").gain(.52).sometimes(x => x.press())],
-  [8,  chord("<Cmaj9 Fmaj9>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(1).decay(1).sustain(.65).release(3).lpf(sine.range(700,1700).slow(8)).room(.85).gain(saw.slow(8).range(.34,.05))]
-)
-
-$: arrange(
-  [8,  n("<0 ~ 2 ~ 4 ~ 2 ~>/2").scale("C5:major:pentatonic").s("gm_flute").attack(.05).decay(.2).sustain(.5).release(.25).room(.6).delay(".35:.2:.3").gain(.32).lpf(4200)],
-  [16, n("<[0 ~ 2 4] [~ 5 ~ 4] [2 ~ 0 ~] [~ 4 2 ~]>").scale("C5:major:pentatonic").s("gm_flute").attack(.03).decay(.18).sustain(.55).release(.2).room(.55).delay(".28:.2:.34").gain(.42).lpf(sine.range(1600,4800).slow(10))],
-  [16, n("<[4 5 7 ~] [~ 7 5 4] [2 4 5 ~] [~ 4 2 0]>").scale("C5:major:pentatonic").s("gm_flute").attack(.02).decay(.16).sustain(.52).release(.18).room(.5).delay(".22:.16:.28").gain(.48).lpf(sine.range(2000,5600).slow(8)).sometimes(x => x.add(note(12)))],
-  [16, n("<[0 ~ 2 5] [~ 4 ~ 2] [5 ~ 4 ~] [2 ~ 0 ~]>").scale("C5:major:pentatonic").s("gm_flute").attack(.03).decay(.18).sustain(.55).release(.2).room(.56).delay(".28:.2:.34").gain(.43).lpf(sine.range(1700,5000).slow(9)).rarely(x => x.rev())],
-  [16, n("<[7 5 4 2] [5 4 2 0] [4 2 0 ~] [2 0 ~ ~]>").scale("C5:major:pentatonic").s("gm_flute").attack(.02).decay(.14).sustain(.5).release(.2).room(.52).delay(".24:.16:.3").gain(.44).lpf(5200).vib(5).vibmod(.4)],
-  [8,  n("<4 ~ 2 ~ 0 ~ ~ ~>/2").scale("C5:major:pentatonic").s("gm_flute").attack(.05).decay(.25).sustain(.45).release(.4).room(.75).delay(".5:.35:.45").gain(.26).lpf(sine.range(1000,2600).slow(8))]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, silence],
-  [16, n("<[~ 2 ~ 4] [5 ~ ~ 4] [~ 2 ~ 0] [2 ~ ~ ~]>").scale("C6:major:pentatonic").s("gm_clarinet").attack(.04).decay(.2).sustain(.48).release(.25).room(.6).delay(".34:.24:.38").gain(.3).pan(sine.slow(7))],
-  [16, n("<[~ 4 ~ 2] [5 ~ ~ 4] [~ 2 ~ 0] [~ ~ 2 ~]>").scale("C6:major:pentatonic").s("gm_clarinet").attack(.04).decay(.2).sustain(.48).release(.25).room(.58).delay(".32:.22:.36").gain(.26).pan(sine.slow(8))],
-  [16, n("<[2 ~ 4 ~] [5 ~ 7 ~] [4 ~ 2 ~] [0 ~ ~ ~]>").scale("C6:major:pentatonic").s("gm_oboe").attack(.03).decay(.18).sustain(.5).release(.22).room(.62).delay(".3:.2:.35").gain(.31).vib(4).vibmod(.5)],
-  [8,  silence]
-)
+// "Clockwork Kites" — playful toybox groove
+samples('github:tidalcycles/dirt-samples')
+setcps(0.72)
+note("<[c5 e5 g5 b5] [c5 f5 a5 c6] [b4 g4 e4 d4] [c5 e5 a5 d6]>/2")
+  .s("<triangle square>")
+  .legato(0.85)
+  .attack(0.01)
+  .release(0.15)
+  .gain(0.8)
+  .pan(sine.slow(6).range(0.2,0.8))
+  .stack(
+    note("<c4 [e4 g4] a4 [g4 e4]>*2")
+      .s("sine")
+      .octave(4)
+      .gain(0.35)
+      .legato(0.6)
+      .delay(0.25)
+      .delaytime(3/16)
+      .delayfeedback(0.45),
+    s("[bd(3,8,<1 2 3>) ~] <hh*4 [hh*8]> [~ cp] [~ bd]")
+      .gain(0.9)
+      .lpf(perlin.slow(5).range(700,5000))
+      .room(sine.slow(7).range(0.05,0.35)),
+    s("<perc*2 [click*3] [rim(5,8)]>")
+      .speed("<1 1.5 0.5 2>")
+      .gain(0.45)
+      .pan(perlin.slow(9).range(0,1))
+      .room(0.5),
+    note("[[c6 b5 a5] ~ [g5 a5 b5] ~] [~ [d6 c6 b5] ~ [a5 g5 e5]]")
+      .s("sawtooth")
+      .gain(0.2)
+      .hpf(1200)
+      .delay(0.4)
+      .delaytime(1/8)
+  )
+  .lpf(perlin.slow(12).range(900,4200))
+  .room(0.25)
+  .size(0.7)
+  .reset(32)

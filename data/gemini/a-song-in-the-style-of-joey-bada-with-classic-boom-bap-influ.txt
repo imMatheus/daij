@@ -1,92 +1,20 @@
-// 🎤 "Waves of 1999" — Joey Bada$$ style Boom Bap / Jazz Rap
-// At 90 BPM: intro(4) + verse1(16) + chorus(8) + verse2(16) + chorus(8) + outro(4) = 56 bars ≈ 2:30
-
-setcpm(90 / 4)
-
-// 1. Texture: Gritty vinyl crackle for that dusty aesthetic
-$: s("vinyl:2").gain(.18).room(1).loop(1).lpf(3000).hpf(100)
-
-// 2. Drums: Classic Boom Bap swing. Hard kick, crisp snare, swinging hats.
-$: arrange(
-  [4,  silence],
-  [16, s("bd ~ [~ bd] ~, [~ sd] ~ sd ~, [hh*2] ~ [hh*3] ~")
-       .bank("RolandTR909").cut(1).swing(15)
-       .gain(".9 .85").room(.25).lpf(12000)
-       .every(4, x => x.fast(2))], // Fills every 4 bars
-  [8,  s("bd(3,8), sd(1,2), hh*4")
-       .bank("RolandTR909").cut(1).swing(10)
-       .gain(1).room(.3)],
-  [16, s("bd ~ [~ bd] ~, [~ sd] ~ sd ~, [hh*2] ~ [hh*3] ~")
-       .bank("RolandTR909").cut(1).swing(15)
-       .gain(".9 .85").room(.25)
-       .sometimes(x => x.gain(0))], // Dropouts for verse 2
-  [8,  s("bd(3,8), sd(1,2), hh*4")
-       .bank("RolandTR909").cut(1).swing(10)
-       .gain(1).room(.3)],
-  [4,  s("bd ~ ~ ~").bank("RolandTR909").room(.5).gain(.8)]
-)
-
-// 3. Bass: Upright bass doing a jazzy walk
-$: arrange(
-  [4,  note("c2").s("gm_acoustic_bass").gain(.7).room(.3)],
-  [16, note("<[c2 eb2 g2 bb2] [f2 ab2 c3 eb3] [bb1 d2 f2 ab2] [g1 b1 d2 f2]>")
-       .s("gm_acoustic_bass")
-       .decay(.2).sustain(.4).room(.2).gain(.85)
-       .swing(5)],
-  [8,  note("<c2 f2 bb1 g1>").s("gm_acoustic_bass")
-       .decay(.3).sustain(.5).room(.25).gain(.9)
-       .every(2, x => x.add(note(12)))], // Octave jumps in chorus
-  [16, note("<[c2 eb2 g2 bb2] [f2 ab2 c3 eb3] [bb1 d2 f2 ab2] [g1 b1 d2 f2]>")
-       .s("gm_acoustic_bass")
-       .decay(.2).sustain(.4).room(.2).gain(.85)
-       .swing(5)],
-  [8,  note("<c2 f2 bb1 g1>").s("gm_acoustic_bass").gain(.9)],
-  [4,  note("c2").s("gm_acoustic_bass").decay(2).gain(.6)]
-)
-
-// 4. Main Sample Chop: Piano/Rhodes chords
-$: arrange(
-  [4,  chord("Cm9").dict('ireal').voicing().s("gm_epiano1").lpf(1500).gain(.5).room(.6)],
-  [16, chord("<Cm9 Fm9 Bb13 G7b9>").dict('ireal').voicing()
-       .s("gm_epiano1")
-       .struct("[x ~] [~ x] [x ~] x") // Chopped rhythm
-       .lpf(sine.range(1200, 2500).slow(16))
-       .room(.5).gain(.6).attack(.05)
-       .cut(1).speed(.98)], // Slight detune for vintage feel
-  [8,  chord("<Cm11 Fm11 Bb9sus4 G7alt>").dict('ireal').voicing()
-       .s("gm_epiano2")
-       .struct("x*4")
-       .lpf(3000).room(.6).gain(.65)],
-  [16, chord("<Cm9 Fm9 Bb13 G7b9>").dict('ireal').voicing()
-       .s("gm_epiano1")
-       .struct("[x ~] [~ x] [x ~] x")
-       .lpf(2000).room(.5).gain(.6).cut(1).speed(.98)],
-  [8,  chord("<Cm11 Fm11 Bb9sus4 G7alt>").dict('ireal').voicing().s("gm_epiano2").gain(.65)],
-  [4,  chord("Cm9").dict('ireal').voicing().s("gm_epiano1").attack(1).release(3).gain(.4)]
-)
-
-// 5. Melodic Accent: Muted Trumpet / Brass hits
-$: arrange(
-  [4,  silence],
-  [16, silence],
-  [8,  n("<g4 bb4 c5 eb5>").scale("C4:minor").s("gm_muted_trumpet")
-       .room(1).delay(".25:.5:.3").gain(.4)
-       .struct("~ x ~ x") // Offbeat stabs
-       .lpf(4000)],
-  [16, n("<c5 ~ g4 ~>").scale("C4:minor").s("gm_muted_trumpet")
-       .room(1).gain(.35).rarely(x => x.rev())],
-  [8,  n("<g4 bb4 c5 eb5>").scale("C4:minor").s("gm_muted_trumpet")
-       .room(1).delay(".25:.5:.3").gain(.4).struct("~ x ~ x")],
-  [4,  silence]
-)
-
-// 6. Atmosphere: High strings/pad for emotion
-$: arrange(
-  [4,  note("g5").s("gm_synth_strings_2").gain(.2).attack(2)],
-  [16, silence],
-  [8,  note("<c6 eb6>").s("gm_synth_strings_1")
-       .attack(1).release(2).gain(.3).room(1).lpf(2000)],
-  [16, silence],
-  [8,  note("<c6 eb6>").s("gm_synth_strings_1").gain(.3).room(1)],
-  [4,  note("c6").s("gm_synth_strings_1").decay(4).gain(.2)]
-)
+// 🎵 "Pro Era Soul" — Joey Bada$ style boom bap with jazzy Rhodes and dusty rhythms
+setcps(90/60/4);
+stack(
+  s("bd:4 [~ bd:4] ~ [~ bd:4]").gain(1.2).delay(0.01),
+  s("~ sd:2 ~ sd:2").gain(1.1).room(0.2).delay(0.02),
+  s("hh*8").gain(sine.range(0.4, 0.7).slow(4)).pan(perlin),
+  s("[~ hh:3]*2").gain(0.5).hpf(2000),
+  note("<[c3,eb3,g3,bb3,d4] [f2,ab2,c3,eb3,g3] [bb2,d3,f3,a3,c4] [g2,bb2,d3,f3]>")
+    .s("rhodes")
+    .gain(0.6)
+    .lpf(sine.range(800, 1500).slow(16))
+    .room(0.5)
+    .delay(0.2).delayfeedback(0.4),
+  note("<c2 [~ c2] f1 [g1 g1]>")
+    .s("bass2")
+    .lpf(250)
+    .gain(1.0),
+  s("~ ~ ~ sax:1").gain(0.2).room(0.9).lpf(1200).hpf(400),
+  s("crackle*4").gain(0.2).pan(sine)
+).reset()

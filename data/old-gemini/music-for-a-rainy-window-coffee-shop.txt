@@ -1,0 +1,48 @@
+// ☕ "Rainy Window Coffee Shop" — Lo-Fi Jazz / Ambient
+// At 74 BPM: intro(8) + verse(16) + chorus(16) + verse(16) + outro(8) = 64 bars ≈ 3:27
+
+setcpm(74 / 4)
+
+$: s("vinyl:2").gain(.12).room(1).loop(1).lpf(2200)
+
+$: s("wind").gain(.08).lpf(800).slow(4)
+
+$: arrange(
+  [8,  silence],
+  [16, s("bd ~ ~ ~, ~ [sd:3] ~ ~").bank("RolandTR808").swing(3).gain(perlin.range(.5,.7)).lpf(1200).room(.6)],
+  [16, s("bd ~ ~ bd, ~ [sd:3] ~ [sd:3], [hh hh ~ hh]*2").bank("RolandTR808").swing(3).gain(".7 .6").lpf(1500).room(.5).every(4, x=>x.fast(2))],
+  [16, s("bd ~ ~ ~, ~ [sd:3] ~ ~").bank("RolandTR808").swing(3).gain(perlin.range(.5,.7)).lpf(1200).room(.6)],
+  [8,  silence]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, note("<c2 ~ g1 ~>").s("gm_acoustic_bass").decay(.4).sustain(.6).room(.4).gain(.85)],
+  [16, note("<c2 eb2 f2 bb1>").s("gm_acoustic_bass").decay(.3).sustain(.7).room(.35).gain(.9).sometimes(x=>x.add(note(12)))],
+  [16, note("<c2 ~ g1 ~>").s("gm_acoustic_bass").decay(.4).sustain(.6).room(.4).gain(.85)],
+  [8,  note("c2").s("gm_acoustic_bass").decay(2).gain(.7)]
+)
+
+$: arrange(
+  [8,  chord("<Cm9 Fm7>").dict('ireal').voicing().s("gm_epiano1").struct("x ~ ~ ~").lpf(800).room(1).gain(.4).attack(1)],
+  [16, chord("<Cm9 Fm7 Bb13 Ebmaj7>").dict('ireal').voicing().s("gm_epiano1").struct("~ x ~ [x ~]").lpf(1500).room(.6).delay(".3:.2:.4").gain(.55).vib(2).vibmod(.3)],
+  [16, chord("<Cm9 Fm7 Bb13 G7alt>").dict('ireal').voicing().s("gm_epiano1").struct("[~ x] ~ x ~").lpf(1800).room(.5).delay(".25:.15:.3").gain(.6).vib(3).vibmod(.4)],
+  [16, chord("<Cm9 Fm7 Bb13 Ebmaj7>").dict('ireal').voicing().s("gm_epiano1").struct("~ x ~ [x ~]").lpf(1500).room(.6).delay(".3:.2:.4").gain(.55).vib(2).vibmod(.3)],
+  [8,  chord("Cm9").dict('ireal').voicing().s("gm_epiano1").lpf(600).room(1.5).gain(.4).attack(2)]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, n("<[~ 3 ~ 7] [10 ~ ~ 8] [~ 5 ~ ~] [3 ~ ~ 0]>").scale("C5:minor").s("gm_vibraphone").lpf(2000).room(.8).delay(".4:.3:.5").gain(.35).rate(.5)],
+  [16, n("<[~ 3 ~ 5] [~ 8 ~ 10] [7 ~ 3 ~] [~ 0 ~ ~]>").scale("C5:minor").s("gm_vibraphone").lpf(2500).room(.7).delay(".3:.2:.4").gain(.45).rate(.8).sometimes(x=>x.rev())],
+  [16, n("<[~ 3 ~ 7] [10 ~ ~ 8] [~ 5 ~ ~] [3 ~ ~ 0]>").scale("C5:minor").s("gm_vibraphone").lpf(2000).room(.8).delay(".4:.3:.5").gain(.35).rate(.5)],
+  [8,  silence]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, silence],
+  [16, s("~ ~ wind ~").gain(.06).lpf(1200).speed(.5).room(1)],
+  [16, silence],
+  [8,  silence]
+)

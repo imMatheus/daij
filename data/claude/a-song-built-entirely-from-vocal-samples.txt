@@ -1,82 +1,63 @@
-Here's the song:
+// 🎵 "Tongues of Glass" — Ethereal vocal-only electronica
+// At 88 BPM: intro(4) + verse(8) + chorus(8) + bridge(4) + outro(4) = 28 bars ≈ 76s
 
-// 🎤 "Cathedral of Voices" — Ethereal Vocal-Only A Cappella
-// At 80 BPM: intro(8) + verse(16) + chorus(16) + verse2(16) + chorus2(16) + bridge(8) + outro(8) = 88 bars ≈ 2:38
+setcpm(88 / 4)
 
-setcpm(80 / 4)
+// Breathy choir shimmer — vocal hi-hat texture
+$: note("d6*16").s("gm_choir_aahs")
+   .decay(.02).sustain(0)
+   .gain(perlin.range(.03,.22))
+   .pan(sine.slow(5))
+   .hpf(4500).room(.3).cut(1)
 
-// Sustained choir drone — warm texture bed replacing vinyl crackle
-$: note("f3").s("gm_choir_aahs")
-   .gain(.12).room(1).roomsize(8)
-   .attack(4).sustain(1).release(5)
-   .lpf(1100)
-
-// Breathy vocal shimmer — choir staccato as hi-hat
-$: note("c6*16").s("gm_choir_aahs")
-   .decay(.03).sustain(0)
-   .gain(perlin.range(.04,.26))
-   .pan(sine.slow(6))
-   .hpf(4000).room(.3)
-   .cut(1)
-
-// Vocal percussion — deep synth voice stabs as kick, higher pitch as clap
+// Vocal percussion — synth voice as kick + snare
 $: arrange(
-  [8,  note("f1 ~ ~ ~").s("gm_synth_voice").decay(.1).sustain(0).gain(.58).room(.4).lpf(400)],
-  [16, note("[f1 ~ ~ f1], [~ ~ [~ f4] ~]").s("gm_synth_voice").decay(.08).sustain(0).gain(".82 .7").room(.32).swing(3)],
-  [16, note("[f1 ~ f1 ~], [~ [~ f4] ~ [~ f4]]").s("gm_synth_voice").decay(.08).sustain(0).gain(".88 .76").room(.28).swing(3).every(4, x=>x.fast(2).gain(.4))],
-  [16, note("[f1 ~ ~ f1], [~ ~ [~ f4] ~]").s("gm_synth_voice").decay(.08).sustain(0).gain(".82 .7").room(.32).swing(3).sometimes(x=>x.gain(.3))],
-  [16, note("[f1 ~ f1 ~], [~ [~ f4] ~ [~ f4]]").s("gm_synth_voice").decay(.08).sustain(0).gain(".88 .76").room(.28).swing(3).every(4, x=>x.fast(2).gain(.4))],
-  [8,  note("f1 ~ ~ ~, ~ ~ [~ f4] ~").s("gm_synth_voice").decay(.1).sustain(0).gain(".62 .52").room(.5).swing(4)],
-  [8,  note("f1 ~ ~ ~").s("gm_synth_voice").decay(.12).sustain(0).gain(saw.slow(8).range(.5,.05)).room(.55)]
+  [4,  note("d1 ~ ~ ~").s("gm_synth_voice").decay(.09).sustain(0).gain(.52).room(.45).lpf(320)],
+  [8,  note("[d1 ~ ~ d1], [~ ~ [~ a3] ~]").s("gm_synth_voice").decay(.07).sustain(0).gain(".82 .68").room(.3).swing(3)],
+  [8,  note("[d1 ~ d1 ~], [~ [~ a3] ~ [~ a3]]").s("gm_synth_voice").decay(.07).sustain(0).gain(".9 .74").room(.25).swing(3).every(4, x=>x.fast(2).gain(.4))],
+  [4,  note("d1 ~ ~ ~, ~ ~ [~ a3] ~").s("gm_synth_voice").decay(.1).sustain(0).gain(".62 .5").room(.5)],
+  [4,  note("d1 ~ ~ ~").s("gm_synth_voice").decay(.12).sustain(0).gain(saw.slow(4).range(.48,.06)).room(.6)]
 )
 
-// Vocal bass — voice oohs walking line
+// Voice oohs bass — walking low end
 $: arrange(
+  [4,  silence],
+  [8,  note("<[d2 ~ ~ d2] [bb1 ~ ~ ~] [g1 ~ ~ g1] [a1 ~ ~ ~]>").s("gm_voice_oohs").decay(.32).sustain(.48).room(.22).gain(.72).lpf(850)],
+  [8,  note("<[d2 ~ d2 ~] [bb1 ~ ~ bb1] [g1 ~ g1 ~] [a1 ~ ~ a1]>").s("gm_voice_oohs").decay(.25).sustain(.55).room(.2).gain(.78).lpf(950)],
+  [4,  note("<d2 ~ bb1 ~ g1 ~ a1 ~>/2").s("gm_voice_oohs").decay(.5).sustain(.35).room(.35).gain(.55).lpf(650).speed(.97)],
+  [4,  silence]
+)
+
+// Choir aahs pad chords — harmonic bed
+$: arrange(
+  [4,  chord("<Dm9 Am7>/2").dict('ireal').voicing().s("gm_choir_aahs").attack(.8).decay(1).sustain(.7).release(2.2).lpf(1200).room(.72).gain(.28)],
+  [8,  chord("<Dm9 Bbmaj7 Gm7 A7>").dict('ireal').voicing().s("gm_choir_aahs").attack(.35).decay(.65).sustain(.7).release(1.2).lpf(sine.range(1400,2800).slow(12)).room(.56).gain(.4)],
+  [8,  chord("<Dm9 Bbmaj7 Gm7 A7>").dict('ireal').voicing().s("gm_choir_aahs").attack(.22).decay(.5).sustain(.76).release(1).lpf(sine.range(1800,3400).slow(10)).room(.5).gain(.46)],
+  [4,  chord("<Dm9 Bbmaj7 Gm7 A7>/2").dict('ireal').voicing().s("gm_choir_aahs").attack(.7).sustain(.6).release(2.5).lpf(sine.range(600,1500).slow(6)).room(.78).gain(.33)],
+  [4,  chord("<Dm9 Am7>/2").dict('ireal').voicing().s("gm_choir_aahs").attack(1.1).sustain(.5).release(3.5).lpf(sine.range(400,950).slow(6)).room(.88).gain(saw.slow(4).range(.28,.04))]
+)
+
+// Voice oohs melody — singing pentatonic line
+$: arrange(
+  [4,  silence],
+  [8,  n("<[~ 0 ~ 2] [4 ~ 2 ~] [~ 3 ~ 5] [4 ~ ~ 0]>").scale("D5:minor:pentatonic").s("gm_voice_oohs").lpf(sine.range(900,3000).slow(8)).room(.55).delay(".3:.2:.4").gain(.35).vib(4).vibmod(.4).rarely(x=>x.add(note(12)))],
+  [8,  n("<[0 ~ 2 4] [~ 5 4 ~] [2 ~ 0 ~] [~ 4 2 0]>").scale("D5:minor:pentatonic").s("gm_voice_oohs").lpf(sine.range(1200,3800).slow(7)).room(.48).delay(".25:.18:.35").gain(.42).vib(3).vibmod(.5).sometimes(x=>x.add(note(12)))],
+  [4,  n("<[~ 0 ~ ~] [~ ~ 2 ~]>").scale("D5:minor:pentatonic").s("gm_voice_oohs").room(.82).delay(".55:.4:.65").gain(.26).lpf(1400).vib(5).vibmod(.6)],
+  [4,  silence]
+)
+
+// Synth voice counter-melody — chorus and bridge
+$: arrange(
+  [4,  silence],
   [8,  silence],
-  [16, note("<[f2 ~ ~ f2] [db2 ~ ~ ~] [ab1 ~ ~ ab1] [eb2 ~ ~ ~]>").s("gm_voice_oohs").decay(.35).sustain(.45).room(.22).gain(.72).lpf(900)],
-  [16, note("<[f2 ~ f2 ~] [db2 ~ ~ db2] [ab1 ~ ab1 ~] [eb2 ~ ~ eb2]>").s("gm_voice_oohs").decay(.28).sustain(.5).room(.2).gain(.76).lpf(1000)],
-  [16, note("<[f2 ~ ~ f2] [db2 ~ ~ ~] [ab1 ~ ~ ab1] [eb2 ~ ~ ~]>").s("gm_voice_oohs").decay(.35).sustain(.45).room(.22).gain(.72).lpf(900)],
-  [16, note("<[f2 ~ f2 ~] [db2 ~ ~ db2] [ab1 ~ ab1 ~] [eb2 ~ ~ eb2]>").s("gm_voice_oohs").decay(.28).sustain(.5).room(.2).gain(.76).lpf(1000)],
-  [8,  note("<f2 ~ db2 ~ ab1 ~ eb2 ~>/2").s("gm_voice_oohs").decay(.5).sustain(.35).room(.35).gain(.58).lpf(700).speed(.97)],
-  [8,  silence]
+  [8,  n("<[~ ~ 4 ~] [~ 5 ~ ~] [4 ~ ~ 2] [~ ~ 0 ~]>").scale("D4:minor:pentatonic").s("gm_synth_voice").room(.62).delay(".45:.3:.55").gain(.24).lpf(2100).vib(4).vibmod(.5)],
+  [4,  n("<[~ 2 ~ ~] [~ ~ 4 ~]>").scale("D4:minor:pentatonic").s("gm_synth_voice").room(.82).delay(".55:.42:.68").gain(.2).lpf(1500).vib(5).vibmod(.7)],
+  [4,  silence]
 )
 
-// Choir pad chords — lush choir aahs voicings
-$: arrange(
-  [8,  chord("<Fm9 Dbmaj7>/2").dict('ireal').voicing().s("gm_choir_aahs").attack(.9).decay(1).sustain(.72).release(2.2).lpf(1300).room(.72).gain(.3)],
-  [16, chord("<Fm9 Dbmaj7 Ab^7 Eb7>").dict('ireal').voicing().s("gm_choir_aahs").attack(.4).decay(.7).sustain(.7).release(1.2).lpf(sine.range(1400,2800).slow(16)).room(.58).gain(.42)],
-  [16, chord("<Fm9 Dbmaj7 Ab^7 Eb7>").dict('ireal').voicing().s("gm_choir_aahs").attack(.25).decay(.5).sustain(.76).release(1).lpf(sine.range(1800,3400).slow(12)).room(.52).gain(.48)],
-  [16, chord("<Fm9 Dbmaj7 Ab^7 Eb7>").dict('ireal').voicing().s("gm_choir_aahs").attack(.4).decay(.7).sustain(.7).release(1.2).lpf(sine.range(1400,2800).slow(16)).room(.58).gain(.42)],
-  [16, chord("<Fm9 Dbmaj7 Ab^7 Eb7>").dict('ireal').voicing().s("gm_choir_aahs").attack(.25).decay(.5).sustain(.76).release(1).lpf(sine.range(1800,3400).slow(12)).room(.52).gain(.48)],
-  [8,  chord("<Fm9 Dbmaj7 Ab^7 Eb7>/2").dict('ireal').voicing().s("gm_choir_aahs").attack(.8).sustain(.6).release(2.5).lpf(sine.range(700,1600).slow(8)).room(.78).gain(.35)],
-  [8,  chord("<Fm9 Dbmaj7>/2").dict('ireal').voicing().s("gm_choir_aahs").attack(1.1).sustain(.5).release(3.5).lpf(sine.range(400,1000).slow(8)).room(.88).gain(saw.slow(8).range(.3,.04))]
-)
-
-// Voice oohs lead melody — singing pentatonic line
-$: arrange(
-  [8,  silence],
-  [16, n("<[~ 0 ~ 3] [5 ~ 3 ~] [~ 2 ~ 5] [3 ~ ~ 0]>").scale("F5:minor:pentatonic").s("gm_voice_oohs").lpf(sine.range(900,3200).slow(10)).room(.58).delay(".3:.2:.4").gain(.36).vib(4).vibmod(.4).rarely(x=>x.add(note(12)))],
-  [16, n("<[0 ~ 3 5] [~ 7 5 ~] [3 ~ 0 ~] [~ 5 3 0]>").scale("F5:minor:pentatonic").s("gm_voice_oohs").lpf(sine.range(1200,4000).slow(8)).room(.5).delay(".25:.18:.35").gain(.42).vib(3).vibmod(.5).sometimes(x=>x.add(note(12)))],
-  [16, n("<[~ 0 ~ 3] [5 ~ 3 ~] [~ 2 ~ 5] [3 ~ ~ 0]>").scale("F5:minor:pentatonic").s("gm_voice_oohs").lpf(sine.range(900,3200).slow(10)).room(.58).delay(".3:.2:.4").gain(.36).vib(4).vibmod(.4)],
-  [16, n("<[0 ~ 3 5] [~ 7 5 ~] [3 ~ 0 ~] [~ 5 3 0]>").scale("F5:minor:pentatonic").s("gm_voice_oohs").lpf(sine.range(1200,4000).slow(8)).room(.5).delay(".25:.18:.35").gain(.42).vib(3).vibmod(.5).sometimes(x=>x.add(note(12)))],
-  [8,  n("<[~ 0 ~ ~] [~ ~ 3 ~]>").scale("F5:minor:pentatonic").s("gm_voice_oohs").room(.82).delay(".6:.4:.7").gain(.28).lpf(1500).vib(5).vibmod(.6)],
-  [8,  silence]
-)
-
-// Synth voice counter-melody — choruses and bridge only
-$: arrange(
-  [8,  silence],
-  [16, silence],
-  [16, n("<[~ ~ 5 ~] [~ 7 ~ ~] [5 ~ ~ 3] [~ ~ 0 ~]>").scale("F4:minor:pentatonic").s("gm_synth_voice").room(.62).delay(".45:.3:.55").gain(.26).lpf(2200).vib(4).vibmod(.5)],
-  [16, silence],
-  [16, n("<[~ ~ 5 ~] [~ 7 ~ ~] [5 ~ ~ 3] [~ ~ 0 ~]>").scale("F4:minor:pentatonic").s("gm_synth_voice").room(.62).delay(".45:.3:.55").gain(.26).lpf(2200).vib(4).vibmod(.5)],
-  [8,  n("<[~ 3 ~ ~] [~ ~ 5 ~] [~ 3 ~ ~] [~ ~ 0 ~]>").scale("F4:minor:pentatonic").s("gm_synth_voice").room(.82).delay(".55:.4:.68").gain(.22).lpf(1600).vib(5).vibmod(.7)],
-  [8,  silence]
-)
-
-// Voice oohs sub-bass drone — deep foundation
-$: note("<f1 db1 ab0 eb1>/4")
+// Deep voice oohs sub-drone — foundation
+$: note("<d1 bb0 g0 a0>/4")
    .s("gm_voice_oohs")
-   .attack(2.5).decay(1.2).sustain(.78).release(2.5)
-   .gain(.17).room(.6)
-   .lpf(280)
+   .attack(2.2).decay(1.2).sustain(.78).release(2.5)
+   .gain(.16).room(.6)
+   .lpf(260)

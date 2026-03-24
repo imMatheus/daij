@@ -1,74 +1,19 @@
-// 🎵 "Tape-Cut Runner" — Breakbeat with chopped-sample lo-fi edge
-// At 132 BPM: intro(8) + verse(16) + chorus(16) + verse2(16) + chorus2(16) + bridge(8) + outro(8) = 88 bars ≈ 2:40
-
-setcpm(132 / 4)
-
-$: arrange(
-  [8,  s("vinyl:2").gain(.12).room(1).loop(1).lpf(2400)],
-  [16, s("vinyl:2").gain(.14).room(1).loop(1).lpf(2800)],
-  [16, s("vinyl:2").gain(.16).room(1).loop(1).lpf(3200)],
-  [16, s("vinyl:2").gain(.14).room(1).loop(1).lpf(2800)],
-  [16, s("vinyl:2").gain(.16).room(1).loop(1).lpf(3200)],
-  [8,  s("vinyl:2").gain(.11).room(1).loop(1).lpf(2200)],
-  [8,  s("vinyl:2").gain(saw.slow(8).range(.1,.02)).room(1).loop(1).lpf(1800)]
-)
-
-$: arrange(
-  [8,  s("bd ~ ~ ~, ~ ~ sd ~, hh*8").bank("RolandTR909").cut(1).swing(4).room(.25).gain(".72 .64 .38")],
-  [16, s("bd(5,16), ~ [sd cp] ~ sd, hh*16").bank("RolandTR909").cut(1).swing(4).room(.3).gain(".9 .82 .5").every(4, x => x.press())],
-  [16, s("bd(7,16), [~ sd] ~ [sd cp], hh*16 oh*4").bank("RolandTR909").cut(1).swing(4).room(.28).gain(".95 .86 .56 .35").every(4, x => x.fast(2).gain(.75))],
-  [16, s("bd(5,16), ~ [sd cp] ~ [~ sd], hh*16").bank("RolandTR909").cut(1).swing(4).room(.3).gain(".9 .8 .5").every(8, x => x.rev())],
-  [16, s("bd(7,16), [~ sd] ~ [sd cp], hh*16 oh*4").bank("RolandTR909").cut(1).swing(4).room(.28).gain(".95 .86 .56 .35").every(4, x => x.fast(2).gain(.75))],
-  [8,  s("bd ~ ~ ~, ~ sd ~ ~, hh*8").bank("RolandTR909").cut(1).swing(3).room(.35).gain(".74 .66 .34")],
-  [8,  s("bd ~ ~ ~, ~ ~ sd ~, hh*8").bank("RolandTR909").cut(1).swing(4).room(.4).gain(saw.slow(8).range(.7,.08))]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, s("<breaks165:2 breaks165:6 breaks165:9 breaks165:12>").struct("[x ~ x x] [x x ~ x]").cut(2).hpf(700).lpf(4600).speed("<1 1 .5 1.5>").gain(.34).room(.25).every(4, x => x.rev())],
-  [16, s("<breaks165:3 breaks165:7 breaks165:10 breaks165:14>").struct("[x x x ~] [x ~ x x]").cut(2).hpf(800).lpf(5200).speed("<1 2 .5 1>").gain(.42).room(.22).every(4, x => x.fast(2).gain(.7))],
-  [16, s("<breaks165:2 breaks165:8 breaks165:11 breaks165:13>").struct("[x ~ x x] [x x ~ x]").cut(2).hpf(700).lpf(4600).speed("<1 1 .5 1.5>").gain(.36).room(.25).every(8, x => x.rev())],
-  [16, s("<breaks165:3 breaks165:7 breaks165:10 breaks165:14>").struct("[x x x ~] [x ~ x x]").cut(2).hpf(800).lpf(5200).speed("<1 2 .5 1>").gain(.42).room(.22).every(4, x => x.fast(2).gain(.7))],
-  [8,  s("<breaks165:1 breaks165:5 breaks165:9 breaks165:12>").struct("x ~ x ~").cut(2).hpf(650).lpf(3800).speed("<.75 1 .5 1>").gain(.28).room(.3)],
-  [8,  silence]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, note("<[e2 ~ e2 ~] [g2 ~ ~ g2] [d2 ~ d2 ~] [b1 ~ ~ b1]>").s("gm_acoustic_bass").decay(.25).sustain(.55).room(.2).gain(.8)],
-  [16, note("<[e2 ~ b1 e2] [g2 ~ d2 g2] [d2 ~ a1 d2] [b1 ~ fs1 b1]>").s("gm_acoustic_bass").decay(.2).sustain(.6).room(.2).gain(.86).sometimes(x => x.add(note(12)).gain(.45))],
-  [16, note("<[e2 ~ e2 ~] [g2 ~ ~ g2] [d2 ~ d2 ~] [b1 ~ ~ b1]>").s("gm_acoustic_bass").decay(.25).sustain(.55).room(.2).gain(.8)],
-  [16, note("<[e2 ~ b1 e2] [g2 ~ d2 g2] [d2 ~ a1 d2] [b1 ~ fs1 b1]>").s("gm_acoustic_bass").decay(.2).sustain(.6).room(.2).gain(.86).sometimes(x => x.add(note(12)).gain(.45))],
-  [8,  note("<e2 ~ d2 ~ g1 ~ b1 ~>/2").s("gm_acoustic_bass").decay(.45).sustain(.4).room(.3).gain(.68).speed(.97)],
-  [8,  silence]
-)
-
-$: arrange(
-  [8,  chord("<Em9 Dmaj9>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(.7).decay(1).sustain(.7).release(2).lpf(1400).room(.7).gain(.32)],
-  [16, chord("<Em9 G6 Dmaj9 Bm7>").dict('ireal').voicing().s("gm_epiano2").struct("~ [x ~] ~ [x ~]").lpf(2600).room(.45).delay(".2:.12:.25").gain(.5).speed(.99)],
-  [16, chord("<Em9 G6 Dmaj9 Bm7>").dict('ireal').voicing().s("gm_clavinet").struct("[x ~ x ~]*2").lpf(3200).room(.35).delay(".15:.1:.2").gain(.56).crush(14)],
-  [16, chord("<Em9 G6 Dmaj9 Bm7>").dict('ireal').voicing().s("gm_epiano2").struct("~ [x ~] ~ [x ~]").lpf(2600).room(.45).delay(".2:.12:.25").gain(.5).speed(.99)],
-  [16, chord("<Em9 G6 Dmaj9 Bm7>").dict('ireal').voicing().s("gm_clavinet").struct("[x ~ x ~]*2").lpf(3200).room(.35).delay(".15:.1:.2").gain(.56).crush(14)],
-  [8,  chord("<Em9 Dmaj9 G6 Bm7>/2").dict('ireal').voicing().s("gm_epiano2").struct("x ~ ~ ~").lpf(2000).room(.6).delay(".35:.25:.4").gain(.42)],
-  [8,  chord("<Em9 Dmaj9>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(1).sustain(.7).release(3).lpf(sine.range(500,1400).slow(8)).room(.8).gain(saw.slow(8).range(.28,.04))]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, n("<[~ 0 2 ~] [3 ~ ~ 5] [~ 7 5 ~] [3 ~ 2 0]>").scale("E5:minor:pentatonic").s("square").lpf(sine.range(900,2600).slow(10)).room(.45).delay(".25:.2:.32").gain(.3).rarely(x => x.add(note(12)))],
-  [16, n("<[0 2 3 5] [~ 7 5 ~] [3 5 7 ~] [~ 5 3 2]>").scale("E5:minor:pentatonic").s("square").lpf(sine.range(1200,3600).slow(8)).room(.4).delay(".2:.16:.28").gain(.38).sometimes(x => x.fast(2).gain(.7))],
-  [16, n("<[~ 0 2 ~] [3 ~ ~ 5] [~ 7 5 ~] [3 ~ 2 0]>").scale("E5:minor:pentatonic").s("square").lpf(sine.range(900,2600).slow(10)).room(.45).delay(".25:.2:.32").gain(.3)],
-  [16, n("<[0 2 3 5] [~ 7 5 ~] [3 5 7 ~] [~ 5 3 2]>").scale("E5:minor:pentatonic").s("square").lpf(sine.range(1200,3600).slow(8)).room(.4).delay(".2:.16:.28").gain(.38).sometimes(x => x.fast(2).gain(.7))],
-  [8,  n("<[~ 5 ~ ~] [~ 3 ~ ~] [~ 2 ~ ~] [~ 0 ~ ~]>").scale("E5:minor:pentatonic").s("triangle").room(.6).delay(".4:.3:.5").gain(.22).lpf(1800)],
-  [8,  silence]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, silence],
-  [16, n("<[~ ~ 7 ~] [5 ~ ~ 3] [~ 2 ~ 3] [5 ~ ~ ~]>").scale("E5:aeolian").s("gm_flute").room(.55).delay(".3:.25:.38").gain(.24).lpf(4800).vib(4).vibmod(.6)],
-  [16, silence],
-  [16, n("<[~ ~ 7 ~] [5 ~ ~ 3] [~ 2 ~ 3] [5 ~ ~ ~]>").scale("E5:aeolian").s("gm_flute").room(.55).delay(".3:.25:.38").gain(.24).lpf(4800).vib(4).vibmod(.6)],
-  [8,  n("<[~ 3 ~ ~] [~ 2 ~ ~] [~ 0 ~ ~] [~ ~ ~ ~]>").scale("E5:aeolian").s("gm_flute").room(.7).delay(".5:.4:.6").gain(.18).lpf(3400)],
-  [8,  silence]
-)
+// "Razor Tape" — jagged breakbeat with chopped sample shards
+samples('github:tidalcycles/dirt-samples')
+setcps(0.8)
+s("amencutup*16")
+  .n("<[0 3 7 5 2 9 11 8] [0 6 4 10 2 12 14 9]>/2")
+  .speed("<1 1 1 0.5 1.5 1 -1 1>")
+  .gain(0.95)
+  .lpf(perlin.range(900,5200).slow(6))
+  .stack(
+    s("bd*2 [~ bd] <bd(3,8) [bd bd]>").gain(1.08),
+    s("~ sn ~ [sn sn:2] <~ sn>").gain(0.92).lpf(sine.range(1200,4200).slow(12)),
+    s("[hh*8 <~ hh:2>] [hh(5,8) ~ hh(3,8)]").gain(0.42).speed("<1 1.2 0.8 1.4>"),
+    s("<cp ~ [~ cp]> [~ cp cp ~]").gain(0.48).room(0.35),
+    s("tabla*8").n("<0 2 5 3 6 1 7 4>").gain(0.33).delay(0.25).lpf(perlin.range(500,2400).slow(5))
+  )
+  .delay(0.18)
+  .room(0.58)
+  .size(0.72)
+  .reset(64)

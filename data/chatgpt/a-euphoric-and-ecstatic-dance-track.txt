@@ -1,60 +1,44 @@
-// 🎵 "Skyline Euphoria" — Euphoric ecstatic dance with uplifting synth hooks and driving club groove
-// At 128 BPM: intro(8) + verse(16) + chorus(16) + verse2(16) + bridge(16) + chorus2(16) + outro(8) = 96 bars ≈ 3:00
-
-setcpm(128 / 4)
-
-$: s("vinyl:2")
-  .gain(.1)
-  .room(1)
-  .loop(1)
-  .lpf(3400)
-
-$: arrange(
-  [8,  s("bd ~ ~ ~, ~ ~ hh ~").bank("RolandTR909").gain(.78).room(.25).swing(2)],
-  [16, s("bd ~ bd ~, ~ cp ~ ~, hh*8").bank("RolandTR909").cut(1).gain(.88).room(.22).swing(3)],
-  [16, s("bd ~ bd [bd ~], ~ cp ~ cp, [hh hh oh hh]*2").bank("RolandTR909").cut(1).gain(.95).room(.2).swing(3).every(4, x => x.fast(2).gain(.7))],
-  [16, s("bd ~ [bd ~] ~, ~ cp ~ ~, hh*8, ~ ~ oh ~").bank("RolandTR909").cut(1).gain(.9).room(.24).swing(3).sometimes(x => x.press())],
-  [16, s("bd(5,8), ~ cp ~ [~ cp], [hh oh hh hh]*2").bank("RolandTR909").cut(1).gain(.92).room(.28).swing(4).every(8, x => x.rev())],
-  [16, s("bd ~ bd [bd ~], ~ cp ~ cp, [hh hh oh hh]*2").bank("RolandTR909").cut(1).gain(.98).room(.2).swing(3).every(4, x => x.fast(2).gain(.75))],
-  [8,  s("bd ~ ~ ~, ~ ~ cp ~, hh*4").bank("RolandTR909").gain(saw.slow(8).range(.75,.12)).room(.35).swing(2)]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, note("<[d2 ~ d2 ~] [bb1 ~ bb1 ~] [f1 ~ f1 ~] [c2 ~ c2 ~]>").s("sawtooth").lpf(700).attack(.01).decay(.2).sustain(.55).release(.18).distort(.12).gain(.62)],
-  [16, note("<[d2 d2 d2 ~] [bb1 bb1 ~ bb1] [f1 f1 f1 ~] [c2 c2 ~ c2]>").s("sawtooth").lpf(900).attack(.01).decay(.18).sustain(.6).release(.16).distort(.16).gain(.72)],
-  [16, note("<[d2 ~ d2 d2] [bb1 ~ bb1 ~] [f1 ~ f1 f1] [c2 ~ c2 ~]>").s("sawtooth").lpf(820).attack(.01).decay(.2).sustain(.56).release(.18).distort(.13).gain(.66).sometimes(x => x.add(note(12)).gain(.35))],
-  [16, note("<[d2 ~ ~ d2] [bb1 ~ bb1 ~] [f1 ~ ~ f1] [c2 ~ c2 ~]>").s("sawtooth").lpf(sine.range(500,1200).slow(8)).attack(.02).decay(.24).sustain(.5).release(.2).distort(.1).gain(.58)],
-  [16, note("<[d2 d2 d2 ~] [bb1 bb1 ~ bb1] [f1 f1 f1 ~] [c2 c2 ~ c2]>").s("sawtooth").lpf(980).attack(.01).decay(.16).sustain(.62).release(.15).distort(.18).gain(.75).sometimes(x => x.add(note(12)).gain(.38))],
-  [8,  note("<d2 ~ bb1 ~ f1 ~ c2 ~>/2").s("sawtooth").lpf(520).attack(.03).decay(.4).sustain(.35).release(.4).gain(.4)]
-)
-
-$: arrange(
-  [8,  chord("<Dm9 Bbmaj7>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(.8).decay(1).sustain(.72).release(2).lpf(1600).room(.72).gain(.34)],
-  [16, chord("<Dm9 Bbmaj7 Fmaj7 Cmaj7>").dict('ireal').voicing().s("gm_epiano2").struct("~ x ~ x").lpf(2600).room(.45).delay(".22:.16:.28").gain(.52).speed(.99)],
-  [16, chord("<Dm9 Bbmaj7 Fmaj7 Cmaj7>").dict('ireal').voicing().s("gm_epiano2").struct("[~ x]*2").lpf(3200).room(.42).delay(".18:.14:.24").gain(.6).every(4, x => x.fast(2).gain(.7))],
-  [16, chord("<Dm9 Bbmaj7 Fmaj7 Cmaj7>").dict('ireal').voicing().s("gm_epiano2").struct("~ x ~ x").lpf(2800).room(.48).delay(".24:.16:.3").gain(.54).sometimes(x => x.crush(14))],
-  [16, chord("<Dm9 Bbmaj7 Fmaj7 Cmaj7>").dict('ireal').voicing().s("gm_synth_strings_1").struct("x ~ ~ x").attack(.2).decay(.6).sustain(.6).release(1.2).lpf(sine.range(900,2600).slow(6)).room(.65).gain(.46)],
-  [16, chord("<Dm9 Bbmaj7 Fmaj7 Cmaj7>").dict('ireal').voicing().s("gm_epiano2").struct("[~ x]*2").lpf(3600).room(.45).delay(".2:.15:.26").gain(.64).every(4, x => x.fast(2).gain(.75))],
-  [8,  chord("<Dm9 Bbmaj7>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(1).decay(1).sustain(.6).release(2.5).lpf(sine.range(500,1400).slow(8)).room(.8).gain(saw.slow(8).range(.32,.05))]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, n("<[~ 0 ~ 2] [3 ~ 2 ~] [~ 5 ~ 7] [5 ~ ~ 3]>").scale("D5:minor:pentatonic").s("triangle").lpf(sine.range(1200,3000).slow(10)).room(.45).delay(".25:.18:.3").gain(.3).rarely(x => x.add(note(12)))],
-  [16, n("<[0 2 3 5] [~ 7 5 ~] [3 5 7 10] [~ 5 3 2]>").scale("D5:minor:pentatonic").s("sawtooth").lpf(sine.range(1800,5200).slow(6)).room(.52).delay(".3:.2:.4").gain(.46).vib(5).vibmod(.45).sometimes(x => x.add(note(12)))],
-  [16, n("<[~ 0 2 ~] [3 ~ 5 ~] [7 ~ 5 3] [~ 2 ~ 0]>").scale("D5:minor:pentatonic").s("triangle").lpf(sine.range(1400,3600).slow(9)).room(.48).delay(".24:.17:.3").gain(.34)],
-  [16, n("<[0 ~ 2 3] [5 ~ 7 ~] [10 7 5 ~] [3 ~ 2 ~]>").scale("D5:minor:pentatonic").s("square").lpf(sine.range(1600,4200).slow(7)).room(.5).delay(".28:.2:.36").gain(.38).every(4, x => x.fast(2).gain(.7))],
-  [16, n("<[0 2 3 5] [~ 7 5 ~] [3 5 7 10] [~ 5 3 2]>").scale("D5:minor:pentatonic").s("sawtooth").lpf(sine.range(2200,5600).slow(6)).room(.56).delay(".32:.22:.42").gain(.5).vib(6).vibmod(.5).sometimes(x => x.add(note(12)))],
-  [8,  silence]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, silence],
-  [16, n("<0 2 3 5 7 10 7 5>*2").scale("D5:minor").s("gm_plucked_string").lpf(4200).room(.38).delay(".18:.12:.2").gain(.24).pan(sine.slow(8))],
-  [16, silence],
-  [16, n("<10 7 5 3 2 0 2 3>*2").scale("D5:minor").s("gm_plucked_string").lpf(3800).room(.42).delay(".2:.14:.24").gain(.26).pan(sine.slow(7)).sometimes(x => x.fast(2).gain(.65))],
-  [16, n("<0 2 3 5 7 10 12 10>*2").scale("D5:minor").s("gm_plucked_string").lpf(4600).room(.4).delay(".2:.14:.24").gain(.3).pan(sine.slow(6))],
-  [8,  silence]
-)
+// "Euphoria Surge" — ecstatic peak-hour dance rush
+samples('github:tidalcycles/dirt-samples')
+setcps(0.9)
+s("bd*4,<bd(5,8) bd*4>,bd*4,[bd*2 ~ bd*2 ~]")
+  .bank("<RolandTR909 RolandTR808>")
+  .gain(1)
+  .stack(
+    s("[~ hh]*8,hh(11,16),[hh*4 oh*2],hh(13,16)")
+      .gain(0.35)
+      .cut(1)
+      .hpf(sine.slow(8).range(5000,11000))
+      .room(0.15),
+    s("cp ~ cp ~,<~ cp ~ [cp cp]>,cp*2 ~ cp*2 ~")
+      .gain(0.65)
+      .delay(0.25)
+      .delaytime(0.375)
+      .delayfeedback(0.45),
+    note("<[0 2 4 7]*2 [0 2 5 9]*2 [2 4 7 11]*2 [4 7 9 12]*2>")
+      .s("supersaw")
+      .legato(0.9)
+      .gain(0.55)
+      .lpf(perlin.slow(6).range(700,3800))
+      .resonance(0.35)
+      .room(0.45)
+      .size(0.9),
+    note("<0 2 4 7 9 7 4 2>")
+      .s("sawtooth")
+      .slow(2)
+      .octave(3)
+      .gain(0.45)
+      .lpf(sine.slow(4).range(180,900))
+      .shape(0.2),
+    s("<~ ~ ~ rave:2,~ ~ vocal:3 ~,~ ~ ~ ~,[rave:4 rave:5] ~ ~ ~>")
+      .speed("<1 1.2 0.8 1.5>")
+      .gain(0.4)
+      .room(0.6)
+      .delay(0.4)
+      .delaytime(0.25)
+      .delayfeedback(0.55)
+  )
+  .reset(16)
+  .room(0.22)
+  .size(0.85)
+  .lpf(sine.slow(32).range(900,12000))

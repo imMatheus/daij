@@ -1,65 +1,36 @@
-// 🎵 "Fragmented Slumber" — Dark Lullaby / Experimental Noise
-// At 80 BPM: intro(8) + verse(16) + chorus(16) + verse2(16) + chaos(16) + outro(16) = 88 bars ≈ 4:24
+// "Fractured Lullaby" — A gentle music box melody that slowly dissolves into digital decay
 
-setcpm(80 / 4)
+setcps(0.5);
 
-$: arrange(
-  [8,  s("vinyl:2").gain(.1).room(1).loop(1).lpf(1500)],
-  [16, s("vinyl:2").gain(.15).room(.8).loop(1).lpf(1800)],
-  [16, s("vinyl:2").gain(.2).room(.6).loop(1).lpf(2200)],
-  [16, s("vinyl:2, white").gain(".25 .1").room(.4).loop(1).lpf(sine.range(1000, 3000).slow(4))],
-  [16, s("white, pink").gain(".4 .3").crush(8).distort(.4).room(.2).hpf(400)],
-  [16, s("white").gain(saw.range(.6, 0).slow(16)).crush(4).distort(.8)]
+stack(
+  // The fragile music box melody
+  note("c5 [e5,g5] c6 <g5 f5> e5 [d5,b4] c5".slow(8))
+    .s("superpiano")
+    .room(0.8).sz(0.9)
+    .delay(0.5).delaytime(0.3).delayfb(0.6)
+    .lpf(saw.slow(40).rev().mul(4000).add(150))
+    .crush(saw.slow(40).rev().mul(14).add(1.5))
+    .distort(saw.slow(40).mul(2.5))
+    .gain(saw.slow(40).rev().add(0.3).clip(0, 0.8)),
+
+  // A deep, growing drone that becomes more unstable
+  note("<c2 f2 g2 c2>".slow(8)).s("supersaw")
+    .gain(saw.slow(40).mul(0.5))
+    .lpf(perlin.mul(400).add(100))
+    .detune(perlin.mul(50))
+    .distort(saw.slow(20).mul(0.5)),
+
+  // Glitchy percussive artifacts that emerge over time
+  s("glitch(3,8, <0 2 4>)")
+    .gain(saw.slow(40).mul(0.8))
+    .speed(perlin.add(0.5))
+    .crush(saw.slow(40).rev().mul(8).add(2))
+    .pan(sine.slow(4)),
+
+  // Washing waves of white noise static
+  s("noise*16")
+    .gain(saw.slow(40).mul(perlin).mul(0.7))
+    .hpf(saw.slow(40).rev().mul(5000).add(200))
+    .pan(perlin)
 )
-
-$: arrange(
-  [8,  silence],
-  [16, s("bd ~ ~ ~, ~ ~ [sd:3] ~").bank("RolandTR808").gain(.7).room(.4)],
-  [16, s("bd ~ bd ~, ~ [sd:3] ~ [sd:3], hh*8").bank("RolandTR808").gain(.8).room(.3).swing(2)],
-  [16, s("bd [bd*2] bd ~, ~ [sd:3] ~ [sd:3], [hh oh]*4").bank("RolandTR808").gain(.85).crush(12).room(.2)],
-  [16, s("bd*4, sd*4, [hh*16]").bank("RolandTR909").gain(.9).crush(4).distort(.5).room(.1)],
-  [16, s("bd(3,8)").bank("RolandTR909").gain(saw.range(.7, 0).slow(16)).crush(2).distort(.9)]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, note("<c2 eb2 f2 g1>").s("gm_acoustic_bass").gain(.7).decay(.5).sustain(.5)],
-  [16, note("<c2 eb2 f2 g1>").s("gm_acoustic_bass").gain(.8).decay(.4).sustain(.6).room(.2)],
-  [16, note("<c2 eb2 f2 g1>").s("gm_fretless_bass").gain(.85).crush(14).distort(.2)],
-  [16, note("<c1 c1 c1 c1>").s("gm_synth_bass_1").gain(.9).crush(6).distort(.6).lpf(400)],
-  [16, silence]
-)
-
-$: arrange(
-  [8,  chord("<Cm Abmaj7 Fm G7>").dict('ireal').voicing().s("gm_music_box").gain(.5).room(.8)],
-  [16, chord("<Cm Ebmaj7 Abmaj7 G7>").dict('ireal').voicing().s("gm_music_box").gain(.55).room(.7).delay(".3:.2:.4")],
-  [16, chord("<Cm Ebmaj7 Abmaj7 G7>").dict('ireal').voicing().s("gm_epiano1").gain(.6).room(.5).crush(15)],
-  [16, chord("<Cm Ebmaj7 Abmaj7 G7>").dict('ireal').voicing().s("gm_epiano2").gain(.65).crush(10).distort(.3)],
-  [16, chord("<C1 Eb1 Ab1 G0>").s("sawtooth").gain(.4).crush(4).distort(.7).lpf(800)],
-  [16, silence]
-)
-
-$: arrange(
-  [8,  n("<0 2 3 5 7 5 3 2>").scale("C5:minor").s("gm_celesta").gain(.6).room(.9).delay(".4:.3:.5")],
-  [16, n("<[0 3 2 5] [7 10 8 7] [5 7 3 2] [0 ~ ~ ~]>").scale("C5:minor").s("gm_music_box").gain(.65).room(.8).vib(4)],
-  [16, n("<[0 3 2 5] [7 10 8 7] [5 7 3 2] [0 ~ ~ ~]>").scale("C5:minor").s("gm_music_box").gain(.7).crush(12).delay(".2:.4:.6")],
-  [16, n("<[0 7 3 10] [5 12 7 14]>").scale("C6:minor").s("gm_music_box").gain(.75).crush(8).distort(.4).sometimes(x=>x.fast(2))],
-  [16, n("0*16").s("sine").gain(.5).crush(2).distort(.9).vibrato(10)],
-  [8,  n("<7 5 3 0>/2").scale("C4:minor").s("gm_music_box").gain(saw.range(.5, 0).slow(8)).room(1).crush(16)],
-  [8,  silence]
-)
-
-$: arrange(
-  [24, silence],
-  [16, n("<[~ 7 ~ 10] [~ 12 ~ 14]>").scale("C5:minor").s("gm_flute").gain(.3).room(.8).attack(.5).release(.5)],
-  [16, n("<[~ 7 ~ 10] [~ 12 ~ 14]>").scale("C5:minor").s("gm_flute").gain(.4).crush(10).distort(.2).rev()],
-  [16, n("~ [0 2 3 5 7 8 10 12]*2").s("square").gain(.3).crush(4).distort(.8).lpf(sine.range(200, 4000).slow(2))],
-  [16, silence]
-)
-
-$: arrange(
-  [40, silence],
-  [16, s("sine").freq(sine.range(50, 5000).slow(1)).gain(.2).distort(.9)],
-  [16, s("sawtooth").freq(perlin.range(20, 10000)).gain(.3).crush(2).distort(.9)],
-  [16, silence]
-)
+.reset(40)

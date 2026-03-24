@@ -1,0 +1,62 @@
+// 🛹 "Concrete Jungle" — Energetic Skate Punk / Garage Rock
+// At 114 BPM: intro(8) + verse1(16) + chorus(16) + verse2(16) + bridge(12) + chorus(16) + outro(8) = 92 bars ≈ 3:13
+
+setcpm(114 / 4)
+
+$: s("vinyl:2").gain(.12).room(1).loop(1).lpf(3000)
+
+$: arrange(
+  [8,  s("bd ~ [sd:1,cp] ~").bank("RolandTR909").gain(.8).room(.2)],
+  [16, s("bd bd [sd:1,cp] bd, hh*8").bank("RolandTR909").gain(".9 .85").room(.15).swing(2)],
+  [16, s("bd [bd bd] [sd:1,cp,oh] [bd sd:1], [oh!4, hh*8]").bank("RolandTR909").gain(".95 .9").room(.1).every(4, x=>x.fast(2))],
+  [16, s("bd bd [sd:1,cp] bd, hh*8").bank("RolandTR909").gain(".9 .85").room(.15).swing(2)],
+  [12, s("bd ~ ~ ~, ~ sd:1 ~ ~").bank("RolandTR909").gain(.7).room(.5).slow(2)],
+  [16, s("bd [bd bd] [sd:1,cp,oh] [bd sd:1], [oh!4, hh*8]").bank("RolandTR909").gain(".95 .9").room(.1).every(8, x=>x.fast(2))],
+  [8,  s("bd ~ ~ ~, [sd:1*4]/2").bank("RolandTR909").gain(saw.slow(8).range(.8, 0)).room(.4)]
+)
+
+$: arrange(
+  [8,  note("<d2 g2 a2 g2>").s("gm_electric_bass_pick").struct("x x ~ x").gain(.8).room(.2)],
+  [16, note("<d2 d2 g2 a2>").s("gm_electric_bass_pick").struct("x x x x x x x x").gain(.85).room(.1)],
+  [16, note("<d2 b1 g2 a2>").s("gm_electric_bass_pick").struct("x*8").gain(.9).room(.1)],
+  [16, note("<d2 d2 g2 a2>").s("gm_electric_bass_pick").struct("x x x x x x x x").gain(.85).room(.1)],
+  [12, note("<d2 g2 b1 a1>").s("gm_electric_bass_pick").struct("x ~ ~ ~").gain(.75).room(.3).slow(2)],
+  [16, note("<d2 b1 g2 a2>").s("gm_electric_bass_pick").struct("x*8").gain(.9).room(.1)],
+  [8,  note("d1").s("gm_electric_bass_pick").gain(saw.slow(8).range(.7, 0)).room(.4)]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, chord("<D5 G5 A5 G5>").s("gm_overdriven_guitar").struct("x x ~ x x x ~ x").gain(.6).distort(.2).lpf(4000)],
+  [16, chord("<D5 B5 G5 A5>").s("gm_overdriven_guitar").struct("x*16").gain(.7).distort(.4).lpf(5000).every(4, x=>x.crush(8))],
+  [16, chord("<D5 G5 A5 G5>").s("gm_overdriven_guitar").struct("x x ~ x x x ~ x").gain(.6).distort(.2).lpf(4000)],
+  [12, chord("<D5 G5 B5 A5>").s("gm_overdriven_guitar").struct("x ~ ~ ~").gain(.5).distort(.1).room(.6).slow(2)],
+  [16, chord("<D5 B5 G5 A5>").s("gm_overdriven_guitar").struct("x*16").gain(.7).distort(.4).lpf(5000)],
+  [8,  chord("D5").s("gm_overdriven_guitar").gain(saw.slow(8).range(.6, 0)).distort(.5).room(.8)]
+)
+
+$: arrange(
+  [8,  n("<0 3 5 7>").scale("D4:pentatonic").s("gm_distortion_guitar").gain(.4).room(.5).delay(".2:.1:.3")],
+  [16, silence],
+  [16, n("<[~ 7] [~ 10] [~ 12] [14 12]>").scale("D5:pentatonic").s("gm_distortion_guitar").gain(.55).room(.3).delay(".1:.05:.2").every(2, x=>x.sometimes(y=>y.add(note(12))))],
+  [16, silence],
+  [12, n("<7 5 3 0>").scale("D4:pentatonic").s("gm_distortion_guitar").gain(.45).room(.7).delay(".4:.3:.5").slow(2)],
+  [16, n("<[12 14] [15 17] [19 17] [14 12]>").scale("D5:pentatonic").s("gm_distortion_guitar").gain(.6).room(.3).delay(".1:.05:.2")],
+  [8,  silence]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, silence],
+  [16, s("hc*16").gain(perlin.range(.1, .3)).pan(sine.slow(4))],
+  [16, silence],
+  [12, silence],
+  [16, s("hc*16").gain(perlin.range(.15, .35)).pan(sine.slow(2))],
+  [8,  silence]
+)
+
+$: arrange(
+  [40, silence],
+  [12, n("d3").s("gm_synth_strings_1").attack(2).gain(.3).room(.8).lpf(800)],
+  [40, silence]
+)

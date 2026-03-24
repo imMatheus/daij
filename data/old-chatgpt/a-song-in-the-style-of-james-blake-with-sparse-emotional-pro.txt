@@ -1,0 +1,55 @@
+// 🎵 "Hollow Light" — Sparse Emotional Future Soul / Post-R&B
+// At 74 BPM: intro(8) + verse(16) + chorus(16) + verse2(16) + chorus2(16) + outro(8) = 80 bars ≈ 2:54
+
+setcpm(74 / 4)
+
+$: s("vinyl:2")
+  .gain(.14)
+  .room(1)
+  .loop(1)
+  .lpf(2400)
+
+$: arrange(
+  [8,  s("~ ~ ~ ~, ~ ~ ~ ~").bank("RolandTR808").gain(.0)],
+  [16, s("bd ~ ~ ~, ~ ~ sd ~, ~ hh*4 ~ ~").bank("RolandTR808").cut(1).swing(3).room(.35).gain(".72 .64 .3")],
+  [16, s("bd ~ ~ bd, ~ [cp,sd] ~ ~, hh*8").bank("RolandTR808").cut(1).swing(4).room(.32).gain(".8 .72 .35").every(4, x => x.press())],
+  [16, s("bd ~ ~ ~, ~ ~ sd ~, ~ hh*4 ~ ~").bank("RolandTR808").cut(1).swing(3).room(.35).gain(".72 .64 .3").sometimes(x => x.rev())],
+  [16, s("bd ~ bd ~, ~ [cp,sd] ~ [~ cp], [hh oh hh hh]*2").bank("RolandTR808").cut(1).swing(4).room(.3).gain(".84 .76 .38").every(4, x => x.fast(2).gain(.55))],
+  [8,  s("bd ~ ~ ~, ~ ~ cp ~").bank("RolandTR808").swing(4).room(.55).gain(saw.slow(8).range(.62,.1))]
+)
+
+$: arrange(
+  [8,  note("<f1 ~ ~ ~>").s("gm_acoustic_bass").decay(.6).sustain(.4).room(.35).gain(.38)],
+  [16, note("<[f1 ~ c2 ~] [db1 ~ ~ db1] [ab1 ~ eb2 ~] [eb1 ~ ~ eb1]>").s("gm_acoustic_bass").decay(.3).sustain(.5).room(.22).gain(.72)],
+  [16, note("<[f1 ~ c2 ~] [db1 ~ ~ db1] [ab1 ~ eb2 ~] [eb1 ~ bb1 ~]>").s("gm_acoustic_bass").decay(.26).sustain(.55).room(.2).gain(.78).sometimes(x => x.add(note(12)).gain(.35))],
+  [16, note("<[f1 ~ c2 ~] [db1 ~ ~ db1] [ab1 ~ eb2 ~] [eb1 ~ ~ eb1]>").s("gm_acoustic_bass").decay(.3).sustain(.5).room(.22).gain(.72)],
+  [16, note("<[f1 ~ c2 ~] [db1 ~ ~ db1] [ab1 ~ eb2 ~] [eb1 ~ bb1 ~]>").s("gm_acoustic_bass").decay(.24).sustain(.56).room(.22).gain(.8).every(4, x => x.fast(2).gain(.6))],
+  [8,  note("<f1 ~ db1 ~ ab1 ~ eb1 ~>/2").s("gm_acoustic_bass").decay(.5).sustain(.35).room(.4).gain(.5).speed(.97)]
+)
+
+$: arrange(
+  [8,  chord("<Fm9 Dbmaj7>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(1.2).decay(1).sustain(.7).release(2.5).lpf(1100).room(.8).gain(.28)],
+  [16, chord("<Fm9 Dbmaj7 Abmaj7 Eb7sus4>").dict('ireal').voicing().s("gm_epiano2").struct("~ [x ~] ~ [x ~]").lpf(1800).room(.55).delay(".28:.22:.34").gain(.46).speed(.99)],
+  [16, chord("<Fm9 Dbmaj7 Abmaj7 Eb7sus4>").dict('ireal').voicing().s("gm_epiano1").struct("[~ x]*2").lpf(2200).room(.48).delay(".22:.18:.3").gain(.52).every(4, x => x.crush(14).gain(.75))],
+  [16, chord("<Fm9 Dbmaj7 Abmaj7 Eb7sus4>").dict('ireal').voicing().s("gm_epiano2").struct("~ [x ~] ~ [x ~]").lpf(1800).room(.55).delay(".28:.22:.34").gain(.46).speed(.99)],
+  [16, chord("<Fm9 Dbmaj7 Abmaj7 Eb7sus4>").dict('ireal').voicing().s("gm_epiano1").struct("[~ x]*2").lpf(2400).room(.5).delay(".24:.2:.32").gain(.54).sometimes(x => x.rev())],
+  [8,  chord("<Fm9 Dbmaj7>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(.8).sustain(.6).release(3).lpf(sine.range(500,1300).slow(8)).room(.85).gain(saw.slow(8).range(.3,.06))]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, n("<[~ 0 ~ 3] [5 ~ ~ 3] [~ 2 ~ 5] [3 ~ ~ 0]>").scale("F5:minor:pentatonic").s("sine").attack(.02).decay(.2).sustain(.5).release(.35).lpf(sine.range(700,2200).slow(10)).room(.6).delay(".34:.25:.45").gain(.28).vib(4).vibmod(.45)],
+  [16, n("<[0 ~ 3 5] [~ 7 5 ~] [3 ~ 2 ~] [~ 5 3 0]>").scale("F5:minor:pentatonic").s("sine").attack(.02).decay(.2).sustain(.5).release(.35).lpf(sine.range(1000,3000).slow(7)).room(.55).delay(".26:.2:.36").gain(.34).vib(5).vibmod(.5).sometimes(x => x.add(note(12)))],
+  [16, n("<[~ 0 ~ 3] [5 ~ ~ 3] [~ 2 ~ 5] [3 ~ ~ 0]>").scale("F5:minor:pentatonic").s("sine").attack(.02).decay(.2).sustain(.5).release(.35).lpf(sine.range(700,2200).slow(10)).room(.6).delay(".34:.25:.45").gain(.28).vib(4).vibmod(.45)],
+  [16, n("<[0 ~ 3 5] [~ 7 5 ~] [3 ~ 2 ~] [~ 5 3 0]>").scale("F5:minor:pentatonic").s("sine").attack(.02).decay(.2).sustain(.5).release(.35).lpf(sine.range(1100,3200).slow(6)).room(.58).delay(".28:.22:.38").gain(.36).vib(5).vibmod(.5).rarely(x => x.fast(2))],
+  [8,  n("<[~ ~ 3 ~] [~ 2 ~ ~] [~ 0 ~ ~] [~ ~ ~ ~]>").scale("F5:minor:pentatonic").s("sine").attack(.04).release(.7).room(.9).delay(".6:.45:.7").lpf(1200).gain(.2)]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, silence],
+  [16, n("<[~ ~ 5 ~] [7 ~ ~ ~] [~ 3 ~ 2] [0 ~ ~ ~]>").scale("F4:minor:pentatonic").s("gm_oboe").attack(.03).decay(.2).sustain(.5).release(.25).room(.62).delay(".38:.28:.5").lpf(4200).gain(.24).pan(sine.slow(6))],
+  [16, silence],
+  [16, n("<[~ ~ 5 ~] [7 ~ ~ ~] [~ 3 ~ 2] [0 ~ 2 ~]>").scale("F4:minor:pentatonic").s("gm_oboe").attack(.03).decay(.2).sustain(.5).release(.25).room(.66).delay(".4:.3:.52").lpf(4600).gain(.28).pan(sine.slow(6)).sometimes(x => x.add(note(12)).gain(.5))],
+  [8,  silence]
+)

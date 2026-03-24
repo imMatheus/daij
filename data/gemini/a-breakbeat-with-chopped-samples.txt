@@ -1,70 +1,45 @@
-// 🎵 "Fractured Rhythm" — Breakbeat with Chopped Samples
-// At 172 BPM: intro(8) + build(16) + drop(32) + breakdown(16) + drop2(16) + outro(8) = 96 bars ≈ 2:13
+// "Fractured Breaks" — high energy breakbeat with chopped vocal fragments and gritty textures
 
-setcpm(172 / 4)
+setcps(172/120/4)
 
-$: s("vinyl:2").gain(.12).room(.8).loop(1).lpf(1500)
+.stack(
+  // Chopped Breakbeat
+  s("~ [~ amit] <[~ amit] [~ amit*2]> [amit ~]")
+    .bank("amit")
+    .speed(1.1)
+    .cut(1)
+    .room(0.2).sz(0.5)
+    .gain(0.9),
 
-$: arrange(
-  [8,  s("hh*8").gain(perlin.range(.2, .5)).pan(sine.slow(4))],
-  [16, s("[bd ~ ~ ~] [~ ~ sd ~]").bank("RolandTR909").gain(.8)],
-  [32, s("[bd ~ bd ~] [sd ~ ~ bd] [bd ~ ~ ~] [sd ~ bd sd]").bank("RolandTR909").gain(.9).swing(2).every(4, x => x.fast(2)).sometimes(x => x.rev())],
-  [16, s("hh*16").gain(perlin.range(.3, .6)).lpf(sine.range(1000, 5000).slow(8))],
-  [16, s("[bd ~ bd ~] [sd ~ ~ bd] [bd ~ ~ ~] [sd ~ bd sd]").bank("RolandTR909").gain(.95).every(2, x => x.sometimes(y => y.fast(2)))],
-  [8,  s("bd ~ ~ ~").bank("RolandTR909").gain(saw.slow(8).range(.8, 0))]
+  // Amen-style layering
+  s("amencorn:3*8")
+    .slice(8, "0 [3 2] [4 1] 7 [2 5] [6 3] 1 [0 4]")
+    .speed(1.2)
+    .gain(0.8)
+    .lpf(sine.range(1000, 5000).segment(8))
+    .pan(perlin.range(0.2, 0.8)),
+
+  // Deep Sine Bass
+  note("c1 <c1 g0 f1 c1>")
+    .s("sine")
+    .decay(0.2).sustain(0.1)
+    .lpf(400)
+    .gain(1.2),
+
+  // Chopped Vocal Samples
+  s("voodoo:4*16")
+    .slice(16, "<[0 4 2 8] [12 1 15 3] [7 10 5 13] [2 2 1 0]>")
+    .speed(saw.range(0.8, 1.2).segment(4))
+    .cut(2)
+    .delay(0.4).dt(1/6).dfb(0.5)
+    .room(0.6).sz(0.8)
+    .gain(perlin.range(0.4, 0.7).segment(16)),
+
+  // Glitchy Highs
+  s("hh*16")
+    .euclid(11, 16)
+    .crush(sine.range(2, 8).segment(4))
+    .hpf(4000)
+    .gain(0.5)
 )
-
-$: arrange(
-  [8,  silence],
-  [16, silence],
-  [32, s("hh*16").bank("RolandTR909").gain(perlin.range(.4, .7)).cut(1).every(8, x => x.fast(2))],
-  [16, silence],
-  [16, s("hh*16").bank("RolandTR909").gain(perlin.range(.5, .8)).cut(1)],
-  [8,  silence]
-)
-
-$: arrange(
-  [8,  note("c1").s("sine").gain(.3).lpf(200).attack(2)],
-  [16, note("<c1 eb1 f1 g1>").s("gm_synth_bass_1").gain(.7).lpf(400).room(.2)],
-  [32, note("<c1*2 eb1*2 f1*2 g1 [g1 bb1]>").s("gm_synth_bass_1").gain(.85).lpf(600).distort(.2)],
-  [16, note("<c1 eb1 f1 g1>/2").s("gm_synth_bass_1").gain(.6).lpf(300).room(.4)],
-  [16, note("<c1*2 eb1*2 f1*2 g1 [g1 bb1]>").s("gm_synth_bass_1").gain(.85).lpf(500).distort(.3)],
-  [8,  note("c1").s("gm_synth_bass_1").gain(saw.slow(8).range(.6, 0)).lpf(200)]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, chord("<Cm7 Ebmaj7 F7 G7>").dict('ireal').voicing().s("gm_epiano1").gain(.4).room(.6).lpf(1200)],
-  [32, chord("<Cm7 Ebmaj7 F7 G7>").dict('ireal').voicing().s("gm_epiano1")
-       .struct("[x ~ x x] [~ x x ~] [x x ~ x] [~ ~ x ~]").fast(2)
-       .gain(.65).room(.4).delay(".2:.1:.3").crush(10).every(4, x => x.rev())],
-  [16, chord("<Cm7 Ebmaj7 F7 G7>").dict('ireal').voicing().s("gm_epiano1").gain(.3).room(.8).lpf(800).attack(.5)],
-  [16, chord("<Cm7 Ebmaj7 F7 G7>").dict('ireal').voicing().s("gm_epiano1")
-       .struct("[x ~ x x] [~ x x ~] [x x ~ x] [~ ~ x ~]").fast(2)
-       .gain(.7).room(.3).delay(".1:.05:.2").crush(8)],
-  [8,  silence]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, silence],
-  [32, n("<0 3 5 7 10 12 7 5>").scale("C5:minor")
-       .s("gm_lead_1_square").struct("x(3,8)").fast(2)
-       .gain(.45).room(.5).delay(".3:.2:.4").lpf(sine.range(800, 3000).slow(4))],
-  [16, n("<12 10 7 5>/2").scale("C5:minor").s("gm_flute")
-       .gain(.35).room(.9).delay(".5:.4:.6").vib(5)],
-  [16, n("<0 3 5 7 10 12 7 5>").scale("C5:minor")
-       .s("gm_lead_1_square").struct("x(5,8)").fast(2)
-       .gain(.5).room(.4).delay(".2:.1:.3")],
-  [8,  silence]
-)
-
-$: arrange(
-  [24, silence],
-  [32, s("alphabet").slice(16, "0 4 2 6 8 12 10 14").fast(4)
-       .gain(.55).room(.4).pan(sine.slow(2)).lpf(2500).sometimes(x => x.rev())],
-  [16, silence],
-  [16, s("alphabet").slice(16, "1 5 3 7 9 13 11 15").fast(4)
-       .gain(.6).room(.3).pan(perlin).lpf(3000)],
-  [8,  silence]
-)
+.reset(4)

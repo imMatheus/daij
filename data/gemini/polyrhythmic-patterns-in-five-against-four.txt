@@ -1,66 +1,11 @@
-// 🎵 "Phase Alignment" — IDM / Polyrhythmic Techno
-// At 94 BPM: intro(8) + build(16) + groove(16) + drift(16) + full(16) + outro(8) = 80 bars ≈ 3:24
-
-setcpm(94 / 4)
-
-$: s("vinyl:2").gain(.12).room(1).loop(1).hpf(200)
-
-// The "4" - Grounding Pulse
-$: arrange(
-  [8,  s("bd ~ sd ~").bank("RolandTR909").gain(.8).room(.3)],
-  [16, s("bd ~ sd ~, ~ ~ ~ ~").bank("RolandTR909").gain(.85).room(.3)],
-  [16, s("bd ~ sd ~, hh*4").bank("RolandTR909").gain(.9).room(.25)],
-  [16, s("bd ~ sd ~").bank("RolandTR909").gain(.8).room(.4).lpf(800)],
-  [16, s("bd ~ sd ~, hh*8").bank("RolandTR909").gain(.95).room(.25).cut(1)],
-  [8,  s("bd ~ ~ ~").bank("RolandTR909").gain(.7).room(.5)]
-)
-
-// The "5" - Polyrhythmic Counterpoint
-$: arrange(
-  [8,  silence],
-  [16, s("cp*5").bank("RolandTR909").gain(.4).pan(sine.slow(4)).room(.4).lpf(2000)],
-  [16, s("cp*5, [~ oh]*5").bank("RolandTR909").gain(.45).pan(sine.slow(3)).room(.35)],
-  [16, s("cp(5,16)").bank("RolandTR909").gain(.35).pan(sine.slow(6)).room(.5).lpf(1500)],
-  [16, s("cp*5, [lt mt ht lt mt]*2").bank("RolandTR909").gain(.5).pan(sine.slow(2)).room(.3)],
-  [8,  s("cp*5").bank("RolandTR909").gain(.3).lpf(1000).fadeout()]
-)
-
-// Bass: 5-note sequence phasing against 4/4 grid
-// 5 notes: C, Eb, G, Bb, D spread over the measure or cycling
-$: arrange(
-  [8,  note("<c2 eb2 g2 bb1 d2>").s("gm_synth_bass_2").struct("x*4").gain(.7).lpf(400)],
-  [16, note("<c2 eb2 g2 bb1 d2>").s("gm_synth_bass_2").struct("x*5").gain(.75).lpf(600).resonance(2)],
-  [16, note("<c2 eb2 g2 bb1 d2>").s("gm_synth_bass_2").struct("x*5").gain(.8).lpf(800).distort(.1)],
-  [16, note("<c2 eb2 g2 bb1 d2>").s("gm_synth_bass_2").struct("x(3,8)").gain(.7).lpf(300)],
-  [16, note("<c2 eb2 g2 bb1 d2>").s("gm_synth_bass_2").struct("x*5").gain(.85).lpf(1200).sawtooth().cut(1)],
-  [8,  note("c2").s("gm_synth_bass_2").gain(.6).lpf(200)]
-)
-
-// Arpeggio: 5 against 4 melodic ostinato
-$: arrange(
-  [8,  silence],
-  [16, n("0 2 3 7 10").scale("C3:minor").s("gm_marimba").struct("x*5").gain(.4).room(.6).delay(".25:.5:.3").lpf(1200)],
-  [16, n("0 2 3 7 10").scale("C3:minor").s("gm_marimba").struct("x*5").gain(.5).room(.5).delay(".25:.4:.4").lpf(2000).every(4, x=>x.rev())],
-  [16, n("0 2 3 7 10").scale("C3:minor").s("gm_marimba").struct("x*5").gain(.4).room(.7).delay(".33:.5:.5").lpf(800)],
-  [16, n("0 2 3 7 10").scale("C4:minor").s("gm_kalimba").struct("x*5").gain(.6).room(.4).delay(".125:.3:.2").lpf(2500)],
-  [8,  n("0 2 3 7 10").scale("C3:minor").s("gm_marimba").struct("x*5").gain(.3).room(.8).lpf(600)]
-)
-
-// Pads: Slow moving texture to bind the rhythm
-$: arrange(
-  [8,  chord("Cm9").dict('ireal').voicing().s("gm_pad_2_warm").gain(.3).attack(1).release(2).lpf(800)],
-  [16, chord("<Cm9 Abmaj7 Fm9 Bb13>").dict('ireal').voicing().s("gm_pad_2_warm").gain(.35).attack(.5).release(1.5).lpf(1000)],
-  [16, chord("<Cm9 Abmaj7 Fm9 Bb13>").dict('ireal').voicing().s("gm_pad_2_warm").gain(.4).attack(.2).release(1).lpf(1500).tremolo(4).tremolodepth(.3)],
-  [16, chord("<Cm9 Abmaj7>").dict('ireal').voicing().s("gm_choir_aahs").gain(.25).attack(2).release(3).lpf(600).room(1)],
-  [16, chord("<Cm9 Abmaj7 Fm9 Bb13>").dict('ireal').voicing().s("gm_pad_2_warm").gain(.45).attack(.1).release(1).lpf(2000)],
-  [8,  chord("Cm9").dict('ireal').voicing().s("gm_pad_2_warm").gain(.2).attack(2).release(4).lpf(400)]
-)
-
-// Glitch/Texture layer - Poly-metered noise
-$: arrange(
-  [24, silence],
-  [16, s("glitch").n("<0 1 2 3 4>").struct("x*5").gain(.15).pan(sine.fast(5)).cut(1).speed(2)],
-  [16, silence],
-  [16, s("glitch").n("<0 1 2 3 4>").struct("x*5").gain(.2).pan(sine.fast(3)).cut(1).speed(1.5).distort(.2)],
-  [8,  silence]
+// 🎵 "Quintuple Pulse" — Experimental polyrhythmic 5:4 groove
+setcps(1.25);
+stack(
+  s("bd*4").bank("RolandTR909").gain(1.2),
+  s("hc*5").bank("RolandTR808").gain(sine.range(0.3, 0.8).slow(4)).pan(perlin.slow(2)),
+  s("~ [sd,cp] ~ <sd [~ sd]>").bank("RolandTR909").room(0.4).gain(0.8),
+  note("c1(3,4,1)").s("sawtooth").lpf(sine.range(200, 1800).slow(8)).resonance(15).gain(0.6),
+  note("c3 g3 d3 f3 bb3").s("triangle").decay(0.15).room(0.6).delay(0.3).gain(0.5).pan(sine.slow(5)),
+  note("g4 d4 f4 bb4 c5").s("sine").struct("0 1 0 1 0").gain(0.25).room(1).rev(),
+  note("c5 eb5 g5 bb5 d6").s("superfm").struct("1 1 1 1 1").gain(0.2).velocity(0.4).lpf(sine.range(1000, 4000).slow(12))
 )

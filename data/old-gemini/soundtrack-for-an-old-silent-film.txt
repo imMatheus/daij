@@ -1,0 +1,59 @@
+// 🎵 "The Great Keystone Chase" — Silent Film Ragtime
+// At 132 BPM: intro(8) + theme(16) + villain(12) + chase(24) + recap(16) + finale(8) = 84 bars ≈ 2:33
+
+setcpm(132 / 4)
+
+$: s("vinyl:1").gain(.22).room(.8).loop(1).lpf(1500).hpf(300).pan(sine.slow(12))
+
+$: arrange(
+  [8,  silence],
+  [16, note("<c2 g1 f1 g1>").s("gm_acoustic_bass").gain(.85).room(.2).speed(.98).struct("x ~ x ~")],
+  [12, note("<c2 g1 c2 g1>").s("gm_acoustic_bass").gain(.92).room(.35).speed(.97).struct("x x x x")],
+  [24, note("<c2 g1 f1 g1>").s("gm_acoustic_bass").gain(.88).room(.2).speed(.98).struct("x x x x").fast(1.5)],
+  [16, note("<c2 g1 f1 g1>").s("gm_acoustic_bass").gain(.85).room(.2).speed(.98).struct("x ~ x ~")],
+  [8,  note("c1").s("gm_acoustic_bass").gain(saw.slow(8).range(.8, 0)).room(.5).speed(.95)]
+)
+
+$: arrange(
+  [8,  n("<0 4 7 9>").scale("C4:major").s("gm_epiano1").gain(.7).room(.4).speed(perlin.range(.98,1.02))],
+  [16, n("<[0 4 7 9] [7 4 2 0] [5 9 12 14] [12 11 10 9]>").scale("C4:major").s("gm_epiano1").struct("x [~ x] x [x ~]").gain(.75).room(.3).speed(perlin.range(.99,1.01))],
+  [12, n("<[0 3 7 8] [10 8 7 3]>").scale("C4:minor").s("gm_epiano1").struct("x [~ x] x x").gain(.82).room(.45).crush(10).speed(.98)],
+  [24, n("<[0 4 7 9] [7 4 0 4] [5 9 12 14] [12 9 5 9]>").scale("C5:major").s("gm_epiano1").struct("x x [~ x] x").fast(2).gain(.72).room(.3)],
+  [16, n("<[0 4 7 9] [7 4 2 0] [5 9 12 14] [12 11 10 9]>").scale("C4:major").s("gm_epiano1").struct("x [~ x] x [x ~]").gain(.75).room(.3)],
+  [8,  n("<0 7 12 0>").scale("C4:major").s("gm_epiano1").gain(saw.slow(8).range(.8, 0)).room(.6).speed(.96)]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, n("<7 11 14 16>").scale("C5:major").s("gm_epiano2").struct("~ x ~ x").gain(.45).room(.5).detune(40).speed(.99)],
+  [12, silence],
+  [24, n("<[7 11 14 16]*2>").scale("C5:major").s("gm_epiano2").struct("x*4").gain(.48).room(.4).detune(55).speed(1.01)],
+  [16, silence],
+  [8,  silence]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, s("~ [sd:3 ~] ~ sd:3").bank("RolandTR808").gain(.55).room(.2).crush(8)],
+  [12, s("sd:3*4").bank("RolandTR808").gain(.65).room(.3).crush(6)],
+  [24, s("sd:3*8").bank("RolandTR808").gain(.55).room(.2).fast(1.5)],
+  [16, s("~ [sd:3 ~] ~ sd:3").bank("RolandTR808").gain(.55).room(.2)],
+  [8,  s("cp").bank("RolandTR808").gain(saw.slow(8).range(.6, 0)).room(.8)]
+)
+
+$: arrange(
+  [24, silence],
+  [12, n("<0 1 2 3>").scale("C4:chromatic").s("gm_clavinet").gain(.55).room(.6).delay(".2:.2:.4").vib(6)],
+  [24, silence],
+  [16, silence],
+  [8,  silence]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, silence],
+  [12, n("<0 3 7 8>").scale("C5:minor").s("gm_synth_strings_1").attack(1).gain(.3).room(.7)],
+  [24, silence],
+  [16, silence],
+  [8,  silence]
+)

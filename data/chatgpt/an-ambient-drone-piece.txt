@@ -1,209 +1,70 @@
-// 🎵 "Fog Cathedral" — Ambient Drone / Cinematic Slow Bloom
-// At 120 BPM: intro(8) + verse(16) + chorus(16) + verse2(16) + chorus2(16) + outro(8) = 80 bars ≈ 2:40
-
-setcpm(120 / 4)
-
-$: arrange(
-  [8,  s("vinyl:2").gain(.12).room(1).loop(1).lpf(2200)],
-  [16, s("vinyl:2").gain(.14).room(1).loop(1).lpf(2600)],
-  [16, s("vinyl:2").gain(.16).room(1).loop(1).lpf(3000)],
-  [16, s("vinyl:2").gain(.14).room(1).loop(1).lpf(2600)],
-  [16, s("vinyl:2").gain(.16).room(1).loop(1).lpf(3000)],
-  [8,  s("vinyl:2").gain(saw.slow(8).range(.12,.02)).room(1).loop(1).lpf(1800)]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, s("bd(2,16), ~ ~ ~ ~ ~ ~ ~, hh*8")
-       .bank("RolandTR808")
-       .cut(1)
-       .gain(".35 .2 .18")
-       .room(.5)
-       .lpf(1800)
-       .swing(4)],
-  [16, s("bd(3,16), ~ cp ~ ~ ~ cp ~, [hh*8 oh*2]")
-       .bank("RolandTR808")
-       .cut(1)
-       .gain(".42 .3 .22")
-       .room(.45)
-       .lpf(2200)
-       .swing(4)
-       .every(4, x => x.press())],
-  [16, s("bd(2,16), ~ ~ ~ ~ ~ ~ ~, hh*8")
-       .bank("RolandTR808")
-       .cut(1)
-       .gain(".34 .2 .16")
-       .room(.55)
-       .lpf(1700)
-       .swing(4)],
-  [16, s("bd(3,16), ~ cp ~ ~ ~ cp ~, [hh*8 oh*2]")
-       .bank("RolandTR808")
-       .cut(1)
-       .gain(".45 .32 .24")
-       .room(.45)
-       .lpf(2300)
-       .swing(4)
-       .every(4, x => x.fast(2).gain(.7))],
-  [8,  s("bd ~ ~ ~, ~ ~ ~ ~")
-       .bank("RolandTR808")
-       .gain(saw.slow(8).range(.25,.02))
-       .room(.7)
-       .lpf(1200)]
-)
-
-$: arrange(
-  [8,  note("<c2>/2")
-       .s("gm_acoustic_bass")
-       .attack(.4).decay(.8).sustain(.8).release(1.4)
-       .room(.55).gain(.38).lpf(900)],
-  [16, note("<c2 eb1 ab1 g1>/4")
-       .s("gm_acoustic_bass")
-       .attack(.2).decay(.6).sustain(.85).release(1.2)
-       .room(.45).gain(.46).lpf(1200)
-       .sometimes(x => x.add(note(12)).gain(.2))],
-  [16, note("<c2 g1 ab1 eb1>/2")
-       .s("gm_acoustic_bass")
-       .attack(.08).decay(.35).sustain(.9).release(1)
-       .room(.4).gain(.52).lpf(1500)
-       .every(8, x => x.fast(2).gain(.6))],
-  [16, note("<c2 eb1 ab1 g1>/4")
-       .s("gm_acoustic_bass")
-       .attack(.2).decay(.6).sustain(.85).release(1.2)
-       .room(.45).gain(.46).lpf(1200)],
-  [16, note("<c2 g1 ab1 eb1>/2")
-       .s("gm_acoustic_bass")
-       .attack(.08).decay(.35).sustain(.9).release(1)
-       .room(.42).gain(.54).lpf(1600)
-       .every(8, x => x.fast(2).gain(.6))],
-  [8,  note("<c2 ab1>/2")
-       .s("gm_acoustic_bass")
-       .attack(.5).decay(1).sustain(.7).release(2)
-       .room(.7).gain(saw.slow(8).range(.35,.05)).lpf(700)]
-)
-
-$: arrange(
-  [8,  chord("<Cm9 Ab^7>/2")
-       .dict('ireal').voicing()
-       .s("gm_synth_strings_1")
-       .attack(1.2).decay(1).sustain(.85).release(2.4)
-       .room(.9).roomsize(8).gain(.33)
-       .lpf(sine.range(500,1300).slow(12))],
-  [16, chord("<Cm9 Ebmaj7 Ab^7 Gm7>")
-       .dict('ireal').voicing()
-       .s("gm_synth_strings_1")
-       .attack(.6).decay(.8).sustain(.82).release(2)
-       .struct("x ~ ~ ~")
-       .room(.8).roomsize(7).gain(.38)
-       .lpf(sine.range(700,2200).slow(10))
-       .delay(".35:.25:.35")],
-  [16, chord("<Cm9 Ebmaj7 Ab^7 Gm7>")
-       .dict('ireal').voicing()
-       .s("gm_string_ensemble_1")
-       .attack(.3).decay(.6).sustain(.88).release(1.8)
-       .struct("[x ~ x ~]/2")
-       .room(.75).roomsize(6).gain(.44)
-       .lpf(sine.range(900,3200).slow(8))
-       .delay(".25:.2:.25")],
-  [16, chord("<Cm9 Ebmaj7 Ab^7 Gm7>")
-       .dict('ireal').voicing()
-       .s("gm_synth_strings_1")
-       .attack(.6).decay(.8).sustain(.82).release(2)
-       .struct("x ~ ~ ~")
-       .room(.8).roomsize(7).gain(.38)
-       .lpf(sine.range(700,2200).slow(10))
-       .delay(".35:.25:.35")],
-  [16, chord("<Cm9 Ebmaj7 Ab^7 Gm7>")
-       .dict('ireal').voicing()
-       .s("gm_string_ensemble_1")
-       .attack(.3).decay(.6).sustain(.88).release(1.8)
-       .struct("[x ~ x ~]/2")
-       .room(.75).roomsize(6).gain(.44)
-       .lpf(sine.range(900,3200).slow(8))
-       .delay(".25:.2:.25")
-       .every(8, x => x.rev())],
-  [8,  chord("<Cm9 Ab^7>/2")
-       .dict('ireal').voicing()
-       .s("gm_synth_strings_1")
-       .attack(1.5).decay(1).sustain(.75).release(3)
-       .room(.95).roomsize(9).gain(saw.slow(8).range(.3,.04))
-       .lpf(sine.range(300,1100).slow(10))]
-)
-
-$: arrange(
-  [8,  n("<0 ~ ~ 2>").scale("C5:minor:pentatonic")
-       .s("triangle")
-       .attack(.4).decay(.5).sustain(.7).release(1.2)
-       .room(.85).delay(".45:.3:.5").gain(.2)
-       .lpf(1400)],
-  [16, n("<[0 ~ ~ 3] [~ 5 ~ ~] [7 ~ 5 ~] [3 ~ ~ 2]>")
-       .scale("C5:minor:pentatonic")
-       .s("triangle")
-       .attack(.08).decay(.2).sustain(.7).release(.6)
-       .room(.7).delay(".35:.25:.4").gain(.28)
-       .lpf(sine.range(1200,3400).slow(12))
-       .pan(sine.slow(7))
-       .rarely(x => x.add(note(12)))],
-  [16, n("<[0 2 ~ 5] [~ 7 5 ~] [3 ~ 2 ~] [~ 5 3 0]>")
-       .scale("C5:minor:pentatonic")
-       .s("gm_flute")
-       .attack(.03).decay(.15).sustain(.65).release(.4)
-       .room(.6).delay(".25:.2:.3").gain(.34)
-       .lpf(sine.range(1800,4800).slow(8))
-       .pan(sine.slow(5))
-       .sometimes(x => x.add(note(12)))],
-  [16, n("<[0 ~ ~ 3] [~ 5 ~ ~] [7 ~ 5 ~] [3 ~ ~ 2]>")
-       .scale("C5:minor:pentatonic")
-       .s("triangle")
-       .attack(.08).decay(.2).sustain(.7).release(.6)
-       .room(.7).delay(".35:.25:.4").gain(.28)
-       .lpf(sine.range(1200,3400).slow(12))
-       .pan(sine.slow(7))],
-  [16, n("<[0 2 ~ 5] [~ 7 5 ~] [3 ~ 2 ~] [~ 5 3 0]>")
-       .scale("C5:minor:pentatonic")
-       .s("gm_flute")
-       .attack(.03).decay(.15).sustain(.65).release(.4)
-       .room(.6).delay(".25:.2:.3").gain(.34)
-       .lpf(sine.range(1800,4800).slow(8))
-       .pan(sine.slow(5))
-       .sometimes(x => x.add(note(12)))],
-  [8,  n("<0 ~ ~ ~>").scale("C5:minor:pentatonic")
-       .s("triangle")
-       .attack(1).decay(1).sustain(.6).release(2.2)
-       .room(.95).delay(".6:.5:.7").gain(saw.slow(8).range(.2,.03))
-       .lpf(1000)]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, n("<[~ ~ 7 ~] [~ 5 ~ ~] [3 ~ ~ ~] [~ ~ 2 ~]>")
-       .scale("C6:dorian")
-       .s("sine")
-       .attack(.2).decay(.3).sustain(.5).release(.9)
-       .room(.8).delay(".5:.35:.55").gain(.16)
-       .lpf(2200)
-       .pan(sine.slow(9))],
-  [16, n("<[~ 9 ~ 7] [~ ~ 10 ~] [7 ~ ~ 5] [~ 3 ~ ~]>")
-       .scale("C6:dorian")
-       .s("sine")
-       .attack(.04).decay(.12).sustain(.6).release(.45)
-       .room(.75).delay(".35:.25:.4").gain(.21)
-       .lpf(3200)
-       .pan(sine.slow(6))
-       .every(6, x => x.fast(2).gain(.5))],
-  [16, n("<[~ ~ 7 ~] [~ 5 ~ ~] [3 ~ ~ ~] [~ ~ 2 ~]>")
-       .scale("C6:dorian")
-       .s("sine")
-       .attack(.2).decay(.3).sustain(.5).release(.9)
-       .room(.8).delay(".5:.35:.55").gain(.16)
-       .lpf(2200)
-       .pan(sine.slow(9))],
-  [16, n("<[~ 9 ~ 7] [~ ~ 10 ~] [7 ~ ~ 5] [~ 3 ~ ~]>")
-       .scale("C6:dorian")
-       .s("sine")
-       .attack(.04).decay(.12).sustain(.6).release(.45)
-       .room(.75).delay(".35:.25:.4").gain(.21)
-       .lpf(3200)
-       .pan(sine.slow(6))
-       .every(6, x => x.fast(2).gain(.5))],
-  [8,  silence]
-)
+// 🎵 "Fogbound Monolith" — breathing ambient drone with granular halos
+samples('github:tidalcycles/dirt-samples')
+setcps(0.55)
+note("<[0 ~ 7] [0 2 9] [~ 3 10] [0 5 12]>").scale("D:minor").slow(8)
+  .s("sine")
+  .attack(1.5)
+  .release(7)
+  .legato(2)
+  .gain(0.22)
+  .lpf(perlin.slow(10).range(180, 1200))
+  .pan(sine.slow(11).range(0.2, 0.8))
+  .room(0.95)
+  .size(0.98)
+  .delay(0.38)
+  .delayfeedback(0.62)
+  .stack(
+    note("<[-12 -5] [-10 -3] [-8 -1] [-7 0]>").scale("D:minor").slow(16)
+      .s("sawtooth")
+      .attack(2.2)
+      .release(9)
+      .gain(0.15)
+      .lpf(perlin.slow(14).range(130, 700))
+      .hpf(60)
+      .shape(0.08)
+      .room(0.9)
+      .size(1)
+  )
+  .stack(
+    s("<ambi:1 ~ [ambi:2 ambi:3] ~>")
+      .slow(4)
+      .euclid(5,8)
+      .gain(0.18)
+      .begin("<0 0.04 0.08>")
+      .end("<0.7 0.82 0.9>")
+      .lpf(perlin.slow(12).range(500, 2600))
+      .pan(perlin.slow(9).range(0.15, 0.85))
+      .room(1)
+      .size(1)
+      .delay(0.25)
+  )
+  .stack(
+    s("<~ [wind:1 ~ wind:2] ~ [~ wind:3]>")
+      .slow(2)
+      .gain(0.12)
+      .hpf(1600)
+      .lpf(6400)
+      .room(1)
+      .size(1)
+      .delay(0.5)
+      .delayfeedback(0.35)
+  )
+  .stack(
+    s("<~ ~ [hh(3,16) ~ hh(5,16)] ~>")
+      .gain(0.05)
+      .hpf(4200)
+      .pan(sine.slow(7).range(0.35, 0.65))
+      .room(0.6)
+  )
+  .stack(
+    note("<[14 17] ~ [12 15] ~>").scale("D:minor").slow(8)
+      .s("triangle")
+      .euclid(3,8)
+      .attack(0.02)
+      .release(1.8)
+      .gain(0.08)
+      .lpf(sine.slow(8).range(900, 3200))
+      .delay(0.125)
+      .room(0.74)
+  )
+  .reset(40)

@@ -1,94 +1,147 @@
-Here's the song:
+// 🎵 "The Gathering" — Orchestral Crescendo, layers building to full tutti
+// At 80 BPM: solo(4) + duo(4) + trio(4) + quartet(4) + quintet(4) + tutti(6) + resolve(2) = 28 bars ≈ 84s
 
-```
-// 🎻 "The Gathering" — Orchestral Build / Additive Layers
-// At 96 BPM: solo(8) + duo(8) + trio(8) + quartet(8) + ensemble(16) + tutti(16) + climax(16) + outro(8) = 88 bars ≈ 3:40
+setcpm(80 / 4)
 
-setcpm(96 / 4)
+$: s("vinyl:2").gain(.1).room(1).loop(1).lpf(2400)
 
-// Layer 1: String Pad — the canvas, present throughout
+// Layer 1 — Strings pad (present from the start, the harmonic bed)
 $: arrange(
-  [8,  chord("<Dmaj7 A7sus4>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(1.5).sustain(.8).release(2).lpf(1000).room(.75).roomsize(6).gain(.32)],
-  [8,  chord("<Dmaj7 A7sus4>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(1.2).sustain(.8).release(1.5).lpf(1400).room(.7).roomsize(5).gain(.36)],
-  [8,  chord("<Dmaj7 Gmaj7>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(1).sustain(.8).release(1.5).lpf(1800).room(.65).gain(.38)],
-  [8,  chord("<Dmaj7 Gmaj7 Em7 A7>").dict('ireal').voicing().s("gm_synth_strings_1").attack(.8).sustain(.8).release(1).lpf(2200).room(.6).gain(.42)],
-  [16, chord("<Dmaj7 Gmaj7 Em7 A7>").dict('ireal').voicing().s("gm_string_ensemble_1").attack(.5).sustain(.85).release(.8).lpf(2800).room(.5).gain(.48)],
-  [16, chord("<Dmaj7 Bm7 Gmaj7 A7>").dict('ireal').voicing().s("gm_string_ensemble_1").attack(.3).sustain(.9).release(.6).lpf(3500).room(.45).gain(.52)],
-  [16, chord("<Dmaj7 Bm7 Gmaj7 A7>").dict('ireal').voicing().s("gm_string_ensemble_1").attack(.2).sustain(.9).release(.5).lpf(4000).room(.4).gain(.56)],
-  [8,  chord("<Dmaj7 A7sus4>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(1.2).sustain(.7).release(3).lpf(sine.range(500,1400).slow(8)).room(.8).roomsize(8).gain(saw.slow(8).range(.45,.05))]
+  [4,  chord("<Dmaj7 Gmaj7>/2").dict('ireal').voicing()
+       .s("gm_synth_strings_1").attack(1.2).decay(.8).sustain(.7).release(2)
+       .lpf(1000).room(.75).gain(.22)],
+  [4,  chord("<Dmaj7 Gmaj7 Bm7 A7>").dict('ireal').voicing()
+       .s("gm_synth_strings_1").attack(.9).decay(.6).sustain(.7).release(1.5)
+       .lpf(1400).room(.7).gain(.28)],
+  [4,  chord("<Dmaj7 Gmaj7 Bm7 A7>").dict('ireal').voicing()
+       .s("gm_synth_strings_1").attack(.7).decay(.5).sustain(.75).release(1.2)
+       .lpf(1800).room(.6).gain(.32)],
+  [4,  chord("<Dmaj7 Gmaj7 Bm7 A7>").dict('ireal').voicing()
+       .s("gm_synth_strings_1").attack(.5).decay(.4).sustain(.8).release(1)
+       .lpf(2200).room(.55).gain(.36)],
+  [4,  chord("<Dmaj7 Gmaj7 Bm7 A7>").dict('ireal').voicing()
+       .s("gm_synth_strings_1").attack(.4).decay(.4).sustain(.8).release(.8)
+       .lpf(2600).room(.5).gain(.4)],
+  [6,  chord("<Dmaj7 Gmaj7 Bm7 A7>").dict('ireal').voicing()
+       .s("gm_synth_strings_1").attack(.3).decay(.3).sustain(.85).release(.8)
+       .lpf(3000).room(.45).gain(.45)],
+  [2,  chord("<Dmaj7>").dict('ireal').voicing()
+       .s("gm_synth_strings_1").attack(1).sustain(.6).release(3)
+       .lpf(sine.range(500,1200).slow(2)).room(.8).gain(saw.slow(2).range(.35,.05))]
 )
 
-// Layer 2: Flute — solo melody, enters bar 9
+// Layer 2 — Cello (enters bar 5, grounding the harmony)
 $: arrange(
-  [8,  silence],
-  [8,  n("<[~ 0 ~ 2] [4 ~ 2 ~] [~ 0 ~ 4] [2 ~ ~ ~]>").scale("D5:major").s("gm_flute").room(.65).delay(".3:.2:.35").gain(.28).lpf(3500).vib(4).vibmod(.5).attack(.1)],
-  [8,  n("<[~ 0 ~ 2] [4 ~ 2 ~] [~ 0 ~ 4] [2 ~ ~ ~]>").scale("D5:major").s("gm_flute").room(.6).delay(".25:.15:.3").gain(.32).lpf(4200).vib(4).vibmod(.4)],
-  [8,  n("<[0 ~ 2 4] [~ 5 4 ~] [2 ~ 0 ~] [~ 4 2 0]>").scale("D5:major").s("gm_flute").room(.55).delay(".2:.15:.25").gain(.35).lpf(4800).vib(3).vibmod(.4)],
-  [16, n("<[0 ~ 2 4] [~ 5 4 ~] [2 ~ 0 ~] [~ 4 2 0]>").scale("D5:major").s("gm_flute").room(.5).delay(".15:.1:.2").gain(.38).lpf(5200).vib(3).vibmod(.3)],
-  [16, n("<[0 2 4 5] [~ 7 5 4] [2 4 5 ~] [~ 4 2 0]>").scale("D5:major").s("gm_flute").room(.45).delay(".1:.1:.15").gain(.4).lpf(5800).vib(3).vibmod(.3)],
-  [16, n("<[0 2 4 5] [7 ~ 5 4] [2 ~ 5 7] [5 4 2 0]>").scale("D5:major").s("gm_flute").room(.4).gain(.43).lpf(6000).vib(2).vibmod(.2)],
-  [8,  n("<[~ 4 ~ ~] [~ ~ 2 ~] [~ ~ ~ ~] [~ ~ 0 ~]>").scale("D5:major").s("gm_flute").room(.8).delay(".5:.4:.6").gain(.18).lpf(2500).vib(5).vibmod(.6)]
+  [4,  silence],
+  [4,  note("<d2 ~ ~ ~ g1 ~ ~ ~>/2")
+       .s("gm_cello").attack(.15).decay(.4).sustain(.5).release(.6)
+       .room(.35).gain(.45)],
+  [4,  note("<[d2 ~ d2 ~] [g1 ~ g1 ~] [b1 ~ b1 ~] [a1 ~ a1 ~]>")
+       .s("gm_cello").attack(.1).decay(.3).sustain(.55).release(.5)
+       .room(.3).gain(.52)],
+  [4,  note("<[d2 ~ a2 d2] [g1 ~ d2 g1] [b1 ~ fs2 b1] [a1 ~ e2 a1]>")
+       .s("gm_cello").decay(.25).sustain(.6).room(.25).gain(.58)],
+  [4,  note("<[d2 ~ a2 d2] [g1 ~ d2 g1] [b1 ~ fs2 b1] [a1 ~ e2 a1]>")
+       .s("gm_cello").decay(.2).sustain(.6).room(.25).gain(.65)],
+  [6,  note("<[d2 a2 d2 a2] [g1 d2 g1 d2] [b1 fs2 b1 fs2] [a1 e2 a1 e2]>")
+       .s("gm_cello").decay(.15).sustain(.65).room(.2).gain(.72)],
+  [2,  note("<d2>/1")
+       .s("gm_cello").attack(.5).decay(.8).sustain(.4).release(2)
+       .room(.5).gain(saw.slow(2).range(.5,.08))]
 )
 
-// Layer 3: Acoustic Bass — harmonic anchor, enters bar 17
+// Layer 3 — Oboe melody (enters bar 9, the theme emerges)
 $: arrange(
-  [16, silence],
-  [8,  note("<d2 ~ ~ ~ a1 ~ ~ ~>/2").s("gm_acoustic_bass").decay(.5).sustain(.5).room(.25).gain(.55)],
-  [8,  note("<[d2 ~ ~ d2] [g2 ~ ~ ~] [e2 ~ ~ e2] [a1 ~ ~ ~]>").s("gm_acoustic_bass").decay(.35).sustain(.5).room(.2).gain(.65)],
-  [16, note("<[d2 ~ d2 ~] [g2 ~ ~ g2] [e2 ~ e2 ~] [a1 ~ ~ a1]>").s("gm_acoustic_bass").decay(.3).sustain(.55).room(.2).gain(.72)],
-  [16, note("<[d2 ~ d2 ~] [b1 ~ ~ b1] [g1 ~ g1 ~] [a1 ~ ~ a1]>").s("gm_acoustic_bass").decay(.25).sustain(.6).room(.2).gain(.78)],
-  [16, note("<[d2 d2 ~ d2] [b1 ~ b1 ~] [g1 g1 ~ g1] [a1 ~ a1 a1]>").s("gm_acoustic_bass").decay(.2).sustain(.6).room(.15).gain(.82)],
-  [8,  note("<d2 ~ a1 ~>/2").s("gm_acoustic_bass").decay(.6).sustain(.4).room(.35).gain(saw.slow(8).range(.6,.08))]
+  [4,  silence],
+  [4,  silence],
+  [4,  n("<[~ 0 ~ 2] [4 ~ 5 ~] [~ 4 ~ 2] [0 ~ ~ ~]>")
+       .scale("D5:major").s("gm_oboe")
+       .lpf(3500).room(.5).delay(".2:.15:.3").gain(.3)
+       .vib(5).vibmod(.35)],
+  [4,  n("<[~ 0 ~ 2] [4 ~ 5 ~] [~ 4 ~ 2] [0 ~ ~ ~]>")
+       .scale("D5:major").s("gm_oboe")
+       .lpf(4000).room(.45).delay(".15:.1:.25").gain(.35)
+       .vib(5).vibmod(.4)],
+  [4,  n("<[~ 0 ~ 2] [4 ~ 5 ~] [~ 4 ~ 2] [0 ~ ~ ~]>")
+       .scale("D5:major").s("gm_oboe")
+       .lpf(4500).room(.4).delay(".12:.08:.2").gain(.38)
+       .vib(5).vibmod(.4)],
+  [6,  n("<[0 2 4 5] [~ 7 5 4] [5 ~ 4 2] [0 ~ 2 ~]>")
+       .scale("D5:major").s("gm_oboe")
+       .lpf(5000).room(.4).delay(".1:.08:.18").gain(.42)
+       .vib(5).vibmod(.45)],
+  [2,  n("<[~ 5 ~ ~]>")
+       .scale("D5:major").s("gm_oboe")
+       .lpf(2500).room(.7).delay(".4:.3:.5").gain(.22)
+       .vib(4).vibmod(.5)]
 )
 
-// Layer 4: Percussion — gentle rhythm building, enters bar 25
+// Layer 4 — French Horn (enters bar 13, brass warmth)
 $: arrange(
-  [24, silence],
-  [8,  s("~ ~ ~ [hh ~]").bank("RolandTR808").gain(.35).room(.5)],
-  [16, s("bd ~ ~ ~, ~ ~ ~ hh, hh*4").bank("RolandTR808").gain(.5).room(.4).cut(1)],
-  [16, s("bd ~ sd ~, hh*8").bank("RolandTR808").gain(".72 .65").room(.35).cut(1)],
-  [16, s("bd ~ [~ bd] sd, ~ cp ~ [~ cp], [hh oh hh hh]*2").bank("RolandTR808").gain(".88 .82").room(.3).cut(1).every(4, x => x.fast(2))],
-  [8,  s("bd ~ ~ ~").bank("RolandTR808").gain(saw.slow(8).range(.6,.05)).room(.5)]
+  [4,  silence],
+  [4,  silence],
+  [4,  silence],
+  [4,  chord("<D G Bm A>").dict('ireal').voicing()
+       .s("gm_french_horn")
+       .struct("x ~ ~ ~")
+       .attack(.3).decay(.5).sustain(.6).release(.8)
+       .lpf(1800).room(.5).gain(.28)],
+  [4,  chord("<D G Bm A>").dict('ireal').voicing()
+       .s("gm_french_horn")
+       .struct("[x ~ x ~]")
+       .attack(.2).decay(.4).sustain(.65).release(.6)
+       .lpf(2200).room(.45).gain(.34)],
+  [6,  chord("<D G Bm A>").dict('ireal').voicing()
+       .s("gm_french_horn")
+       .struct("[x ~ x ~]")
+       .attack(.15).decay(.35).sustain(.7).release(.5)
+       .lpf(2800).room(.4).gain(.42)
+       .every(4, x => x.struct("x x x x").gain(.32))],
+  [2,  chord("<D>").dict('ireal').voicing()
+       .s("gm_french_horn")
+       .attack(.6).sustain(.5).release(2)
+       .lpf(1500).room(.7).gain(saw.slow(2).range(.32,.05))]
 )
 
-// Layer 5: French Horn — warm brass power, enters bar 33
+// Layer 5 — Flute (enters bar 17, soaring above)
 $: arrange(
-  [32, silence],
-  [16, chord("<Dmaj7 Gmaj7 Em7 A7>").dict('ireal').voicing().s("gm_french_horn").struct("x ~ ~ ~").attack(.4).sustain(.7).release(.6).lpf(2000).room(.5).gain(.3)],
-  [16, chord("<Dmaj7 Bm7 Gmaj7 A7>").dict('ireal').voicing().s("gm_french_horn").struct("[x ~ x ~]").attack(.25).sustain(.75).release(.4).lpf(2800).room(.45).gain(.38)],
-  [16, chord("<Dmaj7 Bm7 Gmaj7 A7>").dict('ireal').voicing().s("gm_french_horn").struct("[x ~ x x]").attack(.15).sustain(.8).release(.3).lpf(3500).room(.4).gain(.45)],
-  [8,  chord("<Dmaj7>/1").dict('ireal').voicing().s("gm_french_horn").struct("x ~ ~ ~").attack(.5).sustain(.6).release(1.5).lpf(1500).room(.7).gain(saw.slow(8).range(.35,.05))]
+  [4,  silence],
+  [4,  silence],
+  [4,  silence],
+  [4,  silence],
+  [4,  n("<[0 ~ 2 4] [5 ~ 4 ~] [2 4 5 ~] [~ 2 0 ~]>")
+       .scale("D6:major").s("gm_flute")
+       .lpf(5500).room(.5).delay(".2:.15:.3").gain(.3)
+       .vib(5).vibmod(.4)],
+  [6,  n("<[0 2 4 5] [7 ~ 5 4] [5 4 2 ~] [0 2 ~ 4]>")
+       .scale("D6:major").s("gm_flute")
+       .lpf(6000).room(.45).delay(".15:.1:.25").gain(.36)
+       .vib(5).vibmod(.5)
+       .sometimes(x => x.add(note(12)).gain(.2))],
+  [2,  n("<[~ ~ 5 ~]>")
+       .scale("D6:major").s("gm_flute")
+       .lpf(3500).room(.75).delay(".5:.4:.6").gain(.2)
+       .vib(4).vibmod(.6)]
 )
 
-// Layer 6: Oboe — counter-melody weaving in, enters bar 49
+// Layer 6 — Timpani (enters bar 21, full orchestra unleashed)
 $: arrange(
-  [48, silence],
-  [16, n("<[~ ~ 5 ~] [~ 7 ~ ~] [5 ~ ~ 3] [~ ~ 0 ~]>").scale("D4:major").s("gm_oboe").room(.55).delay(".35:.25:.4").gain(.28).lpf(4000).vib(5).vibmod(.6).attack(.08)],
-  [16, n("<[5 ~ 7 ~] [~ 4 ~ 5] [7 ~ 5 ~] [4 ~ 2 0]>").scale("D4:major").s("gm_oboe").room(.5).delay(".25:.2:.3").gain(.34).lpf(4500).vib(4).vibmod(.5)],
-  [8,  n("<[~ ~ 5 ~] [~ ~ ~ ~] [~ 2 ~ ~] [~ ~ 0 ~]>").scale("D4:major").s("gm_oboe").room(.75).delay(".5:.35:.55").gain(.15).lpf(3000).vib(5).vibmod(.7)]
+  [4,  silence],
+  [4,  silence],
+  [4,  silence],
+  [4,  silence],
+  [4,  silence],
+  [6,  s("<[bd ~ ~ bd] [~ ~ bd ~] [bd ~ ~ ~] [~ ~ bd bd]>")
+       .bank("RolandTR808").gain(perlin.range(.55,.78)).room(.45)
+       .lpf(800).every(4, x => x.press())],
+  [2,  s("bd ~ ~ ~")
+       .bank("RolandTR808").gain(saw.slow(2).range(.55,.1)).room(.55)
+       .lpf(600)]
 )
 
-// Layer 7: Choir — the final voice crowns the full orchestra, enters bar 65
-$: arrange(
-  [64, silence],
-  [16, chord("<Dmaj7 Bm7 Gmaj7 A7>").dict('ireal').voicing().s("gm_choir_aahs").attack(.8).sustain(.8).release(1).lpf(3000).room(.6).roomsize(4).gain(.3)],
-  [8,  chord("<Dmaj7>/1").dict('ireal').voicing().s("gm_choir_aahs").attack(1).sustain(.7).release(3).lpf(sine.range(800,2000).slow(8)).room(.8).roomsize(6).gain(saw.slow(8).range(.28,.03))]
-)
-```
-
-The piece is in D major with 7 layers that enter one by one across 88 bars:
-
-| Bar | New Layer | Cumulative |
-|-----|-----------|------------|
-| 1 | String pad | Strings alone |
-| 9 | Flute melody | Strings + Flute |
-| 17 | Acoustic bass | + Bass foundation |
-| 25 | Percussion | + Gentle rhythm |
-| 33 | French horn | + Brass warmth |
-| 49 | Oboe counter-melody | + Woodwind dialogue |
-| 65 | Choir | Full orchestra |
-| 81 | Outro | Layers fade away |
-
-Each layer also evolves internally — filters open, gains increase, rhythms densify — so the crescendo is continuous rather than stepwise. The outro reverses the energy with filter sweeps and decaying gains.
-
-Want me to write it to the file?
+// Sub bass drone — ever-present foundation
+$: note("<d1>/4")
+   .s("sine")
+   .attack(2).decay(1).sustain(.7).release(3)
+   .gain(.14).room(.4)
+   .lpf(100)

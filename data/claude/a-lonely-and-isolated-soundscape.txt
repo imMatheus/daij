@@ -1,60 +1,18 @@
-// 🎵 "Echoes from Nowhere" — Lonely Ambient / Isolated Soundscape
-// At 58 BPM: intro(8) + verse(16) + bridge(12) + verse2(16) + interlude(8) + chorus(16) + outro(8) = 84 bars ≈ 3:28
+// "Hollow Rooms" — sparse tones drifting through empty space
+setcps(0.28)
 
-setcpm(58 / 4)
-
-$: s("vinyl:2").gain(.1).room(1).loop(1).lpf(1800)
-
-$: arrange(
-  [8,  s("bd ~ ~ ~").bank("RolandTR808").gain(saw.slow(8).range(.15,.45)).room(.8).roomsize(6).lpf(400)],
-  [16, s("bd ~ ~ ~, ~ ~ [sd:1] ~").bank("RolandTR808").gain(".55 .4").room(.7).roomsize(5).lpf(600).swing(4)],
-  [12, s("bd(3,16), ~ ~ sd:1 ~, [~ oh ~ ~]*2").bank("RolandTR808").cut(1).gain(".5 .4 .45 .35").room(.6).roomsize(4).lpf(800).every(4, x => x.press())],
-  [16, s("bd ~ ~ ~, ~ ~ [sd:1] ~").bank("RolandTR808").gain(".55 .4").room(.7).roomsize(5).lpf(600).swing(4).rarely(x => x.gain(.15))],
-  [8,  silence],
-  [16, s("bd ~ ~ ~, ~ ~ sd:1 ~, [~ ~ oh ~]").bank("RolandTR808").cut(1).gain(".6 .45 .5 .4").room(.65).roomsize(5).lpf(700).every(3, x => x.rev())],
-  [8,  s("bd ~ ~ ~").bank("RolandTR808").gain(saw.slow(8).range(.45,.05)).room(.9).roomsize(8).lpf(300)]
+note("<[~ ~ b3 ~] ~ [~ f#4 ~ ~] ~ [~ ~ ~ d4] ~ [a3 ~ ~ ~] ~>/2")
+.s("gm_epiano2").gain(perlin.range(.18,.28)).room(.95).roomsize(8).delay(".6:.4:.7")
+.lpf(sine.range(600,2000).slow(14)).attack(.04).decay(.8).sustain(.15).release(3.5)
+.stack(
+  note("b1").s("sine").attack(5).sustain(.65).release(6).gain(.1).room(.85).roomsize(8).lpf(100),
+  note("<b0 ~ ~ f#1>/8").s("sine").attack(4).sustain(.5).release(5).gain(.07).room(.8).roomsize(8).lpf(80),
+  chord("<Bm9 ~ ~ ~ F#m7 ~ ~ ~>/4").dict('ireal').voicing()
+  .s("gm_synth_strings_1").attack(5).sustain(.3).release(7)
+  .lpf(sine.range(180,600).slow(18)).room(.95).roomsize(8).gain(.08)
+  .pan(sine.slow(22).range(.2,.8)),
+  n("<~ ~ ~ ~ ~ ~ [~ 3 ~ ~] ~ ~ ~ ~ [5 ~ ~ ~]>/3")
+  .scale("B5:minor:pentatonic").s("gm_flute").gain(.1).room(.95).roomsize(8)
+  .delay(".75:.5:.85").lpf(2200).vib(4).vibmod(.6).attack(.15).sustain(.25).release(2.5),
+  s("vinyl:2").gain(.05).room(1).loop(1).lpf(1200)
 )
-
-$: arrange(
-  [8,  silence],
-  [16, note("<[e2 ~ ~ ~] [~ ~ b1 ~] [a1 ~ ~ ~] [~ ~ e1 ~]>").s("gm_acoustic_bass").decay(.6).sustain(.3).room(.5).gain(.55).lpf(500).speed(.97)],
-  [12, note("<[e2 ~ b1 ~] [a1 ~ ~ a1] [e1 ~ ~ ~] [b1 ~ a1 ~]>").s("gm_acoustic_bass").decay(.4).sustain(.4).room(.45).gain(.6).lpf(600)],
-  [16, note("<[e2 ~ ~ ~] [~ ~ b1 ~] [a1 ~ ~ ~] [~ ~ e1 ~]>").s("gm_acoustic_bass").decay(.6).sustain(.3).room(.5).gain(.55).lpf(500).speed(.97)],
-  [8,  note("<e2 ~ ~ ~ b1 ~ ~ ~>/2").s("gm_acoustic_bass").decay(.8).sustain(.2).room(.6).gain(.4).lpf(400)],
-  [16, note("<[e2 ~ b1 ~] [a1 ~ ~ a1] [e1 ~ ~ ~] [b1 ~ a1 ~]>").s("gm_acoustic_bass").decay(.4).sustain(.4).room(.45).gain(.6).lpf(600)],
-  [8,  silence]
-)
-
-$: arrange(
-  [8,  chord("<Em9 Am7>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(1.5).decay(1).sustain(.6).release(3).lpf(800).room(.9).roomsize(6).gain(.2)],
-  [16, chord("<Em9 Bm7 Am9 Em9>").dict('ireal').voicing().s("gm_epiano2").struct("~ [x ~] ~ ~").lpf(sine.range(600,1600).slow(16)).room(.7).roomsize(5).delay(".4:.3:.5").gain(.35).speed(.97)],
-  [12, chord("<Em9 Bm7 Am9 Bm7>").dict('ireal').voicing().s("gm_epiano2").struct("[~ x] ~ [~ x] ~").lpf(sine.range(800,2000).slow(12)).room(.65).delay(".35:.25:.45").gain(.4).speed(.98)],
-  [16, chord("<Em9 Bm7 Am9 Em9>").dict('ireal').voicing().s("gm_epiano2").struct("~ [x ~] ~ ~").lpf(sine.range(600,1600).slow(16)).room(.7).roomsize(5).delay(".4:.3:.5").gain(.35).speed(.97)],
-  [8,  chord("<Em9 Am7>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(1.5).decay(1).sustain(.6).release(3).lpf(sine.range(400,1000).slow(8)).room(.9).roomsize(7).gain(.22)],
-  [16, chord("<Em9 Bm7 Am9 Bm7>").dict('ireal').voicing().s("gm_epiano2").struct("[~ x] ~ [~ x] ~").lpf(sine.range(800,2000).slow(12)).room(.65).delay(".35:.25:.45").gain(.4).speed(.98)],
-  [8,  chord("<Em9 Am7>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(2).sustain(.5).release(4).lpf(saw.slow(8).range(1000,300)).room(.95).roomsize(8).gain(saw.slow(8).range(.25,.03))]
-)
-
-$: arrange(
-  [8,  n("<~ 0 ~ ~>/1").scale("E5:minor:pentatonic").s("gm_epiano2").room(.9).roomsize(6).delay(".7:.5:.8").gain(.2).lpf(1200).attack(.3)],
-  [16, n("<[~ ~ 0 ~] [~ ~ ~ ~] [~ 3 ~ ~] [~ ~ ~ 2]>").scale("E5:minor:pentatonic").s("gm_epiano2").lpf(sine.range(600,2200).slow(14)).room(.8).roomsize(5).delay(".5:.35:.6").gain(.28).vib(3).vibmod(.6).rarely(x => x.add(note(12)))],
-  [12, n("<[0 ~ ~ 3] [~ 5 ~ ~] [~ ~ 7 ~] [5 ~ ~ 0]>").scale("E5:minor:pentatonic").s("gm_epiano2").lpf(sine.range(800,2800).slow(10)).room(.7).delay(".4:.3:.5").gain(.34).vib(4).vibmod(.5).sometimes(x => x.add(note(12)))],
-  [16, n("<[~ ~ 0 ~] [~ ~ ~ ~] [~ 3 ~ ~] [~ ~ ~ 2]>").scale("E5:minor:pentatonic").s("gm_epiano2").lpf(sine.range(600,2200).slow(14)).room(.8).roomsize(5).delay(".5:.35:.6").gain(.28).vib(3).vibmod(.6)],
-  [8,  silence],
-  [16, n("<[0 ~ ~ 3] [~ 5 ~ ~] [~ ~ 7 ~] [5 ~ ~ 0]>").scale("E5:minor:pentatonic").s("gm_epiano2").lpf(sine.range(800,2800).slow(10)).room(.7).delay(".4:.3:.5").gain(.34).vib(4).vibmod(.5).sometimes(x => x.add(note(12)))],
-  [8,  n("<[~ 0 ~ ~] [~ ~ ~ ~] [~ ~ 3 ~] [~ ~ ~ ~]>").scale("E5:minor:pentatonic").s("gm_epiano2").room(.95).roomsize(8).delay(".8:.6:.9").gain(saw.slow(8).range(.25,.05)).lpf(sine.range(400,1000).slow(8))]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, silence],
-  [12, n("<[~ ~ 5 ~] [7 ~ ~ ~] [~ ~ ~ 3] [~ 5 ~ ~]>").scale("E4:minor:pentatonic").s("gm_flute").room(.8).roomsize(5).delay(".5:.4:.6").gain(.22).lpf(3500).vib(5).vibmod(.8).attack(.1).decay(.3).sustain(.5).release(.6)],
-  [16, silence],
-  [8,  silence],
-  [16, n("<[~ ~ 5 ~] [7 ~ ~ ~] [~ ~ ~ 3] [~ 5 ~ ~]>").scale("E4:minor:pentatonic").s("gm_flute").room(.8).roomsize(5).delay(".5:.4:.6").gain(.22).lpf(3500).vib(5).vibmod(.8).attack(.1).decay(.3).sustain(.5).release(.6)],
-  [8,  silence]
-)
-
-$: note("<e1 b1 a1 e1>/4").s("sine").attack(3).decay(1).sustain(.7).release(3).gain(.15).room(.7).roomsize(6).lpf(150)
-
-$: s("hh*4").bank("RolandTR808").gain(perlin.range(.03,.18)).pan(sine.slow(8)).lpf(sine.range(1500,4000).slow(12)).room(.5).cut(1)

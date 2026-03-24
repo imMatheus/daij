@@ -1,100 +1,42 @@
-// 🎵 "Midnight Rail Reverie" — Nocturnal Lo-Fi Downtempo / Train Groove
-// At 112 BPM: intro(8) + verse(16) + chorus(16) + verse2(16) + chorus2(16) + outro(8) = 80 bars ≈ 2:51
-
-setcpm(112 / 4)
-
-$: arrange(
-  [8,  s("vinyl:2").gain(.12).room(1).loop(1).lpf(2600)],
-  [16, s("vinyl:2").gain(.14).room(1).loop(1).lpf(2400)],
-  [16, s("vinyl:2").gain(.16).room(1).loop(1).lpf(2200)],
-  [16, s("vinyl:2").gain(.15).room(1).loop(1).lpf(2300)],
-  [16, s("vinyl:2").gain(.17).room(1).loop(1).lpf(2100)],
-  [8,  s("vinyl:2").gain(saw.slow(8).range(.12,.03)).room(1).loop(1).lpf(1800)]
-)
-
-$: arrange(
-  [8,  s("bd ~ ~ ~, ~ ~ sd ~, hh*4")
-       .bank("RolandTR909").cut(1).swing(4).gain(".72 .6 .28").room(.35)],
-  [16, s("bd ~ ~ bd, ~ [sd cp] ~ ~, hh*8")
-       .bank("RolandTR909").cut(1).swing(4).gain(".9 .82 .36").room(.3)],
-  [16, s("bd ~ bd ~, ~ [sd cp] ~ [sd cp], [hh hh oh hh]*2")
-       .bank("RolandTR909").cut(1).swing(4).gain(".95 .86 .42").room(.28).every(4, x => x.fast(2).gain(.6))],
-  [16, s("bd ~ ~ bd, ~ [sd cp] ~ ~, hh*8")
-       .bank("RolandTR909").cut(1).swing(4).gain(".9 .82 .36").room(.3).sometimes(x => x.press())],
-  [16, s("bd ~ bd ~, ~ [sd cp] ~ [sd cp], [hh oh hh hh]*2")
-       .bank("RolandTR909").cut(1).swing(4).gain(".96 .88 .44").room(.28).every(8, x => x.rev())],
-  [8,  s("bd ~ ~ ~, ~ ~ sd ~, hh*4")
-       .bank("RolandTR909").cut(1).swing(4).gain(saw.slow(8).range(.7,.1)).room(.45)]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, note("<[e2 ~ ~ e2] [c2 ~ ~ ~] [g1 ~ ~ g1] [d2 ~ ~ ~]>")
-       .s("gm_acoustic_bass").decay(.28).sustain(.55).room(.2).gain(.8)],
-  [16, note("<[e2 ~ e2 ~] [c2 ~ ~ c2] [g1 ~ g1 ~] [d2 ~ ~ d2]>")
-       .s("gm_acoustic_bass").decay(.24).sustain(.58).room(.2).gain(.86)],
-  [16, note("<[e2 ~ ~ e2] [c2 ~ ~ ~] [g1 ~ ~ g1] [d2 ~ ~ ~]>")
-       .s("gm_acoustic_bass").decay(.28).sustain(.55).room(.2).gain(.82).sometimes(x => x.add(note(12)).gain(.35))],
-  [16, note("<[e2 ~ e2 ~] [c2 ~ ~ c2] [g1 ~ g1 ~] [d2 ~ ~ d2]>")
-       .s("gm_acoustic_bass").decay(.24).sustain(.58).room(.2).gain(.88)],
-  [8,  note("<e2 ~ c2 ~ g1 ~ d2 ~>/2")
-       .s("gm_acoustic_bass").decay(.5).sustain(.35).room(.35).gain(.62).speed(.97)]
-)
-
-$: arrange(
-  [8,  chord("<Em9 Cmaj7>/2").dict('ireal').voicing()
-       .s("gm_synth_strings_1").attack(.8).decay(1).sustain(.7).release(2.2)
-       .lpf(1400).room(.75).gain(.34)],
-  [16, chord("<Em9 Cmaj7 G^7 D7sus4>").dict('ireal').voicing()
-       .s("gm_epiano2").struct("~ [x ~] ~ [x ~]")
-       .lpf(2200).room(.5).delay(".22:.16:.3").gain(.5).speed(.99)],
-  [16, chord("<Em9 Cmaj7 G^7 D7sus4>").dict('ireal').voicing()
-       .s("gm_epiano2").struct("[~ x]*2")
-       .lpf(2600).room(.45).delay(".18:.12:.24").gain(.56).every(4, x => x.fast(2).gain(.55))],
-  [16, chord("<Em9 Cmaj7 G^7 D7sus4>").dict('ireal').voicing()
-       .s("gm_epiano2").struct("~ [x ~] ~ [x ~]")
-       .lpf(2200).room(.5).delay(".22:.16:.3").gain(.5).speed(.99).rarely(x => x.rev())],
-  [16, chord("<Em9 Cmaj7 G^7 D7sus4>").dict('ireal').voicing()
-       .s("gm_epiano2").struct("[~ x]*2")
-       .lpf(2800).room(.48).delay(".2:.14:.28").gain(.58)],
-  [8,  chord("<Em9 Cmaj7>/2").dict('ireal').voicing()
-       .s("gm_synth_strings_1").attack(.9).sustain(.55).release(2.4)
-       .lpf(sine.range(500,1500).slow(8)).room(.82).gain(saw.slow(8).range(.3,.06))]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, n("<[~ 0 ~ 2] [3 ~ ~ 5] [~ 7 5 ~] [3 ~ 2 0]>")
-       .scale("E5:minor:pentatonic").s("gm_epiano1")
-       .lpf(sine.range(900,2800).slow(10)).room(.56).delay(".3:.22:.38").gain(.4)],
-  [16, n("<[0 ~ 2 3] [~ 5 ~ 7] [5 3 ~ 2] [~ 0 2 ~]>")
-       .scale("E5:minor:pentatonic").s("gm_epiano1")
-       .lpf(sine.range(1200,3600).slow(8)).room(.5).delay(".26:.2:.34").gain(.48)
-       .sometimes(x => x.add(note(12)))],
-  [16, n("<[~ 0 ~ 2] [3 ~ ~ 5] [~ 7 5 ~] [3 ~ 2 0]>")
-       .scale("E5:minor:pentatonic").s("gm_epiano1")
-       .lpf(sine.range(900,2800).slow(10)).room(.56).delay(".3:.22:.38").gain(.42).rarely(x => x.rev())],
-  [16, n("<[0 ~ 2 3] [~ 5 ~ 7] [5 3 ~ 2] [~ 0 2 ~]>")
-       .scale("E5:minor:pentatonic").s("gm_epiano1")
-       .lpf(sine.range(1300,3800).slow(8)).room(.5).delay(".24:.18:.32").gain(.5)
-       .sometimes(x => x.add(note(12)).fast(2))],
-  [8,  n("<[~ ~ 2 ~] [~ 0 ~ ~] [~ ~ 3 ~] [~ ~ 0 ~]>")
-       .scale("E5:minor:pentatonic").s("gm_epiano1")
-       .room(.85).delay(".6:.45:.72").gain(.26).lpf(1700)]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, silence],
-  [16, n("<[~ 5 ~ ~] [~ 7 ~ 5] [3 ~ ~ 2] [~ 0 ~ ~]>")
-       .scale("E5:minor:pentatonic").s("gm_flute")
-       .room(.62).delay(".42:.3:.5").gain(.3).lpf(4800).vib(4).vibmod(.45)
-       .attack(.04).decay(.2).sustain(.6).release(.3)],
-  [16, silence],
-  [16, n("<[~ 5 ~ ~] [~ 7 ~ 5] [3 ~ ~ 2] [~ 0 ~ ~]>")
-       .scale("E5:minor:pentatonic").s("gm_flute")
-       .room(.64).delay(".45:.32:.52").gain(.34).lpf(5200).vib(5).vibmod(.5)
-       .attack(.04).decay(.2).sustain(.6).release(.3)
-       .sometimes(x => x.add(note(12)))],
-  [8,  silence]
-)
+// "Midnight Rail" — lo-fi nocturnal train groove
+samples('github:tidalcycles/dirt-samples')
+setcps(0.8)
+$: n("<[0 3 7 10] [0 5 8 12] [2 7 10 14] [3 7 10 15]>/2")
+  .s("gm_epiano1")
+  .legato(1.25)
+  .gain(0.72)
+  .lpf(sine.slow(12).range(500,2600))
+  .room(0.45)
+  .delay(0.25)
+  .stack(
+    s("bd(5,8,<1 2>) [~ bd] ~ [bd ~] <~ bd>")
+      .gain(0.95)
+      .lpf(140)
+      .room(0.12),
+    s("<hh(11,16) hh(7,12)>")
+      .gain(0.3)
+      .speed("<1 1.5 0.75 1>")
+      .hpf(6500)
+      .room(0.25)
+      .delay(0.2),
+    s("~ [sd:2 ~] ~ [~ sd:1] <~ [cp ~] [~ cp]>")
+      .gain(0.55)
+      .lpf(1800)
+      .room(0.3),
+    note("<[~ 7 10 14] [~ 8 12 15] [~ 10 14 17] [~ 12 15 19]>/2")
+      .s("supersaw")
+      .gain(0.33)
+      .attack(0.02)
+      .release(0.5)
+      .lpf(perlin.slow(9).range(700,4200))
+      .room(0.7)
+      .delay(0.35),
+    s("<hc(9,16) [hc hc hc] [~ hc] [hc ~]>")
+      .gain(0.22)
+      .speed("<0.9 1 0.85 0.95>")
+      .lpf(1200)
+      .room(0.6)
+      .delay(0.3)
+      .pan(sine.slow(16))
+  )
+  .reset(32)

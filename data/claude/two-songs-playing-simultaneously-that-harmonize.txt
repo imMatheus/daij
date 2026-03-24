@@ -1,11 +1,94 @@
-Here's the song — "Parallel Lives", two songs playing simultaneously that harmonize:
+// 🎵 "Parallel Lives" — Dual Harmonizing Songs in Relative Keys
+// Song A (left): C major piano ballad | Song B (right): A minor folk
+// At 84 BPM: intro(4) + merge(8) + bloom(8) + outro(4) = 24 bars ≈ 69s
 
-**Song A ("Daydream")** is a piano ballad in C major (Cmaj7 → Am7 → Fmaj7 → G7), panned left, with electric piano, strings pad, and brushed TR-808 drums.
+setcpm(84 / 4)
 
-**Song B ("Moonwalk")** is an acoustic folk piece in A minor (Am7 → Dm7 → Em7 → Fmaj7), panned right, with nylon guitar, flute melody, bass, and TR-909 shaker/rim percussion.
+// --- Shared glue: vinyl haze + sub-bass drone ---
+$: s("vinyl:2").gain(.12).room(1).loop(1).lpf(2400)
 
-They harmonize naturally because C major and A minor are **relative keys** — same notes, different tonal centers. A shared sub-bass drone (C-A-F-G) and vinyl texture bind them in the center of the stereo field.
+$: note("<c1 a0 f0 g0>/4")
+   .s("sine")
+   .attack(2).decay(1).sustain(.8).release(2)
+   .gain(.18).room(.5)
+   .lpf(160)
 
-The arrangement staggers their entrances: Song A starts alone in the intro, Song B joins at bar 9, and they weave through 80 bars together before fading out simultaneously.
+// ═══════════════════════════════════════════
+// SONG A — "Daydream" — C major, panned left
+// ═══════════════════════════════════════════
 
-Would you like me to try writing the file again, or should I output the raw code directly?
+// Song A drums: brushed 808, gentle swing
+$: arrange(
+  [4,  s("bd ~ ~ ~, ~ ~ [~ hh] ~").bank("RolandTR808").gain(".42 .32").room(.4).pan(.3)],
+  [8,  s("bd ~ [~ bd] ~, ~ cp ~ ~, hh*4").bank("RolandTR808").gain(perlin.range(.5,.7)).room(.3).pan(.3).swing(3).cut(1)],
+  [8,  s("bd ~ bd ~, ~ [cp,sd:1] ~ cp, [hh oh hh hh]*2").bank("RolandTR808").gain(".68 .6").room(.3).pan(.3).swing(3).cut(1).every(4, x => x.fast(2).gain(.4))],
+  [4,  s("bd ~ ~ ~").bank("RolandTR808").gain(saw.slow(4).range(.4,.06)).room(.55).pan(.3)]
+)
+
+// Song A chords: electric piano
+$: arrange(
+  [4,  chord("<Cmaj7 Fmaj7>/2").dict('ireal').voicing().s("gm_epiano1").struct("[x ~ x ~]").lpf(2400).room(.6).delay(".2:.15:.3").gain(.42).pan(.25)],
+  [8,  chord("<Cmaj7 Em7 Fmaj7 G7>").dict('ireal').voicing().s("gm_epiano1").struct("~ [x ~] ~ [x ~]").lpf(1800).room(.5).delay(".25:.15:.3").gain(.38).pan(.25)],
+  [8,  chord("<Cmaj7 Em7 Fmaj7 G7>").dict('ireal').voicing().s("gm_epiano1").struct("[~ x]*2").lpf(2200).room(.45).delay(".2:.1:.25").gain(.44).pan(.25).sometimes(x => x.press())],
+  [4,  chord("<Cmaj7 Fmaj7>/2").dict('ireal').voicing().s("gm_epiano1").struct("x ~ ~ ~").lpf(1100).room(.8).delay(".5:.35:.6").gain(saw.slow(4).range(.38,.05)).pan(.25)]
+)
+
+// Song A melody: flute, dreamy phrases
+$: arrange(
+  [4,  n("<[0 ~ 2 ~] [4 ~ 5 ~]>").scale("C5:major").s("gm_flute").lpf(3200).room(.6).delay(".3:.2:.4").gain(.34).vib(3).vibmod(.4).pan(.2)],
+  [8,  n("<[0 2 4 ~] ~ [5 4 2 ~] ~>").scale("C5:major").s("gm_flute").lpf(sine.range(2200,5000).slow(8)).room(.55).delay(".25:.2:.35").gain(.38).vib(4).vibmod(.5).pan(.2)],
+  [8,  n("<[0 ~ 4 ~] [5 ~ ~ ~] [7 ~ 5 ~] [4 ~ ~ ~]>").scale("C5:major").s("gm_flute").lpf(sine.range(2500,5500).slow(6)).room(.5).delay(".2:.15:.3").gain(.42).vib(3).vibmod(.6).pan(.2).sometimes(x => x.add(note(12)))],
+  [4,  n("<[0 ~ ~ ~] ~>/1").scale("C5:major").s("gm_flute").room(.9).delay(".6:.5:.7").gain(saw.slow(4).range(.3,.05)).lpf(2000).vib(4).vibmod(.8).pan(.2)]
+)
+
+// Song A bass
+$: arrange(
+  [4,  silence],
+  [8,  note("<[c2 ~ ~ ~] [e2 ~ ~ ~] [f2 ~ ~ ~] [g2 ~ ~ ~]>").s("gm_acoustic_bass").decay(.35).sustain(.45).room(.2).gain(.65).pan(.3)],
+  [8,  note("<[c2 ~ c2 ~] [e2 ~ ~ e2] [f2 ~ f2 ~] [g2 ~ ~ g2]>").s("gm_acoustic_bass").decay(.3).sustain(.5).room(.2).gain(.7).pan(.3)],
+  [4,  silence]
+)
+
+// ═══════════════════════════════════════════
+// SONG B — "Moonwalk" — A minor, panned right
+// ═══════════════════════════════════════════
+
+// Song B drums: lighter 909 rim + shaker
+$: arrange(
+  [4,  silence],
+  [8,  s("~ rim ~ rim, shaker*8").bank("RolandTR909").gain(".45 .34").room(.35).pan(.7).swing(3)],
+  [8,  s("[~ rim]*2, shaker*8, ~ ~ oh ~").bank("RolandTR909").gain(perlin.range(.5,.68)).room(.3).pan(.7).swing(3).cut(2)],
+  [4,  s("~ rim ~ ~").bank("RolandTR909").gain(saw.slow(4).range(.38,.05)).room(.5).pan(.7)]
+)
+
+// Song B chords: nylon guitar, folk comping
+$: arrange(
+  [4,  silence],
+  [8,  chord("<Am7 Dm7 Em7 Fmaj7>").dict('ireal').voicing().s("gm_acoustic_guitar_nylon").struct("[x ~ x ~]").lpf(2200).room(.5).delay(".2:.12:.25").gain(.4).pan(.75)],
+  [8,  chord("<Am7 Dm7 Em7 Fmaj7>").dict('ireal').voicing().s("gm_acoustic_guitar_nylon").struct("[x x ~ x]").lpf(2600).room(.4).delay(".15:.1:.2").gain(.44).pan(.75).every(4, x => x.struct("[~ x ~ x] [~ x x ~]"))],
+  [4,  chord("<Am7 Fmaj7>/2").dict('ireal').voicing().s("gm_acoustic_guitar_nylon").struct("x ~ ~ ~").lpf(1400).room(.75).delay(".4:.3:.5").gain(saw.slow(4).range(.36,.04)).pan(.75)]
+)
+
+// Song B melody: clarinet, winding minor phrases
+$: arrange(
+  [4,  silence],
+  [8,  n("<~ [2 0 ~ ~] ~ [4 2 0 ~]>").scale("A4:minor").s("gm_clarinet").lpf(sine.range(1800,4200).slow(10)).room(.55).delay(".3:.2:.4").gain(.36).vib(4).vibmod(.5).pan(.8)],
+  [8,  n("<[~ 2 ~ 4] [~ 5 ~ ~] [~ 4 ~ 2] [~ 0 ~ ~]>").scale("A4:minor").s("gm_clarinet").lpf(sine.range(2000,4800).slow(7)).room(.5).delay(".25:.18:.35").gain(.4).vib(3).vibmod(.6).pan(.8).sometimes(x => x.add(note(12)))],
+  [4,  n("<[~ 0 ~ ~] ~>/1").scale("A4:minor").s("gm_clarinet").room(.85).delay(".5:.4:.6").gain(saw.slow(4).range(.28,.04)).lpf(1800).vib(5).vibmod(.7).pan(.8)]
+)
+
+// Song B bass
+$: arrange(
+  [4,  silence],
+  [8,  note("<[a1 ~ ~ ~] [d2 ~ ~ ~] [e2 ~ ~ ~] [f2 ~ ~ ~]>").s("gm_acoustic_bass").decay(.35).sustain(.45).room(.2).gain(.62).pan(.7)],
+  [8,  note("<[a1 ~ a1 ~] [d2 ~ ~ d2] [e2 ~ e2 ~] [f2 ~ ~ f2]>").s("gm_acoustic_bass").decay(.3).sustain(.5).room(.2).gain(.68).pan(.7)],
+  [4,  silence]
+)
+
+// --- Shared strings pad: binds both songs together in the center ---
+$: arrange(
+  [4,  chord("<Cmaj7 Am7>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(1.2).decay(1).sustain(.5).release(2).lpf(800).room(.75).gain(.18)],
+  [8,  silence],
+  [8,  chord("<Cmaj7 Am7 Fmaj7 G7>").dict('ireal').voicing().s("gm_synth_strings_1").attack(1).decay(.8).sustain(.6).release(2).lpf(sine.range(600,1400).slow(12)).room(.7).gain(.22).pan(sine.slow(8))],
+  [4,  chord("<Cmaj7 Am7>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(1.5).sustain(.4).release(3).lpf(sine.range(400,900).slow(8)).room(.9).gain(saw.slow(4).range(.2,.03))]
+)

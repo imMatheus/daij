@@ -1,0 +1,139 @@
+// 🎵 "Concrete Sparks" — Garage Rock with fuzzy guitars, raw drums, and hooky riffs
+// At 128 BPM: intro(8) + verse(16) + chorus(16) + verse2(16) + chorus(16) + bridge(8) + outro(8) = 88 bars ≈ 2:45
+
+setcpm(128 / 4)
+
+$: arrange(
+  [8,  s("vinyl:2").gain(.1).room(1).loop(1).lpf(3400)],
+  [16, s("vinyl:2").gain(.12).room(1).loop(1).lpf(3200)],
+  [16, s("vinyl:2").gain(.12).room(1).loop(1).lpf(3000)],
+  [16, s("vinyl:2").gain(.11).room(1).loop(1).lpf(3000)],
+  [16, s("vinyl:2").gain(.12).room(1).loop(1).lpf(2900)],
+  [8,  s("vinyl:2").gain(.1).room(1).loop(1).lpf(2800)],
+  [8,  s("vinyl:2").gain(saw.slow(8).range(.08,.01)).room(1).loop(1).lpf(2600)]
+)
+
+$: arrange(
+  [8,  s("bd ~ ~ ~, ~ ~ sd ~, hh*4")
+       .bank("RolandTR909").swing(3).room(.18).gain(".88 .82")],
+  [16, s("bd ~ bd ~, ~ sd ~ ~, hh*8")
+       .bank("RolandTR909").cut(1).swing(3).room(.15).gain(".95 .9")],
+  [16, s("bd ~ bd bd, ~ sd ~ [sd ~], hh*8, ~ oh ~ oh")
+       .bank("RolandTR909").cut(1).swing(4).room(.2).gain(1)
+       .every(4, x => x.fast(2).gain(.72))],
+  [16, s("bd ~ [bd ~] ~, ~ [sd cp] ~ ~, hh*8")
+       .bank("RolandTR909").cut(1).swing(3).room(.17).gain(".96 .9")
+       .sometimes(x => x.press())],
+  [16, s("bd ~ bd bd, ~ sd ~ [sd ~], hh*8, ~ oh ~ oh")
+       .bank("RolandTR909").cut(1).swing(4).room(.22).gain(1)
+       .every(4, x => x.fast(2).gain(.72))
+       .every(8, x => x.rev())],
+  [8,  s("bd ~ ~ bd, ~ sd ~ ~, [hh ~ hh oh]*2")
+       .bank("RolandTR909").swing(2).room(.25).gain(".9 .84")],
+  [8,  s("bd ~ ~ ~, ~ ~ sd ~, hh*4")
+       .bank("RolandTR909").swing(3).room(.3)
+       .gain(saw.slow(8).range(.78,.12))]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, note("<[e2 ~ e2 ~] [g2 ~ ~ g2] [a1 ~ a1 ~] [b1 ~ ~ b1]>")
+       .s("gm_acoustic_bass").decay(.25).sustain(.55).release(.2)
+       .lpf(1600).room(.12).gain(.9)],
+  [16, note("<[e2 e2 e2 ~] [c2 c2 ~ c2] [g1 g1 g1 ~] [d2 d2 ~ d2]>")
+       .s("gm_acoustic_bass").decay(.2).sustain(.6).release(.2)
+       .lpf(1800).room(.12).gain(.96).distort(.08)],
+  [16, note("<[e2 ~ b1 e2] [g2 ~ ~ g2] [a1 ~ e2 ~] [b1 ~ ~ d2]>")
+       .s("gm_acoustic_bass").decay(.22).sustain(.58).release(.2)
+       .lpf(1700).room(.12).gain(.92)
+       .sometimes(x => x.add(note(12)).gain(.45))],
+  [16, note("<[e2 e2 e2 ~] [c2 c2 ~ c2] [g1 g1 g1 ~] [d2 d2 ~ d2]>")
+       .s("gm_acoustic_bass").decay(.2).sustain(.6).release(.2)
+       .lpf(1800).room(.14).gain(.98).distort(.1)],
+  [8,  note("<[c2 ~ b1 ~] [a1 ~ g1 ~] [e1 ~ ~ ~] [b1 ~ ~ ~]>")
+       .s("gm_acoustic_bass").decay(.3).sustain(.5).release(.25)
+       .lpf(1400).room(.2).gain(.84)],
+  [8,  note("<e2 ~ c2 ~ g1 ~ e1 ~>/2")
+       .s("gm_acoustic_bass").decay(.5).sustain(.4).release(.35)
+       .lpf(1200).room(.35).gain(.7)]
+)
+
+$: arrange(
+  [8,  chord("<Em>/1").dict('ireal').voicing()
+       .s("gm_electric_guitar_clean").struct("x ~ ~ ~")
+       .hpf(220).lpf(2600).distort(.28).room(.28).gain(.58)],
+  [16, chord("<Em G A B7>").dict('ireal').voicing()
+       .s("gm_electric_guitar_clean").struct("[x ~ x ~]*2")
+       .hpf(220).lpf(3200).distort(.34).room(.25).gain(.72).speed(.99)],
+  [16, chord("<Em C G D>").dict('ireal').voicing()
+       .s("gm_electric_guitar_clean").struct("x*8")
+       .hpf(240).lpf(3600).distort(.42).room(.22).gain(.8)
+       .every(4, x => x.fast(2).gain(.7))],
+  [16, chord("<Em G A B7>").dict('ireal').voicing()
+       .s("gm_electric_guitar_clean").struct("[x ~ x x]*2")
+       .hpf(220).lpf(3300).distort(.36).room(.25).gain(.74)
+       .sometimes(x => x.press())],
+  [16, chord("<Em C G D>").dict('ireal').voicing()
+       .s("gm_electric_guitar_clean").struct("x*8")
+       .hpf(240).lpf(3800).distort(.45).room(.22).gain(.84)
+       .every(4, x => x.fast(2).gain(.72))],
+  [8,  chord("<C G D B7>").dict('ireal').voicing()
+       .s("gm_electric_guitar_clean").struct("x ~ x ~")
+       .hpf(180).lpf(2800).distort(.3).room(.4).gain(.66).delay(".2:.15:.2")],
+  [8,  chord("<Em C G Em>/2").dict('ireal').voicing()
+       .s("gm_electric_guitar_clean").struct("x ~ ~ ~")
+       .hpf(180).lpf(2400).distort(.24).room(.5)
+       .gain(saw.slow(8).range(.6,.08))]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, n("<[~ 0 ~ 3] [5 ~ 3 ~] [7 ~ 5 ~] [3 ~ 2 ~]>")
+       .scale("E5:minor:pentatonic").s("square")
+       .attack(.01).decay(.2).sustain(.45).release(.25)
+       .lpf(sine.range(1000,3200).slow(8)).room(.35).delay(".25:.2:.28").gain(.34)],
+  [16, n("<[7 10 7 5] [3 5 7 10] [12 ~ 10 7] [5 3 2 ~]>")
+       .scale("E5:minor:pentatonic").s("square")
+       .attack(.005).decay(.18).sustain(.5).release(.22)
+       .lpf(sine.range(1600,4200).slow(6)).room(.3).delay(".2:.16:.24").gain(.42)
+       .vib(5).vibmod(.45)],
+  [16, n("<[~ 0 3 ~] [5 ~ ~ 7] [~ 5 3 ~] [2 ~ 0 ~]>")
+       .scale("E5:minor:pentatonic").s("square")
+       .attack(.01).decay(.2).sustain(.45).release(.25)
+       .lpf(sine.range(1100,3400).slow(8)).room(.35).delay(".25:.2:.28").gain(.36)
+       .sometimes(x => x.add(note(12)).gain(.5))],
+  [16, n("<[7 10 7 5] [3 5 7 10] [12 ~ 10 7] [5 3 2 ~]>")
+       .scale("E5:minor:pentatonic").s("square")
+       .attack(.005).decay(.18).sustain(.5).release(.22)
+       .lpf(sine.range(1700,4600).slow(6)).room(.32).delay(".2:.16:.24").gain(.45)
+       .vib(5).vibmod(.45)
+       .every(8, x => x.fast(2).gain(.65))],
+  [8,  n("<[10 ~ ~ 7] [5 ~ ~ 3] [2 ~ ~ 0] [~ ~ ~ ~]>")
+       .scale("E5:minor:pentatonic").s("square")
+       .attack(.03).decay(.3).sustain(.4).release(.4)
+       .lpf(2400).room(.5).delay(".35:.25:.38").gain(.32)],
+  [8,  n("<[7 ~ ~ ~] [5 ~ ~ ~] [3 ~ ~ ~] [0 ~ ~ ~]>/2")
+       .scale("E5:minor:pentatonic").s("square")
+       .attack(.05).decay(.35).sustain(.35).release(.5)
+       .lpf(1800).room(.65).gain(.2)]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, silence],
+  [16, n("<[0 ~ 3 ~] [5 ~ 3 ~] [7 ~ 5 ~] [3 ~ 2 ~]>")
+       .scale("E4:minor").s("gm_clavinet")
+       .struct("x*4").hpf(300).lpf(2600).room(.22).gain(.36)],
+  [16, n("<[~ 0 ~ ~] [~ 3 ~ ~] [~ 5 ~ ~] [~ 2 ~ ~]>")
+       .scale("E4:minor").s("gm_clavinet")
+       .struct("x ~ x ~").hpf(320).lpf(2400).room(.2).gain(.28)],
+  [16, n("<[0 ~ 3 ~] [5 ~ 3 ~] [7 ~ 5 ~] [3 ~ 2 ~]>")
+       .scale("E4:minor").s("gm_clavinet")
+       .struct("x*4").hpf(300).lpf(2800).room(.24).gain(.38)
+       .every(4, x => x.fast(2).gain(.6))],
+  [8,  n("<0 2 3 5>/2")
+       .scale("E4:minor").s("gm_string_ensemble_1")
+       .attack(.2).decay(.5).sustain(.6).release(.6)
+       .lpf(2200).room(.6).gain(.3)],
+  [8,  silence]
+)

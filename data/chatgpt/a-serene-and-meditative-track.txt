@@ -1,171 +1,49 @@
-// 🎵 "Still Water Prayer" — Serene ambient lo-fi meditation
-// At 118 BPM: intro(8) + verse(16) + chorus(16) + verse2(16) + bridge(16) + outro(8) = 80 bars ≈ 2:43
-
-setcpm(118 / 4)
-
-$: arrange(
-  [8,  s("vinyl:2").gain(.12).room(1).loop(1).lpf(2500)],
-  [16, s("vinyl:2").gain(.14).room(1).loop(1).lpf(2600)],
-  [16, s("vinyl:2").gain(.16).room(1).loop(1).lpf(2800)],
-  [16, s("vinyl:2").gain(.15).room(1).loop(1).lpf(2700)],
-  [16, s("vinyl:2").gain(.13).room(1).loop(1).lpf(2400)],
-  [8,  s("vinyl:2").gain(saw.slow(8).range(.12,.03)).room(1).loop(1).lpf(2200)]
-)
-
-$: arrange(
-  [8,  s("~ ~ ~ ~, ~ ~ ~ ~, hh*8, ~ ~ ~ ~")
-       .bank("RolandTR808")
-       .gain(.22).hpf(500).room(.4)],
-  [16, s("bd ~ ~ ~, ~ ~ sd ~, hh*8, ~ ~ ~ oh")
-       .bank("RolandTR808")
-       .cut(1).swing(4)
-       .gain(".62 .56").room(.35)],
-  [16, s("bd ~ bd ~, ~ sd ~ sd, hh*16, [~ oh ~ hh]*2")
-       .bank("RolandTR808")
-       .cut(1).swing(4)
-       .gain(".72 .66").room(.3)
-       .every(4, x => x.fast(2).gain(.8))],
-  [16, s("bd ~ ~ bd, ~ sd ~ ~, hh*8, ~ oh ~ ~")
-       .bank("RolandTR808")
-       .cut(1).swing(4)
-       .gain(".64 .58").room(.35)
-       .sometimes(x => x.press())],
-  [16, s("bd(3,8), ~ ~ sd ~ ~, [hh ~ hh hh]*2, ~ ~ oh ~")
-       .bank("RolandTR808")
-       .cut(1).swing(3)
-       .gain(".58 .52").room(.45)
-       .lpf(7000)],
-  [8,  s("bd ~ ~ ~, ~ ~ sd ~, hh*8, ~ ~ ~ ~")
-       .bank("RolandTR808")
-       .swing(4)
-       .gain(saw.slow(8).range(.55,.08))
-       .room(.6)]
-)
-
-$: arrange(
-  [8,  note("<c2 ~ ~ ~>/2")
-       .s("gm_acoustic_bass")
-       .attack(.2).decay(.6).sustain(.5).release(.8)
-       .lpf(900).room(.3).gain(.45)],
-  [16, note("<[c2 ~ ~ g1] [ab1 ~ ~ eb2] [f1 ~ ~ c2] [g1 ~ ~ ~]>")
-       .s("gm_acoustic_bass")
-       .decay(.35).sustain(.5).room(.25).gain(.72)],
-  [16, note("<[c2 ~ g1 c2] [ab1 ~ eb2 ab1] [f1 ~ c2 f1] [g1 ~ d2 ~]>")
-       .s("gm_acoustic_bass")
-       .decay(.25).sustain(.55).room(.2).gain(.8)],
-  [16, note("<[c2 ~ ~ g1] [ab1 ~ ~ eb2] [f1 ~ c2 ~] [g1 ~ ~ d2]>")
-       .s("gm_acoustic_bass")
-       .decay(.3).sustain(.5).room(.25).gain(.74)
-       .sometimes(x => x.add(note(12)).gain(.35))],
-  [16, note("<c2 ab1 f1 g1>/2")
-       .s("gm_acoustic_bass")
-       .decay(.5).sustain(.6).release(.4)
-       .room(.35).gain(.62).lpf(1200)],
-  [8,  note("<c2 ~ ab1 ~ f1 ~ g1 ~>/2")
-       .s("gm_acoustic_bass")
-       .decay(.6).sustain(.4)
-       .room(.4).gain(saw.slow(8).range(.55,.1)).speed(.97)]
-)
-
-$: arrange(
-  [8,  chord("<Cm9 Abmaj7>/2")
-       .dict('ireal').voicing()
-       .s("gm_synth_strings_1")
-       .attack(1).decay(1).sustain(.8).release(2)
-       .lpf(1400).room(.8).gain(.34)],
-  [16, chord("<Cm9 Abmaj7 Fm9 G7sus4>")
-       .dict('ireal').voicing()
-       .s("gm_epiano2")
-       .struct("~ [x ~] ~ [x ~]")
-       .lpf(2200).room(.55)
-       .delay(".25:.2:.3")
-       .gain(.44).speed(.99)],
-  [16, chord("<Cm9 Abmaj7 Fm9 G7sus4>")
-       .dict('ireal').voicing()
-       .s("gm_epiano1")
-       .struct("[x ~ x ~]*2")
-       .lpf(2800).room(.5)
-       .delay(".2:.15:.25")
-       .gain(.52)
-       .every(4, x => x.fast(2).gain(.75))],
-  [16, chord("<Cm9 Abmaj7 Fm9 G7sus4>")
-       .dict('ireal').voicing()
-       .s("gm_epiano2")
-       .struct("~ [x ~] ~ [~ x]")
-       .lpf(2300).room(.55)
-       .delay(".25:.2:.3")
-       .gain(.46).speed(.98)],
-  [16, chord("<Cm9 Abmaj7 Fm9 G7sus4>")
-       .dict('ireal').voicing()
-       .s("gm_string_ensemble_1")
-       .struct("x ~ ~ ~")
-       .attack(.7).decay(.8).sustain(.75).release(1.8)
-       .lpf(sine.range(900,1900).slow(8))
-       .room(.75).gain(.38)],
-  [8,  chord("<Cm9 Abmaj7>/2")
-       .dict('ireal').voicing()
-       .s("gm_synth_strings_1")
-       .attack(1).sustain(.6).release(2.5)
-       .lpf(sine.range(500,1300).slow(8))
-       .room(.85).gain(saw.slow(8).range(.32,.06))]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, n("<[~ 0 2 ~] [3 ~ ~ 5] [~ 7 5 ~] [3 ~ 2 0]>")
-       .scale("C5:minor:pentatonic")
-       .s("gm_flute")
-       .lpf(sine.range(1200,3600).slow(10))
-       .room(.65).delay(".35:.25:.45")
-       .gain(.34).vib(4).vibmod(.45)
-       .rarely(x => x.add(note(12)))],
-  [16, n("<[0 ~ 3 5] [~ 7 ~ 10] [7 5 3 ~] [~ 5 3 2]>")
-       .scale("C5:minor:pentatonic")
-       .s("gm_flute")
-       .lpf(sine.range(1600,4600).slow(8))
-       .room(.6).delay(".3:.2:.4")
-       .gain(.42).vib(5).vibmod(.55)
-       .sometimes(x => x.add(note(12)))],
-  [16, n("<[~ 0 ~ 2] [3 5 ~ ~] [~ 7 5 ~] [3 ~ 0 ~]>")
-       .scale("C5:minor:pentatonic")
-       .s("gm_flute")
-       .lpf(sine.range(1300,3800).slow(9))
-       .room(.65).delay(".35:.25:.45")
-       .gain(.36).vib(4).vibmod(.5)],
-  [16, n("<[~ ~ 7 ~] [10 ~ 7 ~] [~ 5 ~ 3] [2 ~ ~ ~]>")
-       .scale("C5:minor:pentatonic")
-       .s("gm_flute")
-       .lpf(3200).room(.75)
-       .delay(".45:.35:.55")
-       .gain(.3).attack(.05).release(.4)],
-  [8,  n("<[~ 0 ~ ~] [~ ~ 3 ~] [~ 2 ~ ~] [~ ~ 0 ~]>")
-       .scale("C5:minor:pentatonic")
-       .s("gm_flute")
-       .room(.85).delay(".55:.4:.6")
-       .gain(saw.slow(8).range(.24,.04))
-       .lpf(2000)]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, silence],
-  [16, n("<[~ ~ 5 ~] [~ 7 ~ ~] [5 ~ ~ 3] [~ ~ 2 ~]>")
-       .scale("C4:minor:pentatonic")
-       .s("gm_clarinet")
-       .room(.7).delay(".4:.3:.5")
-       .gain(.24).lpf(2600)
-       .attack(.08).decay(.25).sustain(.55).release(.35)],
-  [16, n("<[~ ~ 3 ~] [5 ~ ~ ~] [~ 2 ~ 3] [~ ~ 0 ~]>")
-       .scale("C4:minor:pentatonic")
-       .s("gm_clarinet")
-       .room(.68).delay(".38:.28:.45")
-       .gain(.22).lpf(2400)
-       .attack(.08).decay(.2).sustain(.55).release(.35)],
-  [16, n("<[~ 2 ~ 5] [7 ~ 5 ~] [~ 3 ~ 2] [0 ~ ~ ~]>")
-       .scale("C4:minor:pentatonic")
-       .s("gm_clarinet")
-       .room(.75).delay(".45:.3:.55")
-       .gain(.26).lpf(3000)
-       .vib(4).vibmod(.35)],
-  [8,  silence]
-)
+// "Still Water Breath" — soft pulses and drifting bells
+samples('github:tidalcycles/dirt-samples')
+setcps(0.42)
+note("<[0 2 4 7] [0 3 5 8] [0 2 5 9] [0 3 7 10]>").scale("C:minor").slow(4)
+  .s("sine")
+  .gain(0.34)
+  .attack(0.08)
+  .release(1.6)
+  .lpf(perlin.slow(6).range(700, 2200))
+  .room(0.78)
+  .size(0.92)
+  .delay(0.22)
+  .stack(
+    note("<[0 2] 4 [7 9]>").scale("C:minor").slow(2)
+      .s("triangle")
+      .euclid(5,8)
+      .gain(0.2)
+      .attack(0.01)
+      .release(0.9)
+      .pan(sine.slow(9).range(0.2, 0.8))
+      .lpf(sine.slow(5).range(900, 3800))
+      .room(0.62)
+      .delay(0.18)
+  )
+  .stack(
+    s("~ <hh(5,16) [~ hh] hh(3,8)>")
+      .gain(0.1)
+      .hpf(2600)
+      .pan(perlin.slow(7).range(0.35, 0.65))
+      .room(0.36)
+  )
+  .stack(
+    s("<~ [bd(2,8) ~] ~ [bd(3,16)]>")
+      .bank("RolandTR808")
+      .gain(0.16)
+      .lpf(420)
+      .room(0.48)
+      .size(0.7)
+  )
+  .stack(
+    s("<~ ~ [wind:1 wind:2] ~>")
+      .slow(2)
+      .gain(0.19)
+      .lpf(perlin.slow(10).range(400, 1700))
+      .room(0.95)
+      .size(1)
+      .delay(0.34)
+  )
+  .reset(32)

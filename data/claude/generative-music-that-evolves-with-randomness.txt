@@ -1,14 +1,130 @@
-Here's the song — "Emergent Drift", a generative ambient / evolving electronica piece at 72 BPM, 88 bars (~2:56):
+// 🌿 "Emergent Patterns" — Generative Ambient / Algorithmic Drift
+// At 80 BPM: intro(4) + evolve1(6) + evolve2(6) + peak(6) + dissolve(4) = 26 bars ≈ 78s
 
-**Key generative techniques used:**
-- **Perlin noise** modulates gains, filter cutoffs, and playback speeds continuously — no two listens sound identical
-- **`.sometimes()` / `.rarely()`** randomly apply octave jumps, reversals, gain drops, and bitcrushing
-- **`.every(N, fn)`** with prime-number intervals (3, 5, 7, 9, 11) creates non-repeating polyrhythmic variation cycles
-- **Euclidean rhythms** (`bd(3,8)`, `hh(5,8)`, `oh(3,8)`) that morph via `.struct()` overrides
-- **Alternating structures** (`<[~ x ~ x] [x ~ x ~]>`) shift rhythmic emphasis each cycle
-- **Flute counter-melody** uses `.sometimes(x => x.gain(0))` to randomly silence notes, creating an unpredictable appearance/disappearance effect
-- **Sub drone** root note changes every 4 bars with perlin-modulated gain and filter
+setcpm(80 / 4)
 
-**9 parallel voices:** sub drone, vinyl texture, drums, bass, chord pads, melody, counter-melody flute, and high sparkle bells.
+$: s("vinyl:2").gain(.11).room(1).loop(1).lpf(2200)
 
-Would you like me to save it to the project or render it?
+// Generative percussion — probability-driven euclidean rhythms
+$: arrange(
+  [4,  s("hh(3,8)")
+       .bank("RolandTR808").gain(perlin.range(.12,.28)).hpf(4500).room(.4)
+       .pan(perlin.range(.3,.7))],
+  [6,  s("<hh(3,8) hh(5,8)>, ~ ~ ~ [cp ~]")
+       .bank("RolandTR808").gain(perlin.range(.18,.35)).hpf(4500).room(.35)
+       .pan(sine.slow(6)).sometimes(x => x.gain(.08))],
+  [6,  s("<hh(5,8) hh(7,8)>, bd(3,8), [~ cp ~ ~]")
+       .bank("RolandTR808").gain(perlin.range(.22,.4)).hpf(3800).room(.3)
+       .pan(perlin.range(.2,.8)).rarely(x => x.speed(1.5))],
+  [6,  s("<hh(5,8,2) hh(7,8,3)>, bd(3,8,1), [~ cp] ~ [~ cp] ~, rimshot(2,5)")
+       .bank("RolandTR808").gain(perlin.range(.25,.45)).room(.25)
+       .pan(perlin.range(.15,.85)).sometimes(x => x.delay(".15:.1:.2"))
+       .every(3, x => x.fast(1.5))],
+  [4,  s("hh(3,8)")
+       .bank("RolandTR808").gain(saw.slow(4).range(.25,.0)).hpf(5000).room(.6)
+       .pan(perlin.range(.3,.7))]
+)
+
+// Drifting bass — perlin-modulated filter
+$: arrange(
+  [4,  note("eb1").s("sawtooth")
+       .lpf(perlin.range(180,450).slow(4)).decay(.6).sustain(.4)
+       .gain(.5).room(.35)],
+  [6,  note("<eb1 ~ ~ ~ bb1 ~ ~ ~>/2").s("sawtooth")
+       .lpf(perlin.range(200,600).slow(6)).decay(.5).sustain(.45)
+       .gain(.62).room(.3).sometimes(x => x.add(note(12)).gain(.3))],
+  [6,  note("<[eb1 ~ ~ bb1] [~ ~ ab1 ~]>").s("sawtooth")
+       .lpf(perlin.range(250,800).slow(4)).decay(.4).sustain(.5)
+       .gain(.68).room(.25).distort(.06)],
+  [6,  note("<[eb1 ~ bb1 ~] [ab1 ~ gb1 ~]>").s("sawtooth")
+       .lpf(perlin.range(300,1000).slow(3)).decay(.35).sustain(.55)
+       .gain(perlin.range(.6,.78)).room(.2).distort(.08)
+       .every(4, x => x.fast(1.5))],
+  [4,  note("eb1").s("sawtooth")
+       .lpf(saw.slow(4).range(600,120)).decay(.7).sustain(.3)
+       .gain(saw.slow(4).range(.5,.06)).room(.45)]
+)
+
+// Evolving pad — chord tones slowly morphing through perlin
+$: arrange(
+  [4,  chord("<Ebm9>").dict('ireal').voicing()
+       .s("gm_synth_strings_1").attack(1.5).decay(1).sustain(.6).release(2.5)
+       .lpf(perlin.range(500,1200).slow(8)).room(.8).gain(.18)
+       .pan(sine.slow(12))],
+  [6,  chord("<Ebm9 Bmaj7>").dict('ireal').voicing()
+       .s("gm_synth_strings_1").attack(1).decay(.9).sustain(.6).release(2)
+       .lpf(perlin.range(600,1800).slow(6)).room(.7).gain(.24)
+       .pan(perlin.range(.3,.7))],
+  [6,  chord("<Ebm9 Bmaj7 Gbmaj7 Db7>").dict('ireal').voicing()
+       .s("gm_synth_strings_1").attack(.8).decay(.8).sustain(.65).release(1.5)
+       .lpf(perlin.range(800,2400).slow(4)).room(.6).gain(perlin.range(.2,.32))
+       .pan(perlin.range(.2,.8))],
+  [6,  chord("<Ebm9 Bmaj7 Gbmaj7 Db7>").dict('ireal').voicing()
+       .s("gm_synth_strings_1").attack(.6).decay(.7).sustain(.7).release(1.2)
+       .lpf(perlin.range(1000,3000).slow(3)).room(.55).gain(perlin.range(.22,.36))
+       .pan(perlin.range(.15,.85)).sometimes(x => x.add(note(7)))],
+  [4,  chord("<Ebm9>").dict('ireal').voicing()
+       .s("gm_synth_strings_1").attack(1.5).sustain(.5).release(3.5)
+       .lpf(sine.range(400,900).slow(4)).room(.9)
+       .gain(saw.slow(4).range(.2,.03)).pan(.5)]
+)
+
+// Generative melody fragments — probabilistic note choices
+$: arrange(
+  [4,  silence],
+  [6,  n("<[~ 0 ~ ~] [~ ~ 2 ~] [~ 3 ~ ~] [~ ~ ~ 0]>")
+       .scale("Eb5:minor:pentatonic").s("gm_epiano1")
+       .lpf(perlin.range(1000,2800).slow(6))
+       .room(.65).delay(".4:.3:.5").gain(perlin.range(.22,.38))
+       .attack(.08).decay(.3).sustain(.55).release(.6)
+       .pan(perlin.range(.3,.7))],
+  [6,  n("<[~ 0 2 ~] [3 ~ 5 ~] [~ 3 ~ 7] [5 ~ 0 ~]>")
+       .scale("Eb5:minor:pentatonic").s("gm_epiano1")
+       .lpf(perlin.range(1200,3500).slow(4))
+       .room(.55).delay(".3:.2:.4").gain(perlin.range(.28,.44))
+       .attack(.06).decay(.25).sustain(.6).release(.5)
+       .sometimes(x => x.add(note(12)).gain(.2))
+       .rarely(x => x.rev())
+       .pan(perlin.range(.2,.8))],
+  [6,  n("<[0 2 3 5] [~ 7 5 3] [2 ~ 5 7] [3 5 ~ 0]>")
+       .scale("Eb5:minor:pentatonic").s("gm_epiano1")
+       .lpf(perlin.range(1500,4000).slow(3))
+       .room(.5).delay(".2:.15:.3").gain(perlin.range(.3,.48))
+       .attack(.05).decay(.2).sustain(.65).release(.4)
+       .sometimes(x => x.add(note(12)))
+       .every(3, x => x.fast(1.5))
+       .pan(perlin.range(.15,.85))],
+  [4,  n("<0 ~ ~ 3>/2")
+       .scale("Eb5:minor:pentatonic").s("gm_epiano1")
+       .lpf(sine.range(600,1800).slow(4))
+       .room(.85).delay(".6:.4:.7").gain(saw.slow(4).range(.28,.04))
+       .pan(.5)]
+)
+
+// Sine grain texture — random pitched tones that float in space
+$: arrange(
+  [4,  silence],
+  [6,  silence],
+  [6,  note("<[eb5 ~ ~ gb5] [~ bb5 ~ ~]>/2").s("sine")
+       .lpf(perlin.range(600,2000).slow(5))
+       .gain(perlin.range(.06,.15)).room(.8).delay(".5:.35:.6")
+       .attack(.15).decay(.3).sustain(.4).release(.8)
+       .pan(perlin.range(.1,.9))],
+  [6,  note("<[eb5 ~ gb5 ~] [bb5 ~ db6 ~] [~ gb5 ~ eb5] [~ ~ bb5 ~]>").s("sine")
+       .lpf(perlin.range(800,3000).slow(3))
+       .gain(perlin.range(.08,.18)).room(.7).delay(".4:.3:.5")
+       .attack(.1).decay(.25).sustain(.45).release(.6)
+       .pan(perlin.range(.05,.95))
+       .sometimes(x => x.add(note(7)))],
+  [4,  note("eb5").s("sine")
+       .lpf(sine.range(300,1000).slow(4))
+       .gain(saw.slow(4).range(.12,.0)).room(.9).delay(".6:.5:.7")
+       .attack(.2).sustain(.3).release(1.5)
+       .pan(.5)]
+)
+
+// Sub drone — barely there, grounding the chaos
+$: note("eb1").s("sine")
+   .attack(2).decay(1).sustain(.7).release(3)
+   .gain(perlin.range(.08,.16)).room(.5)
+   .lpf(perlin.range(80,160).slow(8))

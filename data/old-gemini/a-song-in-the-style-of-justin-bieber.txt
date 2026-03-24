@@ -1,0 +1,58 @@
+// 🍑 "Neon Sunset" — Modern Pop/R&B (Justin Bieber Style)
+// At 102 BPM: intro(8) + verse1(16) + chorus1(16) + verse2(16) + chorus2(16) + bridge(12) + outro(4) = 88 bars ≈ 3:27
+
+setcpm(102 / 4)
+
+$: s("vinyl:1").gain(.12).room(1).loop(1).lpf(3000)
+
+$: arrange(
+  [8,  s("hh*8").bank("RolandTR808").gain(perlin.range(.2, .4)).pan(sine.slow(4))],
+  [16, s("[bd ~ bd ~, ~ [cp,sd] ~ cp, hh*8]").bank("RolandTR808").swing(2).gain(.85).room(.2)],
+  [16, s("[bd ~ bd [~ bd], ~ [cp,sd] ~ [cp,sd], hh*16]").bank("RolandTR808").swing(3).gain(.9).room(.15).every(8, x=>x.fast(2))],
+  [16, s("[bd ~ bd ~, ~ [cp,sd] ~ cp, hh*8]").bank("RolandTR808").swing(2).gain(.85).room(.2)],
+  [16, s("[bd ~ bd [~ bd], ~ [cp,sd] ~ [cp,sd], hh*16]").bank("RolandTR808").swing(3).gain(.9).room(.15).every(8, x=>x.fast(2))],
+  [12, s("bd ~ ~ ~, ~ cp ~ ~, [hh oh]*4").bank("RolandTR808").gain(.7).room(.4)],
+  [4,  s("bd ~ ~ ~").bank("RolandTR808").gain(saw.slow(4).range(.7, 0)).room(.5)]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, note("<g1 e1 a1 d1>").s("gm_acoustic_bass").decay(.4).sustain(.4).room(.2).gain(.8)],
+  [16, note("<g1 [~ g1] e1 [~ e1] a1 [~ a1] d1 [~ d1]>").s("gm_acoustic_bass").decay(.3).sustain(.5).room(.15).gain(.85)],
+  [16, note("<g1 e1 a1 d1>").s("gm_acoustic_bass").decay(.4).sustain(.4).room(.2).gain(.8)],
+  [16, note("<g1 [~ g1] e1 [~ e1] a1 [~ a1] d1 [~ d1]>").s("gm_acoustic_bass").decay(.3).sustain(.5).room(.15).gain(.85)],
+  [12, note("<g1 e1 a1 d1>/3").s("gm_acoustic_bass").decay(.8).sustain(.2).gain(.6).lpf(400)],
+  [4,  silence]
+)
+
+$: arrange(
+  [8,  chord("<Gmaj9 E:m9 Am9 D:11>/2").dict('ireal').voicing().s("gm_epiano1").attack(.1).release(.5).room(.6).gain(.4)],
+  [16, chord("<Gmaj9 E:m9 Am9 D:11>").dict('ireal').voicing().s("gm_epiano1").struct("x ~ x x ~ x ~ ~").room(.4).gain(.5).delay(".2:.1:.2")],
+  [16, chord("<Gmaj9 E:m9 Am9 D:11>").dict('ireal').voicing().s("gm_epiano2").struct("x x ~ x x ~ x ~").room(.3).gain(.55).crush(14)],
+  [16, chord("<Gmaj9 E:m9 Am9 D:11>").dict('ireal').voicing().s("gm_epiano1").struct("x ~ x x ~ x ~ ~").room(.4).gain(.5)],
+  [16, chord("<Gmaj9 E:m9 Am9 D:11>").dict('ireal').voicing().s("gm_epiano2").struct("x x ~ x x ~ x ~").room(.3).gain(.55)],
+  [12, chord("<Gmaj9 E:m9 Am9 D:11>/3").dict('ireal').voicing().s("gm_synth_strings_1").attack(1).release(2).lpf(sine.range(500,1500).slow(6)).gain(.35)],
+  [4,  chord("Gmaj9").dict('ireal').voicing().s("gm_epiano1").gain(saw.slow(4).range(.4, 0)).room(.8)]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, n("<[~ 7 6 4] [~ 2 4 ~] [~ 0 2 4] [~ 7 ~ ~]>").scale("G4:major").s("gm_flute").room(.7).delay(".3:.2:.4").gain(.35).vib(4)],
+  [16, n("<[7 9 7 4] [7 ~ 9 ~] [11 9 7 4] [7 ~ ~ ~]>").scale("G5:major").s("sine").attack(.05).decay(.2).sustain(.4).release(.2).room(.5).delay(".2:.15:.3").gain(.4).vib(5)],
+  [16, n("<[~ 7 6 4] [~ 2 4 ~] [~ 0 2 4] [~ 7 ~ ~]>").scale("G4:major").s("gm_flute").room(.7).delay(".3:.2:.4").gain(.35)],
+  [16, n("<[7 9 7 4] [7 ~ 9 ~] [11 9 7 4] [7 ~ ~ ~]>").scale("G5:major").s("sine").attack(.05).decay(.2).sustain(.4).release(.2).room(.5).delay(".2:.15:.3").gain(.4)],
+  [12, silence],
+  [4,  silence]
+)
+
+$: arrange(
+  [8,  silence],
+  [16, silence],
+  [16, n("<[~ ~ ~ 11] [~ ~ 9 ~] [~ ~ ~ 7] [~ ~ 4 ~]>").scale("G5:major").s("gm_electric_guitar_clean").room(.6).delay(".4:.3:.5").gain(.3).lpf(2500)],
+  [16, silence],
+  [16, n("<[~ ~ ~ 11] [~ ~ 9 ~] [~ ~ ~ 7] [~ ~ 4 ~]>").scale("G5:major").s("gm_electric_guitar_clean").room(.6).delay(".4:.3:.5").gain(.3).lpf(2500)],
+  [12, silence],
+  [4,  silence]
+)
+
+$: note("<g2 e2 a2 d2>/4").s("square").lpf(sine.range(200, 800).slow(8)).gain(.15).attack(2).release(2).room(.8)

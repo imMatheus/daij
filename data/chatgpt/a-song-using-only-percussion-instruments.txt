@@ -1,58 +1,33 @@
-// 🎵 "Steel City Ritual" — Percussive Tech-House built entirely from drum-machine voices
-// At 132 BPM: intro(8) + verse(16) + chorus(16) + verse2(16) + chorus2(16) + outro(8) = 80 bars ≈ 2:25
+// "Skin and Steel" — raw polyrhythmic percussion ritual
+samples('github:tidalcycles/dirt-samples')
+setcps(0.9)
 
-setcpm(132 / 4)
-
-$: arrange(
-  [8,  s("bd ~ ~ ~, ~ ~ sd ~").bank("RolandTR808").swing(4).room(.25).gain(.8)],
-  [16, s("bd ~ ~ bd, ~ sd ~ ~, bd ~ ~ ~, ~ sd ~ ~").bank("RolandTR808").swing(4).room(.3).gain(.9)],
-  [16, s("bd ~ bd ~, ~ [sd cp] ~ ~, bd ~ bd ~, ~ sd ~ [oh ~]").bank("RolandTR808").cut(1).swing(4).room(.28).gain(.95).every(4, x => x.fast(2).gain(.65))],
-  [16, s("bd ~ ~ bd, ~ sd ~ [bd ~], bd ~ ~ ~, ~ [sd cp] ~ ~").bank("RolandTR808").swing(4).room(.3).gain(.9).sometimes(x => x.press())],
-  [16, s("bd ~ bd ~, ~ [sd cp] ~ ~, bd [bd ~] ~ ~, ~ sd ~ [oh ~]").bank("RolandTR808").cut(1).swing(4).room(.28).gain(.97).every(4, x => x.fast(2).gain(.65))],
-  [8,  s("bd ~ ~ ~, ~ ~ sd ~").bank("RolandTR808").swing(4).room(.35).gain(saw.slow(8).range(.75,.15))]
-)
-
-$: arrange(
-  [8,  s("lt ~ ~ ~").bank("RolandTR808").lpf(220).decay(.25).gain(.45)],
-  [16, s("lt ~ ~ lt, ~ ~ lt ~, lt ~ ~ ~, ~ ~ lt ~").bank("RolandTR808").lpf(240).decay(.3).gain(.68)],
-  [16, s("lt ~ lt ~, ~ lt ~ ~, lt ~ lt ~, ~ ~ lt ~").bank("RolandTR808").lpf(260).decay(.28).gain(.74).every(8, x => x.fast(2).gain(.6))],
-  [16, s("lt ~ ~ lt, ~ lt ~ ~, lt ~ ~ lt, ~ ~ lt ~").bank("RolandTR808").lpf(250).decay(.3).gain(.7).sometimes(x => x.rev())],
-  [16, s("lt ~ lt ~, ~ lt ~ ~, lt ~ lt ~, ~ lt ~ ~").bank("RolandTR808").lpf(270).decay(.27).gain(.76).every(8, x => x.fast(2).gain(.6))],
-  [8,  s("lt ~ ~ ~, ~ ~ ~ ~").bank("RolandTR808").lpf(200).decay(.35).gain(saw.slow(8).range(.5,.08))]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, s("[mt ht] ~ ~ ~, ~ [cp ~] ~ ~, [mt ht] ~ ~ ~, ~ [cp ~] ~ ~").bank("RolandTR808").room(.45).hpf(500).gain(.42)],
-  [16, s("[mt ht cp] ~ ~ ~, ~ [mt ht] ~ ~, [mt ht cp] ~ ~ ~, ~ [cp ~] ~ ~").bank("RolandTR808").room(.5).hpf(650).gain(.5).every(4, x => x.rev())],
-  [16, s("[mt ht] ~ [cp ~] ~, ~ [mt ~] ~ [cp ~], [mt ht] ~ ~ ~, ~ [cp ~] ~ ~").bank("RolandTR808").room(.45).hpf(520).gain(.44).sometimes(x => x.press())],
-  [16, s("[mt ht cp] ~ ~ ~, ~ [mt ht] ~ ~, [mt ht cp] ~ [cp ~] ~, ~ [cp ~] ~ ~").bank("RolandTR808").room(.52).hpf(700).gain(.52).every(4, x => x.fast(2).gain(.7))],
-  [8,  s("[mt ~] ~ ~ ~, ~ [cp ~] ~ ~").bank("RolandTR808").room(.6).hpf(500).gain(saw.slow(8).range(.35,.05))]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, s("cb ~ ~ cb, ~ ~ cb ~, ~ cb ~ ~, cb ~ ~ ~").bank("RolandTR808").hpf(1200).room(.25).delay(".2:.15:.2").gain(.35)],
-  [16, s("cb ~ cb ~, ~ cb ~ cb, cb ~ cb ~, ~ cb ~ ~").bank("RolandTR808").hpf(1400).room(.3).delay(".25:.2:.25").gain(.42).sometimes(x => x.fast(2).gain(.7))],
-  [16, s("cb ~ ~ cb, ~ cb ~ ~, ~ cb ~ cb, cb ~ ~ ~").bank("RolandTR808").hpf(1250).room(.28).delay(".2:.15:.2").gain(.37).rarely(x => x.rev())],
-  [16, s("cb ~ cb ~, ~ cb ~ cb, cb ~ cb ~, ~ cb ~ [cb cb]").bank("RolandTR808").hpf(1450).room(.32).delay(".25:.2:.25").gain(.44).every(8, x => x.fast(2).gain(.75))],
-  [8,  s("cb ~ ~ ~, ~ ~ ~ ~").bank("RolandTR808").hpf(1100).room(.4).delay(".3:.2:.35").gain(saw.slow(8).range(.26,.04))]
-)
-
-$: arrange(
-  [8,  s("hh*8").bank("RolandTR808").cut(1).gain(perlin.range(.08,.2)).pan(sine.slow(6))],
-  [16, s("hh*16").bank("RolandTR808").cut(1).gain(perlin.range(.12,.34)).pan(sine.slow(6)).swing(4)],
-  [16, s("[hh*12 oh*4]").bank("RolandTR808").cut(1).gain(perlin.range(.16,.42)).pan(sine.slow(5)).swing(4)],
-  [16, s("hh*16").bank("RolandTR808").cut(1).gain(perlin.range(.12,.34)).pan(sine.slow(6)).swing(4).sometimes(x => x.press())],
-  [16, s("[hh*12 oh*4]").bank("RolandTR808").cut(1).gain(perlin.range(.16,.42)).pan(sine.slow(5)).swing(4).every(4, x => x.fast(2).gain(.7))],
-  [8,  s("hh*8").bank("RolandTR808").cut(1).gain(saw.slow(8).range(.18,.03)).pan(sine.slow(7))]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, s("rs ~ ~ ~, ~ ~ rs ~, ~ rs ~ ~, ~ ~ ~ rs").bank("RolandTR808").hpf(1800).room(.35).gain(.24)],
-  [16, s("rs ~ cp ~, ~ rs ~ cp, rs ~ cp ~, ~ rs ~ cp").bank("RolandTR808").hpf(2000).room(.4).delay(".15:.1:.2").gain(.3)],
-  [16, s("rs ~ ~ cp, ~ rs ~ ~, ~ cp ~ rs, ~ ~ rs ~").bank("RolandTR808").hpf(1850).room(.36).gain(.26).sometimes(x => x.rev())],
-  [16, s("rs ~ cp ~, ~ rs ~ cp, rs ~ cp ~, ~ rs [cp rs] ~").bank("RolandTR808").hpf(2050).room(.42).delay(".15:.1:.2").gain(.32).every(4, x => x.fast(2).gain(.65))],
-  [8,  silence]
-)
+$: s("bd(<5 3>,8) [~ bd(3,8)] <bd*2 bd>")
+  .n("<0 0 1 2>")
+  .stack(
+    s("[~ sn] [sn ~] <sn(3,8) [~ sn]>")
+      .n("<0 1 2 1>")
+      .gain(0.9),
+    s("hh*16")
+      .gain("<0.4 0.6 0.5 0.7>")
+      .speed("<1 1.2 0.8 1.4>"),
+    s("cp(3,8,<1 2 3>) <~ cp> [~ cp]")
+      .gain(0.7),
+    s("<lt mt ht>*4")
+      .euclid(5,16)
+      .gain(0.55)
+      .speed("<0.9 1 1.1 1.2>"),
+    s("rim(7,16)")
+      .gain(0.45)
+      .pan(sine.slow(6)),
+    s("[perc*2 ~ perc] <perc(5,16) perc(3,8)>")
+      .gain(0.35)
+      .hpf(perlin.range(900,5000).slow(8))
+  )
+  .reset(32)
+  .room(perlin.range(0.08,0.5).slow(5))
+  .delay("<0 0.25 0.5 0.375>")
+  .delaytime("<0.125 0.25 0.1875 0.3125>")
+  .delayfeedback(perlin.range(0.15,0.55).slow(4))
+  .lpf(sine.range(700,5000).slow(9))
+  .gain(1.05)
