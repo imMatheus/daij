@@ -1253,13 +1253,6 @@
     "prompt": "a funk groove with slap bass"
   },
   {
-    "name": "Fuzz Pedal",
-    "provider": "gemini",
-    "audioUrl": "/gemini/a-garage-rock-song.mp3",
-    "duration": 70,
-    "prompt": "a garage rock song"
-  },
-  {
     "name": "Blue Hour",
     "provider": "gemini",
     "audioUrl": "/gemini/a-jazz-ballad-with-walking-bass.mp3",
