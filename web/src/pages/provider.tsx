@@ -1,6 +1,6 @@
 import { useParams, Link } from 'react-router'
 import { useSongs } from '@/useSongs'
-import { formatDuration, getProviderImage } from '@/lib/utils'
+import { getProviderImage } from '@/lib/utils'
 import { SongRow } from '@/components/SongRow'
 import { Button } from '@/components/button'
 import {
