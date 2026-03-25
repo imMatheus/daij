@@ -1,9 +1,0 @@
-// 🎵 "Cigarette Soul" — Layered psych-roots live loop
-setcps(115/240)
-stack(
-  s("bd [~ sd:3] bd*2 <sd:3 [~ sd:3]>").bank("dirt").gain(1.1),
-  s("hh*16").gain(sine.range(.3,.7).slow(4)).pan(perlin.slow(2)),
-  note("e2(3,8) a1(3,8)").s("bass2").lpf(500).gain(.9),
-  note("<[e3,g3,b3,d4] [a3,c4,e4,g4] [c3,e3,g3,b3] [b2,d3,f3,a3]>").s("superguitar").room(.8).delay(.5).delayfb(.6).gain(.7).lpf(sine.range(1200,4000).slow(16)),
-  note("e4 g4 a4 b4 d5".scale("minor").segment(16).struct("1(5,16,3)").slow(2)).s("superguitar").room(1).sz(.9).delay(.75).delayfb(.5).jux(rev).gain(.6)
-).reset(16)
