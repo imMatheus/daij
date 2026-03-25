@@ -1,65 +1,66 @@
-// "Quest for the Crystal Crown" — 8-bit Chiptune Adventure Theme
-// At 150 BPM, ~40 cycles ~ 64 seconds
-// Key: D major — heroic, triumphant, NES-era adventure
+// "Pixel Quest" — 8-bit chiptune adventure theme
+setcps(0.625)
 
-setcpm(150 / 4)
+const i = 4, c = 16, b = 8, f = 16
 
-// -- DRUMS — NES-style noise channel + kick
-$: s("bd ~ bd ~, ~ cp ~ cp, [hh hh ~ hh hh hh ~ hh]*2")
-   .bank("RolandTR808").cut(1)
-   .gain(".85 .72 .3")
-   .crush(8).room(.1)
-   .every(4, x => x.struct("bd [bd bd] ~ bd, ~ cp ~ [cp cp], [hh hh ~ hh hh hh ~ hh]*2"))
-   .every(7, x => x.fast(2).gain(.35))
+const chorusLead = n("<[0 2 4 7] [7 4 2 0] [3 5 7 5] [3 2 0 ~] [5 4 2 4] [5 7 5 ~] [4 2 4 7] [4 2 0 ~]>*2")
+  .scale("D5:major").s("square").decay(.1).sustain(0).release(.04)
+  .lpf(sine.range(2000,8000).slow(8)).delay(".12:.125:.2").room(.08).gain(.35)
 
-// -- CHIP BASS — square wave, driving root movement
-$: note("<[d2 ~ d2 ~] [b1 ~ ~ b1] [g1 ~ g1 ~] [a1 ~ a1 a1]>")
-   .s("square")
-   .lpf(600).lpq(2)
-   .decay(.1).sustain(.35).release(.04)
-   .gain(.36).crush(10)
-   .every(4, x => x.struct("[d2 d2 ~ d2] [b1 ~ b1 ~] [g1 g1 ~ ~] [a1 ~ a1 a1]"))
+const bridgeLead = n("<[0 2 4 5] [5 4 2 0] [5 7 5 4] [2 4 2 ~] [2 4 6 4] [2 0 2 ~] [6 4 2 4] [6 7 ~ ~]>*2")
+  .scale("D5:minor").s("square").decay(.1).sustain(0).release(.04)
+  .lpf(sine.range(1800,6000).slow(6)).delay(".16:.25:.3").room(.15).gain(.32)
 
-// -- HERO MELODY — bright square wave lead
-$: n("<[0 2 4 7] [9 7 4 2] [5 4 2 0] [2 4 5 7], [~ ~ ~ ~] [~ ~ ~ ~] [~ ~ ~ ~] [9 11 9 7]>")
-   .scale("D5:major")
-   .s("square")
-   .lpf(4200).lpq(2)
-   .decay(.07).sustain(.3).release(.03)
-   .gain(.24).crush(12).room(.12)
-   .every(3, x => x.rev())
-   .every(5, x => x.add(note(12)).gain(.15))
-   .firstOf(8, x => x.fast(2).gain(.16))
+const chorusArp = n("<[0,2,4]!2 [3,5,7]!2 [5,7,9]!2 [4,6,8]!2>")
+  .scale("D4:major").s("square").decay(.05).sustain(0)
+  .lpf(sine.range(1200,5000).slow(8)).gain(.15)
 
-// -- ARPEGGIOS — triangle wave cascading adventure sparkle
-$: n("<[0 4 7 11] [0 4 7 11] [0 2 7 11] [0 4 7 9]>*4")
-   .scale("D4:major")
-   .s("triangle")
-   .decay(.05).sustain(.15).release(.02)
-   .gain(.18).crush(10).room(.1)
-   .pan(sine.slow(3))
-   .every(4, x => x.iter(4))
-   .every(6, x => x.rev())
+const bridgeArp = n("<[0,2,4]!2 [5,7,9]!2 [2,4,6]!2 [6,8,10]!2>")
+  .scale("D4:minor").s("square").decay(.05).sustain(0)
+  .lpf(sine.range(1000,4000).slow(6)).gain(.13)
 
-// -- HARMONY PAD — triangle chords, warm bed
-$: note("<[d4,fs4,a4] [b3,d4,fs4] [g3,b3,d4] [a3,cs4,e4]>/4")
-   .s("triangle")
-   .attack(.08).decay(.25).sustain(.45).release(.2)
-   .lpf(1400).crush(12)
-   .gain(.12).room(.15)
+const chorusBass = n("<0!2 3!2 5!2 4!2>").struct("x ~ x [~ x]")
+  .scale("D2:major").s("triangle").decay(.15).sustain(.2)
+  .lpf(sine.range(200,900).slow(6)).gain(.45)
 
-// -- COUNTER MELODY — high register fanfare
-$: n("<[~ 4 ~ 7] [9 ~ 7 ~] [~ 5 ~ 4] [7 ~ 9 11]>")
-   .scale("D6:major")
-   .s("square")
-   .lpf(5500).crush(10)
-   .decay(.04).sustain(.12).release(.02)
-   .gain(.1).room(.08).pan(.65)
-   .delay(".08:.04:.1")
-   .every(5, x => x.rev())
+const bridgeBass = n("<0!2 5!2 2!2 6!2>").struct("x ~ x [~ x]")
+  .scale("D2:minor").s("triangle").decay(.15).sustain(.2)
+  .lpf(sine.range(180,700).slow(4)).gain(.42)
 
-// -- SUB — low sine anchor
-$: note("<d1 b0 g0 a0>/4")
-   .s("sine")
-   .attack(.02).decay(.25).sustain(.55).release(.1)
-   .gain(.22).lpf(150)
+const chorusDrums = s("bd ~ ~ sd, hh*8").gain(".7 .3")
+  .lpf(sine.range(3000,10000).slow(8)).room(.06)
+
+const bridgeDrums = s("bd ~ ~ sd, [hh*4 [hh oh]*2]").gain(".6 .3")
+  .lpf(sine.range(2500,8000).slow(6)).room(.1)
+
+const counter = n("<[0 4 7 4]!2 [3 7 3 7]!2 [5 2 5 2]!2 [4 0 4 0]!2>*2")
+  .scale("D5:major").s("triangle").decay(.04).sustain(0).gain(.15)
+
+$: stack(
+  arrange(
+    [i, n("<~ [0 2 4] [0 2 4 7]*2 [0 2 4 7 9 7 4 2]>").scale("D5:major")
+      .s("square").decay(.08).sustain(0).lpf(3000).gain(.3)],
+    [c, chorusLead],
+    [b, bridgeLead],
+    [f, chorusLead.lpf(sine.range(2200,9000).slow(8)).gain(.38)]
+  ),
+  arrange(
+    [i, silence],
+    [c, chorusArp],
+    [b, bridgeArp],
+    [f, chorusArp.lpf(sine.range(1400,5500).slow(8)).gain(.17)]
+  ),
+  arrange(
+    [i, n("0").scale("D2:major").s("triangle").decay(.3).sustain(.3).gain(.4)],
+    [c, chorusBass],
+    [b, bridgeBass],
+    [f, chorusBass.lpf(sine.range(220,1000).slow(6)).distort(".5:.9").gain(.48)]
+  ),
+  arrange(
+    [i, s("<~ ~ hh*4 [bd ~ ~ sd, hh*8]>").gain("<.15 .15 .25 .55>")],
+    [c, chorusDrums],
+    [b, bridgeDrums],
+    [f, s("bd [~ bd] ~ sd, hh*8").gain(".7 .3").lpf(sine.range(3500,11000).slow(8)).room(.06)]
+  ),
+  arrange([i, silence], [c, silence], [b, silence], [f, counter])
+)

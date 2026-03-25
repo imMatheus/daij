@@ -1,11 +1,114 @@
-// "Quartz Loop" — minimal techno pulse with evolving space
+// "Concrete Circuit" — stripped minimal techno loop
 samples('github:tidalcycles/dirt-samples')
-setcps(0.9)
-stack(
-  s("bd*<4 [3 5] 4 5>").n("<0 0 1 0>").gain(1.15).lpf(perlin.slow(6).range(85,145)).room(0.08),
-  s("[~ cp] <~ [cp ~]> [~ cp ~] [cp ~ ~]").bank("RolandTR909").gain(0.62).hpf(sine.slow(5).range(700,2400)).delay(0.25).delayfeedback(0.42).room(0.22),
-  s("hh(5,8,<0 2 1>) [~ hh(3,8)]").gain(0.38).hpf(perlin.slow(9).range(4200,9800)).room(sine.slow(7).range(0.05,0.25)),
-  s("<~ oh> [~ oh]*2").gain(0.27).hpf(5400).delay(0.375).delayfeedback(0.55).room(0.35),
-  note("<[0 -1] [0 -2] [0 -1] [0 -3]>").s("sawtooth").slow(2).legato(1.05).lpf(perlin.slow(4).range(180,760)).resonance(0.28).gain(0.44).room(0.18),
-  s("~ [perc:2 perc:4] ~ [perc:7 ~ perc:3]").gain(0.24).speed("<0.9 1 1.1 0.95>").hpf(1800).delay(0.5).delayfeedback(0.35).room(0.28)
-).reset(48)
+setcps(24/70)
+
+const smoke = sine.slow(9).range(170,520)
+const sweep = sine.slow(11).range(900,4200)
+const metal = sine.slow(7).range(6500,13000)
+
+const intro =
+  s("[~ hh]*4").bank("RolandTR909")
+    .begin("<.01 .02>").end("<.05 .08>")
+    .bpf(metal).bpq(6).room(.28)
+    .gain("0 .014 0 .02 0 .016 0 .026 0 .018")
+    .stack(
+      s("cp ~ ~ ~").bank("RolandTR909")
+        .lpf(1400).delay(".2:.25:.38").room(.32).gain(.04)
+    )
+    .stack(
+      note("c2 ~ ~ ~").slow(2).s("sine")
+        .attack(.02).decay(.38).sustain(.15).release(.7)
+        .lpf(smoke).gain(.14).room(.48)
+    )
+
+const chorus =
+  s("bd*4, ~ cp ~ cp, [~ hh]*8, ~ ~ oh ~").bank("RolandTR909")
+    .gain(".98 .22 .12 .08")
+    .lpf("<14000 9000 12000 11000>")
+    .room(.12)
+    .reset("<x ~ ~ x>")
+
+const bridge =
+  s("bd ~ ~ bd, ~ cp ~ ~, [~ hh]*4, ~ ~ oh ~").bank("RolandTR909")
+    .gain(".88 .16 .08 .06")
+    .lpf(sine.slow(4).range(1000,3200))
+    .room(.42).delay(".16:.25:.32")
+    .reset("<x ~ x ~>")
+
+const duck =
+  s("bd*4").bank("RolandTR909")
+    .duckorbit("2:3:4:5").duckattack("0.28:0.18:0.24:0.12")
+    .duckdepth(".9:.7:.45:.3").postgain(0)
+
+const bridgeDuck =
+  s("bd ~ ~ bd").bank("RolandTR909")
+    .duckorbit("2:3:4:5").duckattack("0.36:0.22:0.3:0.16")
+    .duckdepth(".7:.56:.38:.2").postgain(0)
+
+const rumble =
+  s("bd*4").bank("RolandTR909")
+    .end(.35).speed(.5)
+    .lpf(smoke).room(.52).delay(".08:.25:.24")
+    .gain(.18).orbit(2)
+    .reset("<x ~ ~ x>")
+
+const bridgeRumble =
+  s("bd ~ ~ bd").bank("RolandTR909")
+    .end(.28).speed(.5)
+    .lpf(sine.slow(6).range(130,260)).room(.68).delay(".14:.5:.42")
+    .gain(.12).orbit(2)
+    .reset("<x ~ x ~>")
+
+const bass =
+  note("~ c2 ~ c2 ~ c2 ~ d#2 ~ c2 ~ g1 ~ c2 ~ d#2").s("square")
+    .attack(.01).decay(.16).sustain(.12).release(.08)
+    .lpf(smoke).hpf(45)
+    .gain(.54).orbit(3)
+    .reset("<x ~ ~ x>")
+
+const bridgeBass =
+  note("c2 ~ ~ ~ ~ d#2 ~ ~ g1 ~ ~ ~ ~ d#2 ~ ~").s("square")
+    .attack(.01).decay(.24).sustain(.14).release(.12)
+    .lpf(sine.slow(5).range(140,300)).hpf(40)
+    .gain(.36).room(.18).orbit(3)
+    .reset("<x ~ x ~>")
+
+const stab =
+  note("<[c4 d#4 g4] [c4 d#4 a#4] [g3 c4 d#4] [a#3 d#4 g4]>").s("sawtooth")
+    .struct("~ x ~ x ~ x ~ x")
+    .attack(.01).decay(.22).sustain(.12).release(.32)
+    .lpf(sweep).room(.22).delay(".14:.375:.28")
+    .gain(.24).orbit(4)
+    .reset("<x ~ ~ x>")
+
+const bridgeStab =
+  note("<[c4 d#4 g4] [a#3 d#4 g4] [g3 c4 d#4]>").slow(3).s("sawtooth")
+    .struct("~ x ~ ~ ~ x ~ ~")
+    .attack(.02).decay(.28).sustain(.14).release(.8)
+    .lpf(sine.slow(5).range(700,2200)).room(.7).delay(".34:.5:.62")
+    .gain(.16).orbit(4)
+    .reset("<x ~ x ~>")
+
+const blip =
+  note("<g4 ~ g4 a#4 c5 ~ g4 ~>").fast(2).s("triangle")
+    .attack(.01).decay(.08).sustain(.04).release(.12)
+    .lpf(sine.slow(8).range(1800,6000))
+    .delay(".3:.25:.4").room(.18)
+    .gain(.11).orbit(5)
+    .reset("<x ~ ~ x>")
+
+const bridgeBlip =
+  note("<g4 a#4 c5 g4>").slow(2).s("triangle")
+    .struct("~ ~ x ~ ~ ~ x ~")
+    .attack(.02).decay(.1).sustain(.06).release(.5)
+    .lpf(sine.slow(6).range(1200,3600))
+    .delay(".52:.5:.74").room(.82)
+    .gain(.07).orbit(5)
+
+arrange([1, intro], [10, chorus], [3, bridge], [10, chorus])
+  .stack(arrange([1, silence], [10, duck], [3, bridgeDuck], [10, duck]))
+  .stack(arrange([1, silence], [10, rumble], [3, bridgeRumble], [10, rumble]))
+  .stack(arrange([1, silence], [10, bass], [3, bridgeBass], [10, bass]))
+  .stack(arrange([1, silence], [10, stab], [3, bridgeStab], [10, stab]))
+  .stack(arrange([1, silence], [10, blip], [3, bridgeBlip], [10, blip]))
+  .postgain(.99)

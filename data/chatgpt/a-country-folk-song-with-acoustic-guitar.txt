@@ -1,24 +1,133 @@
-// "Front Porch Dust" — warm country folk picking with acoustic twang
+// "Fencepost Hymn" — country folk with warm acoustic guitar and porch harmonica
 samples('github:tidalcycles/dirt-samples')
-setcps(0.62)
-s("<gtr gtr:1 [gtr gtr:2] gtr:3>*2")
-  .n("<0 2 4 5 7 5 4 2>")
-  .speed("<1 0.99 1.01 1>*2")
-  .gain(0.9)
-  .lpf(perlin.slow(6).range(900,2800))
-  .room(0.32)
-  .delay(0.22)
-  .stack(
-    s("<~ bd(3,8) ~ [bd bd]>").gain(0.78).lpf(150),
-    s("[~ sd] ~ <sd ~ [sd sd]> ~").gain(0.44).room(0.2),
-    s("hh*8").gain("0.18 0.12 0.16 0.1 0.2 0.12 0.15 0.09").hpf(5000),
-    s("<cp ~> [~ cp] <~ cp cp ~>").gain(0.24).room(0.45).delay(0.18),
-    note("<[0,4,7] [2,5,9] [4,7,11] [5,9,12]>")
-      .sound("triangle")
-      .slow(2)
-      .gain(0.16)
-      .lpf(sine.slow(8).range(300,1200))
-      .room(0.55)
-      .delay(0.35)
-  )
-  .reset(32)
+setcps(2/7)
+
+const wood = sine.slow(9).range(2400,4300)
+const porch = sine.slow(11).range(.18,.42)
+const body = sine.slow(7).range(900,1800)
+const brush = sine.slow(13).range(4200,7600)
+
+const introStrum = chord("G").dict('ireal').anchor("g4").voicing().s("gm_acoustic_guitar_steel")
+  .struct("[x ~ ~ x ~ [x x] ~ x]")
+  .attack(.01).decay(.18).sustain(.26).release(.32)
+  .lpf(wood).hpf(120).room(.34).delay(".12:.125:.16").gain(.46).speed(.99)
+
+const chorusStrum = chord("<G D Em C G D C D>").dict('ireal').anchor("g4").voicing().slow(8).s("gm_acoustic_guitar_steel")
+  .struct("<[x ~ x ~ ~ x ~ x ~ x ~ ~ x ~ x ~] [x ~ x ~ ~ x ~ x ~ x x ~ x ~ ~ ~] [x ~ x ~ x ~ ~ x ~ x ~ x ~ x ~ ~] [x ~ x ~ ~ x x ~ ~ x ~ x ~ x ~ ~] [x ~ x ~ ~ x ~ x ~ x ~ ~ x ~ x ~] [x ~ x ~ ~ x ~ x ~ x x ~ x ~ ~ ~] [x ~ x ~ x ~ ~ x ~ x ~ x ~ x ~ ~] [x ~ x ~ ~ x x ~ ~ x ~ x ~ x x ~]>")
+  .attack(.01).decay(.16).sustain(.24).release(.18)
+  .lpf(wood).hpf(110).room(porch).delay(".16:.125:.2").gain(.48).speed(.99).swing(3)
+  .reset("<x ~ ~ x>")
+
+const bridgeStrum = chord("<Em C D>").dict('ireal').anchor("g4").voicing().slow(3).s("gm_acoustic_guitar_steel")
+  .struct("<[x ~ ~ x ~ x ~ ~ x ~ ~ x ~ x ~ ~] [x ~ x ~ ~ x ~ x ~ x ~ ~ x ~ ~ ~] [x ~ x ~ x ~ ~ x ~ x x ~ x ~ ~ ~]>")
+  .attack(.01).decay(.18).sustain(.22).release(.24)
+  .lpf(body).hpf(130).room(.38).delay(".22:.25:.28").gain(.42).speed(.985).swing(3)
+  .reset("<x ~ x ~>")
+
+const introPick = note("d4 g4 b4 d5 b4 g4 d4 b3").s("gm_acoustic_guitar_nylon")
+  .attack(.01).decay(.12).sustain(.22).release(.22)
+  .lpf(wood).room(.28).delay(".18:.125:.18").gain(".08 .14 .18 .24 .2 .18 .14 .1")
+
+const chorusPick = cat(
+  note("d4 g4 b4 d5 b4 g4 d4 b3"),
+  note("d4 a4 d5 f#5 d5 a4 d4 a3"),
+  note("e4 b4 e5 g5 e5 b4 e4 b3"),
+  note("e4 g4 c5 e5 c5 g4 e4 c4"),
+  note("d4 g4 b4 d5 b4 g4 d4 b3"),
+  note("f#4 a4 d5 a4 f#4 d4 a3 d4"),
+  note("e4 g4 c5 g4 e4 c4 g3 c4"),
+  note("f#4 a4 d5 e5 d5 a4 f#4 a3")
+).s("gm_acoustic_guitar_nylon")
+  .attack(.01).decay(.1).sustain(.18).release(.16)
+  .lpf(sine.slow(8).range(1800,4200)).room(.26).delay(".18:.125:.22").gain(.26).swing(3)
+  .reset("<x ~ x ~>")
+
+const bridgePick = cat(
+  note("b3 e4 g4 b4 g4 e4 b3 g3"),
+  note("g3 c4 e4 g4 e4 c4 g3 e3"),
+  note("a3 d4 f#4 a4 f#4 d4 a3 f#3")
+).s("gm_acoustic_guitar_nylon")
+  .attack(.01).decay(.12).sustain(.2).release(.18)
+  .lpf(sine.slow(6).range(1500,3200)).room(.34).delay(".24:.25:.3").gain(.22).swing(3)
+  .reset("<x ~ x ~>")
+
+const introBass = note("g2 ~ d3 ~ g2 ~ d3 ~").s("gm_acoustic_bass")
+  .attack(.01).decay(.22).sustain(.52).release(.1)
+  .lpf(620).room(.12).gain(.62)
+
+const chorusBass = cat(
+  note("g2 d3 g2 b2 d3 b2 g2 d3"),
+  note("d2 a2 d3 f#2 a2 d3 a2 d2"),
+  note("e2 b2 e3 g2 b2 e3 b2 e2"),
+  note("c2 g2 c3 e2 g2 c3 g2 c2"),
+  note("g2 d3 g2 b2 d3 b2 g2 d3"),
+  note("d2 a2 d3 f#2 a2 d3 a2 d2"),
+  note("c2 g2 c3 e2 g2 c3 g2 c2"),
+  note("d2 a2 d3 f#2 a2 d3 a2 d2")
+).s("gm_acoustic_bass")
+  .attack(.01).decay(.16).sustain(.54).release(.08)
+  .lpf(sine.slow(10).range(480,820)).room(.12).gain(.78).swing(3)
+  .reset("<x ~ ~ x>")
+
+const bridgeBass = cat(
+  note("e2 b2 e3 g2 b2 e3 b2 e2"),
+  note("c2 g2 c3 e2 g2 c3 g2 c2"),
+  note("d2 a2 d3 f#2 a2 d3 a2 d2")
+).s("gm_acoustic_bass")
+  .attack(.01).decay(.18).sustain(.5).release(.08)
+  .lpf(560).room(.14).gain(.72).swing(3)
+  .reset("<x ~ x ~>")
+
+const introPocket = s("bd ~ ~ ~ ~ ~ ~ ~").fast(2)
+  .lpf(700).room(.18).gain(".18 0 0 0 0 0 0 0")
+
+const chorusPocket = s("bd ~ ~ ~ bd ~ cp ~").fast(2)
+  .lpf(1300).room(.16).gain(".54 0 0 0 .36 0 .18 0").swing(3)
+  .reset("<x ~ ~ x>")
+
+const bridgePocket = s("bd ~ ~ ~ ~ ~ cp ~").fast(2)
+  .lpf(1100).room(.18).gain(".42 0 0 0 0 0 .14 0").swing(3)
+  .reset("<x ~ x ~>")
+
+const chorusDust = s("hh*8")
+  .begin("<.02 .03>").end("<.05 .08>")
+  .bpf(brush).bpq(5)
+  .gain(".028 .016 .022 .014 .03 .018 .024 .016").room(.2).swing(3)
+  .reset("<x ~ x ~>")
+
+const bridgeDust = s("hh*8")
+  .begin(".02 .03").end(".04 .06")
+  .bpf(sine.slow(9).range(3600,6200)).bpq(5)
+  .gain(".018 .012 .016 .01 .02 .012 .016 .01").room(.22).swing(3)
+  .reset("<x ~ x ~>")
+
+const bridgeHarp = cat(
+  note("b4 d5 e5 g5 e5 d5 b4 a4"),
+  note("g4 c5 d5 e5 d5 c5 g4 e4"),
+  note("a4 d5 f#5 a5 f#5 e5 d5 a4")
+).s("gm_harmonica")
+  .attack(.03).decay(.18).sustain(.52).release(.22)
+  .lpf(sine.slow(7).range(1700,3200)).room(.48).delay(".26:.25:.3").gain(.22).vib(5).vibmod(.14).swing(3)
+  .reset("<x ~ x ~>")
+
+const chorusHarp = cat(
+  note("d5 g5 a5 b5 a5 g5 d5 b4"),
+  note("a4 d5 f#5 a5 f#5 d5 a4 f#4"),
+  note("b4 e5 g5 b5 g5 e5 b4 g4"),
+  note("g4 c5 e5 g5 e5 d5 c5 g4"),
+  note("d5 g5 a5 b5 a5 g5 d5 b4"),
+  note("a4 d5 f#5 a5 f#5 e5 d5 a4"),
+  note("g4 c5 e5 g5 e5 d5 c5 g4"),
+  note("a4 d5 f#5 a5 f#5 e5 d5 a4")
+).s("gm_harmonica")
+  .attack(.03).decay(.16).sustain(.5).release(.2)
+  .lpf(sine.slow(9).range(1900,3600)).room(.42).delay(".22:.125:.26").gain(.2).vib(5).vibmod(.12).swing(3)
+  .reset("<x ~ x ~>")
+
+arrange([1, introStrum], [8, chorusStrum], [3, bridgeStrum], [8, chorusStrum])
+  .stack(arrange([1, introPick], [8, chorusPick], [3, bridgePick], [8, chorusPick]))
+  .stack(arrange([1, introBass], [8, chorusBass], [3, bridgeBass], [8, chorusBass]))
+  .stack(arrange([1, introPocket], [8, chorusPocket], [3, bridgePocket], [8, chorusPocket]))
+  .stack(arrange([1, silence], [8, chorusDust], [3, bridgeDust], [8, chorusDust]))
+  .stack(arrange([1, silence], [8, silence], [3, bridgeHarp], [8, chorusHarp]))
+  .postgain(.98)

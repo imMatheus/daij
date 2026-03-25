@@ -1,69 +1,117 @@
-// 🎵 "Mirror Choir" — delayed canon in misty polyrhythmic pulse
+// "Passing Lanterns" — chamber-ambient canon with delayed echo voices
 samples('github:tidalcycles/dirt-samples')
-setcps(0.85)
-$: n("[0 2 3 5] [7 5 3 2] <[0 2 3 7] [0 2 5 3]> [7 8 10 7]")
-  .scale('d:minor')
-  .s('supersaw')
-  .attack(0.01)
-  .release(0.18)
-  .legato(1.08)
-  .gain(0.52)
-  .room(0.45)
-  .size(0.7)
-  .delay(0.22)
-  .delaytime(0.375)
-  .delayfeedback(0.48)
-  .lpf(perlin.range(500,3200).slow(6))
-  .reset(16)
-  .stack(
-    n("[0 2 3 5] [7 5 3 2] <[0 2 3 7] [0 2 5 3]> [7 8 10 7]")
-      .scale('d:minor')
-      .s('supersaw')
-      .late(0.5)
-      .attack(0.02)
-      .release(0.22)
-      .legato(1.12)
-      .gain(0.34)
-      .room(0.72)
-      .size(0.95)
-      .delay(0.35)
-      .delaytime(0.5)
-      .delayfeedback(0.58)
-      .lpf(perlin.range(350,2400).slow(8)),
-    n("[0 2 3 5] [7 5 3 2] <[0 2 3 7] [0 2 5 3]> [7 8 10 7]")
-      .scale('d:minor')
-      .s('supersaw')
-      .late(1)
-      .attack(0.03)
-      .release(0.28)
-      .legato(1.2)
-      .gain(0.26)
-      .room(0.9)
-      .size(1)
-      .delay(0.42)
-      .delaytime(0.75)
-      .delayfeedback(0.66)
-      .lpf(perlin.range(280,1800).slow(10)),
-    s("bd(5,8,<1 2>) [~ bd] <~ bd(3,8)> [bd ~]")
-      .gain(0.9)
-      .lpf(900)
-      .room(0.12),
-    s("~ cp(3,8) ~ [cp ~] <~ cp ~ cp>")
-      .gain(0.46)
-      .room(0.28)
-      .delay(0.15)
-      .lpf(2200),
-    s("hh*8")
-      .gain(sine.range(0.08,0.22).slow(4))
-      .hpf(5000)
-      .room(0.18)
-      .delay(0.1),
-    n("0 [~ 7] <10 ~ 12 ~>")
-      .scale('d:minor')
-      .s('bass')
-      .slow(2)
-      .gain(0.42)
-      .lpf(perlin.range(120,700).slow(5))
-      .room(0.2)
+setcps(39/100)
+
+const moss = sine.slow(9).range(700,2200)
+const glass = sine.slow(7).range(1800,5200)
+const air = sine.slow(11).range(3400,9200)
+const floor = sine.slow(13).range(100,190)
+const bloom = perlin.slow(8).range(.38,.82)
+
+const introTheme = note("d4 ~ f4 ~ a4 ~ c5 ~")
+const chorusTheme = note("d4 f4 a4 c5 a4 g4 f4 e4")
+const bridgeTheme = note("a4 c5 a4 f4 g4 f4 e4 d4")
+const theme = arrange([1, introTheme], [11, chorusTheme], [4, bridgeTheme], [11, chorusTheme])
+
+theme
+  .s("triangle").orbit(2)
+  .attack(.02).decay(.18).sustain(.12).release(.45)
+  .lpf(glass).hpf(240)
+  .room(.42).delay(".26:.25:.34")
+  .gain(.11)
+  .reset("<x ~ ~ x>")
+  .echoWith(3, 1/8, (p,n) =>
+    p.orbit(2)
+      .s(["sine","pulse","triangle"][n])
+      .attack(.03)
+      .decay(.16)
+      .sustain(.1)
+      .release(.6 + n * .18)
+      .lpf([2600,2100,1700][n])
+      .delay([.34,.48,.62][n])
+      .delaytime([1/4,3/8,1/2][n])
+      .delayfeedback([.36,.42,.5][n])
+      .room([.5,.6,.72][n])
+      .gain([.085,.06,.04][n])
   )
-  .reset(32)
+  .stack(
+    arrange(
+      [1, note("[d4 f4 a4] ~ [d4 a4 c5] ~")],
+      [11, note("[d4 f4 a4 c5] ~ [bb3 d4 f4 a4] ~ [f4 a4 c5] ~ [c4 e4 g4] ~")],
+      [4, note("[g3 bb3 d4] ~ [a3 c4 e4] ~ [f4 a4 c5] ~ [e4 g4 b4] ~")],
+      [11, note("[d4 f4 a4 c5] ~ [bb3 d4 f4 a4] ~ [f4 a4 c5] ~ [c4 e4 g4] ~")]
+    )
+      .s("sawtooth").orbit(3)
+      .attack(.28).release(1.8)
+      .lpf(moss).hpf(110)
+      .room(bloom).delay(".18:.125:.24")
+      .gain(.12)
+      .reset("<x ~ ~ x>")
+  )
+  .stack(
+    arrange(
+      [1, note("d2 ~ ~ ~")],
+      [11, note("d2 ~ a1 ~ bb1 ~ c2 ~")],
+      [4, note("g1 ~ a1 ~ f1 ~ e1 ~")],
+      [11, note("d2 ~ a1 ~ bb1 ~ c2 ~")]
+    )
+      .s("sine").orbit(4)
+      .attack(.01).decay(.2).sustain(.14).release(.35)
+      .lpf(floor)
+      .room(.18)
+      .gain(.25)
+      .reset("<x ~ ~ x>")
+  )
+  .stack(
+    arrange(
+      [1, s("~ ~ rim ~ ~ ~ rim ~")],
+      [11, s("bd ~ ~ ~ bd ~ cp ~")],
+      [4, s("bd ~ ~ rim ~ ~ cp ~")],
+      [11, s("bd ~ ~ ~ bd ~ cp ~")]
+    )
+      .orbit(1)
+      .lpf(1400)
+      .room(.18)
+      .gain(".08 .24 .08 .22")
+  )
+  .stack(
+    arrange(
+      [1, s("~ hh ~ hh ~ hh ~ hh")],
+      [11, s("[~ hh]*4")],
+      [4, s("~ hh ~ ~ ~ hh ~ ~")],
+      [11, s("[~ hh]*4")]
+    )
+      .orbit(5)
+      .begin("<.01 .02>").end("<.05 .08>")
+      .bpf(air).bpq(6)
+      .delay(".08:.125:.18")
+      .room(.44)
+      .gain(.03)
+      .reset("<x ~ x ~>")
+  )
+  .stack(
+    arrange(
+      [1, silence],
+      [11, s("bd ~ ~ ~ bd ~ ~ ~")],
+      [4, s("bd ~ ~ ~")],
+      [11, s("bd ~ ~ ~ bd ~ ~ ~")]
+    )
+      .duckorbit("2:3:5")
+      .duckattack("0.26:0.42:0.12")
+      .duckdepth(".34:.18:.08")
+      .postgain(0)
+  )
+  .stack(
+    arrange(
+      [1, s("pink*4")],
+      [11, s("pink*8")],
+      [4, s("pink*4")],
+      [11, s("pink*8")]
+    )
+      .orbit(6)
+      .bpf(sine.slow(15).range(900,2400)).bpq(7)
+      .room(.88)
+      .delay(".14:.5:.28")
+      .gain(.015)
+  )
+  .postgain(1.02)

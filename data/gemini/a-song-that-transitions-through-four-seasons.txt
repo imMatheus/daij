@@ -1,44 +1,26 @@
-// 🎵 "The Turning Year" — Ambient/Glitch transition through four seasons
+// 🎵 "Seasonal Flux" — A 70-second algorithmic journey through Spring, Summer, Autumn, and Winter
 
 samples('github:tidalcycles/dirt-samples');
+setcps(1.1);
 
-setcps(0.8);
-
-stack(
-  // Percussive Lifecycle
-  s(cat(
-    "hh*8, [bd(3,8), ~]", // Spring: Germination
-    "[bd*2, [~ sd], hh*16, [~ cp/4]]", // Summer: Full Bloom
-    "[[bskick*2, ~], [~ cp], hh(5,8)]", // Autumn: Decay
-    "[~ [glitch:5, glitch:2?], ~]" // Winter: Stasis
-  ).slow(16))
-  .gain(cat(0.5, 0.8, 0.6, 0.3).slow(16).smooth(0.8))
-  .pan(perlin.slow(4)),
-
-  // Harmonic Atmosphere
-  note(cat(
-    "c3'maj9", // Spring
-    "f3'maj11", // Summer
-    "d3'min9", // Autumn
-    "eb2'maj7#11" // Winter
-  ).slow(16).struct("1*4"))
-  .s("superfm")
-  .lpf(cat(1500, 6000, 1000, 350).slow(16).smooth(0.9))
-  .room(0.9)
-  .size(0.8)
-  .gain(0.4),
-
-  // Melodic Fragments
-  note(cat(
-    "[c4 d4 e4 g4]*2",
-    "[f4 g4 a4 b4 c5 e5]*2",
-    "[d4 f4 g4 a4]*2",
-    "[eb4 f4 g4 bb4]"
-  ).slow(16).struct("<1(3,8) 1(5,8)>").off(0.125, x => x.add(12)))
-  .s("superpiano")
-  .velocity(sine.slow(8).range(0.3, 0.7))
-  .crush(cat(0, 0, 4, 16).slow(16))
-  .delay(0.4)
-  .delayfb(0.6)
-  .delaytime(cat(0.2, 0.1, 0.3, 0.5).slow(16))
-).reset(64)
+arrange(
+  [3, stack(
+    n("<0 2 4 7>(5,8)").scale("G:major").s("piano").room(.6).gain(perlin.range(.4,.7)),
+    s("hh*8").gain(perlin.slow(4).range(0,.3))
+  )],
+  [30, stack(
+    n("0 [4 7] 11 [7 12]").scale("G:major").s("saw").distort(2.5).lpf(sine.slow(4).range(800,4000)).lpq(3).unison(3).detune(.1),
+    s("bd sd [bd bd] sd").bank("tr909").gain(.8),
+    s("hh*16").gain(rand.range(.3,.7)).pan(sine.slow(4))
+  ).jux(rev)],
+  [10, stack(
+    n("<0 3 5 7>(3,8)").scale("G:minor").s("tri").slow(2).room(.9).lpf(perlin.range(400,1200)).gain(.8),
+    s("bd ~ ~ ~").gain(.5).room(.5),
+    s("sine").note("g2").gain(perlin.slow(2).range(0,.4)).lpf(400)
+  )],
+  [33, stack(
+    n("0 [4 7] 11 [7 12]").scale("G:major").s("saw").crush(3).hpf(sine.slow(8).range(1000,2500)).room(2).gain(.6).clip(.5),
+    s("bd(3,8)").gain(.4).room(1).hpf(800),
+    s("hh*4").gain(.3).crush(2).pan(rand)
+  ).jux(x=>x.slow(2))]
+)

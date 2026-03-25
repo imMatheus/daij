@@ -1,51 +1,45 @@
-// "Moss & Canopy" — ambient folk drift through old-growth forest
-// duration: ~70s at 0.35 cps
+// "Canopy Walk" — Ambient forest soundscape with birdsong and dappled light
+setcps(0.3)
 
-samples('github:tidalcycles/dirt-samples')
-setcps(.35)
-
-n("<[~ 0 ~ 2] [4 ~ 3 ~] [~ 1 ~ 4] [2 ~ ~ 0]>")
-  .scale("A3:dorian").s("gm_kalimba")
-  .attack(.03).decay(.55).sustain(.2).release(1.4)
-  .lpf(sine.range(1200,3800).slow(14))
-  .room(.78).delay(".4:.3:.55").gain(.32)
-  .pan(sine.slow(5))
-  .reset("<x@7 x(3,8)>")
+note("<[d3,f3,a3,c4] [a2,c3,e3,g3] [bb2,d3,f3,a3] [g2,bb2,d3,f3]>/2")
+.s("sine").att(2).rel(4).sus(.75).dec(1.5)
+.lpf(perlin.range(500,1800).slow(7))
+.vib(.3).vibmod(.1)
+.room(.9).sz(5).delay(.2).dt(.45).dfb(.3)
+.gain(sine.range(.12,.28).slow(16))
+.orbit(1)
 .stack(
-  note("<[a2,c3,e3] [d2,f3,a3] [e2,g3,b3] [d2,f3,a3]>".slow(2))
-  .s("gm_synth_strings_1")
-  .attack(2.2).decay(1.5).sustain(.65).release(3.5)
-  .lpf(sine.range(400,1100).slow(18))
-  .room(.88).roomsize(8).gain(.2),
-
-  note("<a1 d1 e1 d1>".slow(2)).s("sine")
-  .attack(3).sustain(.8).release(4).lpf(130).room(.6).gain(.16),
-
-  n("<[~ ~ 4 ~] [2 ~ ~ ~] [~ 3 ~ ~] [~ ~ ~ 5]>".slow(2))
-  .scale("A5:dorian").s("gm_flute")
-  .attack(.08).decay(.3).sustain(.45).release(.9)
-  .room(.75).delay(".5:.35:.6").gain(.17)
-  .lpf(sine.range(2000,5000).slow(12))
-  .vib(5).vibmod(.45)
-  .sometimes(x => x.add(note(12)).gain(.09)),
-
-  n("<0 [~ 3] ~ [4 ~]>(5,8)").scale("A5:dorian:pentatonic")
-  .s("gm_celesta")
-  .attack(.02).decay(.4).sustain(.1).release(1.2)
-  .room(.85).roomsize(6).delay(".55:.4:.65")
-  .gain(perlin.range(.05,.18))
-  .lpf(sine.range(1800,4500).slow(10))
-  .pan(sine.slow(6)),
-
-  s("bd(3,8)").bank("RolandTR808")
-  .gain(perlin.range(.12,.22)).room(.5).lpf(500),
-
-  s("<~ ~ [~ sd:1] ~>").bank("RolandTR808")
-  .gain(.13).room(.6).lpf(1800).delay(".3:.2:.4"),
-
-  s("white").gain(.025)
-  .lpf(perlin.range(600,1400).slow(10))
-  .hpf(400).room(1).loop(1),
-
-  s("birds3").loopAt(8).gain(.09).room(.7).lpf(4000).pan(perlin.range(.2,.8))
+  n("<~ 4 ~ [2 ~] ~ 7 [~ 3] ~>")
+  .off(1/6, x=>x.add(2).gain(.06))
+  .scale("D5:minor:pentatonic").s("triangle")
+  .degradeBy(.15)
+  .att(.01).rel(1).sus(.04).dec(.4)
+  .lpf(sine.range(3000,8000).slow(5))
+  .room(.95).sz(7).delay(.7).dt(.28).dfb(.5)
+  .gain(.09).pan(perlin.range(.05,.95))
+  .mask("<~!2 1!7 ~!3 1!7 ~!2>")
+  .orbit(2),
+  note("<d1 d1 a1 bb1>/4")
+  .s("sine").att(3).rel(5).sus(.85)
+  .lpf(130).gain(.17).room(.3).sz(2)
+  .orbit(3),
+  s("pink").lpf(perlin.range(60,300).slow(9))
+  .gain("<.015!2 .03!7 .05!3 .03!7 .015!2>")
+  .room(.8).sz(5)
+  .orbit(4),
+  n("<0 ~ 2 ~ 4 7 ~ 4>")
+  .scale("D4:dorian").s("sine")
+  .att(.15).rel(2).sus(.06).dec(.6)
+  .lpf(perlin.range(1200,4500).slow(5))
+  .room(.92).sz(6).delay(.5).dt(.35).dfb(.4)
+  .gain(.05).pan(sine.range(.2,.8).slow(4))
+  .mask("<~!2 1!7 ~!3 1!7 ~!2>")
+  .orbit(5),
+  note("<d6 ~ a5 ~ f5 ~ a5 ~>/2")
+  .s("sine").att(1).rel(3).sus(.3).dec(1)
+  .lpf(5000).gain(.02).room(.95).sz(8)
+  .delay(.6).dt(.5).dfb(.4)
+  .pan(cosine.range(.3,.7).slow(6))
+  .mask("<~!2 1!7 ~!3 1!7 ~!2>")
+  .orbit(6)
 )

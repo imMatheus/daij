@@ -1,17 +1,195 @@
-// "Subway Crown" — raw trap bounce and earthmoving 808 pressure
+// "Trunkline Pressure" — raw trap with blown-out hats and heavy 808 slides
 samples('github:tidalcycles/dirt-samples')
-setcps(142/60/4)
-s("bd(5,8,<0 1 2>) [~ bd] <bd*2 [bd ~]>")
-.gain("1.15 1.05 1.2 1.1")
-.stack(
-  s("[~ cp] ~ [~ cp] cp").gain(0.9),
-  s("hh*16").gain("[0.28 0.22 0.25 0.18]*4").hpf(7000),
-  s("<~ hc> [~ hc] ~ hc").gain(0.4).hpf(9000),
-  n("[-12 ~ -12 ~] <~ -10 ~ -8> [-12 -12 -15 -17]").s("square").legato(1.5).gain(1.3).lpf(perlin.range(75,170).slow(6)).shape(0.42),
-  n("<0 -1 -2 [-3 -5]>/2").s("sawtooth").legato(1.1).gain(0.8).lpf(perlin.range(100,320).slow(4)),
-  note("<c5 ~ eb5 ~ [g5 bb5] ~>").s("triangle").gain(0.32).lpf(1800).room(0.4)
-)
-.reset(32)
-.room(sine.range(0.08,0.3).slow(8))
-.delay(sine.range(0.05,0.22).slow(12))
-.lpf(sine.range(850,2600).slow(10))
+setcps(2/3)
+
+const smoke = perlin.slow(7).range(700,2600)
+const air = sine.slow(9).range(7000,14000)
+const sub = sine.slow(11).range(90,230)
+
+const intro =
+  note("c1 ~ ~ ~ ~ ~ ~ ~")
+    .s("sine")
+    .attack(.001).decay(.58).sustain(0).release(.18)
+    .penv(22).pdecay(.12).pcurve(1)
+    .lpf(sub)
+    .gain(.92)
+    .stack(
+      s("~ ~ ~ ~ ~ ~ hh*4 ~")
+        .gain(".012 .018 .026 .034")
+        .hpf(air)
+        .room(.08)
+    )
+    .stack(
+      note("~ ~ ~ ~ eb5 ~ bb4 ~")
+        .s("pulse")
+        .attack(.002).decay(.08).sustain(0).release(.07)
+        .lpf(smoke)
+        .delay(".28:0.125:0.34")
+        .room(.22)
+        .gain(.12)
+    )
+
+const verse =
+  note("c1 ~ ~ [c1 c1] ~ ~ bb0 ~ [ab0 bb0] ~ ~ c1 ~ g0 ~")
+    .s("sine")
+    .attack(.001).decay(".56 .34 .42 .28").sustain(0).release(.18)
+    .penv("18 24 20 12").pdecay(".12 .08 .11 .07").pcurve(1)
+    .lpf(sub)
+    .gain(.98)
+    .reset("<x ~ ~ x>")
+    .stack(
+      note("c2 ~ ~ c2 ~ ~ bb1 ~ ab1 ~ ~ c2 ~ g1 ~")
+        .s("sawtooth")
+        .attack(.001).decay(.16).sustain(0).release(.06)
+        .lpf(sine.slow(8).range(180,520))
+        .gain(.13)
+    )
+    .stack(
+      s("bd ~ ~ [bd bd] ~ ~ bd ~")
+        .lpf(760)
+        .gain("1 0 .82 .74 0 0 .92 0")
+    )
+    .stack(
+      s("~ ~ cp ~ ~ ~ sd ~")
+        .gain(".72 .88")
+        .room(.12)
+        .delay(".08:0.125:0.18")
+    )
+    .stack(
+      s("hh").euclid(11,16)
+        .gain(".2 .1 .16 .11 .24 .1 .18 .12 .26 .1 .18")
+        .hpf(air)
+        .reset("<x ~ x ~>")
+        .room(.04)
+    )
+    .stack(
+      s("~ ~ ~ ~ ~ ~ oh ~")
+        .gain(.1)
+        .hpf(9000)
+        .room(.16)
+    )
+    .stack(
+      note("<eb5 g5 bb4 c5>").slow(2)
+        .s("pulse")
+        .struct("x ~ x [~ x] x ~ x x")
+        .attack(.002).decay(.09).sustain(0).release(.07)
+        .lpf(smoke)
+        .delay(".22:0.125:0.36")
+        .room(.18)
+        .gain(.16)
+        .reset("<x ~ ~ x>")
+    )
+
+const chorus =
+  note("[c1 c2] ~ ~ [c1 c2] ~ [bb0 bb1] ~ [ab0 bb0] [c1 c2] ~ ~ [c1 c2] [g0 g1] ~ [bb0 bb1] ~")
+    .s("sine")
+    .attack(.001).decay(".62 .38 .44 .28").sustain(0).release(.2)
+    .penv("24 16 20 12").pdecay(".14 .1 .12 .08").pcurve(1)
+    .lpf(sine.slow(6).range(95,240))
+    .gain(1.08)
+    .reset("<x ~ ~ x>")
+    .stack(
+      note("c2 ~ ~ c2 ~ bb1 ~ bb1 c2 ~ ~ c2 g1 ~ bb1 ~")
+        .s("sawtooth")
+        .attack(.001).decay(.18).sustain(0).release(.07)
+        .lpf(sine.slow(8).range(170,600))
+        .gain(.14)
+    )
+    .stack(
+      s("bd [~ bd] ~ [bd bd] ~ [~ bd] ~ bd")
+        .lpf(920)
+        .gain("1 .78 0 .84 0 .72 0 .94")
+        .duckorbit("2:3").duckattack("0.32:0.12").duckdepth("0.78:0.34")
+    )
+    .stack(
+      s("~ ~ cp ~ ~ ~ sd [~ cp]")
+        .gain(".84 .96 .72")
+        .room(.1)
+        .delay(".1:0.125:0.22")
+    )
+    .stack(
+      s("hh").euclidRot(13,16,1)
+        .gain(".28 .12 .2 .14 .32 .12 .22 .14 .36 .12 .22 .14 .42")
+        .hpf(air)
+        .delay(".04:0.125:0.12")
+        .reset("<x ~ ~ x>")
+    )
+    .stack(
+      s("hh").euclidRot(5,16,3)
+        .gain(".08 .05 .07 .05 .11")
+        .hpf(11000)
+        .room(.12)
+    )
+    .stack(
+      s("~ ~ ~ ~ ~ ~ oh ~")
+        .gain(.14)
+        .hpf(9600)
+        .room(.2)
+    )
+    .stack(
+      note("<eb5 g5 bb4 c5 bb4 g5 eb5 d5>").slow(2)
+        .s("pulse")
+        .struct("x ~ x [~ x] x ~ x x")
+        .attack(.002).decay(.1).sustain(0).release(.08)
+        .lpf(smoke)
+        .delay(".26:0.125:0.42")
+        .room(.2)
+        .orbit(2)
+        .gain(.2)
+        .reset("<x ~ ~ x>")
+    )
+    .stack(
+      note("<g5 bb5 c6 eb6>").slow(4)
+        .s("triangle")
+        .attack(.01).decay(.18).sustain(.08).release(.5)
+        .vib(6).vibmod(.12)
+        .lpf(sine.slow(10).range(1400,4200))
+        .delay(".38:0.25:0.54")
+        .room(.46)
+        .orbit(3)
+        .gain(.08)
+        .reset("<x ~ ~ x>")
+    )
+
+const bridge =
+  note("<ab0 bb0 c1 g0>").slow(3)
+    .s("sine")
+    .attack(.001).decay(.72).sustain(0).release(.24)
+    .penv(16).pdecay(.16).pcurve(1)
+    .lpf(sine.slow(8).range(80,180))
+    .gain(.88)
+    .reset("<x ~ x ~>")
+    .stack(
+      note("<eb5 bb4 g4 c5>").slow(3)
+        .s("triangle")
+        .attack(.02).decay(.22).sustain(.1).release(1.1)
+        .lpf(perlin.slow(6).range(900,2600))
+        .delay(".44:0.25:0.68")
+        .room(.62)
+        .gain(.1)
+    )
+    .stack(
+      s("bd ~ ~ ~ ~ ~ ~ ~")
+        .gain(.82)
+        .lpf(700)
+    )
+    .stack(
+      s("~ ~ cp ~ ~ ~ ~ ~")
+        .gain(.16)
+        .room(.28)
+        .delay(".18:0.125:0.35")
+    )
+    .stack(
+      s("hh").euclid(7,16)
+        .gain(".09 .05 .08 .05 .1 .05 .12")
+        .hpf(10000)
+        .room(.18)
+    )
+
+arrange(
+  [2, intro],
+  [10, verse],
+  [14, chorus],
+  [6, bridge],
+  [14, chorus]
+).postgain(1.04)

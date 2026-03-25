@@ -1,9 +1,20 @@
-// 🎵 "Insert Coin" — Retro Arcade Chiptune
-setcps(0.75)
+// 🎵 "Neon Circuit" — High-speed retro arcade soundtrack with driving pulse-waves and 8-bit arps
+setcps(165/240);
 stack(
-  s("bd(3,8), [~ sd(2,8)]").bank("superkick").crush(4).gain(0.8),
-  s("hh*16").bank("superhat").crush(2).gain(0.6).pan(sine.slow(2)),
-  note("<c2 f1 g1 eb1>*8").s("supersquare").decay(0.05).lpf(500).gain(0.7),
-  note("<[c4,g4] [f4,c5] [g4,d5] [eb4,bb4]>").s("supertri").gain(0.4).room(0.2),
-  note("<c5 g4 c6 eb5 f5 g5 c6 bb5>*16").s("supersquare").vibrato(12,0.1).gain(0.5).lpf(sine.range(1000,6000).slow(4))
-).jux(rev).delay(0.25).room(0.3).reset(16)
+  s("pulse").note("<g1 c1 f1 d1>").pw(sine.range(0.1, 0.9).slow(4))
+    .struct("x(3,8,2)").gain(0.8).lpf(1200).lpq(2).crush(4)
+    .mask("<0!2 1!18 1!8 1!20>"),
+  s("square").note("<g3 d4 c4 f4>").add("0 7 12 19").arp("0 2 1 3")
+    .fast(2).gain(0.5).jux(rev).lpf(perlin.range(1000, 8000).slow(8))
+    .mask("<1!2 1!18 0!8 1!20>"),
+  s("sawtooth").note("<g4 b4 d5 f5>").iter(4).fast(4).gain(0.4).vowel("o")
+    .mask("<0!20 1!8 0!20>").room(0.5),
+  s("sine").note("g1").penv(40).pdecay(0.05).decay(0.2).gain(1.3).struct("x ~ x ~")
+    .mask("<0!1 1!19 0!8 1!20>"),
+  s("noise").decay(0.1).lpf(1500).gain(1).struct("~ x ~ x")
+    .mask("<0!2 1!18 0!8 1!20>"),
+  s("noise").decay(0.02).hpf(8000).gain(0.6).struct("x*16")
+    .mask("<0!4 1!16 1!8 1!20>"),
+  s("tri").note(irand(24).add(60)).decay(0.05).gain(0.3).struct("x(11,16)")
+    .sometimes(fast(2)).mask("<0!2 1!18 1!8 1!20>")
+).room(0.2).delay(0.3).dt(1/8).dfb(0.6).reset("<1 0!47>")

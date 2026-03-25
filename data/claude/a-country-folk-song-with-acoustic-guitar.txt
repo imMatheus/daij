@@ -1,45 +1,50 @@
-// 🎵 "Porch Light Fading" — Country Folk / Acoustic Fingerpicking
+Here's the song:
+
+// "Front Porch Sunset" — Country folk with fingerpicked acoustic guitar and gentle swing
 setcps(108/60/4)
 
-stack(
-  s("bd ~ sd ~, ~ [hh hh] ~ [hh oh]")
-    .bank("RolandTR808").gain(perlin.range(.5, .78))
-    .room(.3).swing(3).lpf(6000)
-    .sometimes(x => x.press()),
+const lpf_ = perlin.range(2000, 5000).slow(3)
 
-  note("<[d2 ~ ~ d2] [g1 ~ ~ g1] [a1 ~ ~ a1] [d2 ~ ~ ~]>")
-    .s("gm_acoustic_bass").decay(.3).sustain(.5)
-    .room(.25).gain(.72).swing(3),
+const pick = n =>
+  note(n).s("gm_acoustic_guitar_nylon")
+    .release(.4).room(.2).lpf(lpf_)
 
-  chord("<D G A7 D>").dict('ireal').voicing()
-    .s("gm_acoustic_guitar_nylon")
-    .struct("<[x ~ x ~] [~ x ~ x] [x x ~ x] [~ x x ~]>")
-    .lpf(sine.range(2800, 4800).slow(16))
-    .room(.45).delay(".12:.08:.18").gain(.48)
-    .swing(3).attack(.01),
+const pickPat = "<[g3 d4 b3 d4 g4 d4 b3 d4] [c4 g4 e4 g4 c5 g4 e4 g4] [d4 a4 f#4 a4 d5 a4 f#4 a4] [g3 b3 d4 g4 d4 b3 g3 d4]>"
+const vel = ".45 .65 .5 .65 .55 .65 .5 .7"
 
-  chord("<D G A7 D>").dict('ireal').voicing()
-    .s("gm_acoustic_guitar_steel")
-    .struct("~ [~ x] ~ [~ x]")
-    .lpf(4000).room(.4).gain(.33).swing(3)
-    .every(3, x => x.struct("[x x x x]").gain(.22)),
+const strumPat = chord("<G C D G>").voicing()
+  .s("gm_acoustic_guitar_steel")
+  .struct("~ [x ~] ~ x").release(.5).room(.15).gain(.3)
 
-  n("<[~ 0 ~ 2] [4 ~ 2 ~] [~ 0 ~ 4] [2 ~ ~ 0]>")
-    .scale("D5:major:pentatonic")
-    .s("gm_violin")
-    .lpf(sine.range(2000, 5000).slow(8))
-    .room(.5).delay(".2:.12:.28").gain(.3)
-    .vib(4).vibmod(.4)
-    .sometimes(x => x.add(note(12))),
+const bassPat = note("<[g2 d2] [c3 g2] [d3 a2] [g2 d2]>")
+  .s("triangle").lpf(300).decay(.25).sustain(.6).release(.1).gain(.5)
+  .swingBy(1/6, 4)
 
-  n("<[~ ~ 3 ~] [~ 4 ~ ~] [2 ~ ~ ~] [~ ~ ~ 0]>")
-    .scale("D4:major")
-    .s("gm_harmonica")
-    .lpf(3200).room(.55).delay(".3:.2:.35").gain(.2)
-    .vib(5).vibmod(.5).attack(.04).sustain(.6),
+const drumsPat = s("[~ hh]*4, ~ cp ~ ~")
+  .bank("RolandTR909").gain(.2).room(.1).swingBy(1/6, 4)
 
-  note("<d1 g1 a1 d1>/4")
-    .s("gm_string_ensemble_1")
-    .attack(2).decay(1).sustain(.7).release(2)
-    .gain(.14).room(.65).lpf(650)
-)
+const fiddlePat = note("<[g4 b4 d5 b4] [c5 e5 d5 b4] [d5 b4 g4 f#4] [g4 ~ b4 d5]>")
+  .s("sawtooth").lpf(2500).lpq(2).release(.3).room(.3)
+  .vib(5).vibmod(.3).gain(.1)
+
+const intro = pick("[g3 d4 b3 d4 g4 d4 b3 d4]")
+  .velocity(".35 .55 .4 .55 .45 .55 .4 .6")
+  .delay(".15:.18:.25")
+  .stack(s("bd ~ ~ ~").bank("RolandTR909").gain(.15).room(.2))
+
+const verse = pick(pickPat).velocity(vel).delay(".08:.12:.15")
+  .stack(strumPat, bassPat, drumsPat)
+
+const bridge = pick("<[e4 b4 g4 b4 e4 b4 g4 b4] [c4 g4 e4 g4 c4 e4 g4 e4] [d4 a4 f#4 a4 d4 f#4 a4 d5] [d4 a4 f#4 a4 d5 a4 f#4 a4]>")
+  .velocity(".4 .55 .45 .55 .5 .55 .45 .6")
+  .delay(".15:.2:.3").room(.35)
+  .stack(note("<e2 c3 d3 d3>").s("triangle").lpf(250).decay(.2).sustain(.5).release(.1).gain(.4))
+
+const chorus = pick(pickPat).velocity(vel).delay(".08:.12:.15")
+  .stack(strumPat, bassPat, drumsPat, fiddlePat)
+
+const outro = pick("[g3 d4 b3 d4 g4 d4 b3 g4]")
+  .velocity(".3 .4 .35 .4 .35 .35 .3 .25")
+  .room(.5).delay(".3:.25:.4")
+
+arrange([2, intro], [12, verse], [4, bridge], [12, chorus], [2, outro]).postgain(.9)

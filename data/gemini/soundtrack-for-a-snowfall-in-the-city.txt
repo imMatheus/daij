@@ -1,14 +1,37 @@
-// 🎵 "Snowfall Over 5th Ave" — Glacial Ambient Textures
-samples('github:tidalcycles/dirt-samples');
-setcps(0.35);
+// 🎵 "Asphalt Snowfall" — A hushed, atmospheric journey through a winter city
+
+setcps(0.8);
+
 stack(
-  note("<[c5,e5,g5,b5] [f4,a4,c5,e5] [a4,c5,e5,g5] [g4,b4,d5,f5]>")
-    .s("rhodes").room(0.9).sz(0.9).delay(0.5).delayfb(0.6).delaytime(0.25)
-    .velocity(perlin.range(0.2, 0.6).slow(4))
-    .lpf(sine.range(1200, 3500).slow(12))
-    .pan(sine.slow(8)),
-  s("bd:2(3,8), [~ <sd:3 [sd:3 sd:1]>(1,4)], hh*8?")
-    .lpf(perlin.range(300, 600).slow(10)).gain(0.7).room(0.5),
-  note("<c2 f2 a2 g2>").s("sine").lpf(100).gain(0.4).add("[0, 7]"),
-  s("glitch(5,16, <0 2 4>)").hpf(3000).gain(0.2).pan(perlin.range(-1, 1))
-).reset(16)
+  cat(
+    s("~").slow(2),
+    chord("Eb:maj7 Ab:maj7 F:m7 Bb:7").voicing().s("superpiano").slow(22),
+    chord("C:m7 G:m7 Ab:maj7 Bb:7sus4").voicing().s("superpiano").slow(10),
+    chord("Eb:maj7 Ab:maj7 F:m7 Bb:7").voicing().s("superpiano").slow(22)
+  ).lpf(sine.range(600, 1600).slow(8)).room(0.8).gain(0.85).jux(rev),
+
+  cat(
+    s("~").slow(4),
+    n("0 [~ 2] 4 [~ 7] <9 11> 7 4 2").scale("Eb:lydian").s("supervibe").slow(20),
+    n("7 9 11 14 12 11 9 7").scale("C:minor").s("supervibe").slow(10),
+    n("0 [~ 2] 4 [~ 7] <9 11> 7 4 2").scale("Eb:lydian").s("supervibe").slow(22)
+  ).gain(0.45).delay(0.5).delayfb(0.7).room(0.6).pan(perlin.slow(4)),
+
+  cat(
+    s("~").slow(6),
+    s("bd(3,8)").slow(18),
+    s("~").slow(10),
+    s("bd(3,8)").slow(22)
+  ).lpf(250).gain(0.65).reset("<x!40 x*4!8 x!8>"),
+
+  cat(
+    s("~").slow(10),
+    s("hh*8").gain(0.3).slow(14),
+    s("hh*16").gain(0.2).slow(10),
+    s("hh*8").gain(0.3).slow(22)
+  ).lpf(perlin.range(2000, 8000).slow(2)).hpf(1000).room(0.3),
+
+  s("noise").gain(0.08).lpf(perlin.range(300, 1200).slow(12)).pan(sine.slow(15)).crush(8),
+
+  n(irand(12).add(24)).scale("Eb:lydian").s("superchip").gain(0.15).mask("<0!8 1!48>").delay(0.2).room(0.9)
+).slow(56).room(0.5)

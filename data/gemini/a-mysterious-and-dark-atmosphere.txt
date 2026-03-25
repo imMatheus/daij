@@ -1,9 +1,19 @@
-// 🎵 "Obsidian Echoes" — Cinematic dark ambient with glitch textures
-setcps(0.25).stack(
-  s("sine").note("c1 <eb1 [g1 f1]>").lpf(perlin.mul(400).add(80)).gain(0.9),
-  s("supervibe").note("<[c2 g2] [eb2 b1] [ab1 d2]>").velocity(0.2).room(0.9).delay(0.8).delayfb(0.6),
-  s("glitch").struct("1(7,16,5)").gain(0.4).pan(perlin).room(0.6),
-  s("superpiano").note("c3 eb3 f#3 g3 b3 c4".scale('c:phrygian').struct("<1(3,8) 1(5,12)>").scramble()).decay(2).room(1).gain(0.4).jux(rev),
-  s("[bd? [~ [sd:1*2]]] <[~ hh*6] [~ [bd:2 sn:3]]>").gain(0.6).lpf(700).room(0.8).delay(0.3),
-  s("saw").note("c2").lpf(perlin.mul(1000).add(100)).lpq(20).gain(0.15).room(0.9)
-).reset(16)
+// 🎵 "Echoes of the Void" — A mysterious and dark industrial soundscape
+
+setcps(0.5);
+stack(
+  // Low Frequency Drone
+  s("saw").note("d1").gain(0.8).lpf(sine.range(60, 150).slow(8)).lpq(25).room(0.6).orbit(0),
+  
+  // Ethereal Texture Pad
+  s("supersaw").note("<d2 f2 ab2 c3>").unison(6).detune(0.3).gain(0.35).lpf(500).lfo({c:'lpf', r:0.15, d:200}).room(1.5).delay(0.5).mask("<1!35>").orbit(1),
+  
+  // Fragmented Mysterious Melody
+  n(irand(12).seg("<8!2 16!12 4!6 16!15>")).scale("D:locrian").note().gain(0.45).mask("<0!2 1!12 1!6 1!15>").room(1.2).delay(0.6).delayfb(0.75).jux(rev).sometimes(x=>x.fast(2)).orbit(2),
+  
+  // Industrial Rhythmic Tension
+  s("bd(3,8), [~ <sd:2 sd:5>], [hh*16]?0.4").bank("tr909").mask("<0!2 1!12 0!6 1!15>").distort(4).gain(0.55).room(0.5).delay(0.2).orbit(3),
+  
+  // Ghostly Artifacts
+  s("crackle*8").density(perlin.range(0.01, 0.2).slow(4)).gain(0.4).hpf(2000).mask("<1!35>").orbit(4)
+).reset("<x!35>")

@@ -1,38 +1,39 @@
-// "Pocket Funk" — greasy slap bass groove with clavinet stabs and syncopated 909s
-setcps(100/60/4)
-
-stack(
-  s("<bd ~ [~ bd] ~, ~ cp ~ cp> <bd [~ bd] ~ bd, ~ [cp cp] ~ cp>")
-    .bank("RolandTR909").swing(3)
-    .gain(perlin.range(.82,.96)).room(.25),
-  s("hh(13,16), <~ ~ ~ oh ~ ~ oh ~>")
-    .bank("RolandTR909").cut(1)
-    .gain(perlin.range(.22,.52))
-    .pan(sine.slow(7)).room(.18),
-  note("<[e2 ~ e3 g2] [~ a2 ~ e2] [e2 ~ g2 ~] [a2 b2 a2 ~] [e2 g2 e3 ~] [a2 ~ g2 e2] [e2 ~ g2 a2] [b2 ~ a2 g2]>")
-    .s("gm_slap_bass_1")
-    .attack(.005).decay(.16).sustain(.35).release(.08)
-    .lpf(sine.range(1800,4200).slow(8)).hpf(100)
-    .distort(.08).gain(.88).room(.18),
-  chord("<Em9 Am7 <D9 Em9> Bm7>")
-    .dict('ireal').voicing()
-    .s("gm_clavinet")
-    .struct("<[~ x ~ x]*2 [~ x] [x ~] [~ x] [x ~]>")
-    .lpf(sine.range(2200,5200).slow(5))
-    .gain(.48).room(.28).delay(".1:.06:.16").swing(3),
-  chord("<Em7 Am7 D7 Bm7>")
-    .dict('ireal').voicing()
-    .s("gm_electric_guitar_muted")
-    .struct("~ [x x] ~ [x ~]")
-    .lpf(sine.range(900,5000).slow(3))
-    .gain(.36).room(.28).swing(3),
-  n("<[~ 0 2 ~] [4 ~ 2 0] [~ 4 5 ~] [7 ~ 5 4]>")
-    .scale("E5:dorian")
-    .s("gm_epiano2")
-    .lpf(sine.range(1200,3600).slow(10))
-    .room(.45).delay(".22:.15:.28").gain(.32)
-    .sometimes(x => x.add(note(12))),
-  note("<e1 a1 d1 b1>/4")
-    .s("sine").gain(.18).lpf(140)
-    .attack(1.2).sustain(.7).release(2)
-)
+// "Slap City" — Syncopated funk groove with percussive slap bass and tight drums
+setcpm(108/4)
+samples('github:tidalcycles/dirt-samples')
+arrange(
+  [2, note("e2 ~ [~ e2] ~ [g2 ~] [~ e3] ~ ~")
+    .s("square").decay(.1).sustain(0).lpf(500).lpenv(6).lpd(.05)
+    .penv(12).pdecay(.02).pcurve(1).gain(.85).distort("1:.6")
+    .stack(s("hh*8").gain(".3 .5 .3 .5 .3 .5 .3 .5"))],
+  [12, stack(
+    note("<[e2 ~ [~ e2] ~ [g2 e2] [~ e3] ~ [b2 ~]] [e2 [~ a2] ~ e2 [g2 ~] [~ e3] [~ b2] a2]>")
+      .s("square").decay(.12).sustain(0).lpf(500).lpenv(6).lpd(.05).lpq(2)
+      .penv(12).pdecay(.02).pcurve(1).gain(.85).distort("1:.6"),
+    s("[bd [~ bd:4] [~ bd] ~, ~ cp ~ cp, {hh hh:3 hh hh:1 hh hh:3 hh:1 hh}%8]")
+      .gain("[1 .7 .8 .6, .85 1 .85 1, .4 .55 .4 .5 .4 .55 .5 .4]")
+      .swingBy(1/8, 4),
+    note("[~ [e4,g4,b4,d5]] [~ [e4,g4,b4,d5]] [[e4,a4,d5] ~] [~ [e4,g4,b4,d5]]")
+      .s("sawtooth").decay(.08).sustain(0).lpf(2800).gain(.25)
+      .delay(.1).delaytime(.17).delayfeedback(.2))],
+  [4, stack(
+    note("[a2 ~ [~ a2] ~ [c3 a2] [~ e3] ~ [g2 a2]]")
+      .s("square").decay(.15).sustain(0).lpf(400).lpenv(5).lpd(.08)
+      .penv(8).pdecay(.03).pcurve(1).gain(.8).distort("1.2:.6"),
+    s("[bd ~ ~ [~ bd], ~ [cp:3 ~] ~ cp, hh*8]")
+      .gain("[1 .6 .7 .6, .8 .9 .8 1, .35 .5 .35 .5 .35 .5 .35 .5]"),
+    note("[~ [a4,c5,e5]] ~ [~ [a4,c5,e5,g5]] ~")
+      .s("sawtooth").decay(.12).sustain(0)
+      .lpf(perlin.range(600,3500)).gain(.22))],
+  [14, stack(
+    note("<[e2 ~ [~ e2] ~ [g2 e2] [~ e3] ~ [b2 ~]] [e2 [~ a2] ~ e2 [g2 ~] [~ e3] [~ b2] a2]>")
+      .s("square").decay(.12).sustain(0).lpf(500).lpenv(6).lpd(.05).lpq(2)
+      .penv(12).pdecay(.02).pcurve(1).gain(.85).distort("1:.6")
+      .sometimesBy(.15, x => x.ply(2)),
+    s("[bd [~ bd:4] [~ bd] ~, ~ cp ~ cp, {hh hh:3 hh hh:1 hh hh:3 hh:1 hh}%8, ~ ~ ~ [oh ~]]")
+      .gain("[1 .7 .8 .6, .85 1 .85 1, .4 .55 .4 .5 .4 .55 .5 .4, .5]")
+      .swingBy(1/8, 4),
+    note("[~ [e4,g4,b4,d5]] [~ [e4,g4,b4,d5]] [[e4,a4,d5] ~] [~ [e4,g4,b4,d5]]")
+      .s("sawtooth").decay(.08).sustain(0).lpf(2800).gain(.25)
+      .delay(.12).delaytime(.17).delayfeedback(.25))]
+).room(.05).rsize(1.5)

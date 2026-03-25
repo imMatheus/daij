@@ -1,38 +1,33 @@
-// "Still Water" — soft ambient drift with breathing harmonics
-samples('github:tidalcycles/dirt-samples')
-setcps(0.34)
-$: n("<[0 2 4 7] [0 3 5 7] [2 5 7 9] [0 4 7 11]>")
-  .scale("minor")
-  .s("superpiano")
-  .slow(2)
-  .legato(1.8)
-  .gain(.55)
-  .lpf(perlin.range(500,2600).slow(6))
-  .room(.85).size(.95).delay(.3)
-  .stack(
-    n("<0 [~ 7] 5 [2 ~]>")
-      .scale("minor")
-      .s("sine")
-      .slow(4)
-      .legato(2)
-      .gain(.35)
-      .lpf(sine.range(200,900).slow(8))
-      .room(.9).delay(.45),
-    s("<wind:3 wind:5 wind:7 [~ wind:9]>")
-      .euclid(5,8)
-      .slow(2)
-      .gain(.22)
-      .lpf(perlin.range(1200,5000).slow(10))
-      .room(.98).delay(.52),
-    s("<~ [hh:8*2]? [shaker:2*4] ~>")
-      .euclid(3,8)
-      .gain(.12)
-      .lpf(2400)
-      .room(.7),
-    s("<~ ~ [bd:4 ~] ~>")
-      .slow(2)
-      .gain(.08)
-      .lpf(220)
-      .room(.65)
+// "Still Water Rooms" — peaceful ambient drift
+setcps(0.5)
+
+stack(
+  arrange(
+    [1, chord("Cmaj7").voicing().anchor("c5").s("triangle").slow(2).attack(1.5).release(6).sustain(0.95).lpf(1200).room(0.85).delay(0.2).gain(0.34)],
+    [12, chord("<Cmaj7 Am7 Fmaj7 G>").voicing().anchor("c5").slow(4).s("triangle").attack(1.2).release(5).sustain(0.9).lpf(sine.slow(6).range(900,2600)).room(0.8).delay(0.28).delaytime(0.375).delayfeedback(0.55).gain(0.4)],
+    [4, chord("<Am7 Em7 Fmaj7 G>").voicing().anchor("c5").slow(2).s("sine").attack(0.8).release(4.5).sustain(0.8).lpf(sine.slow(4).range(700,1800)).hpf(120).room(0.88).delay(0.4).delaytime(0.5).delayfeedback(0.7).gain(0.32)],
+    [12, chord("<Cmaj7 Am7 Fmaj7 G>").voicing().anchor("c5").slow(4).s("triangle").attack(1.2).release(5).sustain(0.9).lpf(sine.slow(6).range(900,2600)).room(0.8).delay(0.28).delaytime(0.375).delayfeedback(0.55).gain(0.4)],
+    [6, chord("<Cmaj7 Fmaj7>").voicing().anchor("c5").slow(4).s("triangle").attack(1.8).release(7).sustain(0.85).lpf(1100).room(0.95).delay(0.45).delaytime(0.5).delayfeedback(0.74).gain(0.26)]
+  ),
+  arrange(
+    [1, note("g5 a5").s("sine").slow(2).attack(0.05).release(2.5).lpf(2600).room(0.7).delay(0.45).delaytime(0.25).delayfeedback(0.75).gain(0.08)],
+    [12, note("<e5 g5 a5 g5 [e5 g5] d5 c5 g4>").s("sine").slow(2).reset("<x ~ ~ ~>").attack(0.03).release(1.8).sustain(0.2).lpf(sine.slow(5).range(1400,4200)).room(0.62).delay(0.55).delaytime(0.25).delayfeedback(0.72).gain(0.17)],
+    [4, note("<c5 b4 g4 e5>").s("sine").slow(2).attack(0.08).release(2.8).sustain(0.2).hpf(600).lpf(2600).room(0.86).delay(0.6).delaytime(0.375).delayfeedback(0.82).gain(0.12)],
+    [12, note("<e5 g5 a5 g5 [e5 g5] d5 c5 g4>").s("sine").slow(2).reset("<x ~ ~ ~>").attack(0.03).release(1.8).sustain(0.2).lpf(sine.slow(5).range(1400,4200)).room(0.62).delay(0.55).delaytime(0.25).delayfeedback(0.72).gain(0.17)],
+    [6, note("<g5 e5 d5 c5>").s("sine").slow(4).attack(0.05).release(4).sustain(0.15).lpf(2400).room(0.9).delay(0.7).delaytime(0.5).delayfeedback(0.84).gain(0.09)]
+  ),
+  arrange(
+    [1, silence],
+    [12, note("<c2 ~ g1 ~ a1 ~ f1 ~>").s("sine").slow(2).attack(0.4).release(2.8).lpf(240).gain(0.15)],
+    [4, note("<a1 ~ e2 ~ f2 ~ g1 ~>").s("sine").slow(2).attack(0.25).release(2.4).lpf(200).gain(0.13)],
+    [12, note("<c2 ~ g1 ~ a1 ~ f1 ~>").s("sine").slow(2).attack(0.4).release(2.8).lpf(240).gain(0.15)],
+    [6, note("<c2 ~ f1 ~>").s("sine").slow(4).attack(0.7).release(5).lpf(180).gain(0.11)]
+  ),
+  arrange(
+    [1, silence],
+    [12, note("c6 ~ [g5 b5] ~ a5 ~ g5 ~").s("triangle").euclidLegatoRot(3,8,1).slow(2).attack(0.04).release(2.2).tremolosync(6).tremolodepth(0.22).lpf(3200).room(0.78).delay(0.38).delaytime(0.125).delayfeedback(0.78).gain(0.1)],
+    [4, note("e5 ~ g5 ~ b5 ~ d6 ~").s("triangle").euclidLegatoRot(5,8,2).slow(2).attack(0.02).release(1.8).tremolosync(8).tremolodepth(0.3).hpf(500).lpf(2800).room(0.82).delay(0.5).delaytime(0.25).delayfeedback(0.8).gain(0.08)],
+    [12, note("c6 ~ [g5 b5] ~ a5 ~ g5 ~").s("triangle").euclidLegatoRot(3,8,1).slow(2).attack(0.04).release(2.2).tremolosync(6).tremolodepth(0.22).lpf(3200).room(0.78).delay(0.38).delaytime(0.125).delayfeedback(0.78).gain(0.1)],
+    [6, silence]
   )
-  .reset(16)
+).postgain(1.1)

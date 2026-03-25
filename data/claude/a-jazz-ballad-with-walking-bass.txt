@@ -1,56 +1,72 @@
-// 🎷 "Smoke & Velvet" — Late-Night Jazz Ballad with Walking Bass
-// ~70 BPM, Db major — smoky Rhodes, brushed drums, acoustic bass walks the changes
+// "Midnight in Blue" — Smoky jazz ballad with walking bass
+setcps(0.3)
+samples('github:tidalcycles/dirt-samples')
 
-setcps(.28)
+addVoicings('jazz', {
+  7: ['3M 7m 9M 12P 15P', '7m 10M 13M 16M 19P'],
+  '^7': ['3M 6M 9M 12P 14M', '7M 10M 13M 16M 19P'],
+  m7: ['8P 11P 14m 17m 19P', '5P 8P 11P 14m 17m'],
+}, ['C3', 'C6'])
 
-$: s("vinyl:2").gain(.11).room(1).loop(1).lpf(2200)
+let bass = note("<[F2 A2 C3 Db3] [D2 F2 A2 F#2] [G2 Bb2 D3 B2] [C2 E2 G2 Ab2] [A2 C3 E3 C#3] [D2 E2 F2 F#2] [G2 A2 Bb2 B2] [C2 E2 G2 E2]>")
+  .s("sawtooth").lpf(500).lpq(2)
+  .gain(.5).att(.01).dec(.2).sus(.65).rel(.12)
+  .room(.15).pan(.42)
 
-// brushed drums — gentle swing
-$: s("bd ~ ~ ~, ~ [~ sd:1] ~ ~, [hh hh oh hh]*2")
-  .bank("RolandTR808")
-  .swing(4)
-  .gain(".6 .0 .0 .0, .0 .55 .0 .0, .18 .12 .2 .12")
-  .room(.5).lpf(3200)
-  .sometimes(x => x.gain(.25))
+let comp = "<F^7 Dm7 Gm7 C7 Am7 Dm7 Gm7 C7>".voicings('jazz').note()
+  .s("piano").gain(.28)
+  .struct("<[~ x ~ ~] [~ [x ~] ~ x] [~ ~ [~ x] ~] [x ~ ~ [~ x]] [~ x ~ ~] [~ ~ x ~] [~ [~ x] ~ ~] [x ~ ~ x]>")
+  .room(.3).delay(.12).dt(.3).dfb(.3)
+  .lpf(perlin.range(1800, 4500).slow(5))
 
-// walking bass — quarter notes through Dbmaj7 Bbm7 Ebm7 Ab7
-$: note("<[db2 f2 ab2 bb2] [bb1 db2 f2 ab2] [eb2 gb2 bb2 db3] [ab1 c2 eb2 gb2]>")
-  .s("gm_acoustic_bass")
-  .decay(.3).sustain(.5).room(.25).gain(.78)
-  .swing(4)
-  .rarely(x => x.add(note(12)).gain(.3))
+let melody = note("<[~ A4 ~ C5] [F5 E5 D5 ~] [~ Bb4 ~ A4] [G4 ~ ~ ~] [~ C5 ~ E5] [D5 ~ C5 A4] [Bb4 ~ D5 ~] [C5 ~ ~ ~]>")
+  .s("triangle").gain(.18)
+  .att(.06).dec(.35).sus(.3).rel(.7)
+  .vib(4).vibmod(.15)
+  .lpf(sine.range(2000, 3500).slow(6))
+  .room(.35).sz(2).delay(.2).dt(.4).dfb(.4)
+  .pan(.58)
 
-// Rhodes comping — syncopated jazz voicings
-$: chord("<Dbmaj9 Bbm9 Ebm7 Ab13>")
-  .dict('ireal').voicing()
-  .s("gm_epiano1")
-  .struct("~ [x ~] ~ [~ x]")
-  .lpf(sine.range(1400, 2800).slow(12))
-  .room(.55).delay(".25:.18:.35")
-  .gain(.45).speed(.98)
-  .swing(4)
-  .every(4, x => x.struct("[x ~] ~ [~ x] ~").gain(.38))
+let drums = stack(
+  s("hh*4").gain(".2 .3 .2 .3").room(.08),
+  s("~ [~ sd] ~ [sd ~]").gain(.08).room(.12),
+  s("<[bd ~ ~ ~] [bd ~ ~ bd]>").gain(.2)
+)
 
-// melody — pentatonic phrases like a muted trumpet
-$: n("<[~ 0 ~ 4] [2 ~ ~ 5] [~ 4 2 ~] [0 ~ ~ ~]>")
-  .scale("Db5:major:pentatonic")
-  .s("gm_epiano2")
-  .lpf(sine.range(900, 3200).slow(10))
-  .room(.6).delay(".35:.25:.5")
-  .gain(.38).swing(4)
-  .vib(3).vibmod(.5)
-  .sometimes(x => x.add(note(12)).gain(.22))
+let chorus = stack(bass, comp, melody, drums)
 
-// strings pad — warm bed underneath
-$: chord("<Dbmaj9 Bbm9 Ebm7 Ab13>")
-  .dict('ireal').voicing()
-  .s("gm_synth_strings_1")
-  .attack(.8).sustain(.65).release(2.5)
-  .lpf(sine.range(400, 1200).slow(8))
-  .room(.8).gain(.24)
+let intro = stack(
+  note("<[F2 ~ ~ A2] [D2 ~ ~ E2]>")
+    .s("sawtooth").lpf(400).gain(.35)
+    .att(.02).dec(.3).sus(.5).rel(.4).room(.25),
+  "<F^7 Dm7>".voicings('jazz').note()
+    .s("piano").gain(.15)
+    .struct("~ ~ ~ x")
+    .room(.55).delay(.35).dt(.45).dfb(.45)
+)
 
-// sub drone
-$: note("<db1 bb0 eb1 ab0>/4")
-  .s("sine")
-  .attack(2).decay(1).sustain(.8).release(2)
-  .gain(.16).room(.5).lpf(160)
+let bridge = stack(
+  note("<[Bb2 D3 F3 A2] [Bb2 Db3 F3 E2] [A2 C3 E3 G#2] [G2 B2 D3 F#2]>")
+    .s("sawtooth").lpf(500).lpq(2)
+    .gain(.5).att(.01).dec(.2).sus(.65).rel(.12)
+    .room(.15).pan(.42),
+  "<Bb^7 Bbm7 Am7 G7>".voicings('jazz').note()
+    .s("piano").gain(.3)
+    .struct("[x ~] ~ [~ x] ~")
+    .room(.4).delay(.18).dt(.35).dfb(.38),
+  note("<[D5 ~ F5 ~] [Db5 ~ Bb4 ~] [C5 E5 ~ D5] [D5 ~ B4 ~]>")
+    .s("triangle").gain(.15)
+    .att(.08).dec(.4).sus(.25).rel(.9)
+    .vib(3).vibmod(.12)
+    .lpf(2500).room(.45).sz(3)
+    .delay(.22).dt(.5).dfb(.4).pan(.58),
+  s("hh*4").gain(".15 .28 .15 .28").room(.1),
+  s("~ sd ~ ~").gain(.06).room(.15)
+)
+
+arrange(
+  [2, intro],
+  [8, chorus],
+  [4, bridge],
+  [8, chorus]
+)

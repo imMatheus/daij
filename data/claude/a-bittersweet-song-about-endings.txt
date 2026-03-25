@@ -1,111 +1,35 @@
-// 🎵 "Last Light" — Melancholic Chamber Pop / Bittersweet Ballad
-// At 80 BPM: intro(4) + verse(8) + chorus(8) + outro(4) = 24 bars ≈ 1:12
-
-setcpm(80 / 4)
-
-$: s("vinyl:2").gain(.1).room(1).loop(1).lpf(2200)
-
-// Soft percussion — heartbeat fading
-$: arrange(
-  [4,  s("[~ rimshot ~ ~] [~ ~ rimshot ~]")
-       .bank("RolandTR808").gain(.22).room(.5).pan(sine.slow(12))],
-  [8,  s("[~ rimshot ~ rimshot] [rimshot ~ rimshot ~], [hh hh]*4")
-       .bank("RolandTR808").gain(".3 .24 .28 .24").room(.4).swing(3)
-       .every(4, x => x.sometimes(y => y.press()))],
-  [8,  s("[~ rimshot ~ rimshot] [rimshot ~ rimshot ~], [hh ~ oh ~]*2, ~ ~ ~ [~ cp:1]")
-       .bank("RolandTR808").gain(".35 .28 .32 .28").room(.3).swing(3)
-       .rarely(x => x.gain(.15))],
-  [4,  s("[~ rimshot ~ ~] [~ ~ ~ rimshot]")
-       .bank("RolandTR808").gain(saw.slow(4).range(.2,.03)).room(.65).delay(".3:.2:.4")]
+// "Last Light" — Bittersweet ambient ballad about endings
+setcps(20/70)
+arrange(
+  // INTRO — lone chord fading in
+  [1, note("[f3,ab3,c4]")
+    .s("supersaw").detune(.15).att(.8).rel(1.5).lpf(600).gain(.22)
+    .room(.85).sz(2).delay(".3:.2:.6")],
+  // CHORUS — full bittersweet arrangement
+  [8, note("<[f3,ab3,c4] [db3,f3,ab3] [ab3,c4,eb4] [eb3,g3,bb3]>")
+    .s("supersaw").detune(.2).att(.15).rel(.7)
+    .lpf(perlin.range(400,1600).slow(3)).gain(.28).room(.6).delay(".2:.18:.5")
+    .stack(
+      note("<[c5 ~ ab4 f4 ~ ab4 c5 ~] [db5 ~ c5 ab4 ~ ~ f4 ~] [eb5 ~ c5 ~ ab4 ~ c5 eb5] [bb4 ~ g4 ~ eb4 ~ ~ ~]>")
+        .s("triangle").att(.03).rel(.35).gain(.22).delay(".3:.12:.4").room(.4).lpf(3000),
+      note("<f2 db2 ab2 eb2>").s("sawtooth").lpf(200).gain(.32).rel(.25),
+      s("~ hh ~ hh ~ hh ~ hh").gain(".18 .09").lpf(4500).room(.15)
+    )],
+  // BRIDGE — stripped back, C major for fleeting hope
+  [3, note("<[bb3,db4,f4] [c3,e3,g3] [f3,ab3,c4]>")
+    .s("triangle").att(.5).rel(1.2).gain(.18).room(.9).sz(3).delay(".4:.2:.6")
+    .stack(
+      note("<[bb4 ~ db5 ~] [c5 ~ e5 ~] [f4 ~ ab4 ~]>")
+        .s("sine").att(.1).rel(.7).gain(.13).delay(".45:.1:.55").room(.6)
+    )],
+  // FINAL CHORUS — same but slowly dissolving
+  [8, note("<[f3,ab3,c4] [db3,f3,ab3] [ab3,c4,eb4] [eb3,g3,bb3]>")
+    .s("supersaw").detune(.25).att(.2).rel(.9)
+    .lpf(perlin.range(300,1400).slow(4)).gain(.26).room(.7).delay(".25:.2:.55")
+    .stack(
+      note("<[c5 ~ ab4 f4 ~ ab4 c5 ~] [db5 ~ c5 ab4 ~ ~ f4 ~] [eb5 ~ c5 ~ ab4 ~ c5 eb5] [bb4 ~ g4 ~ eb4 ~ ~ ~]>")
+        .s("triangle").att(.05).rel(.5).gain(.2).delay(".35:.15:.5").room(.5).lpf(2500),
+      note("<f2 db2 ab2 eb2>").s("sawtooth").lpf(180).gain(.3).rel(.3),
+      s("~ hh ~ hh ~ hh ~ hh").gain(".15 .08").lpf(3500).room(.2)
+    )]
 )
-
-// Kick — gentle pulse
-$: arrange(
-  [4,  s("bd ~ ~ ~").bank("RolandTR808").gain(.5).room(.5).lpf(750)],
-  [8,  s("bd ~ ~ ~, ~ ~ bd ~").bank("RolandTR808").gain(.6).room(.4).lpf(850)],
-  [8,  s("bd ~ ~ bd, ~ ~ bd ~").bank("RolandTR808").gain(.68).room(.35).lpf(900)],
-  [4,  s("bd ~ ~ ~").bank("RolandTR808").gain(saw.slow(4).range(.42,.0)).room(.6)]
-)
-
-// Bass — roots and fifths, tender motion
-$: arrange(
-  [4,  note("d2").s("gm_acoustic_bass").decay(.5).sustain(.4).room(.25).gain(.4)],
-  [8,  note("<[d2 ~ ~ a2] [~ ~ d2 ~] [bb1 ~ ~ f2] [~ ~ a1 ~]>/2")
-       .s("gm_acoustic_bass").decay(.3).sustain(.5).room(.2).gain(.65)],
-  [8,  note("<[g1 ~ ~ d2] [~ ~ g1 ~] [bb1 ~ ~ f2] [~ ~ a1 e2]>/2")
-       .s("gm_acoustic_bass").decay(.25).sustain(.55).room(.2).gain(.72)
-       .sometimes(x => x.add(note(12)).gain(.3))],
-  [4,  note("<d2 ~ ~ ~>/2")
-       .s("gm_acoustic_bass").decay(.7).sustain(.3).room(.45).gain(saw.slow(4).range(.4,.05))]
-)
-
-// Piano — the voice that remembers
-$: arrange(
-  [4,  chord("<Dm9>/1").dict('ireal').voicing()
-       .s("gm_epiano2").attack(.3).decay(.8).sustain(.6).release(1.5)
-       .lpf(1600).room(.65).gain(.3)],
-  [8,  chord("<Dm9 Bbmaj7 Gm7 A7>").dict('ireal').voicing()
-       .s("gm_epiano2")
-       .struct("<[~ x ~ x] [x ~ x ~]>/2")
-       .lpf(2800).room(.5).delay(".12:.1:.2").gain(.44)],
-  [8,  chord("<Gm9 Dm7 Bbmaj7 A7>").dict('ireal').voicing()
-       .s("gm_epiano2")
-       .struct("[~ x ~ x] [~ x x ~]")
-       .lpf(3400).room(.45).delay(".15:.12:.22").gain(.5)
-       .every(4, x => x.struct("[x ~ x ~] [~ x ~ x]"))],
-  [4,  chord("<Dm9>").dict('ireal').voicing()
-       .s("gm_epiano2").attack(.5).sustain(.5).release(2)
-       .lpf(sine.range(600,1400).slow(4)).room(.8)
-       .gain(saw.slow(4).range(.3,.03))]
-)
-
-// Melody — tender phrases dissolving
-$: arrange(
-  [4,  silence],
-  [8,  n("<[~ 0 ~ 2] [3 ~ 2 ~] [~ 4 ~ 3] [2 ~ ~ 0]>")
-       .scale("D4:minor:pentatonic").s("gm_epiano2")
-       .lpf(sine.range(1400,3200).slow(10))
-       .room(.6).delay(".3:.2:.4").gain(.36)
-       .attack(.06).decay(.3).sustain(.6).release(.5)
-       .rarely(x => x.add(note(12)))],
-  [8,  n("<[0 ~ 3 4] [~ 5 4 ~] [3 ~ 0 ~] [~ 4 3 0]>")
-       .scale("D5:minor:pentatonic").s("gm_epiano2")
-       .lpf(sine.range(1600,4000).slow(8))
-       .room(.55).delay(".25:.18:.35").gain(.42)
-       .attack(.05).decay(.25).sustain(.65).release(.45)
-       .sometimes(x => x.add(note(12)).gain(.22))],
-  [4,  n("<[~ 0 ~ ~] [~ ~ ~ ~]>")
-       .scale("D4:minor:pentatonic").s("gm_epiano2")
-       .room(.9).delay(".6:.4:.7").gain(saw.slow(4).range(.28,.0))
-       .lpf(sine.range(500,1500).slow(4))]
-)
-
-// Strings — aching warmth entering at the chorus
-$: arrange(
-  [4,  chord("<Dm9>/1").dict('ireal').voicing()
-       .s("gm_synth_strings_1").attack(1.2).decay(1).sustain(.5).release(2)
-       .lpf(650).room(.75).gain(.15)],
-  [8,  silence],
-  [8,  chord("<Gm9 Dm7 Bbmaj7 A7>").dict('ireal').voicing()
-       .s("gm_synth_strings_1").attack(.8).decay(.7).sustain(.6).release(1.5)
-       .lpf(sine.range(600,1500).slow(12)).room(.65).gain(.22)],
-  [4,  chord("<Dm9>").dict('ireal').voicing()
-       .s("gm_synth_strings_1").attack(1.5).sustain(.4).release(3)
-       .lpf(sine.range(300,800).slow(4)).room(.9).gain(saw.slow(4).range(.18,.02))]
-)
-
-// Celesta — like scattered memories, chorus only
-$: arrange(
-  [4,  silence],
-  [8,  silence],
-  [8,  n("<[~ ~ 5 ~] [~ 4 ~ ~] [3 ~ ~ 2] [~ ~ 0 ~]>")
-       .scale("D5:minor").s("gm_celesta")
-       .room(.7).delay(".4:.3:.55").gain(.16)
-       .lpf(4200).attack(.02).decay(.2).sustain(.4).release(.6)],
-  [4,  silence]
-)
-
-// Sub warmth — the ground beneath everything
-$: note("d1").s("sine")
-   .attack(1.5).decay(1).sustain(.7).release(2)
-   .gain(.14).room(.4).lpf(140)

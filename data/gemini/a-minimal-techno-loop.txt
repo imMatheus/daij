@@ -1,10 +1,11 @@
-// 🎵 "Silicon Pulse" — Hypnotic Minimal Techno Loop
+// 🎵 "Static Drift" — Minimal Techno Loop
 samples('github:tidalcycles/dirt-samples');
-setcps(128/60/4);
+setcps(128/120);
 stack(
-  s("bd:5*4").gain(1.2),
-  s("hh*16").gain(perlin.range(0.3, 0.8)).pan(sine.slow(4)),
-  s("~ [cp:1,hc:2]").gain(0.7).room(0.2).delay(0.2).delayfb(0.3),
-  s("saw").note("c1(3,8)").lpf(sine.slow(16).range(100, 1000)).lpq(15).gain(0.5),
-  s("industrial:4(7,16,3)").note("-12").gain(perlin.slow(2).range(0.1, 0.4)).room(0.6).size(0.8)
-).reset(8)
+  s("bd:5*4").gain(1.2).lpf(500).mask("<[0!2] [1!16] [0!6] [1!16]>").slow(40),
+  note("<c1*8!3 g0*8>").s("sine").lpf(sine.range(80,200)).gain(0.9).mask("<[0.1!2] [1!16] [1!6] [1!16]>").slow(40),
+  s("hc*16").gain(perlin.range(0.2,0.6)).hpf(6000).pan(perlin.range(0.2,0.8)),
+  s("ho:1").struct("0 0 1 0").decay(0.06).gain(0.4).mask("<[0!2] [1!16] [0!6] [1!16]>").slow(40),
+  note("c5(5,16,<0 2 5>)").s("superchip").decay(0.04).gain(0.4).lpf(perlin.range(1000,9000)).delay(0.375).delayfeedback(0.5).mask("<[0.2!2] [1!16] [0.5!6] [1!16]>").slow(40),
+  s("noise*8").gain(0.08).lpf(sine.range(400,4000)).room(0.6)
+).room(0.3).crush(6)

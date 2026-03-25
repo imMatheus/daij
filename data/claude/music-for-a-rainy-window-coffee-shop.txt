@@ -1,61 +1,43 @@
-// ☕ "Fogged Glass" — Lo-Fi Jazz for a Rainy Coffee Shop
-// At 68 BPM: ~80 bars ≈ 2:49
+Now I have a good understanding of the Strudel API. Let me compose the song.
 
-setcpm(68 / 4)
+// "Raindrop Reverie" — Lo-fi jazz for a rainy window coffee shop
+setcps(0.5)
 
-$: s("vinyl:2").gain(.14).room(1).loop(1).lpf(2000)
-
-$: s("hh*16").bank("RolandTR808")
-   .gain(perlin.range(.03,.22)).pan(perlin.range(.2,.8))
-   .hpf(4500).room(.7).delay(".4:.3:.6").cut(1)
-
-$: arrange(
-  [8,  s("bd ~ ~ ~").bank("RolandTR808").swing(4).gain(.5).room(.6).lpf(600)],
-  [16, s("bd ~ ~ ~, ~ ~ [sd:1] ~, [~ hh] [hh ~] [~ hh] [hh ~]").bank("RolandTR808").swing(4).gain(".7 .55 .65 .55").room(.4).lpf(2800).cut(1)],
-  [16, s("bd ~ [~ bd] ~, ~ [cp,sd:1] ~ cp, [hh oh hh hh]*2").bank("RolandTR808").swing(4).gain(".8 .65 .75 .65").room(.35).lpf(3200).cut(1).every(8, x => x.press())],
-  [16, s("bd ~ ~ ~, ~ ~ [sd:1] ~, [~ hh] [hh ~] [~ hh] [hh ~]").bank("RolandTR808").swing(4).gain(".7 .55 .65 .55").room(.4).lpf(2800).cut(1).rarely(x => x.gain(.25))],
-  [12, s("bd ~ ~ ~, ~ ~ ~ cp").bank("RolandTR808").swing(4).gain(".55 .45").room(.55).lpf(1800)],
-  [12, s("bd ~ ~ ~").bank("RolandTR808").swing(4).gain(saw.slow(12).range(.45,.06)).room(.7).lpf(700)]
+stack(
+  // warm piano chords — slow filter drift like condensation on glass
+  chord("<C^7 Am7 F^7 Fm7>".slow(2))
+    .voicing().s("piano")
+    .gain("<.2@2 .48@14 .32@6 .48@14>")
+    .lpf(perlin.range(800, 2400).slow(4))
+    .attack(.02).release(1.2)
+    .room(.55).rsize(2).delay(".28:0.375:0.45")
+    .pan(sine.range(.35,.65).slow(7))
+    .orbit(1),
+  // lo-fi beat — muffled and swung
+  s("[bd:4 ~]*2, ~ cp ~ [~ cp], [hh:1 [~ hh]]*2")
+    .gain("<0@2 .5@14 0@6 .5@14>")
+    .swingBy(1/6, 4)
+    .lpf(1800).room(.2)
+    .sometimesBy(.3, x => x.speed(".96"))
+    .orbit(2),
+  // bass — warm triangle following chord roots
+  "<C^7 Am7 F^7 Fm7>".slow(2).rootNotes(2).note()
+    .s("triangle").lpf(420).lpq(1.5)
+    .gain("<0@2 .38@14 .15@6 .38@14>")
+    .decay(.55).sustain(.12)
+    .orbit(3),
+  // rain on glass — filtered pink noise
+  s("pink").gain(.06)
+    .lpf(sine.range(600, 1500).slow(9))
+    .hpf(200).room(.85).rsize(4)
+    .orbit(4),
+  // sparse melody — echoed piano fragments
+  n("<[~ 4] [2 ~] [~ 5] [3 ~] [~ 6] [4 ~] [~ 2] [5 ~]>")
+    .scale("C4:major").s("piano")
+    .gain("<.1@2 .3@14 .22@6 .3@14>")
+    .off(1/8, x => x.add(2).gain(.16))
+    .lpf(3200).room(.55)
+    .delay(".3:0.5:0.5")
+    .pan(perlin.range(.25,.75))
+    .orbit(5)
 )
-
-$: arrange(
-  [8,  silence],
-  [16, note("<[f2 ~ ~ ~] [dm2 ~ ~ dm2] [bb1 ~ ~ ~] [c2 ~ ~ c2]>").s("gm_acoustic_bass").decay(.4).sustain(.45).room(.25).gain(.72).lpf(1100)],
-  [16, note("<[f2 ~ f2 ~] [d2 ~ ~ d2] [bb1 ~ bb1 ~] [c2 ~ ~ c2]>").s("gm_acoustic_bass").decay(.3).sustain(.5).room(.2).gain(.78).lpf(1300)],
-  [16, note("<[f2 ~ ~ ~] [d2 ~ ~ d2] [bb1 ~ ~ ~] [c2 ~ ~ c2]>").s("gm_acoustic_bass").decay(.4).sustain(.45).room(.25).gain(.72).lpf(1100).sometimes(x => x.add(note(12)).gain(.3))],
-  [12, note("<f2 ~ d2 ~ bb1 ~ c2 ~>/2").s("gm_acoustic_bass").decay(.6).sustain(.35).room(.4).gain(.58).speed(.97)],
-  [12, silence]
-)
-
-$: arrange(
-  [8,  chord("<Fmaj9 Dm9>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(1.2).decay(1).sustain(.7).release(2.5).lpf(850).room(.85).roomsize(6).gain(.28)],
-  [16, chord("<Fmaj9 Dm9 Bbmaj7 C9>").dict('ireal').voicing().s("gm_epiano1").struct("~ [x ~] ~ [~ x]").lpf(1500).room(.55).delay(".3:.2:.4").gain(.46).speed(.98)],
-  [16, chord("<Fmaj9 Dm9 Bbmaj7 C9>").dict('ireal').voicing().s("gm_epiano1").struct("[~ x]*2").lpf(2000).room(.5).delay(".25:.15:.35").gain(.52).speed(.99)],
-  [16, chord("<Fmaj9 Dm9 Bbmaj7 C9>").dict('ireal').voicing().s("gm_epiano1").struct("~ [x ~] ~ [~ x]").lpf(1500).room(.55).delay(".3:.2:.4").gain(.46).speed(.98).every(8, x => x.crush(13))],
-  [12, chord("<Fmaj9 Bbmaj7 Dm9 C9>/2").dict('ireal').voicing().s("gm_epiano1").struct("x ~ ~ ~").lpf(1100).room(.75).delay(".45:.35:.55").gain(.38).speed(.96)],
-  [12, chord("<Fmaj9 Dm9>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(1.2).sustain(.6).release(3).lpf(sine.range(350,950).slow(12)).room(.88).roomsize(7).gain(saw.slow(12).range(.28,.04))]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, n("<[~ 0 ~ 2] [3 ~ 1 ~] [~ 4 ~ 2] [1 ~ ~ 0]>").scale("F5:major:pentatonic").s("gm_epiano2").lpf(sine.range(900,2800).slow(14)).room(.6).delay(".35:.25:.45").gain(.34).attack(.06)],
-  [16, n("<[0 ~ 2 3] [~ 4 3 ~] [2 ~ 0 ~] [~ 3 1 0]>").scale("F5:major:pentatonic").s("gm_epiano2").lpf(sine.range(1100,3400).slow(10)).room(.55).delay(".25:.18:.35").gain(.4).attack(.04).sometimes(x => x.add(note(12)).gain(.2))],
-  [16, n("<[~ 0 ~ 2] [3 ~ 1 ~] [~ 4 ~ 2] [1 ~ ~ 0]>").scale("F5:major:pentatonic").s("gm_epiano2").lpf(sine.range(900,2800).slow(14)).room(.6).delay(".35:.25:.45").gain(.34).attack(.06)],
-  [12, n("<[~ 0 ~ ~] [~ ~ 2 ~] [~ 3 ~ ~] [~ ~ 0 ~]>").scale("F5:major:pentatonic").s("gm_epiano2").room(.8).delay(".5:.4:.6").gain(.26).lpf(sine.range(500,1600).slow(8))],
-  [12, silence]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, silence],
-  [16, n("<[~ ~ 3 ~] [~ 4 ~ ~] [3 ~ ~ 1] [~ ~ 0 ~]>").scale("F4:major:pentatonic").s("gm_acoustic_guitar_nylon").room(.65).delay(".4:.3:.5").gain(.28).lpf(2600).attack(.05).decay(.3).sustain(.5).release(.4)],
-  [16, silence],
-  [12, n("<[~ 1 ~ 3] [4 ~ 3 ~] [~ 1 ~ 0] [~ ~ ~ ~]>").scale("F4:major:pentatonic").s("gm_flute").room(.7).delay(".5:.35:.55").gain(.22).lpf(4200).vib(4).vibmod(.5).attack(.08).decay(.2).sustain(.6).release(.5)],
-  [12, silence]
-)
-
-$: note("<f1 d1 bb0 c1>/4")
-   .s("sine")
-   .attack(2.5).decay(1).sustain(.8).release(2.5)
-   .gain(.18).room(.65).roomsize(5)
-   .lpf(170)

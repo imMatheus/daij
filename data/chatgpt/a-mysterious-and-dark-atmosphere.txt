@@ -1,11 +1,132 @@
-// "Veil Below" — shadow pulses and haunted echoes
+// "Black Veil Engine" — mysterious dark ritual ambient
 samples('github:tidalcycles/dirt-samples')
-setcps(0.8)
-stack(
-  s("bd*<2 3> [~ bd] ~ bd(3,8)").gain("0.85 0.7 0.9 0.75").lpf(perlin.range(180,420)).room(0.22).delay(0.12),
-  s("[~ hh(5,8)] <hc*2 [~ hc]>").gain(0.35).hpf(perlin.slow(2).range(2800,6400)).room(0.45).delay(0.2),
-  s("<sn:2 sn:4> ~ [~ sn:6]").euclid(5,12).gain(0.32).speed("<0.5 0.75 1>").lpf(sine.slow(6).range(250,1300)).room(0.8).delay(0.35),
-  n("<[0 -1 -3 -5] [0 -2 -5 -7]>").sound("sawtooth").slow(2).gain(0.28).lpf(perlin.slow(4).range(140,700)).room(0.9).delay(0.4),
-  n("[0 7 11 14] [0 5 9 12]").sound("supersaw").slow(4).legato(1.3).gain(0.18).lpf(sine.slow(8).range(200,900)).room(0.95).delay(0.5),
-  s("cp:2(<3 5>,8) [~ cp:3] ~").gain(0.22).lpf(1400).room(0.7).delay(0.28)
-).lpf(perlin.slow(10).range(300,2200)).room(sine.slow(14).range(0.35,0.92)).delay(perlin.slow(7).range(0.08,0.42)).reset(64)
+setcps(27/70)
+
+const murk = sine.slow(11).range(180, 1400)
+const glare = sine.slow(7).range(900, 4200)
+const fog = perlin.slow(9).range(0.18, 0.52)
+const rumble = sine.slow(13).range(90, 220)
+
+const intro =
+  note("<[d3,ab3,c4,f4] [eb3,bb3,db4,g4]>")
+    .slow(2)
+    .s("supersaw")
+    .attack(0.9).release(2.2).sustain(0.48)
+    .lpf(murk).lpq(0.28)
+    .room(fog).delay(0.18).delaytime(3/8).orbit(2).gain(0.46)
+    .stack(
+      note("<ab4 ~ g4 ~>")
+        .slow(2)
+        .s("triangle")
+        .attack(0.05).release(0.9)
+        .vib(4).vibmod(0.15)
+        .lpf(glare)
+        .delay(0.34).delaytime(1/4).room(0.42).orbit(3).gain(0.14)
+    )
+    .stack(
+      s("~ hh ~ [~ hh]")
+        .gain(0.05).hpf(7000).room(0.3)
+    )
+
+const chorus =
+  note("<[d3,ab3,c4,f4] [eb3,bb3,db4,g4] [c3,g3,bb3,eb4] [bb2,f3,ab3,d4]>")
+    .slow(2)
+    .s("supersaw")
+    .attack(0.55).release(1.6).sustain(0.56)
+    .lpf(sine.slow(8).range(320, 2600)).lpq(0.38)
+    .chorus(0.22).room(perlin.slow(7).range(0.2, 0.42)).delay(0.12).orbit(2).gain(0.54)
+    .stack(
+      note("<d2 ~ ~ d2 eb2 ~ ~ c2 bb1 ~ ~ bb1 c2 ~ ~ d2>")
+        .slow(2)
+        .s("sine")
+        .attack(0.01).decay(0.42).sustain(0).release(0.16)
+        .lpf(rumble).gain(0.64)
+    )
+    .stack(
+      note("ab4 ~ g4 f4 ~ eb4 ~ c4 db4 ~ c4 ab3 ~ ~ ~ ~")
+        .slow(2)
+        .s("sawtooth")
+        .attack(0.03).release(0.62)
+        .vib(5).vibmod(0.22)
+        .lpf(glare)
+        .delay(0.38).delaytime(3/8).room(0.32).orbit(3).gain(0.24)
+        .reset("<x ~ ~ x>")
+    )
+    .stack(
+      s("bd")
+        .euclidRot(5, 8, 1)
+        .slow(2)
+        .gain(0.78)
+        .duckorbit("2:3").duckattack("0.28:0.18").duckdepth("0.92:0.55")
+    )
+    .stack(
+      s("lt")
+        .struct("~ ~ x ~ ~ ~ x ~")
+        .slow(2)
+        .gain(0.16).lpf(1200).room(0.18)
+    )
+    .stack(
+      s("hh*8")
+        .slow(2)
+        .gain(".04 .08 .05 .1 .04 .09 .06 .12")
+        .hpf(8000)
+        .reset("<x ~ x ~>")
+    )
+    .stack(
+      s("oh")
+        .struct("~ ~ ~ ~ x ~ ~ ~")
+        .slow(2)
+        .gain(0.08).hpf(6000).delay(0.16)
+    )
+
+const bridge =
+  note("<[f3,c4,eb4,ab4] [e3,bb3,d4,g4] [eb3,ab3,c4,f4] [db3,g3,bb3,eb4]>")
+    .slow(2)
+    .s("sawtooth")
+    .attack(0.7).release(1.8).sustain(0.34)
+    .hpf(sine.slow(9).range(120, 900))
+    .lpf(sine.slow(6).range(900, 2400))
+    .room(perlin.slow(5).range(0.32, 0.62)).delay(0.34).delaytime(1/2).gain(0.36)
+    .stack(
+      note("<c5 db5 f5 eb5 g4 ab4 c5 db5>")
+        .slow(2)
+        .s("triangle")
+        .attack(0.04).release(0.88)
+        .vib(6).vibmod(0.28)
+        .lpf(sine.slow(5).range(1400, 4800))
+        .delay(0.46).delaytime(1/4).room(0.48).orbit(3).gain(0.18)
+        .reset("<x ~ x ~>")
+    )
+    .stack(
+      note("<d2 ~ eb2 ~ c2 ~ bb1 ~>")
+        .slow(2)
+        .s("sine")
+        .attack(0.02).decay(0.6).sustain(0).release(0.24)
+        .lpf(180).gain(0.46)
+    )
+    .stack(
+      s("bd")
+        .struct("x ~ ~ ~ ~ ~ x ~")
+        .slow(2)
+        .gain(0.42)
+        .duckorbit("2:3").duckattack("0.32:0.24").duckdepth("0.78:0.42")
+    )
+    .stack(
+      s("lt")
+        .euclidRot(3, 8, 2)
+        .slow(2)
+        .gain(0.22).lpf(900)
+    )
+    .stack(
+      s("hh*8")
+        .slow(2)
+        .gain(".02 .05 .03 .08 .02 .06 .03 .09")
+        .hpf(9000)
+    )
+
+arrange(
+  [1, intro],
+  [11, chorus],
+  [4, bridge],
+  [11, chorus]
+).postgain(0.94)

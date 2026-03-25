@@ -1,47 +1,60 @@
-// "Closer Still" — tender piano ballad in Ab major, silk strings and whispered melody
-setcps(.38)
+// "Whispered Vows" — Romantic ambient ballad with ethereal pads in F major
+setcps(0.38)
 
-stack(
-  chord("<Abmaj9 Fm9 Dbmaj7 Eb9 Abmaj9 Cm7 Bbm9 Eb13>")
-    .dict('ireal').voicing()
-    .s("gm_epiano1")
-    .struct("x ~ [~ x] ~")
-    .attack(.06).decay(.8).sustain(.6).release(1.8)
-    .lpf(sine.range(900,2400).slow(16))
-    .room(.7).delay(".3:.2:.45").gain(.44),
-  n("<[~ 0 ~ 2] [4 ~ 3 ~] [~ 5 ~ 4] [2 ~ 0 ~] [~ 2 ~ 4] [5 ~ 7 ~] [~ 4 ~ 2] [0 ~ ~ ~]>")
-    .scale("Ab5:major:pentatonic")
-    .s("gm_epiano2")
-    .lpf(sine.range(1100,3200).slow(12))
-    .room(.65).delay(".4:.28:.55").gain(.32)
-    .pan(sine.slow(8).range(.35,.65))
-    .attack(.03).decay(.4).sustain(.5).release(.8)
-    .rarely(x => x.add(note(12)).gain(.15)),
-  note("<ab2 f2 db2 eb2 ab2 c2 bb1 eb2>")
-    .s("gm_acoustic_bass")
-    .decay(.4).sustain(.45)
-    .room(.25).gain(.6).lpf(900),
-  chord("<Abmaj9 Fm9 Dbmaj7 Eb9>")
-    .dict('ireal').voicing()
-    .s("gm_synth_strings_1")
-    .attack(1.5).decay(1.2).sustain(.6).release(3)
-    .lpf(sine.range(400,1400).slow(20))
-    .room(.85).roomsize(5)
-    .gain(.2),
-  n("<[~ ~ 4 ~] [~ 2 ~ ~] [~ ~ 5 ~] [3 ~ ~ 0]>/2")
-    .scale("Ab5:major")
-    .s("gm_flute")
-    .attack(.08).decay(.3).sustain(.55).release(.6)
-    .lpf(4200).vib(4.5).vibmod(.6)
-    .room(.7).delay(".45:.3:.6").gain(.24)
-    .pan(sine.slow(10).range(.3,.7))
-    .reset("<x@3 x@5>"),
-  s("bd ~ ~ ~, ~ ~ [~ sd:1] ~, [~ hh]*4")
-    .bank("RolandTR808")
-    .gain(".38 .3").room(.4).swing(4),
-  note("<ab0 db0 ab0 eb0>/4")
-    .s("sine")
-    .attack(2.5).decay(1.5).sustain(.75).release(3)
-    .gain(.15).lpf(140).room(.6),
-  s("vinyl:2").gain(.09).room(1).loop(1).lpf(1800)
+let chorusMel = n("<[4 5 4 2] [3 2 1 ~] [0 2 4 5] [4 ~ 3 2]>")
+  .scale("F4:major").s("sine")
+  .release(1).gain(.45).vib(4).vibmod(.15)
+  .lpf(sine.slow(12).range(1500, 3500))
+  .delay(.25).delaytime(.2).delayfeedback(.5)
+  .room(.6).roomsize(2)
+
+let chorusPad = chord("<F Dm Bb C>").voicing()
+  .s("triangle").gain(.28)
+  .attack(.3).release(1.5)
+  .lpf(1500).lpq(1)
+  .room(.7).roomsize(3)
+  .slow(2)
+
+let chorusArp = n("<[0 2 4 2] [5 0 2 0] [3 5 0 5] [4 0 2 0]>")
+  .scale("F5:major").s("sine")
+  .gain(.12).release(.6)
+  .delay(.4).delaytime(.3).delayfeedback(.6)
+  .room(.5)
+
+let chorusBass = note("<f2 d2 bb1 c2>")
+  .s("triangle").gain(.25)
+  .release(1.2).lpf(600)
+  .room(.3).slow(2)
+
+let chorus = stack(chorusMel, chorusPad, chorusArp, chorusBass)
+
+let intro = stack(
+  n("~ 4 ~ 2").scale("F4:major").s("sine")
+    .gain(.15).release(2)
+    .delay(.3).delaytime(.2).delayfeedback(.4)
+    .room(.8).roomsize(3).lpf(1200),
+  chord("F").voicing().s("triangle")
+    .gain(.1).attack(.8).release(2)
+    .lpf(900).room(.8).roomsize(3)
+)
+
+let bridge = stack(
+  n("<[5 6 7 6] [4 5 6 ~] [3 4 5 4] [2 1 ~ ~]>")
+    .scale("F4:major").s("sine")
+    .gain(.4).release(1.2).vib(5).vibmod(.2)
+    .lpf(2000)
+    .delay(.3).delaytime(.25).delayfeedback(.55)
+    .room(.7).roomsize(3),
+  chord("<Gm Am Bb C>").voicing().s("triangle")
+    .gain(.25).attack(.4).release(1.8)
+    .lpf(1200).room(.8).roomsize(3),
+  note("<g2 a2 bb2 c3>").s("triangle")
+    .gain(.22).release(1.2).lpf(500).room(.3)
+)
+
+arrange(
+  [2, intro],
+  [10, chorus],
+  [4, bridge],
+  [10, chorus]
 )

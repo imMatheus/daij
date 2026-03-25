@@ -1,37 +1,172 @@
-// "Parallel Hearts" — two interwoven songs breathing in one harmonic pulse
+// "Split-Screen Hearts" — two synth-pop songs colliding in tune
 samples('github:tidalcycles/dirt-samples')
-setcps(0.72)
-n("<[0 2 4 7] [2 4 5 9] [4 7 9 11] [5 7 9 12]>/2")
-  .scale("d3 minor")
-  .s("sawtooth")
-  .legato(1.1)
-  .gain(0.75)
-  .lpf(sine.slow(6).range(500, 2600))
-  .room(0.45)
-  .delay(0.22)
-  .reset(64)
+setcps(29/70)
+
+const velvet = sine.slow(9).range(900,2600)
+const chrome = sine.slow(7).range(1800,5400)
+const halo = sine.slow(11).range(3200,9000)
+const cellar = sine.slow(13).range(110,260)
+const bloom = perlin.slow(8).range(.34,.8)
+const hiss = perlin.slow(10).range(.015,.05)
+
+let introA = note("d4 ~ a4 ~")
+let chorusA = cat(
+  "d4 f4 a4 c5 a4 f4 e4 d4",
+  "bb3 d4 f4 a4 f4 d4 c4 bb3",
+  "f4 a4 c5 a4 g4 f4 e4 c4",
+  "c4 e4 g4 bb4 g4 e4 d4 c4",
+  "[d4 a4] f4 a4 d5 c5 a4 f4",
+  "bb3 d4 f4 g4 f4 d4 c4 a3"
+).note()
+let bridgeA = cat(
+  "g4 bb4 d5 f5 d5 bb4 a4 g4",
+  "a4 c5 e5 d5 c5 a4 g4 e4",
+  "bb3 d4 f4 a4 g4 f4 d4 c4",
+  "a3 c4 e4 g4 e4 c4 bb3 a3"
+).note()
+
+let introB = note("~ ~ f5 e5")
+let chorusB = cat(
+  "~ a4 c5 ~ f5 ~ e5 d5",
+  "~ f4 a4 ~ d5 ~ c5 a4",
+  "~ c5 e5 ~ a5 ~ g5 f5",
+  "~ g4 bb4 ~ e5 ~ d5 c5",
+  "~ a4 c5 ~ f5 ~ e5 c5",
+  "~ f4 a4 ~ d5 ~ c5 bb4"
+).note()
+let bridgeB = cat(
+  "~ d5 f5 ~ bb5 ~ a5 g5",
+  "~ e5 g5 ~ c6 ~ bb5 a5",
+  "~ f5 a5 ~ d6 ~ c6 a5",
+  "~ e5 g5 ~ c6 ~ bb5 g5"
+).note()
+
+let introPad = note("[d4 f4 a4 e5] ~")
+let chorusPad = cat(
+  "[d4 f4 a4 c5] ~ [bb3 d4 f4 a4] ~",
+  "[f4 a4 c5 e5] ~ [c4 e4 g4 bb4] ~",
+  "[d4 f4 a4 d5] ~ [bb3 d4 f4 c5] ~",
+  "[f4 a4 c5 e5] ~ [c4 e4 g4] ~"
+).note()
+let bridgePad = cat(
+  "[g3 bb3 d4 f4] ~ [a3 c4 e4 g4] ~",
+  "[bb3 d4 f4 a4] ~ [a3 c4 e4 g4] ~",
+  "[g3 bb3 d4 f4] ~ [f4 a4 c5] ~",
+  "[a3 c4 e4 g4] ~ [c4 e4 g4 bb4] ~"
+).note()
+
+let introBass = note("d2 ~ ~ a1")
+let chorusBass = cat(
+  "d2 ~ a1 ~ bb1 ~ f2 ~",
+  "f2 ~ c2 ~ d2 ~ a1 ~",
+  "bb1 ~ f2 ~ f2 ~ c2 ~",
+  "c2 ~ g1 ~ d2 ~ a1 ~"
+).note()
+let bridgeBass = cat(
+  "g1 ~ d2 ~ a1 ~ e2 ~",
+  "bb1 ~ f2 ~ a1 ~ e2 ~",
+  "g1 ~ d2 ~ f2 ~ c2 ~",
+  "a1 ~ e2 ~ c2 ~ g1 ~"
+).note()
+
+let introBeat = s("~ ~ ~ ~ rim ~ ~ ~")
+let chorusBeat = cat(
+  "bd ~ ~ ~ cp ~ ~ ~",
+  "bd ~ [hh hh] ~ cp ~ ~ hh",
+  "[bd ~] ~ bd ~ cp ~ ~ ~",
+  "bd ~ ~ bd cp ~ ~ ~"
+).s()
+let bridgeBeat = cat(
+  "bd ~ ~ ~ rim ~ cp ~",
+  "~ ~ bd ~ cp ~ ~ ~",
+  "bd ~ rim ~ ~ ~ cp ~",
+  "~ ~ bd ~ cp ~ rim ~"
+).s()
+
+arrange([1, introA], [12, chorusA], [4, bridgeA], [12, chorusA])
+  .s("pulse").orbit(2)
+  .attack(.01).decay(.18).sustain(.12).release(.38)
+  .vib(5).vibmod(.14)
+  .lpf(chrome)
+  .delay("<.18:.125:.26 .28:.25:.36>")
+  .room(.42)
+  .gain(.15)
+  .reset("<x ~ ~ x>")
   .stack(
-    n("<[7 5 4 2] [9 7 5 4] [11 9 7 5] [12 11 9 7]>/2")
-      .scale("d3 minor")
-      .s("square")
-      .legato(0.85)
-      .gain(0.62)
-      .lpf(perlin.slow(8).range(700, 3200))
-      .room(0.3)
-      .delay(0.33),
-    s("bd(5,8,<0 1 2>) [~ bd] sd(3,8,2) [~ sd]")
-      .gain(0.95)
-      .lpf(sine.slow(12).range(200, 1200))
-      .room(0.08),
-    s("hh*16")
-      .gain("0.2 0.13 0.16 0.11")
-      .hpf(7000)
-      .delay(0.08),
-    n("<[0 7 12] [2 9 14] [4 11 16] [5 12 17]>")
-      .scale("d3 minor")
-      .s("triangle")
-      .slow(2)
-      .gain(0.28)
-      .lpf(sine.slow(10).range(180, 900))
-      .room(0.7)
+    arrange([1, introB], [12, chorusB], [4, bridgeB], [12, chorusB])
+      .s("triangle").orbit(3)
+      .attack(.02).decay(.22).sustain(.14).release(.5)
+      .chorus(.32)
+      .lpf(sine.slow(8).range(1400,4800))
+      .delay("<.36:.375:.48 .24:.25:.3>")
+      .room(.6)
+      .gain(.13)
+      .reset("<~ x ~ x>")
   )
+  .stack(
+    arrange([1, introPad], [12, chorusPad], [4, bridgePad], [12, chorusPad])
+      .s("sawtooth").orbit(4)
+      .attack(.3).release(1.9)
+      .lpf(velvet)
+      .room(bloom)
+      .delay(".16:.125:.22")
+      .gain(.12)
+      .reset("<x ~ ~ x>")
+  )
+  .stack(
+    arrange([1, introBass], [12, chorusBass], [4, bridgeBass], [12, chorusBass])
+      .s("sine").orbit(5)
+      .attack(.01).decay(.2).sustain(.16).release(.3)
+      .lpf(cellar)
+      .room(.18)
+      .gain(.24)
+      .reset("<x ~ ~ x>")
+  )
+  .stack(
+    arrange([1, introBeat], [12, chorusBeat], [4, bridgeBeat], [12, chorusBeat])
+      .orbit(1)
+      .lpf(sine.slow(12).range(900,2400))
+      .room(.22)
+      .gain(".28 .2 .08 .22")
+  )
+  .stack(
+    arrange(
+      [1, s("~ hh ~ hh")],
+      [12, s("hh").euclidRot(11,16,3).fast(2)],
+      [4, s("hh").euclidRot(7,12,1).fast(2)],
+      [12, s("hh").euclidRot(11,16,3).fast(2)]
+    )
+      .orbit(6)
+      .begin("<.78 .81>").end("<.92 .96>")
+      .bpf(halo).bpq(7)
+      .delay(".08:.125:.15")
+      .room(.46)
+      .gain(.06)
+      .reset("<x ~ x ~>")
+  )
+  .stack(
+    arrange(
+      [1, s("pink*4")],
+      [12, s("pink*8")],
+      [4, s("pink*4").slow(2)],
+      [12, s("pink*8")]
+    )
+      .orbit(7)
+      .bpf(sine.slow(15).range(700,2200)).bpq(8)
+      .room(.88)
+      .delay(".12:.5:.28")
+      .gain(hiss)
+  )
+  .stack(
+    arrange(
+      [1, silence],
+      [12, s("bd ~ ~ ~ bd ~ ~ ~")],
+      [4, s("bd ~ ~ ~")],
+      [12, s("bd ~ ~ ~ bd ~ ~ ~")]
+    )
+      .duckorbit("2:3:4:7")
+      .duckattack("0.22:0.28:0.34:0.12")
+      .duckdepth(".34:.16:.12:.06")
+      .postgain(0)
+  )
+  .postgain(1.02)

@@ -1,10 +1,12 @@
-// "Timber Shadow" — shifting layers of woodland textures and soft drifting piano
-samples('github:tidalcycles/dirt-samples');
-setcps(0.42);
+// 🎵 "Verdant Steps" — Organic Ambient / Algorithmic Foliage
+setcps(0.5);
 stack(
-  s("birds(3,8)").n(irand(20)).gain(perlin.range(0.1, 0.4)).room(0.95).pan(perlin),
-  s("superpiano").note("<[e3,g3,b3,d4] [f2,a2,c3,e3] [g2,b2,d3,f3] [c3,e3,g3,b3]>").gain(0.55).room(0.85).delay(0.5).lpf(perlin.range(400, 1800)).slow(2),
-  s("superpiano").note("~ <g4 a4 b4 d5 e5>*2").gain(0.25).room(1).delay(0.8).pan(sine).iter(8),
-  s("<clak(2,4) [clak(3,8) can(5,8)]>").gain(perlin.range(0.2, 0.5)).room(0.4).pan(perlin.range(0.4, 0.6)),
-  s("v(1,16)").n(irand(8)).gain(0.15).room(1).rev().slow(4)
-).reset(32)
+  s("birds").n(irand(8)).slow(8).gain(0.4).room(0.9).pan(sine),
+  s("insect:1").slow(12).gain(0.15).hpf(4000).pan(perlin),
+  s("wood").n(irand(4)).struct("x(3,8, <0 2>)").gain(0.6).room(0.3).mask("<0*1 1*12 0.4*6 1*16>"),
+  s("can:2").struct("x*8").gain(0.12).pan(perlin).mask("<0*5 1*8 0*6 1*16>"),
+  note("<[c4,e4] [g4,b4] [a4,c5] [f4,a4]>".scale("major"))
+    .s("sine").adsr(0.01, 0.3, 0.1, 0.4).room(0.6).delay(0.4)
+    .struct("x(5,16, <0 2>)").gain(0.5).mask("<0*1 1*12 0*6 1*16>"),
+  note("<c3 f3 e3 a2>").s("triangle").lpf(sine.range(200,600)).slow(4).gain(0.4).mask("<0*13 1*6 0*16>")
+).reset(35)

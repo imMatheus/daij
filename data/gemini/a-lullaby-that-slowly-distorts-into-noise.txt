@@ -1,36 +1,28 @@
-// "Fractured Lullaby" — A gentle music box melody that slowly dissolves into digital decay
+// 🎵 "Fractured Sleep" — Algorithmic lullaby with progressive noise distortion
 
-setcps(0.5);
-
+setcps(0.125)
 stack(
-  // The fragile music box melody
-  note("c5 [e5,g5] c6 <g5 f5> e5 [d5,b4] c5".slow(8))
-    .s("superpiano")
-    .room(0.8).sz(0.9)
-    .delay(0.5).delaytime(0.3).delayfb(0.6)
-    .lpf(saw.slow(40).rev().mul(4000).add(150))
-    .crush(saw.slow(40).rev().mul(14).add(1.5))
-    .distort(saw.slow(40).mul(2.5))
-    .gain(saw.slow(40).rev().add(0.3).clip(0, 0.8)),
-
-  // A deep, growing drone that becomes more unstable
-  note("<c2 f2 g2 c2>".slow(8)).s("supersaw")
-    .gain(saw.slow(40).mul(0.5))
-    .lpf(perlin.mul(400).add(100))
-    .detune(perlin.mul(50))
-    .distort(saw.slow(20).mul(0.5)),
-
-  // Glitchy percussive artifacts that emerge over time
-  s("glitch(3,8, <0 2 4>)")
-    .gain(saw.slow(40).mul(0.8))
-    .speed(perlin.add(0.5))
-    .crush(saw.slow(40).rev().mul(8).add(2))
-    .pan(sine.slow(4)),
-
-  // Washing waves of white noise static
-  s("noise*16")
-    .gain(saw.slow(40).mul(perlin).mul(0.7))
-    .hpf(saw.slow(40).rev().mul(5000).add(200))
-    .pan(perlin)
+  note("<[c5,e5,g5] [f4,a4,c5] [g4,b4,d5] [c5,e5,g5]>")
+    .s("sine")
+    .adsr("2.5:0.5:0.4:6")
+    .gain("<0.5 [0.6!3] 0.2 [0.8!4]>")
+    .pan(sine.slow(2))
+    .lpf(saw.slow(9).range(4000, 800)),
+  s("pink")
+    .gain(saw.slow(9).range(0, 0.8))
+    .distort(saw.slow(9).range(0, 12))
+    .crush(saw.slow(9).range(16, 1.1))
+    .lpf(saw.slow(9).range(15000, 400)),
+  note("<c2 f2 g2 c2>").s("triangle")
+    .gain(saw.slow(9).range(0.3, 0.1))
+    .lpf(100),
+  s("bd:4*4").gain(saw.slow(9).range(0, 0.35))
+    .distort(20)
+    .mask("<0!2 1!7>")
 )
-.reset(40)
+.room(0.95)
+.roomsize(0.8)
+.delay(0.5)
+.delaytime(0.75)
+.distort(saw.slow(9).range(0, 5))
+.postgain(0.7)

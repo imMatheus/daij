@@ -1,28 +1,20 @@
-// 🎵 "Golden Hour" — Chill Lofi House with a warm, sun-soaked feel
-setcps(0.48);
+// 🎵 "Azure Breeze" — Carefree Summer Bossa House
+
+setcps(110/240);
 samples('github:tidalcycles/dirt-samples');
 stack(
-  s("bd [~ bd] bd ~").gain(0.8),
-  s("~ [cp,hh:2]").gain(0.5).room(0.3),
-  s("hh*16").gain(sine.slow(16).range(0.2, 0.45)),
-  note("<[f3,a3,c4,e4] [g3,b3,d4,f4] [c3,e3,g3,b3] [a2,c3,e3,g3]>")
-    .s("superpiano")
-    .struct("1(3,8)")
-    .velocity(0.6)
-    .room(0.6)
-    .decay(3)
-    .lpf(sine.slow(12).range(1200, 4000)),
-  note("f2 g2 c2 a1")
-    .s("sine")
-    .struct("1(3,8)")
-    .gain(0.7)
-    .lpf(400)
-    .resonance(0.1),
-  note("<c5 e5 g5 [a5 g5] b4 c5>").struct("~ 1 ~ <1 [1 1]>")
-    .s("superpiano")
-    .velocity(0.45)
-    .delay(0.6)
-    .delayfb(0.4)
-    .room(0.8)
-    .pan(perlin.slow(8))
-).reset(16)
+  s("bd:3, [~ sd:2], <hh*8 [hh*4 oh*2]!3>")
+    .bank("tr909")
+    .gain("<0.5!2 [1!12] [0.4!6] [1!12]>")
+    .jux(iter(4)),
+  n("<0 [0 2] 3 5>(3,8)".scale("G:major").sub(12))
+    .s("sine").lpf(150)
+    .gain("<0.4!2 [0.9!12] [0.6!6] [0.9!12]>"),
+  chord("<G^7 C^7 Am7 D7>").voicing()
+    .s("piano").room(0.8).delay(0.4)
+    .gain("<0.6!2 [0.7!12] [0.5!6] [0.7!12]>")
+    .lpf(sine.range(1000, 3500).slow(16)),
+  n("7 9 11 12 14 12 11 9".scale("G:major").add(12).scramble(4).iter(4))
+    .s("glock").gain("<0!2 [0.5!12] [0.1!6] [0.5!12]>")
+    .echo(3, 0.125, 0.5).pan(perlin)
+).reset("<x!32>")

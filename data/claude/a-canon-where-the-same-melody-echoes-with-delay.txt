@@ -1,52 +1,46 @@
-// 🎵 "Echoes in the Hall" — Minimalist canon with staggered melodic voices
-
-setcps(72/60/4)
-
-samples('github:tidalcycles/dirt-samples')
-
-stack(
-  // voice 1 — lead melody, enters first
-  note("e4 [g4 a4] b4 [a4 g4] e4 d4 [e4 g4] a4 ~ e4 [g4 a4] b4 [d5 b4] a4 g4 [e4 d4] e4 ~")
-    .s("gm_music_box").gain(.52)
-    .lpf(sine.slow(8).range(1200,4500))
-    .room(.55).delay(".25:.18:.45")
-    .release(.3).decay(.4),
-
-  // voice 2 — canon at 2 beat offset, lower octave
-  note("e4 [g4 a4] b4 [a4 g4] e4 d4 [e4 g4] a4 ~ e4 [g4 a4] b4 [d5 b4] a4 g4 [e4 d4] e4 ~")
-    .s("gm_epiano2").gain(.38)
-    .late(2)
-    .lpf(sine.slow(12).range(800,3200))
-    .room(.6).delay(".3:.22:.5")
-    .release(.5).pan(.3),
-
-  // voice 3 — canon at 4 beat offset, airy texture
-  note("e4 [g4 a4] b4 [a4 g4] e4 d4 [e4 g4] a4 ~ e4 [g4 a4] b4 [d5 b4] a4 g4 [e4 d4] e4 ~")
-    .s("gm_flute").gain(.3)
-    .late(4)
-    .lpf(sine.slow(16).range(600,2800))
-    .room(.7).delay(".35:.25:.55")
-    .release(.6).pan(.7),
-
-  // voice 4 — canon at 6 beat offset, deep and distant
-  note("e3 [g3 a3] b3 [a3 g3] e3 d3 [e3 g3] a3 ~ e3 [g3 a3] b3 [d4 b3] a3 g3 [e3 d3] e3 ~")
-    .s("gm_synth_strings_1").gain(.24)
-    .late(6)
-    .lpf(perlin.range(400,1800).slow(10))
-    .room(.8).delay(".4:.3:.6")
-    .release(.8).pan(.5),
-
-  // sustained pedal tones — harmonic bed
-  note("<e2 d2 a2 b2>").s("gm_acoustic_bass")
-    .gain(.35).lpf(500)
-    .decay(.6).sustain(.7).release(1),
-
-  // gentle pulse
-  s("hh:3(5,8)").gain(perlin.range(.08,.2))
-    .bank("RolandTR808")
-    .hpf(7000).room(.3).pan(sine.slow(4).range(.3,.7)),
-
-  // soft kick anchor
-  s("bd ~ ~ bd:1 ~ bd ~ ~").bank("RolandTR808")
-    .gain(.28).lpf(800).room(.2)
+// "Echoes in Time" — Contemplative canon where melody chases itself through fog
+setcps(21/70)
+let mel = n("0 2 3 4 3 2 -1 0").scale("D4:dorian")
+arrange(
+  [2, mel.slow(2).s("triangle").att(.15).rel(.8).gain(.22)
+    .lpf(1200).room(.7).rsize(3).delay(".3:.2:.5")],
+  [8, mel.slow(4).s("triangle").att(.03).rel(.5)
+    .echoWith(3, 1, (p, i) =>
+      p.transpose([12, -12, 7][i-1])
+      .velocity([.7, .55, .4][i-1])
+      .pan([.7, .3, .6][i-1])
+      .s(i === 2 ? "triangle" : "sine")
+    )
+    .lpf(sine.range(700, 4500).slow(8))
+    .gain(.28).room(.5).rsize(2).delay(".2:.18:.45")
+    .stack(
+      n("<0 3 -1 4>").scale("D2:dorian").slow(2)
+        .s("sawtooth").lpf(250).lpq(2).gain(.32).rel(.3),
+      s("~ cp ~ hh").gain(".07 .05").room(.4).hpf(500)
+    )],
+  [3, mel.slow(4).transpose(5).s("sine").att(.15).rel(1)
+    .echoWith(2, 1, (p, i) =>
+      p.transpose(i === 1 ? 12 : -12)
+      .velocity(.5 - i * .1).pan(i === 1 ? .3 : .7)
+    )
+    .gain(.18).room(.85).rsize(3).delay(".4:.22:.55")
+    .lpf(sine.range(500, 2500).slow(3))
+    .stack(
+      n("<3 0>").scale("D2:dorian").s("sine").gain(.18).lpf(200)
+    )],
+  [8, mel.slow(4).s("triangle").att(.03).rel(.5)
+    .echoWith(3, 1, (p, i) =>
+      p.transpose([12, -12, 7][i-1])
+      .velocity([.75, .6, .45][i-1])
+      .pan([.7, .3, .6][i-1])
+      .s(i === 2 ? "triangle" : "sine")
+    )
+    .lpf(sine.range(600, 5500).slow(6))
+    .gain(.3).room(.55).rsize(2).delay(".25:.2:.5")
+    .stack(
+      n("<0 3 -1 4>").scale("D2:dorian").slow(2)
+        .s("sawtooth").lpf(280).lpq(2).gain(.35).rel(.3),
+      s("~ cp ~ hh").gain(".08 .06").room(.4).hpf(500),
+      mel.slow(8).transpose(12).s("sine").gain(.1).att(.1).rel(.6).room(.6).lpf(3000)
+    )]
 )

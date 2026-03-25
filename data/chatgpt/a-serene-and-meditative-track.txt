@@ -1,49 +1,156 @@
-// "Still Water Breath" — soft pulses and drifting bells
+// "Still Water Breathing" — serene meditative ambient drift
 samples('github:tidalcycles/dirt-samples')
-setcps(0.42)
-note("<[0 2 4 7] [0 3 5 8] [0 2 5 9] [0 3 7 10]>").scale("C:minor").slow(4)
-  .s("sine")
-  .gain(0.34)
-  .attack(0.08)
-  .release(1.6)
-  .lpf(perlin.slow(6).range(700, 2200))
-  .room(0.78)
-  .size(0.92)
-  .delay(0.22)
+setcps(13/35)
+
+const intro = 1
+const chorus = 9
+const bridge = 4
+const outro = 3
+
+const introPad = chord("Cmaj9")
+  .voicing().anchor("c5").s("triangle").orbit(2)
+  .attack(.9).decay(1.2).sustain(.86).release(4.2)
+  .lpf(1200).room(.96).delay(".45:.5:.7").gain(.16)
+
+const chorusPad = chord("<Cmaj9 Am7 Fmaj9 G6>")
+  .voicing().anchor("c5").slow(4).s("triangle").orbit(2)
+  .attack(.35).decay(1).sustain(.8).release(2.8)
+  .lpf(sine.slow(8).range(900,2600))
+  .room(.92).delay(".28:.375:.45").gain(.2)
+  .reset("<x ~ ~ ~>")
+
+const chorusBloom = note("<[g4 b4 d5 e5] [e4 g4 a4 c5] [c4 e4 g4 a4] [d4 g4 b4 e5]>")
+  .slow(4).struct("[x ~ x ~]").s("sine").orbit(3)
+  .attack(.18).decay(.5).sustain(.42).release(2.4)
+  .tremolosync(6).tremolodepth(.1)
+  .lpf(sine.slow(11).range(1600,4200))
+  .room(.94).delay(".38:.5:.6").gain(.11)
+  .reset("<x ~ x ~>")
+
+const chorusBass = note("<c2 a1 f1 g1>")
+  .slow(4).struct("[x ~ ~ x]").s("sine").orbit(2)
+  .attack(.02).decay(.2).sustain(.34).release(.9)
+  .lpf(sine.slow(6).range(140,340)).gain(.16)
+  .reset("<x ~ ~ ~>")
+
+const chorusArp = n("<0 2 4 7 9 7 4 2 0 2 4 7 11 9 7 4>")
+  .scale("C5:major:pentatonic").fast(2).s("triangle").orbit(3)
+  .attack(.02).decay(.14).sustain(.26).release(.18)
+  .lpf(sine.slow(9).range(1400,5200))
+  .delay(".3:.25:.38").room(.5).gain(.12)
+  .reset("<x ~ ~ x>")
+
+const chorusBeat = s("bd")
+  .euclid(2,8).lpf(650).room(.28).gain(.17)
+  .duckorbit("2:3").duckattack("0.35:0.18").duckdepth("0.4:0.22")
+
+const bridgePad = chord("<Am7 Em7 Fmaj9 G6>")
+  .voicing().anchor("c5").slow(4).s("sine").orbit(2)
+  .attack(.55).decay(1.2).sustain(.82).release(3.4)
+  .lpf(sine.slow(5).range(700,1800))
+  .room(.97).delay(".48:.5:.68").gain(.14)
+  .reset("<x ~ ~ ~>")
+
+const bridgeBloom = note("<e5 g5 a5 c6 b5 a5 g5 e5>")
+  .slow(4).s("triangle").orbit(3)
+  .attack(.05).decay(.3).sustain(.22).release(1.8)
+  .tremolosync(4).tremolodepth(.12)
+  .lpf(sine.slow(4).range(1800,4200))
+  .room(.9).delay(".52:.5:.7").gain(.09)
+  .reset("<x ~ x ~>")
+
+const bridgeBass = note("<a1 e2 f1 g1>")
+  .slow(4).struct("[x ~ ~ x]").s("sine").orbit(2)
+  .attack(.02).decay(.22).sustain(.3).release(1.2)
+  .lpf(sine.slow(4).range(120,260)).gain(.12)
+  .reset("<x ~ x ~>")
+
+const bridgeBeat = s("bd")
+  .euclid(1,8).lpf(520).room(.36).gain(.1)
+  .duckorbit("2:3").duckattack("0.45:0.24").duckdepth("0.3:0.18")
+
+const texture = s("hh")
+  .euclidish(5,16,.45)
+  .begin(sine.slow(6).range(0,.05)).end(.08)
+  .bpf(sine.slow(10).range(3800,7600)).bpq(5)
+  .room(.97).delay(".18:.125:.28")
+  .gain(sine.slow(9).range(.008,.024)).orbit(4)
+
+const vinyl = s("vinyl:2")
+  .loop(1).lpf(perlin.range(1500,2600).slow(8))
+  .room(.78).gain(.07)
+
+const outroPad = chord("<Cmaj9 Am7 Fmaj9>")
+  .voicing().anchor("c5").slow(3).s("triangle").orbit(2)
+  .attack(.8).decay(1.2).sustain(.84).release(4.6)
+  .lpf(sine.slow(3).range(700,1500))
+  .room(.98).delay(".58:.5:.78").gain(saw.slow(3).range(.14,.04))
+
+const outroBloom = note("<e5 g5 d5>")
+  .slow(3).s("sine").orbit(3)
+  .attack(.1).decay(.4).sustain(.18).release(2.6)
+  .lpf(sine.slow(3).range(1600,3200))
+  .room(.96).delay(".62:.5:.8").gain(saw.slow(3).range(.07,.02))
+
+arrange(
+  [intro, introPad],
+  [chorus, chorusPad],
+  [bridge, bridgePad],
+  [chorus, chorusPad],
+  [outro, outroPad]
+)
   .stack(
-    note("<[0 2] 4 [7 9]>").scale("C:minor").slow(2)
-      .s("triangle")
-      .euclid(5,8)
-      .gain(0.2)
-      .attack(0.01)
-      .release(0.9)
-      .pan(sine.slow(9).range(0.2, 0.8))
-      .lpf(sine.slow(5).range(900, 3800))
-      .room(0.62)
-      .delay(0.18)
+    arrange(
+      [intro, silence],
+      [chorus, chorusBloom],
+      [bridge, bridgeBloom],
+      [chorus, chorusBloom],
+      [outro, outroBloom]
+    )
   )
   .stack(
-    s("~ <hh(5,16) [~ hh] hh(3,8)>")
-      .gain(0.1)
-      .hpf(2600)
-      .pan(perlin.slow(7).range(0.35, 0.65))
-      .room(0.36)
+    arrange(
+      [intro, silence],
+      [chorus, chorusBass],
+      [bridge, bridgeBass],
+      [chorus, chorusBass],
+      [outro, silence]
+    )
   )
   .stack(
-    s("<~ [bd(2,8) ~] ~ [bd(3,16)]>")
-      .bank("RolandTR808")
-      .gain(0.16)
-      .lpf(420)
-      .room(0.48)
-      .size(0.7)
+    arrange(
+      [intro, silence],
+      [chorus, chorusArp],
+      [bridge, silence],
+      [chorus, chorusArp],
+      [outro, silence]
+    )
   )
   .stack(
-    s("<~ ~ [wind:1 wind:2] ~>")
-      .slow(2)
-      .gain(0.19)
-      .lpf(perlin.slow(10).range(400, 1700))
-      .room(0.95)
-      .size(1)
-      .delay(0.34)
+    arrange(
+      [intro, silence],
+      [chorus, chorusBeat],
+      [bridge, bridgeBeat],
+      [chorus, chorusBeat],
+      [outro, silence]
+    )
   )
-  .reset(32)
+  .stack(
+    arrange(
+      [intro, texture.gain(.012)],
+      [chorus, texture],
+      [bridge, texture.gain(.016).bpf(sine.slow(7).range(3200,6200))],
+      [chorus, texture],
+      [outro, texture.gain(saw.slow(3).range(.012,.004))]
+    )
+  )
+  .stack(
+    arrange(
+      [intro, vinyl.gain(.05)],
+      [chorus, vinyl],
+      [bridge, vinyl.gain(.085).lpf(perlin.range(1200,2200).slow(5))],
+      [chorus, vinyl],
+      [outro, vinyl.gain(saw.slow(3).range(.06,.018)).lpf(1400)]
+    )
+  )
+  .postgain(1.02)

@@ -1,19 +1,15 @@
-// 🎵 "Sleeper Car" — Hypnotic motorik ambient with rhythmic track pulses
-
-setcps(0.48);
-
+// 🎵 "Nocturnal Transit" — Melancholic Ambient Train Journey
 samples('github:tidalcycles/dirt-samples');
-
+setcps(0.5);
 stack(
-  s("bd(3,8)").gain(0.8).lpf(200),
-  s("hh*16").gain(perlin.range(0.05, 0.3)).pan(sine.slow(4)),
-  s("[~ <hc hc*2> ~ hc]*2").decay(0.04).gain(0.5).room(0.4),
-  note("c1").s("saw").lpf(sine.slow(8).range(80, 300)).gain(0.25).room(0.3),
-  note("<[c3,eb3,g3,bb3] [bb2,d3,f3,a3] [ab2,c3,eb3,g3] [g2,bb2,d3,f3]>").s("sine").slow(4)
-    .gain(perlin.slow(2).range(0.05, 0.3))
-    .room(0.95).delay(0.6).delayfb(0.7)
-    .lpf(sine.slow(10).range(300, 1200))
-    .pan(perlin),
-  note("g5").s("sine").gain("<0 0 0 [0.08 0]>").slow(16)
-    .room(1).lpf(800).detune(sine.slow(0.1).range(-20, 0))
-).reset(16)
+  s("hh*16").velocity(sine.range(0.1, 0.4).slow(0.25))
+    .gain("0.2@2 0.8@12 0.4@6 0.9@15").slow(35),
+  s("saw").note("<c1 f1 ab0 g0>").struct("x*16")
+    .lpf(perlin.range(100, 500).slow(8)).gain(0.4),
+  s("superpiano").note("<[c3,eb3,g3,bb3] [f2,ab2,c3,eb3] [ab2,c3,eb3,g3] [g2,bb2,d3,f3]>")
+    .slow(4).gain("0.1@2 0.7@12 0.2@6 0.7@15").slow(35).room(0.8).sz(0.9).delay(0.5),
+  s("sine").note("<[~ g4 bb4 c5] [~ f4 ab4 g4] [~ eb4 g4 bb4]>")
+    .slow(2).gain("0@14 0.6@10 0@6 0.7@15").slow(35).room(0.9).delay(0.7).pan(perlin.slow(6)),
+  s("rim:2(3,8)").gain("0@2 0.6@12 0.3@6 0.7@15").slow(35).room(0.4).delay(0.3),
+  s("noise").gain(perlin.range(0, 0.08).slow(4)).lpf(800).hpf(400)
+).reset(35)

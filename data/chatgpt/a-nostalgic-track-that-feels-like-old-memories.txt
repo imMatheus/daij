@@ -1,42 +1,195 @@
-// "Dusty Polaroids" — warm tape hiss and melodies fading like old memories
-samples('github:tidalcycles/dirt-samples')
-setcps(0.66)
-$: s("<bd(3,8) [~ bd] <bd*2 [~ bd]> bd(5,16)>")
-  .gain("0.9 0.75 0.8 0.68")
-  .lpf(perlin.range(320,1400).slow(7))
-  .room(0.22)
-  .delay(0.08)
+// "Polaroids in Rain" — nostalgic lo-fi memory drift
+samples('github:tidalcycles/dirt-samples');
+setcps(0.34);
+
+const dust = perlin.slow(11).range(700, 2400);
+const bloom = sine.slow(9).range(1200, 4200);
+const wash = perlin.slow(13).range(0.22, 0.58);
+
+const intro = note("<[c4,eb4,g4,bb4] [ab3,c4,eb4,g4]>")
+  .slow(2)
+  .s("supersaw")
+  .attack(0.8).release(2.1).sustain(0.45)
+  .lpf(dust).lpq(0.22)
+  .room("0.86:3").delay("0.42:0.5:0.74").gain(0.26)
   .stack(
-    s("[~ hh]*8 <hh(5,8) hh(3,8)> [hh*4 ~ hh*2]")
-      .gain("0.25 0.22 0.18 0.2")
-      .hpf(perlin.range(2500,7600).slow(5))
-      .room(0.3)
-      .delay(0.12),
-    s("<[cp ~ cp] [~ sn] [cp sn] [~ cp]>")
-      .gain(0.45)
-      .lpf(sine.range(900,2600).slow(9))
-      .room(0.42)
-      .delay(0.2),
-    note("<[a3 c4 e4 g4] [g3 b3 d4 f4] [f3 a3 c4 e4] [e3 g3 b3 d4]>")
-      .s("triangle")
+    note("<g5 eb5>")
       .slow(2)
-      .gain("0.55 0.5 0.48 0.42")
-      .lpf(perlin.range(500,2800).slow(6))
-      .room(0.72)
-      .delay(0.35),
-    note("<[a4 ~ g4 e4] [b4 g4 ~ d4] [c5 a4 f4 ~] [g4 e4 d4 ~]>")
-      .s("sawtooth")
-      .slow(4)
-      .gain(0.32)
-      .lpf(sine.range(650,1850).slow(10))
-      .room(0.8)
-      .delay(0.42),
-    s("<[~ ~ arpy] [arpy ~ ~] [~ arpy ~] [arpy ~ arpy]>")
-      .gain(0.2)
-      .lpf(perlin.range(700,2200).slow(11))
-      .room(0.88)
-      .delay(0.28)
+      .s("triangle")
+      .attack(0.05).release(1.2)
+      .vib(5).vibmod(0.14)
+      .lpf(bloom)
+      .delay("0.35:0.25:0.45").room(0.72).gain(0.11)
   )
-  .reset(32)
-  .room(sine.range(0.18,0.78).slow(16))
-  .delay(sine.range(0.05,0.38).slow(12))
+  .stack(
+    s("hh*16")
+      .gain(".003 .008 .004 .01")
+      .hpf(7600)
+      .room(0.22)
+  );
+
+const drift = note("<[c4,eb4,g4,bb4] [ab3,c4,eb4,g4] [eb4,g4,bb4,d5]>")
+  .slow(3)
+  .s("sawtooth")
+  .attack(0.58).release(1.7).sustain(0.32)
+  .lpf(sine.slow(14).range(550, 2100)).lpq(0.3)
+  .room("0.68:2.8").delay("0.28:0.375:0.64").gain(0.2)
+  .stack(
+    note("<g4 bb4 c5 eb5 d5 g5>")
+      .slow(3)
+      .s("triangle")
+      .attack(0.03).release(0.85)
+      .vib(4).vibmod(0.12)
+      .lpf(bloom)
+      .delay("0.34:0.25:0.5").room(0.54).gain(0.1)
+      .reset("<x ~ x>")
+  )
+  .stack(
+    note("<c2 ~ ab1>")
+      .slow(3)
+      .s("sine")
+      .attack(0.01).release(0.3)
+      .lpf(220).gain(0.2)
+  )
+  .stack(
+    s("bd")
+      .struct("x ~ ~ ~ ~ x ~ ~")
+      .slow(3)
+      .gain(0.16)
+      .lpf(500)
+  )
+  .stack(
+    s("hh*8")
+      .slow(3)
+      .gain(".012 .02 .01 .025 .012 .02 .01 .03")
+      .hpf(7600)
+      .room(0.25)
+  )
+  .stack(
+    s("cp")
+      .struct("~ ~ ~ ~ x ~ ~ ~")
+      .slow(3)
+      .gain(0.06)
+      .room(0.32)
+  );
+
+const chorus = note("<[c4,eb4,g4,bb4] [ab3,c4,eb4,g4] [eb4,g4,bb4,d5] [bb3,d4,f4,ab4]>")
+  .slow(2)
+  .s("supersaw")
+  .attack(0.46).release(1.35).sustain(0.58)
+  .lpf(sine.slow(10).range(850, 3600)).lpq(0.34)
+  .room(wash).delay("0.24:0.375:0.58").chorus(0.25).orbit(2).gain(0.34)
+  .stack(
+    note("<g5 ~ eb5 f5 g5 ~ bb5 g5 eb5 d5 c5 ~ g4 bb4 c5 d5 ~ g5 f5 eb5>")
+      .slow(2)
+      .s("triangle")
+      .attack(0.02).release(0.72)
+      .vib(6).vibmod(0.18)
+      .lpf(bloom)
+      .delay("0.38:0.25:0.55").room(0.48).orbit(3).gain(0.16)
+      .reset("<x ~ ~ x>")
+  )
+  .stack(
+    note("<c2 ~ ab1 ~ eb2 ~ bb1 ~>")
+      .slow(2)
+      .s("sine")
+      .attack(0.01).decay(0.42).sustain(0).release(0.16)
+      .lpf(240).gain(0.34)
+  )
+  .stack(
+    s("bd")
+      .euclidRot(5, 8, 1)
+      .slow(2)
+      .gain(0.58)
+      .lpf(700)
+      .duckorbit("2:3").duckattack("0.28:0.18").duckdepth("0.85:0.45")
+  )
+  .stack(
+    s("cp")
+      .struct("~ ~ x ~ ~ ~ x ~")
+      .slow(2)
+      .gain(0.13)
+      .room(0.14)
+      .lpf(1600)
+  )
+  .stack(
+    s("hh*8")
+      .slow(2)
+      .gain(".035 .05 .03 .06 .04 .05 .03 .07")
+      .hpf(7800)
+      .delay("0.08:0.125:0.2")
+  )
+  .stack(
+    s("oh")
+      .struct("~ ~ ~ ~ x ~ ~ ~")
+      .slow(2)
+      .gain(0.055)
+      .hpf(6400)
+      .room(0.3)
+  )
+  .stack(
+    note("<eb6 d6 c6 bb5 g5 bb5 c6 d6>")
+      .slow(4)
+      .s("sine")
+      .attack(0.03).release(1.1)
+      .lpf(sine.slow(12).range(1800, 5200))
+      .tremolosync(6).tremolodepth(0.16)
+      .delay("0.55:0.5:0.72").room(0.82).gain(0.055)
+      .reset("<x ~ ~ ~>")
+  );
+
+const bridge = note("<[f4,ab4,c5,eb5] [g4,bb4,d5,f5] [ab4,c5,eb5,g5] [g4,bb4,d5,f5]>")
+  .slow(2)
+  .s("sawtooth")
+  .attack(0.72).release(1.8).sustain(0.34)
+  .hpf(sine.slow(8).range(130, 680))
+  .lpf(sine.slow(6).range(880, 2300))
+  .room("0.78:3.2").delay("0.38:0.5:0.8").gain(0.22)
+  .stack(
+    note("<c5 eb5 g5 ab5 bb5 g5 f5 d5>")
+      .slow(2)
+      .s("triangle")
+      .attack(0.05).release(0.95)
+      .vib(7).vibmod(0.2)
+      .lpf(sine.slow(9).range(1500, 3800))
+      .delay("0.46:0.25:0.62").room(0.58).gain(0.13)
+      .reset("<x ~ x ~>")
+  )
+  .stack(
+    note("<f2 ~ g2 ~ ab1 ~ g1 ~>")
+      .slow(2)
+      .s("sine")
+      .attack(0.01).release(0.24)
+      .lpf(210).gain(0.26)
+  )
+  .stack(
+    s("lt")
+      .struct("x ~ ~ ~ ~ x ~ ~")
+      .slow(2)
+      .gain(0.11)
+      .lpf(1100)
+  )
+  .stack(
+    s("hh*8")
+      .slow(2)
+      .gain(".018 .03 .015 .04 .02 .03 .015 .05")
+      .hpf(9000)
+      .delay("0.04:0.125:0.14")
+  )
+  .stack(
+    note("<eb6 d6 c6 bb5>")
+      .slow(2)
+      .s("sine")
+      .attack(0.04).release(1.2)
+      .tremolosync(5).tremolodepth(0.22)
+      .lpf(sine.slow(10).range(2200, 5400))
+      .room(0.84).delay("0.58:0.5:0.76").gain(0.05)
+  );
+
+arrange(
+  [1, intro],
+  [3, drift],
+  [8, chorus],
+  [4, bridge],
+  [8, chorus]
+).postgain(0.94);

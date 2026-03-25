@@ -1,18 +1,27 @@
-// "Hollow Rooms" — sparse tones drifting through empty space
-setcps(0.28)
+// "Echoes of Absence" — Ambient isolation soundscape
+setcps(0.25)
 
-note("<[~ ~ b3 ~] ~ [~ f#4 ~ ~] ~ [~ ~ ~ d4] ~ [a3 ~ ~ ~] ~>/2")
-.s("gm_epiano2").gain(perlin.range(.18,.28)).room(.95).roomsize(8).delay(".6:.4:.7")
-.lpf(sine.range(600,2000).slow(14)).attack(.04).decay(.8).sustain(.15).release(3.5)
+note("<~ c2 [c2,g2] [bb1,f2] [ab1,eb2] c2 [c2,g2] [bb1,f2] [ab1,eb2] c2 [bb1,f2] [c2,g2] [bb1,f2] [ab1,eb2] c2 [c2,g2] [bb1,f2] [ab1,eb2]>")
+.s("sawtooth").att(3).release(5).sustain(.2)
+.lpf(perlin.range(120,350).slow(20)).lpq(2).hpf(40)
+.chorus(.4).room(.9).rsize(4).gain(.25).orbit(1)
 .stack(
-  note("b1").s("sine").attack(5).sustain(.65).release(6).gain(.1).room(.85).roomsize(8).lpf(100),
-  note("<b0 ~ ~ f#1>/8").s("sine").attack(4).sustain(.5).release(5).gain(.07).room(.8).roomsize(8).lpf(80),
-  chord("<Bm9 ~ ~ ~ F#m7 ~ ~ ~>/4").dict('ireal').voicing()
-  .s("gm_synth_strings_1").attack(5).sustain(.3).release(7)
-  .lpf(sine.range(180,600).slow(18)).room(.95).roomsize(8).gain(.08)
-  .pan(sine.slow(22).range(.2,.8)),
-  n("<~ ~ ~ ~ ~ ~ [~ 3 ~ ~] ~ ~ ~ ~ [5 ~ ~ ~]>/3")
-  .scale("B5:minor:pentatonic").s("gm_flute").gain(.1).room(.95).roomsize(8)
-  .delay(".75:.5:.85").lpf(2200).vib(4).vibmod(.6).attack(.15).sustain(.25).release(2.5),
-  s("vinyl:2").gain(.05).room(1).loop(1).lpf(1200)
+  note("<~ ~ c4 ~ eb4 ~ g3 f4 ~ ~ ~ c4 ~ eb4 ~ g3 f4 ab4>")
+  .s("triangle").att(.8).release(3).decay(1.5).sustain(.1)
+  .lpf(perlin.range(400,1800).slow(8)).vib(.5).vibmod(.3)
+  .room(.85).rsize(3).delay(.7).delaytime(.5).delayfb(.65)
+  .gain(.18).pan(perlin.range(.2,.8).slow(5)).orbit(2),
+  note("<~ ~ ~ ~ [g5,bb5] ~ ~ ~ ~ ~ ~ ~ ~ ~ [g5,bb5] ~ ~ [eb5,c6]>")
+  .s("sine").att(2).release(4).sustain(.05)
+  .lpf(1200).hpf(400)
+  .room(.95).rsize(6).delay(.5).delayfb(.55)
+  .gain(.08).orbit(3),
+  note("<~ ~ ~ ~ ~ ~ eb6 ~ ~ ~ ~ ~ ~ ~ ~ eb6 ~ ~>")
+  .s("sine").fm(3).fmdecay(.3).fmsustain(0)
+  .att(.01).release(3).sustain(0)
+  .room(.95).rsize(8).delay(.6).delayfb(.7).delaytime(1/3)
+  .gain(.06).pan(.7).orbit(5),
+  s("<brown ~ ~ brown ~ ~ brown ~ ~ brown ~ ~ ~ ~ brown ~ ~ brown>")
+  .lpf(sine.range(80,280).slow(14))
+  .att(2).release(3).gain(.04).room(.6).orbit(4)
 )

@@ -1,9 +1,13 @@
-// "Echoes of a Polaroid" — dusty lo-fi chords and warbling memories
-setcps(0.55)
+// "Faded Polaroids" — A nostalgic lo-fi track with dusty piano and tape-warped textures
+setcps(82/120);
 stack(
-  n("<[c3,g3,b3] [f2,c3,a3] [g2,d3,b3] [e2,b2,g3]>").s("superpiano").velocity(perlin.range(0.4, 0.7).slow(8)).lpf(sine.range(300, 900).slow(16)).room(0.9).sz(0.8).detune(sine.range(2, 18).slow(5)).jux(rev),
-  s("bd [~ sd:3] [bd <bd!3 bd*2>] sd:3").bank("dirt").lpf(700).room(0.4).gain(0.6).delay(0.2).delayfb(0.4),
-  s("hh(11,16,1)").gain(perlin.range(0.1, 0.3).slow(4)).pan(sine.slow(10)).lpf(3000).hpf(1000),
-  n("<c4 d4 eb4 g4 a4 f4>(5,8,3)").s("superpiano").velocity(0.4).room(1).delay(0.5).delayfb(0.6).lpf(sine.range(800, 2000).slow(11)).detune(10).reset(16),
-  s("crush*32").gain(perlin.range(0.05, 0.2).slow(0.2)).lpf(1200).hpf(800).room(0.5)
-)
+  s("noise*8").gain(perlin.range(0.02, 0.05)).lpf(1200).hpf(300),
+  n("<[f3,a3,c4,e4] [d3,f3,a3,c4] [g3,b3,d4,f4] [c3,e3,g3,b3]>").s("superpiano")
+    .gain(0.4).velocity(0.3).lpf(sine.range(400, 900).slow(10))
+    .detune(perlin.range(-15, 15).slow(4)).room(0.6),
+  n("<f2 d2 g2 c2>").s("superchip").gain(0.35).lpf(120),
+  n("~ <c5 [~ a4]> <g4 [~ e4]> <f4 [~ d4]>").s("superpiano")
+    .gain(0.2).room(0.9).delay(0.8).mask("<0!2 1!8 0.2!4 1!11>"),
+  s("bd [~ sd:2] bd sd:2").bank("gretsch").gain(0.55).lpf(700)
+    .mask("<0!3 1!7 0!4 1!11>")
+).reset(25)

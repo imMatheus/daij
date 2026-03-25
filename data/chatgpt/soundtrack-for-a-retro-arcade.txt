@@ -1,17 +1,86 @@
-// "Insert Coin Overdrive" - retro arcade chiptune sprint
+// "1UP Fever" — neon coin-op chiptune rush
 samples('github:tidalcycles/dirt-samples')
-setcps(0.95)
-stack(
-  s("bd*4 <[~ bd] [bd ~ bd] [bd bd ~]>").gain(1.08).reset(16),
-  s("<~ sn:2 ~ sn> [~ cp]*2").gain(0.78).room(0.18).reset(24),
-  s("hh(13,16,<0 1 2 3>)").gain(0.42).hpf(7600),
-  s("oh(5,8)").gain(0.24).delay(0.22),
-  n("<0 0 -2 -3 [0 -5] [2 -3] [3 -2] [5 0]>").s("bass:2").lpf(perlin.slow(6).range(220,920)).gain(0.86).reset(32),
-  n("<[0 2 4 7] [7 9 12 14] [5 7 9 12] [3 5 7 10]>").scale("minor").s("arpy*2").legato(0.9).gain(0.64).room(0.34).delay(0.34).reset(24),
-  n("<[12 10 7 5] [3 2 0 -2] [7 10 12 14] [5 7 3 2]>").s("blip").speed("<1 1.5 2 1.5>").pan(sine.slow(3)).gain(0.38).reset(16)
-)
-.room(sine.slow(12).range(0.16,0.62))
-.delay(0.24)
-.delayfeedback(0.56)
-.lpf(perlin.slow(10).range(900,4300))
-.reset(48)
+setcps(24/70)
+
+const intro = 1, build = 2, chorus = 9, bridge = 3
+const prog = "<[c5,e5,g5,c6] [a4,c5,e5,a5] [f4,a4,c5,f5] [g4,b4,d5,g5]>"
+const highProg = "<[c6,e6,g6,c7] [a5,c6,e6,a6] [f5,a5,c6,f6] [g5,b5,d6,g6]>"
+const roots = "<c2 a1 f1 g1>"
+
+const buildDrums = s("bd(3,8), ~ ~ cp ~, hh(5,8), ~ ~ oh ~").begin("<0 .01 .02 .01>").end("<1 .08>").hpf(sine.slow(3).range(2200,7000)).room(.24).gain(".9 .35 .12 .08").swing(4)
+const chorusDrums = s("bd*4, ~ cp ~ [cp cp], hh(13,16), ~ ~ lt ht").begin("<0 .01 .02 .01 .03>").end("<1 .08>").hpf(sine.slow(6).range(2000,8400)).delay(".08:.125:.12").room(.14).gain(".95 .52 .14 .11 .09").swing(4)
+const bridgeDrums = s("bd(3,8), ~ rim ~ cp, hh(7,8), ~ ~ oh ~").begin("<0 .01 .02 .01>").end("<1 .08>").lpf(sine.slow(4).range(1800,5000)).delay(".18:.25:.22").room(.34).gain(".76 .26 .09 .06").reset("<x ~ x ~>")
+
+const buildDuck = s("bd(3,8)").duckorbit("2:3:4:5").duckattack("0.28:0.22:0.18:0.14").duckdepth(".8:.42:.28:.16").postgain(0)
+const chorusDuck = s("bd*4").duckorbit("2:3:4:5").duckattack("0.24:0.18:0.16:0.14").duckdepth("1:.58:.36:.24").postgain(0)
+const bridgeDuck = s("bd(3,8)").duckorbit("2:3:4:5").duckattack("0.36:0.28:0.22:0.18").duckdepth(".72:.3:.2:.14").postgain(0)
+
+const introSpark = note("<[e6,g6,b6,e7]>").arp("0 1 2 3 2 1 2 1").fast(2).s("square").orbit(4).attack(.01).decay(.08).sustain(.08).release(.04).lpf(sine.slow(2).range(1800,4800)).delay(".3:.25:.34").room(.42).gain(.14)
+
+const buildBass = note(roots).struct("[x ~ x ~]").s("pulse").orbit(2).attack(.01).decay(.14).sustain(.24).release(.08).lpf(sine.slow(5).range(180,700)).gain(.44).reset("<x ~ ~ x>")
+const chorusBass = note(roots).struct("[x ~ x [~ x]]").s("pulse").orbit(2).attack(.01).decay(.16).sustain(.28).release(.09).lpf(sine.slow(6).range(220,1100)).gain(.6).reset("<x ~ ~ x>")
+const bridgeBass = note("<a1 g1 f1 g1>").struct("[x ~ x ~]").s("triangle").orbit(2).attack(.02).decay(.18).sustain(.24).release(.12).lpf(sine.slow(3).range(160,520)).gain(.34).room(.16).reset("<x ~ x ~>")
+
+const buildStab = note(prog).struct("[x ~ ~ x]").s("square").orbit(3).attack(.02).decay(.18).sustain(.22).release(.12).lpf(sine.slow(4).range(900,2600)).room(.28).gain(.18).reset("<x ~ x ~>")
+const chorusStab = note(prog).struct("[x ~ x x]").s("sawtooth").orbit(3).attack(.01).decay(.14).sustain(.28).release(.12).lpf(sine.slow(6).range(1400,5200)).delay(".14:.25:.18").room(.2).chorus(.14).gain(.22).reset("<x ~ x ~>")
+const bridgeStab = note("<[a4,c5,e5,a5] [g4,b4,d5,g5] [f4,a4,c5,f5] [g4,b4,d5,g5]>").struct("[x ~ x ~]").s("triangle").orbit(3).attack(.04).decay(.22).sustain(.32).release(.28).lpf(sine.slow(3).range(700,2200)).delay(".34:.5:.42").room(.54).gain(.16).reset("<x ~ x ~>")
+
+const buildArp = note(highProg).arp("0 1 2 1 2 1 0 1").fast(2).s("square").orbit(4).attack(.01).decay(.08).sustain(.08).release(.05).lpf(sine.slow(4).range(1500,4200)).delay(".22:.25:.28").room(.24).gain(.16).reset("<x ~ ~ x>")
+const chorusArp = note(highProg).arp("0 1 2 3 2 1 2 1").fast(2).s("square").orbit(4).attack(.01).decay(.07).sustain(.06).release(.05).lpf(sine.slow(7).range(2400,7600)).delay(".24:.25:.3").room(.18).gain(.22).reset("<x ~ ~ x>")
+const bridgeArp = note("<[a5,c6,e6,a6] [g5,b5,d6,g6] [f5,a5,c6,f6] [g5,b5,d6,g6]>").arp("3 2 1 2 0 1 2 1").s("square").orbit(4).attack(.02).decay(.12).sustain(.1).release(.1).lpf(sine.slow(3).range(1200,3600)).delay(".44:.5:.5").room(.62).gain(.12).reset("<x ~ x ~>")
+
+const chorusLead = n("7 9 11 12 11 9 7 4 7 9 11 14 12 11 9 7").scale("C5:major").s("pulse").orbit(5).attack(.01).decay(.12).sustain(.18).release(.08).lpf(sine.slow(6).range(2600,9000)).chorus(.18).vib(6).vibmod(.08).delay(".32:.25:.4").room(.24).gain(.2).reset("<x ~ x ~>")
+const bridgeLead = n("9 ~ 7 ~ 4 ~ 2 ~").scale("A4:minor").fast(2).s("pulse").orbit(5).attack(.02).decay(.16).sustain(.2).release(.16).lpf(sine.slow(3).range(1800,5200)).chorus(.22).vib(4).vibmod(.1).delay(".46:.5:.58").room(.68).gain(.14).reset("<x ~ x ~>")
+
+const scanline = s("hh*16").begin(sine.slow(5).range(0,.04)).end(.04).speed("<1 1.06 .94 1.12>").hpf(sine.slow(6).range(7000,13000)).delay(".08:.125:.14").room(.28).gain(.05).orbit(6)
+
+arrange(
+  [intro, s("~ ~ ~ ~, ~ ~ ~ ~, hh*8").begin(.02).end(.05).hpf(9000).room(.7).gain(".02 0 .04")],
+  [build, buildDrums],
+  [chorus, chorusDrums],
+  [bridge, bridgeDrums],
+  [chorus, chorusDrums]
+).stack(
+  arrange(
+    [intro, silence],
+    [build, buildDuck],
+    [chorus, chorusDuck],
+    [bridge, bridgeDuck],
+    [chorus, chorusDuck]
+  ),
+  arrange(
+    [intro, introSpark],
+    [build, buildBass],
+    [chorus, chorusBass],
+    [bridge, bridgeBass],
+    [chorus, chorusBass]
+  ),
+  arrange(
+    [intro, silence],
+    [build, buildStab],
+    [chorus, chorusStab],
+    [bridge, bridgeStab],
+    [chorus, chorusStab]
+  ),
+  arrange(
+    [intro, silence],
+    [build, buildArp],
+    [chorus, chorusArp],
+    [bridge, bridgeArp],
+    [chorus, chorusArp]
+  ),
+  arrange(
+    [intro, silence],
+    [build, silence],
+    [chorus, chorusLead],
+    [bridge, bridgeLead],
+    [chorus, chorusLead]
+  ),
+  arrange(
+    [intro, silence],
+    [build, silence],
+    [chorus, scanline],
+    [bridge, silence],
+    [chorus, scanline]
+  )
+).postgain(1.04)

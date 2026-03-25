@@ -1,17 +1,53 @@
-// "Entropy Bloom" - raw glitch-ambient techno that collapses into fragments halfway
+// "Half-Remembered Hook" — deconstructed club-pop that pulls itself apart halfway through
 samples('github:tidalcycles/dirt-samples')
-setcps(0.9)
-s("<bd(5,8,0) bd(3,8,2) [bd(3,8) ~] [bd bd(5,8)]>")
-  .stack(
-    s("<~ sd:2 ~ sd:2> [~ cp]*2 <~ sd:3> [cp ~]").gain(0.82),
-    s("hh*16").euclid(11,16).gain(0.45).lpf(sine.range(4000,12000).slow(12)),
-    s("<arpy:1 arpy:2 arpy:3 arpy:4>*2").n("<0 2 7 9 [12 14] 7 5 2>").gain(0.36).room(0.55).delay(0.34),
-    s("<~ ~ ~ glitch:3> [~ ~ sid:2]*2").room(0.8).delay(0.5).gain(0.28),
-    s("<jvbass:2 [jvbass:3 jvbass:4] jvbass:5 [~ jvbass:2]>").lpf(sine.range(180,1400).slow(10)).gain(0.42)
-  )
-  .room(0.26)
-  .delay("<0.1 0.2 0.3 0.4>")
-  .lpf(perlin.range(450,9000).slow(20))
-  .gain("<1!32 0.95 0.9 0.85 0.8 0.75 0.7 0.65 0.6 0.55 0.5 0.45 0.4 0.35 0.3 0.25 0.2 0.16 0.12 0.09 0.07 0.05 0.04 0.03 0.02 0.015 0.01 0.007 0.004 0.002 0.001 0>")
-  .degradeBy("<0 0 0 0 0 0 0.08 0.16 0.24 0.32 0.42 0.55 0.68 0.8 0.9 0.98>".slow(4))
-  .reset(64)
+setcps(24/70)
+
+const intro = 1
+const chorus = 10
+const bridge = 3
+
+const haze = s("~ ~ ~ ~, ~ ~ ~ ~, ~ ~ ~ ~, [hh oh]*2").slow(2).begin("<.01 .02>").end("<.05 .09>").speed("<1 .99 1.01 -.5>").hpf(sine.slow(7).range(4200,12000)).room(.78).delay(".34:0.25:0.48").gain(.08).reset("<x ~ ~ x>")
+
+const introPad = note("[d4 f4 a4 c5]").s("supersaw").orbit(3).attack(.6).decay(.5).sustain(.8).release(2.4).lpf(sine.slow(2).range(500,1800)).room(.9).delay(".36:0.5:0.42").chorus(.22).gain(.24)
+const chorusPad = note("<[d4 f4 a4 c5] [bb3 d4 f4 a4] [g3 bb3 d4 f4] [a3 c4 e4 g4]>").slow(4).struct("[x ~ x x]").s("supersaw").orbit(3).attack(.02).decay(.26).sustain(.56).release(.24).lpf(perlin.slow(7).range(1400,6200)).lpq(.22).room(.36).delay(".28:0.25:0.4").chorus(.28).gain(.34).reset("<x ~ x ~>")
+const bridgePad = cat(
+  chorusPad.mask("1 1 1 0 1 0 1 0").lpf(1400).gain(.2),
+  chorusPad.rev().struct("[x ~ ~ x]").bpf(sine.slow(3).range(700,2600)).bpq(5).hpf(240).distort("3:.55:sinefold").delay(".46:0.125:0.7").gain(.12),
+  s("pink").struct("x ~ ~ ~").attack(.02).release(.7).bpf(sine.slow(2).range(1200,4600)).bpq(10).tremolosync(8).tremolodepth(.9).room(.88).delay(".62:0.25:0.82").gain(.05)
+)
+
+const chorusBass = note("<d2 bb1 g1 a1>").slow(4).struct("[x [~ x] x [~ x]]").s("sawtooth").orbit(2).attack(.01).decay(.16).sustain(.22).release(.08).lpf(perlin.slow(6).range(180,1100)).lpq(.25).lpenv(3).lpa(.02).gain(.66).reset("<x ~ x ~>")
+const bridgeBass = cat(
+  chorusBass.mask("1 0 1 0 1 0 0 0").lpf(240).gain(.44),
+  chorusBass.rev().slow(2).struct("[x ~ ~ x]").distort("5:.4:diode").lpf(160).gain(.2),
+  note("d1 ~ ~ ~").s("sine").attack(.005).decay(.28).sustain(0).release(.28).penv(24).pdecay(.06).pcurve(1).lpf(110).gain(.16)
+)
+
+const chorusKick = s("bd [~ bd] ~ bd").fast(2).orbit(1).begin("<0 .01 .02 .01>").end("<1 .08>").distort("<0 .8 0 1.2>").gain(".96 .82 .88 .74").duckorbit("2:3:4").duckattack(".24:.16:.1").duckdepth(".92:.34:.18").reset("<x ~ x ~>")
+const bridgeKick = cat(
+  chorusKick.mask("1 0 1 0 1 0 0 0").gain(.78),
+  s("[bd ~] ~ [bd bd] ~").fast(2).orbit(1).lpf(600).distort("4:.5:fold").gain(.42).duckorbit("2:3:4").duckattack(".16:.12:.08").duckdepth(".7:.22:.12"),
+  s("~ ~ ~ bd").orbit(1).lpf(240).room(.3).gain(.22).duckorbit("2:3:4").duckattack(".3:.2:.12").duckdepth(".42:.1:.06")
+)
+
+const chorusPerc = s("~ cp ~ cp, hh*8, ~ ~ oh ~ [~ hh] ~ ~ ~").fast(2).orbit(5).begin("<0 .01>").end("<1 .07>").speed("<1 1 .99 1.02>").hpf(perlin.slow(8).range(2600,12000)).room(.16).delay(".16:0.125:0.28").gain(".74 .24 .28").reset("<x ~ x ~>")
+const bridgePerc = cat(
+  chorusPerc.mask("1 1 0 1 0 0 1 0").gain(.22),
+  s("hh [cp hh] ~ [oh ~], ~ ~ [hh hh] ~").fast(2).rev().orbit(5).hpf(5000).delay(".38:0.125:0.72").room(.42).gain(.12),
+  s("~ ~ ~ ~, [hh hh hh hh]*2").fast(2).orbit(5).hpf(9000).tremolosync(12).tremolodepth(1).room(.7).gain(.05)
+)
+
+const chorusLead = n("<0 2 4 7 9 7 4 2 [0 2] 4 7 9 7 4 2>").scale("D5:minor").fast(2).s("triangle").orbit(4).attack(.005).decay(.1).sustain(.16).release(.08).vib(6).vibmod(".05 .12 .2 .08").lpf(perlin.slow(5).range(1800,7600)).delay(".26:0.25:0.34").room(.22).gain(.16).reset("<x ~ ~ x>")
+const bridgeLead = cat(
+  chorusLead.mask("1 1 0 1 0 1 0 0").gain(.09),
+  chorusLead.rev().slow(2).struct("[x ~ ~ x]").bpf(sine.slow(2).range(1000,4200)).bpq(7).delay(".54:0.125:0.78").gain(.08),
+  note("<d6 ~ a5 ~>").slow(2).s("sine").attack(.01).release(1.6).tremolosync(10).tremolodepth(1).hpf(2200).delay(".7:0.25:0.88").room(.94).gain(.04)
+)
+
+arrange([intro, haze], [chorus, haze.gain(.1)], [bridge, haze.gain(.12).rev()], [chorus, haze.gain(.1)])
+  .stack(arrange([intro, introPad], [chorus, chorusPad], [bridge, bridgePad], [chorus, chorusPad]))
+  .stack(arrange([intro, silence], [chorus, chorusBass], [bridge, bridgeBass], [chorus, chorusBass]))
+  .stack(arrange([intro, silence], [chorus, chorusKick], [bridge, bridgeKick], [chorus, chorusKick]))
+  .stack(arrange([intro, silence], [chorus, chorusPerc], [bridge, bridgePerc], [chorus, chorusPerc]))
+  .stack(arrange([intro, silence], [chorus, chorusLead], [bridge, bridgeLead], [chorus, chorusLead]))
+  .postgain(1.02)

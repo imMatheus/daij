@@ -1,35 +1,39 @@
-// "Noite Carioca" — warm bossa nova with nylon guitar and lazy electric piano under Rio starlight
-setcps(130/60/4)
+// "Noite de Ipanema" — Warm bossa nova with jazzy voicings and gentle groove
+setcps(0.52)
+samples('github:tidalcycles/dirt-samples')
 
-stack(
-  s("bd:3 ~ ~ [~ bd:3] ~ ~ bd:3 ~, ~ ~ rim:2 ~ ~ ~ rim:2 ~")
-    .bank("RolandTR808").gain(".72 .55 .65 .5").room(.18).swing(3),
-  s("hh*8").bank("RolandTR808")
-    .gain(perlin.range(.08,.26)).pan(sine.slow(7).range(.3,.7)),
-  chord("<Dm9 G13 Cmaj9 A7>").dict('ireal').voicing()
-    .s("gm_acoustic_guitar_nylon")
-    .struct("x ~ x ~ ~ x ~ x ~ ~ x ~ ~ x ~ x")
-    .lpf(sine.range(2200,4800).slow(11))
-    .room(.38).delay(".12:.08:.18").gain(.48),
-  note("<[d2 ~ a2 d2] [g1 ~ b1 d2] [c2 ~ e2 g2] [a1 ~ c#2 e2]>")
-    .s("gm_acoustic_bass").decay(.22).sustain(.48)
-    .room(.12).gain(.7),
-  n("<[~ 0 ~ 2] [4 ~ 3 ~] [~ 2 ~ 4] [5 ~ 3 ~] [2 ~ 0 ~] [~ 4 ~ 5] [4 ~ 2 ~] [0 ~ ~ ~]>")
-    .scale("C5:major:pentatonic").s("gm_epiano2")
-    .lpf(sine.range(1400,3800).slow(8))
-    .room(.52).delay(".22:.14:.3").gain(.36)
-    .sometimes(x => x.add(note(12))),
-  n("<[~ ~ 3 ~] [~ 4 ~ ~] [3 ~ ~ 1] [~ ~ 0 ~] [~ ~ 4 ~] [~ 5 ~ ~] [4 ~ ~ 3] [~ ~ 1 ~]>")
-    .scale("C5:major:pentatonic").s("gm_flute")
-    .room(.55).delay(".35:.25:.4").gain(.24)
-    .lpf(4800).vib(5).vibmod(.4)
-    .attack(.03).decay(.18).sustain(.6).release(.35),
-  chord("<Dm9 G13 Cmaj9 A7>").dict('ireal').voicing()
-    .s("gm_synth_strings_1")
-    .attack(.7).decay(.9).sustain(.55).release(1.5)
-    .lpf(sine.range(800,2100).slow(16))
-    .room(.65).gain(.2),
-  note("<d1 g1 c1 a1>/4").s("sine")
-    .attack(1.2).decay(.8).sustain(.7).release(1.5)
-    .gain(.13).room(.35).lpf(170)
+let v = "<Dm7 G7 C^7 [F^7 E7]>"
+let gs = "x ~ x ~ ~ x ~ x"
+
+arrange(
+  [2, chord("<Dm7 G7>").voicing().s("gm_acoustic_guitar_nylon").struct(gs)
+    .gain(saw.slow(2).range(0.15, 0.5)).room(0.45).lpf(1800).delay("0.2:0.2:0.3")],
+  [15, stack(
+    chord(v).voicing().s("gm_acoustic_guitar_nylon").struct(gs)
+      .gain(0.55).room(0.3).lpf(perlin.range(2200, 3800).slow(8)),
+    note("<[D2 ~ ~ ~ A1 ~ ~ ~] [G2 ~ ~ ~ D2 ~ ~ ~] [C2 ~ ~ ~ G2 ~ ~ ~] [F2 ~ ~ ~ E2 ~ ~ ~]>")
+      .s("gm_acoustic_bass").gain(0.7).lpf(900),
+    s("shaker*8").gain("0.2 0.4").pan(0.6).hpf(3000),
+    s("[~ rim]*4").gain(0.28).pan(0.4).room(0.2),
+    n("<[0 ~ 2 4] [5 4 ~ 2] [4 5 7 ~] [5 ~ 4 2]>").scale("C4:major")
+      .s("gm_flute").gain(0.28).room(0.5).delay("0.15:0.18:0.35").lpf(4500).vib("4:0.3")
+  )],
+  [4, stack(
+    chord("<Fm7 Bb7 Eb^7 G7>").voicing().s("gm_acoustic_guitar_nylon").struct(gs)
+      .gain(0.5).room(0.4).lpf(2800),
+    note("<[F2 ~ ~ ~ C2 ~ ~ ~] [Bb1 ~ ~ ~ F2 ~ ~ ~] [Eb2 ~ ~ ~ Bb1 ~ ~ ~] [G2 ~ ~ ~ D2 ~ ~ ~]>")
+      .s("gm_acoustic_bass").gain(0.65).lpf(800),
+    s("shaker*8").gain("0.18 0.35").pan(0.6).hpf(3000),
+    s("[~ rim]*4").gain(0.22).pan(0.4).room(0.2)
+  )],
+  [15, stack(
+    chord(v).voicing().s("gm_acoustic_guitar_nylon").struct(gs)
+      .gain(0.55).room(0.3).lpf(perlin.range(2500, 4200).slow(6)),
+    note("<[D2 ~ ~ ~ A1 ~ ~ ~] [G2 ~ ~ ~ D2 ~ ~ ~] [C2 ~ ~ ~ G2 ~ ~ ~] [F2 ~ ~ ~ E2 ~ ~ ~]>")
+      .s("gm_acoustic_bass").gain(0.7).lpf(900),
+    s("shaker*8").gain("0.2 0.4").pan(0.6).hpf(3000),
+    s("[~ rim]*4").gain(0.28).pan(0.4).room(0.2),
+    n("<[4 ~ 5 7] [5 4 ~ 2] [0 2 4 ~] [2 ~ 0 ~]>").scale("C4:major")
+      .s("gm_flute").gain(0.32).room(0.5).delay("0.15:0.18:0.35").lpf(5000).vib("4:0.3")
+  )]
 )

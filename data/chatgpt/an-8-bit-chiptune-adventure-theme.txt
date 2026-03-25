@@ -1,38 +1,42 @@
-// "Pixel Quest" — bright 8-bit overworld run with pulsing danger and arcade momentum
+// "Pixel Quest" — 8-bit chiptune adventure
 samples('github:tidalcycles/dirt-samples')
-setcps(0.86)
-$: note("<[a4 e5 a5 c6] [b4 fs5 b5 d6] [c5 g5 c6 e6] [d5 a5 d6 f6]>*2")
-  .s("sid")
-  .legato(0.82)
-  .gain(0.9)
-  .lpf(sine.slow(6).range(900,4200))
-  .room(0.2)
-  .delay(0.125)
-  .stack(
-    note("<[[a5 e6] [a6 c7]] [[b5 fs6] [b6 d7]] [[c6 g6] [c7 e7]] [[d6 a6] [d7 f7]]>")
-      .s("arpy")
-      .gain(0.58)
-      .euclid(5,8)
-      .lpf(perlin.slow(8).range(1300,5200))
-      .room(0.28)
-      .delay(0.25),
-    note("<[a2 ~ a2 e2] [b2 ~ b2 fs2] [c3 ~ c3 g2] [d3 ~ d3 a2]>")
-      .s("sid")
-      .legato(0.5)
-      .gain(0.72)
-      .lpf(sine.slow(4).range(220,850))
-      .room(0.1),
-    s("<bd(5,8) [bd ~ bd] bd(3,8) [~ bd]>")
-      .gain(1)
-      .lpf(950)
-      .room(0.06),
-    s("<hh*8 [hh*16] hh*8 [hh*12]>")
-      .gain(0.34)
-      .hpf(5000)
-      .room(0.22)
-      .delay(0.125),
-    s("<cp(3,8) ~ [~ cp] cp>")
-      .gain(0.48)
-      .room(0.33)
-  )
-  .reset(48)
+setcps(0.5)
+
+const intro = 1
+const build = 4
+const chorus = 7
+const quest = 12
+const bridge = 4
+const finale = 7
+
+const introDrums = s("~ ~ ~ ~, ~ ~ ~ ~, hh*4").gain(.06).begin(.01).end(.05).bpf(7500).bpq(7).room(.5)
+const buildDrums = s("bd(3,8), ~ cp ~ ~, hh*8, ~ ~ oh ~").gain(".92 .55 .2 .16").lpf(sine.slow(6).range(2600,9000)).room(.18).duckorbit("2:3").duckattack(.16).duckdepth("1:.32")
+const chorusDrums = s("bd*4, ~ cp ~ [cp cp], hh(13,16), ~ ~ oh ~").gain(".95 .62 .24 .18").lpf(sine.slow(8).range(3400,12000)).delay(".06:.125:.14").room(.16).duckorbit("2:3").duckattack(.16).duckdepth("1:.4")
+const questDrums = s("bd [~ bd] bd ~, ~ cp rim cp, hh(11,16), ~ oh ~ oh").gain(".92 .58 .46 .18").lpf(sine.slow(7).range(2800,10400)).delay(".08:.125:.16").room(.2).duckorbit("2:3").duckattack(.18).duckdepth("1:.44")
+const bridgeDrums = s("bd(3,8), ~ rim ~ cp, hh(5,8), ~ ~ oh ~").gain(".84 .42 .16 .12").lpf(sine.slow(4).range(1800,5200)).delay(".12:.25:.18").room(.34).duckorbit("2:3").duckattack(.2).duckdepth("1:.28")
+
+const introArp = note("<[c6,e6,g6,c7]>").arp("0 1 2 3").s("square").orbit(3).attack(.01).decay(.08).sustain(.08).release(.04).lpf(sine.slow(2).range(1200,3800)).delay(".24:.25:.28").room(.42).gain(.12)
+const buildArp = note("<[c6,e6,g6,c7] [g5,b5,d6,g6] [a5,c6,e6,a6] [f5,a5,c6,f6]>").slow(4).arp("0 1 2 3 2 1 2 1").s("square").orbit(3).attack(.01).decay(.09).sustain(.06).release(.05).lpf(sine.slow(6).range(1400,4800)).delay(".28:.25:.32").room(.22).gain(.18).reset("<x ~ ~ x>")
+const chorusArp = note("<[c6,e6,g6,c7] [g5,b5,d6,g6] [a5,c6,e6,a6] [f5,a5,c6,f6] [c6,e6,g6,c7] [g5,b5,d6,g6] [f5,a5,c6,f6] [g5,b5,d6,g6]>").slow(4).arp("0 [1 2] 3 [2 1] 2 1 [2 3] 1").s("square").orbit(3).attack(.01).decay(.08).sustain(.06).release(.05).lpf(sine.slow(8).range(2200,7600)).delay(".32:.25:.36").room(.18).gain(.22).reset("<x ~ x ~>")
+const questArp = note("<[a5,c6,e6,a6] [f5,a5,c6,f6] [d6,f6,a6,d7] [g5,b5,d6,g6]>").slow(4).arp("0 1 [2 3] 2 1 2 3 2").s("square").orbit(3).attack(.01).decay(.08).sustain(.06).release(.05).lpf(sine.slow(7).range(1800,6800)).delay(".26:.25:.3").room(.2).gain(.19).reset("<x ~ ~ x>")
+const bridgeArp = note("<[a5,c6,e6,a6] [g5,b5,d6,g6] [f5,a5,c6,f6] [g5,b5,d6,g6]>").slow(4).arp("3 2 1 2 0 1 2 1").s("triangle").orbit(3).attack(.02).decay(.12).sustain(.08).release(.08).lpf(sine.slow(3).range(1000,4200)).delay(".38:.5:.45").room(.48).gain(.16).reset("<x ~ x ~>")
+
+const buildBass = note("<c3 g2 a2 f2>").slow(4).struct("[x ~ x [~ x]]").s("triangle").orbit(2).attack(.01).decay(.12).sustain(.2).release(.08).lpf(sine.slow(5).range(180,820)).gain(.4).reset("<x ~ x ~>")
+const chorusBass = note("<c3 g2 a2 f2 c3 g2 f2 g2>").slow(4).struct("[x ~ [x x] ~]").s("triangle").orbit(2).attack(.01).decay(.13).sustain(.24).release(.09).lpf(sine.slow(7).range(220,1200)).distort(".8:.85").gain(.5).reset("<x ~ x ~>")
+const questBass = note("<a2 f2 d3 g2>").slow(4).struct("[x ~ x x]").s("triangle").orbit(2).attack(.01).decay(.12).sustain(.22).release(.08).lpf(sine.slow(6).range(200,1000)).distort(".6:.9").gain(.46).reset("<x ~ ~ x>")
+const bridgeBass = note("<a2 g2 f2 g2>").slow(4).struct("[x ~ x ~]").s("triangle").orbit(2).attack(.02).decay(.16).sustain(.22).release(.12).lpf(sine.slow(3).range(160,640)).gain(.34).reset("<x ~ x ~>")
+
+const introLead = note("<g5 c6 e6 g6>").fast(2).s("square").orbit(3).attack(.01).decay(.1).sustain(.12).release(.06).lpf(sine.slow(2).range(1800,5200)).delay(".22:.25:.28").room(.36).gain(.1)
+const chorusLead = n("<7 ~ 9 11 12 ~ 11 9 7 ~ 5 7 9 11 12 14>").scale("C5:major").fast(2).s("square").orbit(3).attack(.01).decay(.11).sustain(.16).release(.08).lpf(sine.slow(6).range(2600,9000)).delay(".34:.25:.4").room(.24).distort(".4:.95").gain(.2).reset("<x ~ x ~>")
+const questLead = n("<9 7 5 7 9 12 11 9 7 5 4 5 7 9 11 12>").scale("C5:major").fast(2).s("square").orbit(3).attack(.01).decay(.1).sustain(.14).release(.08).lpf(sine.slow(8).range(2200,7600)).delay(".3:.25:.34").room(.18).gain(.16).reset("<x ~ ~ x>")
+const bridgeLead = note("<a5 g5 e5 d5 c5 d5 e5 g5>").fast(2).s("square").orbit(3).attack(.02).decay(.12).sustain(.18).release(.12).lpf(sine.slow(3).range(1800,5600)).delay(".42:.5:.5").room(.52).gain(.14).reset("<x ~ x ~>")
+
+const pulse = s("hh*16").begin(sine.slow(5).range(0,.03)).end(.06).bpf(sine.slow(6).range(5000,9000)).bpq(6).delay(".1:.125:.12").room(.24).gain(.06)
+
+$: stack(
+  arrange([intro, introDrums], [build, buildDrums], [chorus, chorusDrums], [quest, questDrums], [bridge, bridgeDrums], [finale, chorusDrums]),
+  arrange([intro, silence], [build, buildBass], [chorus, chorusBass], [quest, questBass], [bridge, bridgeBass], [finale, chorusBass]),
+  arrange([intro, introArp], [build, buildArp], [chorus, chorusArp], [quest, questArp], [bridge, bridgeArp], [finale, chorusArp]),
+  arrange([intro, introLead], [build, silence], [chorus, chorusLead], [quest, questLead], [bridge, bridgeLead], [finale, chorusLead]),
+  arrange([intro, silence], [build, silence], [chorus, pulse], [quest, pulse], [bridge, silence], [finale, pulse])
+).postgain(1.02)

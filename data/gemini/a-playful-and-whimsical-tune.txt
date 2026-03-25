@@ -1,29 +1,25 @@
-// "The Juggling Jester" — A bouncy, shifting melody with toy-like textures and unpredictable rhythms
+// 🎵 "The Giggling Gadget" — A playful and whimsical algorithmic pop tune
 
-setcps(0.6)
+setcps(1);
 
 stack(
-  s("bd:5 [~ cp:2] [~ bd:5] <cp:2 [cp:2*2]>")
-    .gain(0.9)
-    .room(0.2),
-  s("hc*8").gain(sine.range(0.4, 0.8)),
-  s("gl(3,8)").n(irand(4)).gain(0.6).delay(0.3).delayfb(0.4).room(0.5),
-  note("<c3 g3> <f3 d3> <e3 a2> <g2 b2>")
-    .s("superchip")
-    .decay(0.05)
-    .gain(0.7)
-    .lpf(sine.range(400, 3000)),
-  note("c4(3,8) e4(3,8,1) g4(3,8,2) b4(3,8,3)")
-    .s("supervibe")
-    .struct("x(5,8)")
-    .iter(4)
-    .room(0.6)
-    .size(0.8)
-    .pan(perlin),
-  note("<[c5 d5 e5 f5] [g5 a5 b5 c6]>")
-    .s("supermando")
-    .gain(0.5)
-    .jux(rev)
-    .delay(0.2).delayfb(0.5)
-)
-.reset(8)
+  // Drums: Bouncy and syncopated using 909 sounds
+  s("[~:3 [bd sd:1 [~ bd] sd:1]*15:27 [bd(3,8) wood:3(5,8)]*6:12 [bd sd:1 [~ bd] sd:1]*15:28]")
+    .bank("rolandtr909").gain(0.8),
+
+  // Whimsical Percussion: Woodblocks and glass clicks for texture
+  s("[~:3 [wood:1(3,8) wood:2(5,8)]*15:27 [glass:2*12]*6:12 [wood:1(3,8) wood:2(5,8)]*15:28]")
+    .gain(0.9).room(0.3).pan(sine.range(-0.7, 0.7).slow(10)),
+
+  // Bouncy Bassline: Plucky chip-synth pulses
+  n("[~:3 [c2 g1 c2 g1]*15:27 [f1 c2 f1 g1]*6:12 [c2 g1 c2 g1]*15:28]")
+    .s("superchip").decay(0.1).sustain(0.05).gain(0.7).lpf(1500),
+
+  // Main Melody: Bright piano arpeggios with stereo width
+  n("[[c4 e4 g4 c5]*2:3 [c5 e5 g5 b5 c6 a5 g5 e5]*30:27 [d5 f5 a5 c6 d6 c6 a5 f5]*12:12 [c5 e5 g5 b5 c6 a5 g5 e5]*30:28]")
+    .s("superpiano").decay(0.15).room(0.5).velocity(perlin.range(0.4, 0.9)).jux(rev),
+
+  // Effects: Whimsical bubbles and delay taps
+  s("[~:3 [~ bubble:1]*15:27 [bubble:2*6]*6:12 [~ bubble:1]*15:28]")
+    .bank("dirt").gain(0.6).room(0.8).delay(0.4)
+).slow(70)

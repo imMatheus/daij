@@ -1,42 +1,37 @@
-// "Glistening Shore" — an ambient sunrise piece with warm pads and rolling waves
+// 🎵 "Amber Horizon" — Ambient Beach Sunrise
 
 setcps(0.45)
 
 stack(
-  // Warm horizon pads
-  note("C3:maj9*2, F3:maj9, G3:11, E3:m9")
-    .s("superpiano")
-    .room(0.8).size(0.9)
-    .lpf(sine.range(300, 1500).slow(8))
-    .gain(0.7),
-
-  // Melodic light reflections
-  note("<[c4 e4 g4 b4] [g4 b4 d5 f#5] [a4 c5 e5 g5] [f4 a4 c5 e5]>")
-    .s("supervibe")
-    .struct("1(3,8)")
-    .delay(0.6).delayfb(0.5)
-    .rev()
-    .gain(sine.range(0.2, 0.5).slow(4)),
-
-  // Rolling ocean waves
   s("noise")
-    .lpf(sine.range(100, 800).slow(12))
-    .hpf(150)
-    .gain(sine.range(0.1, 0.4).slow(12))
-    .pan(sine.slow(10)),
-
-  // Gentle morning pulse
-  s("bd:4(3,8), [~ hh]*2")
-    .gain(0.5)
-    .lpf(1000)
-    .room(0.3),
-
-  // Distant birds/glitch textures
-  note("c6(5,16,12)")
-    .s("superchip")
-    .release(0.1)
-    .gain(perlin.range(0, 0.3).slow(5))
-    .pan(perlin.slow(3))
-)
-.reset(16)
-.slow(2)
+    .gain(sine.slow(8).range(0.04, 0.18))
+    .lpf(perlin.slow(6).range(200, 1400))
+    .room(1).sz(0.9),
+  s("superpiano")
+    .note("<[f3,a3,c4,e4] [d3,f3,a3,c4] [bes2,d3,f3,a3] [c3,e3,g3,bes3]>")
+    .slow(2)
+    .gain(0.6)
+    .lpf(sine.slow(12).range(500, 2000))
+    .room(0.7)
+    .jux(rev),
+  s("superglock")
+    .note("f5 a5 c6 d6")
+    .struct("x(5,8)")
+    .gain(perlin.range(0.2, 0.5))
+    .delay(0.6).dt(0.4)
+    .room(0.8)
+    .mask("<0!2 1!12 0.4!4 1!14>".slow(32)),
+  s("bd [~ sd] bd [sd [~ bd]]")
+    .bank("rland")
+    .gain(0.7)
+    .mask("<0!2 1!12 0!4 1!14>".slow(32)),
+  s("hh*16")
+    .gain(perlin.range(0.1, 0.4))
+    .mask("<0!2 1!12 0.5!4 1!14>".slow(32)),
+  s("saw")
+    .note("<f2 d2 bes1 c2>")
+    .slow(2)
+    .lpf(perlin.slow(4).range(200, 600))
+    .gain(0.4)
+    .mask("<0!4 1!10 0!4 1!14>".slow(32))
+).reset(32)

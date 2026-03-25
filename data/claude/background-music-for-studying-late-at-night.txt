@@ -1,33 +1,36 @@
-// 🎵 "3AM Pages" — Lo-Fi Ambient Late Night Study
-setcps(68/60/4)
-
-chord("<Ebm9 Gbmaj7 Abm7 Bb7sus4>").dict('ireal').voicing()
-  .s("gm_epiano2").struct("~ [x ~] ~ [x ~]").swing(4)
-  .attack(.06).decay(1.6).sustain(.3).release(3)
-  .lpf(sine.range(700,2200).slow(16)).room(.6)
-  .delay(".3:.2:.45").gain(.35).speed(.97)
-.stack(
-  n("<[~ 0 ~ ~] [~ ~ 2 ~] [4 ~ ~ 3] [~ 1 ~ ~]>")
-    .scale("Eb4:minor:pentatonic").s("gm_epiano1")
-    .lpf(perlin.range(800,3000).slow(1)).room(.7)
-    .delay(".45:.3:.6").gain(.24).pan(sine.slow(8))
-    .rarely(x=>x.add(note(12)).gain(.12)),
-  n("<[~ ~ 3 ~] [4 ~ ~ ~] [~ 2 ~ ~] [~ ~ ~ 0]>/2")
-    .scale("Eb5:minor:pentatonic").s("gm_vibraphone")
-    .lpf(2000).room(.8).delay(".5:.35:.65")
-    .gain(.16).pan(perlin.range(.2,.8)),
-  note("<[eb1 ~ ~ ~] [gb1 ~ ~ gb1] [ab1 ~ ~ ~] [bb1 ~ ~ ~]>")
-    .s("gm_acoustic_bass").decay(.35).sustain(.5)
-    .room(.2).gain(.65).lpf(380),
-  note("<eb0 gb0 ab0 bb0>/4").s("sine")
-    .attack(2.5).sustain(.75).release(3)
-    .gain(.14).room(.45).lpf(130),
-  s("bd ~ ~ ~, ~ [~ sd:1] ~ ~")
-    .bank("RolandTR808").swing(4)
-    .gain(".62 .55").room(.4).lpf(2500)
-    .every(8, x=>x.struct("bd ~ ~ bd, ~ [~ sd:1] ~ [~ cp]")),
-  s("hh(5,8)").bank("RolandTR808")
-    .gain(perlin.range(.03,.18)).pan(sine.slow(7))
-    .cut(1).lpf(sine.range(2800,5000).slow(12)),
-  s("vinyl:2").gain(.1).room(1).loop(1).lpf(1800)
+// "Late Night Pages" — Lo-fi ambient study beat, warm and drowsy
+setcps(75/4/60)
+samples('github:tidalcycles/dirt-samples')
+stack(
+  // warm analog pad — drifts throughout the whole piece
+  chord("<Dm7 G7 C^7 Am7>").voicing()
+    .s("sawtooth").gain(.22).attack(.5).release(1.2)
+    .lpf(perlin.range(400,1000).slow(8))
+    .room(.75).size(3).delay(".15:.3:.55").orbit(1),
+  // gentle piano melody — chorus sections only
+  n("<[0 ~ 2 4] [3 2 ~ 0] [~ 4 3 ~] [2 ~ 0 4]>")
+    .scale("C4:major:pentatonic").sometimesBy(.3, x=>x.add(5))
+    .s("piano").gain(.28)
+    .lpf(perlin.range(2000,4500).slow(6))
+    .room(.45).delay(".2:.18:.45")
+    .mask("<0 1!8 0!3 1!8 0!2>").orbit(2),
+  // sub bass following roots
+  note("<d2 g1 c2 a1>").s("triangle")
+    .gain(.4).lpf(300).decay(.35).sustain(.75).release(.25)
+    .mask("<0 1!8 0!3 1!8 0!2>").orbit(3),
+  // ethereal FM bells — bridge only
+  n("4 ~ 2 ~ 3 ~ 0 ~").scale("C5:major:pentatonic")
+    .s("sine").fm(2).fmdecay(.4).fmsustain(0)
+    .gain(.15).attack(.1).release(.8)
+    .room(.7).delay(".35:.2:.6")
+    .mask("<0 0!8 1!3 0!8 0!2>").orbit(4),
+  // lo-fi drums with lazy swing
+  stack(
+    s("bd ~ [~ bd] ~").gain(.45),
+    s("~ [~ sd:3] ~ sd:3").gain(.28).lpf(3000),
+    s("hh*8").gain(".22 .15 .25 .15 .22 .15 .25 .18").lpf(5500)
+  ).swingBy(1/6, 4).room(.12)
+    .mask("<0 1!8 0!3 1!8 0!2>").orbit(0),
+  // vinyl hiss — constant soft texture
+  s("pink").gain(.035).lpf(2200).hpf(500)
 )

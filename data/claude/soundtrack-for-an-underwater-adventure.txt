@@ -1,39 +1,44 @@
-// "Abyssal Drift" — luminous deep-sea exploration, bioluminescent wonder
-setcps(84/60/4)
+// "Abyssal Drift" — Ambient deep-sea exploration soundtrack
+setcps(0.5)
+
+let introPad = note("[eb2,bb2,gb3]").s("supersaw").det(.15)
+  .lpf(400).lpq(2).attack(1).release(2).sustain(.7)
+  .room(.85).rsize(4).delay("0.2:0.4:0.3").gain(.35)
+
+let pad = note("<[eb2,bb2,gb3] [db2,ab2,f3] [b1,gb2,db3] [bb1,f2,db3]>").slow(2)
+  .s("supersaw").det(.15).lpf(sine.range(300,1800).slow(7)).lpq(2)
+  .attack(.6).release(1.5).sustain(.75)
+  .room(.85).rsize(4).delay("0.25:0.375:0.35").gain(.42)
+
+let bridgePad = note("<[eb2,bb2,gb3] [b1,gb2,db3]>").slow(2)
+  .s("supersaw").det(.12).lpf(sine.range(200,900).slow(5)).lpq(1.5)
+  .attack(1).release(2).sustain(.65)
+  .room(.9).rsize(5).delay("0.3:0.5:0.45").gain(.3)
+
+let melody = n("<[0 ~ 4 ~] [5 ~ 3 ~] [~ 2 ~ 6] [4 ~ 0 ~]>")
+  .scale("Eb4:phrygian").s("sine").fm(2).fmh(3.01).fmdecay(.4).fmsustain(0)
+  .attack(.005).release(1).decay(.5).sustain(.15)
+  .lpf(perlin.range(1500,5000).slow(2))
+  .delay("0.5:0.333:0.55").room(.7).rsize(3).gain(.3)
+  .pan(sine.range(.3,.7).slow(3))
+
+let bass = note("<eb1 [eb1 db1] b0 [bb0 db1]>").s("sine")
+  .attack(.08).release(.4).sustain(.8).gain(.5).lpf(200)
+
+let bubbles = s("hh*8").n(irand(6))
+  .gain(perlin.range(.05,.2)).lpf(rand.range(3000,9000)).hpf(1500)
+  .pan(rand).delay("0.35:0.25:0.4").room(.5)
+
+let whale = note("<eb3 gb3 db3 bb2>").slow(8).s("sine")
+  .fm(1).fmh(1.5).fmdecay(1.5).fmsustain(.3)
+  .vib(3).vibmod(1.5).attack(.4).release(2).sustain(.5)
+  .room(.9).rsize(6).delay("0.5:0.5:0.55").lpf(1200).gain(.18)
+  .struct("~ ~ ~ ~ ~ ~ x ~").slow(4)
 
 stack(
-  s("white").gain(perlin.range(.015,.05)).lpf(perlin.range(500,2000).slow(7)).hpf(400).room(.9).pan(perlin.range(.2,.8)).loop(1),
-  note("<e1 c1 a0 b0>/4").s("sine").fm(.15).fmh(2)
-    .attack(2).decay(1.5).sustain(.8).release(3)
-    .gain(.16).room(.85).lpf(140),
-  note("<[e3,g3,b3,d4] [c3,e3,g3,b3] [a2,c3,e3,g3] [b2,d3,f#3,a3]>")
-    .s("sawtooth")
-    .attack(1.5).decay(1).sustain(.5).release(2.5)
-    .lpf(sine.range(250,1200).slow(12))
-    .gain(.11).room(.75).delay(".25:.18:.4"),
-  s("<bd ~ [~ bd] ~> ~ ~ ~, ~ [~ cp] ~ ~, [~ hh]*4")
-    .bank("RolandTR909")
-    .lpf(sine.range(600,2500).slow(9))
-    .gain(".45 .3 .25").room(.5).swing(2),
-  n("<[0 ~ 2 4] [~ 4 6 ~] [4 ~ 2 ~] [~ 6 ~ 0]>")
-    .scale("E4:minor").s("triangle")
-    .lpf(sine.range(800,3500).slow(8))
-    .decay(.18).sustain(.2).release(.6)
-    .room(.7).delay(".35:.25:.5").gain(.2)
-    .pan(sine.slow(3.5)),
-  n("<[~ 4 ~ ~] [~ ~ 2 ~] [4 ~ ~ 6] [~ ~ 2 ~]>")
-    .scale("E5:minor").s("gm_vibraphone")
-    .room(.85).delay(".5:.4:.65").gain(.16)
-    .lpf(sine.range(1800,4500).slow(11))
-    .vib(3).vibmod(.35),
-  note("<[~ e4 ~ ~] [~ ~ b4 ~] [g4 ~ ~ ~] [~ ~ ~ d5]>")
-    .s("gm_flute")
-    .attack(.08).decay(.3).sustain(.5).release(.8)
-    .vib(5).vibmod(.55)
-    .room(.8).delay(".4:.3:.55").gain(.2)
-    .lpf(3500),
-  note("<[e3,b3] [c3,g3] [a2,e3] [b2,f#3]>/2").s("sine")
-    .attack(.8).decay(.5).sustain(.6).release(1.5)
-    .lpf(sine.range(600,1800).slow(14))
-    .room(.65).gain(.1).delay(".2:.15:.3")
+  arrange([2, introPad], [14, pad], [5, bridgePad], [14, pad]).orbit(1),
+  arrange([2, silence], [14, melody], [5, silence], [14, melody]).orbit(2),
+  arrange([2, silence], [14, bass], [5, silence], [14, bass]).orbit(3),
+  arrange([2, silence], [14, bubbles], [5, silence], [14, bubbles]).orbit(4),
+  arrange([2, silence], [14, whale], [5, whale], [14, whale]).orbit(5)
 )

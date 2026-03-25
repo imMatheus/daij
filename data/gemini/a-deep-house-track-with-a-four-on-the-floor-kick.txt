@@ -1,11 +1,9 @@
-// 🎵 "Deep Horizon" — Deep House with four-on-the-floor kick
-setcps(124/60/4)
+// 🎵 "Midnight Velocity" — A deep house track with a four on the floor kick
+setcps(124/60/4);
 stack(
-  s("bd:5*4").gain(1.2),
-  s("~ <cp:3 [cp:3*2]> ~ cp:3").gain(0.8).room(0.5).dry(0.9),
-  s("hh27*16").gain(perlin.range(0.2, 0.7)).pan(sine.range(0.1, 0.9)),
-  note("<a1(3,8) g1(3,8) c2(3,8,2) f1(3,8)>").s("superfm").amount(4).lpf(350).decay(0.15).gain(0.9),
-  note("<[a2,c3,e3,g3] [d2,f2,a2,c3] [g2,b2,d3,f3] [e2,g2,b2,d3]>").s("gm_epiano1").lpf(sine.range(300, 1800).slow(12)).room(0.9).delay(0.6).delayfb(0.5).gain(0.6),
-  s("hh:8*8").gain(sine.range(0, 0.4).slow(4)).pan(perlin),
-  s("noise*16").gain(perlin.range(0, 0.04)).lpf(1200)
-).reset().room(0.2).lpf(sine.range(3000, 15000).slow(20))
+  s("bd:5*4").mask("<1!14 0!6 1!12 1!3>").gain("<1!32 0.8 0.5 0.2>"),
+  s("~ cp").mask("<0!2 1!12 0!6 1!12 0!3>").gain(0.7).room(0.1),
+  s("hh*16").gain(perlin.range(0.3,0.6)).swing(4).mask("<0!4 1!10 1!6 1!12 0.5!3>"),
+  note("<c2*4 eb2*4 f2*4 bb1*4>").s("saw").lpf(300).lpq(3).gain("<0!4 0.8!10 0.4!6 0.8!12 0.4!3>"),
+  note("<[c3,eb3,g3,bb3] [f3,ab3,c4,eb4]>").s("triangle").lpf(sine.slow(8).range(500, 2000)).room(0.7).gain("<0!8 0.4!6 0.2!6 0.4!12 0!3>")
+).reset("<x!31 x(7,8)>")

@@ -1,60 +1,53 @@
-// "Midnight Underpass" — Downtempo Trip-Hop
-// 82 BPM ~ 60s
-
-setcpm(82 / 4)
-
+// "Concrete Ghosts" — Downtempo trip hop with heavy breaks and dark atmospherics
 samples('github:tidalcycles/dirt-samples')
+setcps(78/60/4)
 
-$: s("bd ~ [~ bd] ~, ~ ~ sd ~, hh(5,8)")
-   .bank("RolandTR808")
-   .swing(.18)
-   .gain(".88 .72 .8 .7")
-   .room(.4)
-   .cut(1)
-   .reset("<8 16 16 8>")
-   .when("<0 1 1 0>/48", x => x.s("bd ~ [~ bd] ~, ~ ~ [sd,cp] ~, [hh oh hh hh]*2").bank("RolandTR808").gain(".92 .8").room(.3).every(4, y => y.fast(2).gain(.45)))
+const padLfo = sine.slow(16).range(300, 1600)
+const ghostLfo = perlin.slow(8).range(1200, 3800)
 
-$: note("<[d1 ~ ~ d1] [f1 ~ ~ ~] [bb0 ~ ~ bb0] [a1 ~ g1 ~]>")
-   .s("gm_acoustic_bass")
-   .decay(.3).sustain(.5).room(.25).gain(.82)
-   .reset("<8 16 16 8>")
-   .when("<0 1 1 0>/48", x => x.note("<[d1 ~ d1 ~] [f1 ~ ~ f1] [bb0 ~ bb0 ~] [a1 ~ ~ g1]>").s("gm_acoustic_bass").decay(.22).sustain(.6).gain(.86))
+const intro =
+  s("pink").gain(.04).lpf(1800).hpf(200).orbit(5).stack(
+    note("[c3,eb3,g3,bb3]").s("sawtooth")
+    .attack(1.2).release(3).decay(2).sustain(.15)
+    .lpf(sine.range(200, 900).slow(8)).lpq(.2)
+    .gain(.1).room(.9).rsize(6).delay(.6).delaytime(.5).delayfeedback(.6).orbit(3)
+  )
 
-$: chord("<Dm9 Fmaj7 Bbmaj7 A7b9>")
-   .dict('ireal').voicing()
-   .s("gm_epiano2")
-   .struct("~ [x ~] ~ [x ~]")
-   .lpf(sine.range(1200,2400).slow(16))
-   .room(.55).delay(".3:.2:.4")
-   .gain(.46).speed(.98)
-   .reset("<8 16 16 8>")
-   .when("<0 0 0 1>/48", x => x.struct("x ~ ~ ~").lpf(1100).room(.75).delay(".5:.4:.55").gain(.38).crush(12))
+const chorus =
+  s("[bd ~] [~ <~ bd>] [~ [~ bd]] ~, ~ [~ sd] ~ sd, hh(5,8)")
+  .bank('RolandTR808').swingBy(1/6, 4)
+  .gain(".85 .6 .8 .5, 1 [.4 1] .7 1, .3 .5 .3 .5 .35")
+  .room(.1).rsize(2).delay(.1).delaytime(.375).delayfeedback(.2).orbit(1)
+  .stack(
+    note("<[c1 ~] [~ c1] [eb1 ~] [~ c1]>")
+    .s("sawtooth").lpf(140).lpq(6).gain(.8)
+    .attack(.005).decay(.3).sustain(.55).release(.08).orbit(2),
+    note("<[c3,eb3,g3,bb3] [ab2,c3,eb3,g3]>".slow(2))
+    .s("sawtooth").attack(.8).release(3).decay(1.5).sustain(.2)
+    .lpf(padLfo).lpq(.25).gain(.12)
+    .room(.8).rsize(5).delay(.55).delaytime(.5).delayfeedback(.5).orbit(3),
+    note("~ [g4 ~] ~ [eb4 ~]".slow(2))
+    .s("piano").gain(.18).room(.5).delay(.4).delaytime(.333).delayfeedback(.5)
+    .lpf(ghostLfo).pan(sine.range(.25,.75).slow(5)).orbit(4),
+    s("pink").gain(.03).lpf(2500).hpf(300).orbit(5)
+  )
 
-$: n("<[~ 0 ~ 3] [4 ~ 2 ~] [~ 5 ~ 4] [2 ~ ~ 0]>")
-   .scale("D4:minor:pentatonic")
-   .s("gm_epiano1")
-   .lpf(sine.range(800,2800).slow(10))
-   .room(.6).delay(".35:.25:.5")
-   .gain(.34)
-   .rarely(x => x.add(note(12)))
-   .reset("<8 16 16 8>")
-   .when("<1 0 0 0>/48", x => silence)
+const bridge =
+  s("bd ~ ~ ~, ~ ~ [~ sd] ~, hh(3,8)")
+  .bank('RolandTR808').swingBy(1/6, 4)
+  .gain(".65 .4 .4 .4, .7 .4 [.3 .7] .4, .2 .3 .2")
+  .room(.2).rsize(3).delay(.2).delaytime(.5).delayfeedback(.35).orbit(1)
+  .stack(
+    note("<c1 ~ eb1 ~>".slow(2))
+    .s("sawtooth").lpf(120).lpq(5).gain(.6)
+    .attack(.005).decay(.4).sustain(.4).release(.1).orbit(2),
+    note("[ab2,c3,eb3,g3]").s("sawtooth")
+    .attack(1).release(4).decay(2).sustain(.15)
+    .lpf(sine.range(200,1000).slow(8)).lpq(.2)
+    .gain(.09).room(.85).rsize(6).delay(.6).delaytime(.5).delayfeedback(.55).orbit(3),
+    note("<[eb4 ~] [~ d4] ~ [bb3 ~]>".slow(2))
+    .s("piano").gain(.13).room(.6).delay(.5).delaytime(.333).delayfeedback(.55)
+    .lpf(perlin.range(800,2500).slow(6)).pan(sine.range(.2,.8).slow(4)).orbit(4)
+  )
 
-$: chord("<Dm9 Bbmaj7>/2")
-   .dict('ireal').voicing()
-   .s("gm_synth_strings_1")
-   .attack(.9).decay(1).sustain(.7).release(2.5)
-   .lpf(sine.range(500,1200).slow(12))
-   .room(.8).gain(.28)
-
-$: note("<d1 f1 bb0 a1>/4")
-   .s("sine")
-   .attack(2).decay(1).sustain(.75).release(2)
-   .gain(.18).room(.55)
-   .lpf(160)
-
-$: s("hh*8")
-   .bank("RolandTR808")
-   .gain(perlin.range(.05,.32))
-   .pan(sine.slow(6))
-   .cut(2)
+arrange([1, intro], [9, chorus], [4, bridge], [9, chorus]).postgain(.9)

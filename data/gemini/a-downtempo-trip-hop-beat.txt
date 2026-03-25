@@ -1,21 +1,60 @@
-// "Midnight Dust" — a hazy downtempo trip hop beat with dusty drums and a deep bassline
+// 🎵 "Midnight Haze" — A smoky, downtempo trip hop beat
 
-setcps(84 / 60 / 4);
-
-samples('github:tidalcycles/dirt-samples');
+setcps(0.65);
 
 stack(
-  s("noise").gain(0.15).lpf(sine.range(400, 1200).slow(16)).hpf(200).room(0.4),
-  s("bd:4 [~ bd:4] <bd:4 [~ bd:4]> [~ bd:4]").gain(1.2).room(0.1).lpf(800),
-  s("~ <sn:2 [~ sn:2]> ~ <sn:2 [sn:2*2]>").gain(0.7).room(0.6).delay(0.2).delayfb(0.3).pan(0.6),
-  s("hh*16").gain(perlin.range(0.2, 0.6)).pan(sine.range(0.3, 0.7).slow(8)).cutoff(5000),
-  note("<c2 f1 g1 eb1>").s("bass").lpf(300).gain(0.8).room(0.2),
-  note("<[c3,eb3,g3,bb3] [f3,ab3,c4,eb4] [g3,bb3,d4,f4] [ab3,c4,eb4,g4]>")
+  // Dusty Trip Hop Beat
+  s("bd:4 <[~ bd:4] bd:4> sd:2 <~ [~ bd:4]>")
+    .bank("dirt")
+    .speed(0.8)
+    .mask("<[0*2] [1*16] [0*8] [1*20]>".slow(46))
+    .swing(0.12)
+    .room(0.2),
+
+  s("hh*16")
+    .gain(perlin.range(0.2, 0.5).fast(4))
+    .mask("<[0*1] [1*45]>".slow(46))
+    .speed(0.9)
+    .hpf(2500),
+
+  // Deep Sinister Bass
+  note("e1 <e1 [e1 g1]> a0 <a0 [a0 b0]>")
+    .s("fm")
+    .lpf(250)
+    .gain(0.8)
+    .distort(0.1)
+    .mask("<[0*2] [1*44]>".slow(46)),
+
+  // Melancholic E-Piano
+  note("<e2:min11 a2:min9>")
+    .s("superpiano")
+    .room(0.8)
+    .sz(0.9)
+    .lpf(sine.range(400, 1500).slow(8))
+    .gain(0.7)
+    .vowel("<a o u>".slow(20)),
+
+  // Ghostly Lead
+  note("~ [g3 b3] [~ d4] ~")
     .s("supervibe")
-    .gain(0.5)
+    .gain(0.4)
     .room(0.9)
-    .lpf(sine.range(500, 1800).slow(12))
-    .delay(0.4)
-    .delayfb(0.5)
-    .pan(perlin.range(0.2, 0.8).slow(4))
-).reset(16)
+    .mask("<[0*18] [1*28]>".slow(46))
+    .delay(0.5)
+    .delayfb(0.4)
+    .rev(),
+
+  // Vinyl & Atmosphere
+  s("noise")
+    .gain(sine.range(0.04, 0.07).slow(12))
+    .hpf(3500)
+    .crush(4),
+
+  // Sampled Vocal Fragments
+  s("~ <numbers:1 numbers:3> ~ ~")
+    .speed(0.45)
+    .gain(0.25)
+    .room(1)
+    .sz(0.9)
+    .mask("<[0*18] [1*4] [0*24]>".slow(46))
+).reset(46)

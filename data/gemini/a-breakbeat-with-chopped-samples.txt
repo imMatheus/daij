@@ -1,45 +1,54 @@
-// "Fractured Breaks" — high energy breakbeat with chopped vocal fragments and gritty textures
+// 🎵 "Fractured Pulse" — High-energy breakbeat with intricate sample slicing and gritty textures
 
-setcps(172/120/4)
+setcps(0.8)
 
-.stack(
-  // Chopped Breakbeat
-  s("~ [~ amit] <[~ amit] [~ amit*2]> [amit ~]")
-    .bank("amit")
-    .speed(1.1)
-    .cut(1)
-    .room(0.2).sz(0.5)
-    .gain(0.9),
+samples('github:tidalcycles/dirt-samples')
 
-  // Amen-style layering
-  s("amencorn:3*8")
-    .slice(8, "0 [3 2] [4 1] 7 [2 5] [6 3] 1 [0 4]")
-    .speed(1.2)
-    .gain(0.8)
-    .lpf(sine.range(1000, 5000).segment(8))
-    .pan(perlin.range(0.2, 0.8)),
+stack(
+  // MAIN BREAK: Heavy slicing and rhythmic resets
+  s("breaks165")
+    .slice(16, "0 1 2 3 [4 5] 6 7 8 <[9 10 11 12] [9 12 11 10]> 13 14 15".every(3, rev))
+    .fit()
+    .gain(1.3)
+    .reset("<0!4 [1 0 1 0] 1!2 0!24 1(3,8) 1!8>") 
+    .mask("<0!2 1!14 0.4!6 1!20 0!8>")
+    .jux(x => x.scrub(rand.range(0, 0.1).seg(16))),
 
-  // Deep Sine Bass
-  note("c1 <c1 g0 f1 c1>")
-    .s("sine")
-    .decay(0.2).sustain(0.1)
-    .lpf(400)
-    .gain(1.2),
+  // SUB BASS: Syncopated weight with filter movement
+  note("<c1!3 [c1 eb1]> <f1!3 [f1 g1]>(3,8)")
+    .s("supersaw")
+    .lpf(perlin.range(150, 900).slow(8))
+    .lpq(8)
+    .distort(1.5)
+    .gain(0.9)
+    .mask("<0!2 1!14 0!6 1!20 0!8>")
+    .adsr("0.02:0.1:0.4:0.1"),
 
-  // Chopped Vocal Samples
-  s("voodoo:4*16")
-    .slice(16, "<[0 4 2 8] [12 1 15 3] [7 10 5 13] [2 2 1 0]>")
-    .speed(saw.range(0.8, 1.2).segment(4))
-    .cut(2)
-    .delay(0.4).dt(1/6).dfb(0.5)
-    .room(0.6).sz(0.8)
-    .gain(perlin.range(0.4, 0.7).segment(16)),
+  // VOCAL SLICES: Ethereal and glitchy
+  s("mouth:2")
+    .slice(8, "0 2 4 6 <7 5 3 1>")
+    .speed("<1 1.25 0.75 1.5>")
+    .room(0.8)
+    .delay(0.6).delaytime(0.2)
+    .gain(0.7)
+    .mask("<0!16 1!6 0.8!20 0!8>")
+    .pan(sine.slow(4)),
 
-  // Glitchy Highs
-  s("hh*16")
-    .euclid(11, 16)
-    .crush(sine.range(2, 8).segment(4))
-    .hpf(4000)
-    .gain(0.5)
+  // GLITCH TEXTURE: Bridge element
+  s("glitch:3*16")
+    .gain(rand.range(0.2, 0.6))
+    .crush("<8 4 2 16>")
+    .mask("<0!16 1!6 0!20 0!8>")
+    .hpf(2000),
+
+  // ATMOSPHERIC PAD: Swelling intro and foundation
+  note("[c3,eb3,g3,bb3]")
+    .s("sawtooth")
+    .lpf(sine.range(400, 1200).slow(16))
+    .attack(2).release(2)
+    .gain(0.4)
+    .mask("<1!48>")
+    .room(0.9)
 )
-.reset(4)
+.room(0.3)
+.postgain(1.1)

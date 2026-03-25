@@ -1,10 +1,58 @@
-// 🎵 "Static Tectonics" — Industrial Poly-Rhythmic Texture
-setcps(135/240)
+// 🎵 "Static Pulse" — Industrial rhythmic textures and modulated noise
+
+setcps(130/60/4);
 stack(
-  s("bd([3 5],8), [bd*2 <bd:4 bd:5>]").gain(1.3).room(0.2),
-  s("hh*16").gain(sine.range(0.2, 0.8).slow(4)).hpf(perlin.range(3000, 9000).slow(6)).pan(perlin),
-  s("sn:2(5,16,3), glitch*8?").crush(perlin.range(3, 8).slow(2.5)).gain(0.8).pan(sine.slow(3.5)),
-  s("noise*4").lpf(saw.range(200, 4000).slow(16)).room(0.9).sz(0.9).gain(0.4),
-  s("metal:3(11,16, <0 2 4>)").delay(0.5).delayfb(0.7).hpf(2000).gain(0.4),
-  s("feel(7,8)").vowel("<i o u>").lpf(1000).gain(0.7).rev()
-).reset(16)
+  // The Kinetic Core: Industrial percussion with grit
+  s("bd:4(3,8), [~ sd:2]!2, [hh*16?0.7]")
+    .bank("tr909")
+    .gain("<0.4!2 1!12 0.3!4 1.2!14>")
+    .distort("<2 4 8 2>")
+    .lpf(sine.slow(16).range(800, 15000))
+    .pan(perlin.slow(4).range(0.2, 0.8)),
+
+  // The Atmosphere: Pink noise floor with resonant LFO movement
+  s("pink")
+    .gain(0.12)
+    .lpf(perlin.slow(2).range(100, 5000))
+    .lpq(sine.range(0, 20))
+    .tremolo(sine.range(4, 32))
+    .gain("<0.2!4 1!28>")
+    .room(0.8)
+    .roomsize(2),
+
+  // The Glitch: Sliced vocal fragments treated as rhythmic texture
+  s("alphabet")
+    .slice(32, "0 7 [2 15] 4 [31 22] 1 [0 3]*2")
+    .slow("<2 1 4 1>")
+    .distort("<10 2 20 5>")
+    .crush("<4 8 2 16>")
+    .gain("<0!3 0.7!11 0.2!4 0.8!14>")
+    .pan(rand)
+    .delay(0.5)
+    .delaytime(1/12)
+    .delayfeedback(0.7),
+
+  // The Sub-Pulse: Non-melodic low-end vibration
+  s("sine")
+    .freq(45)
+    .attack(0.005)
+    .decay(0.08)
+    .sustain(0)
+    .euclid(5, 11)
+    .distort(50)
+    .gain("<0!6 0.9!10 0.2!4 1!12>")
+    .postgain(1.2),
+
+  // The High-End Jitter: Metallic resonant clicks
+  s("crackle*32")
+    .density(perlin.range(0.1, 0.9))
+    .gain(0.3)
+    .hpf(8000)
+    .pan(sine.slow(2))
+    .sometimes(x => x.fast(2))
+    .gain("<0!8 1!24>")
+)
+.reset("<x!4 x(3,8)!12 x(1,2)!4 x(7,8)!12>")
+.room(perlin.range(0, 0.4))
+.chunk(8, x => x.hpf(2000).gain(0.7))
+.within(0.5, 0.75, x => x.sometimes(rev))

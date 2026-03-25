@@ -1,39 +1,89 @@
-// "Clockwork Kites" — playful toybox groove
+// "Clockwork Confetti" — playful whimsical bounce-pop
 samples('github:tidalcycles/dirt-samples')
-setcps(0.72)
-note("<[c5 e5 g5 b5] [c5 f5 a5 c6] [b4 g4 e4 d4] [c5 e5 a5 d6]>/2")
-  .s("<triangle square>")
-  .legato(0.85)
-  .attack(0.01)
-  .release(0.15)
-  .gain(0.8)
-  .pan(sine.slow(6).range(0.2,0.8))
-  .stack(
-    note("<c4 [e4 g4] a4 [g4 e4]>*2")
-      .s("sine")
-      .octave(4)
-      .gain(0.35)
-      .legato(0.6)
-      .delay(0.25)
-      .delaytime(3/16)
-      .delayfeedback(0.45),
-    s("[bd(3,8,<1 2 3>) ~] <hh*4 [hh*8]> [~ cp] [~ bd]")
-      .gain(0.9)
-      .lpf(perlin.slow(5).range(700,5000))
-      .room(sine.slow(7).range(0.05,0.35)),
-    s("<perc*2 [click*3] [rim(5,8)]>")
-      .speed("<1 1.5 0.5 2>")
-      .gain(0.45)
-      .pan(perlin.slow(9).range(0,1))
-      .room(0.5),
-    note("[[c6 b5 a5] ~ [g5 a5 b5] ~] [~ [d6 c6 b5] ~ [a5 g5 e5]]")
-      .s("sawtooth")
-      .gain(0.2)
-      .hpf(1200)
-      .delay(0.4)
-      .delaytime(1/8)
+setcps(0.5)
+
+const intro = 1
+const lift = 4
+const chorus = 6
+const wander = 6
+const bridge = 3
+const finale = 15
+
+const introDrums = s("~ [~ hh] ~ [hh*2]").gain(.22).begin(.02).end(.12).bpf(7000).bpq(6).room(.6)
+const liftDrums = s("bd ~ [rim hh] ~, ~ cp ~ ~, hh*8").gain(".95 .55 .3").lpf(sine.slow(6).range(2600,9800)).room(.24).duckorbit("2:3").duckattack(.16).duckdepth("1:.3")
+const chorusDrums = s("bd [~ bd] [rim cp] ~, ~ cp ~ [cp rim], hh(13,16), ~ ~ oh ~").gain(".95 .7 .32 .24").lpf(sine.slow(8).range(3400,12000)).delay(".08:.125:.18").room(.18).duckorbit("2:3").duckattack(.18).duckdepth("1:.55")
+const wanderDrums = s("bd(5,8), ~ cp ~ rim, hh(11,16), ~ ~ oh ~").gain(".88 .58 .28 .18").lpf(sine.slow(7).range(2800,9200)).room(.22).duckorbit("2:3").duckattack(.2).duckdepth("1:.45")
+const bridgeDrums = s("~ rim ~ rim, ~ cp ~ ~, hh(5,8)").gain(".4 .55 .18").lpf(sine.slow(4).range(1800,5200)).delay(".18:.25:.24").room(.42)
+
+const liftBass = note("<c3 a2 f2 g2>").slow(4).struct("[x ~ ~ x]").s("sawtooth").orbit(2).attack(.01).decay(.16).sustain(.34).release(.08).lpf(sine.slow(6).range(180,860)).gain(.48).reset("<x ~ ~ x>")
+const chorusBass = note("<c3 a2 f2 g2>").slow(4).struct("[x ~ x [~ x]]").s("square").orbit(2).attack(.01).decay(.18).sustain(.38).release(.1).lpf(sine.slow(7).range(220,1400)).lpq(.18).drive(.08).gain(.62).reset("<x ~ x ~>")
+const wanderBass = note("<a2 f2 d3 g2>").slow(4).struct("[x ~ ~ [x x]]").s("triangle").orbit(2).attack(.01).decay(.18).sustain(.3).release(.1).lpf(sine.slow(5).range(180,960)).gain(.46).reset("<x ~ ~ x>")
+const bridgeBass = note("<f2 g2 a2 g2>").slow(4).struct("[x ~ x ~]").s("sawtooth").orbit(2).attack(.02).decay(.2).sustain(.28).release(.12).lpf(sine.slow(3).range(160,720)).gain(.4).reset("<x ~ x ~>")
+
+const introPads = note("[c5 e5 g5 b5]").s("triangle").orbit(3).attack(.22).decay(.35).sustain(.6).release(1.6).lpf(sine.slow(2).range(700,2600)).room(.88).delay(".35:.5:.45").gain(.16)
+const liftPads = note("<[c5 e5 g5] [a4 c5 e5] [f4 a4 c5] [g4 b4 d5]>").slow(4).struct("[x ~ x ~]").s("triangle").orbit(3).attack(.04).decay(.28).sustain(.52).release(.36).chorus(.18).lpf(sine.slow(6).range(900,4200)).room(.58).delay(".22:.25:.3").gain(.24).reset("<x ~ x ~>")
+const chorusPads = note("<[c5 e5 g5] [a4 c5 e5] [f4 a4 c5] [g4 b4 d5]>").slow(4).struct("[x ~ x x]").s("supersaw").orbit(3).attack(.02).decay(.3).sustain(.56).release(.24).chorus(.24).lpf(sine.slow(7).range(1800,6200)).room(.34).delay(".26:.375:.42").gain(.34).reset("<x ~ x ~>")
+const wanderPads = note("<[a4 c5 e5] [f4 a4 c5] [d5 f5 a5] [g4 b4 d5]>").slow(4).struct("[x ~ ~ x]").s("triangle").orbit(3).attack(.03).decay(.24).sustain(.48).release(.22).chorus(.16).lpf(sine.slow(5).range(1200,4600)).room(.38).delay(".18:.25:.25").gain(.22).reset("<x ~ ~ x>")
+const bridgePads = note("<[f4 a4 c5] [g4 b4 d5] [a4 c5 e5] [g4 b4 d5]>").slow(4).struct("[x ~ x ~]").s("supersaw").orbit(3).attack(.08).decay(.42).sustain(.58).release(.48).chorus(.32).lpf(sine.slow(3).range(1000,4200)).room(.74).delay(".34:.5:.5").gain(.26).reset("<x ~ x ~>")
+
+const liftPluck = n("<0 2 4 2 7 4 2 0>").scale("C6:major:pentatonic").fast(2).s("triangle").orbit(3).attack(.01).decay(.12).sustain(.14).release(.08).lpf(sine.slow(6).range(1800,5200)).delay(".28:.25:.35").room(.24).gain(.18).reset("<x ~ ~ x>")
+const chorusPluck = n("<0 2 4 7 9 7 4 2 0 2 4 7 12 9 7 4>").scale("C6:major").fast(2).s("triangle").orbit(3).attack(.01).decay(.14).sustain(.16).release(.1).lpf(sine.slow(8).range(2200,7600)).delay(".3:.25:.4").room(.22).gain(.26).reset("<x ~ ~ x>")
+const wanderPluck = n("<[0 2 4 7] [9 7 4 2] [5 7 9 12] [7 4 2 0]>").scale("C6:major").fast(2).s("triangle").orbit(3).attack(.01).decay(.12).sustain(.14).release(.08).lpf(sine.slow(7).range(1800,6200)).delay(".24:.25:.3").room(.18).gain(.2).reset("<x ~ ~ ~>")
+const bridgePluck = n("<12 11 9 7 5 4 2 0>").scale("C6:major").fast(1).s("triangle").orbit(3).attack(.02).decay(.16).sustain(.2).release(.14).lpf(sine.slow(3).range(1600,4800)).delay(".4:.5:.45").room(.5).gain(.14).reset("<x ~ x ~>")
+
+const chorusLead = n("<7 ~ 9 ~ 12 9 7 4 [7 9] ~ 7 4 2 ~ 0 ~>").scale("C5:major").fast(2).s("supersaw").orbit(3).attack(.02).decay(.18).sustain(.34).release(.14).vib(5).vibmod(.2).lpf(sine.slow(5).range(2600,9000)).delay(".38:.25:.45").room(.28).gain(.22).reset("<x ~ x ~>")
+const wanderLead = n("<9 ~ 7 ~ 5 ~ 4 ~ 2 ~ 4 ~ 5 7 4 2>").scale("C5:major").fast(2).s("square").orbit(3).attack(.02).decay(.14).sustain(.24).release(.1).vib(4).vibmod(.12).lpf(sine.slow(6).range(1800,6800)).delay(".26:.25:.34").room(.2).gain(.14).reset("<x ~ ~ x>")
+const bridgeLead = n("<12 11 9 7 5 4 2 0>").scale("C5:major").fast(1).s("triangle").orbit(3).attack(.04).decay(.18).sustain(.26).release(.2).vib(6).vibmod(.28).lpf(sine.slow(3).range(2200,5200)).delay(".45:.5:.55").room(.58).gain(.16).reset("<x ~ x ~>")
+
+const sparkle = s("hh*16").begin(sine.slow(4).range(0,.04)).end(.08).bpf(sine.slow(5).range(5000,9000)).bpq(5).delay(".15:.125:.18").room(.4).gain(.08)
+
+$: stack(
+  arrange(
+    [intro, introDrums],
+    [lift, liftDrums],
+    [chorus, chorusDrums],
+    [wander, wanderDrums],
+    [bridge, bridgeDrums],
+    [finale, chorusDrums]
+  ),
+  arrange(
+    [intro, silence],
+    [lift, liftBass],
+    [chorus, chorusBass],
+    [wander, wanderBass],
+    [bridge, bridgeBass],
+    [finale, chorusBass]
+  ),
+  arrange(
+    [intro, introPads],
+    [lift, liftPads],
+    [chorus, chorusPads],
+    [wander, wanderPads],
+    [bridge, bridgePads],
+    [finale, chorusPads]
+  ),
+  arrange(
+    [intro, silence],
+    [lift, liftPluck],
+    [chorus, chorusPluck],
+    [wander, wanderPluck],
+    [bridge, bridgePluck],
+    [finale, chorusPluck]
+  ),
+  arrange(
+    [intro, silence],
+    [lift, silence],
+    [chorus, chorusLead],
+    [wander, wanderLead],
+    [bridge, bridgeLead],
+    [finale, chorusLead]
+  ),
+  arrange(
+    [intro, silence],
+    [lift, silence],
+    [chorus, sparkle],
+    [wander, silence],
+    [bridge, silence],
+    [finale, sparkle]
   )
-  .lpf(perlin.slow(12).range(900,4200))
-  .room(0.25)
-  .size(0.7)
-  .reset(32)
+).postgain(1.08)

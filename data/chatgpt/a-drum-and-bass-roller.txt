@@ -1,27 +1,172 @@
-// "Roller Pressure" — low-slung drum and bass with morphing reese and shuffled breaks
+// "Nightbus Roller" — raw drum and bass roller
 samples('github:tidalcycles/dirt-samples')
-setcps(0.74)
-$: s("bd*2 [~ bd] sn ~ bd [~ sn] <[~ bd] [bd ~]> sn")
-  .gain(0.95)
-  .stack(
-    s("<hh*8 hh*16> [~ hh]*2 hh(11,16) [hh*2 ~]").gain(0.45).hpf(6000).room(0.12),
-    s("cp(3,8,<0 1 2>) ~ [cp ~] ~").gain(0.3).room(0.2),
-    s("breaks125:1*2 <breaks125:3 breaks125:6> [~ breaks125:8]").cut("<1 2 1 3>").speed("<1 1 1.02 0.98>").gain(0.45).room(0.25).delay(0.18),
-    note("<c1 [c1 c1] [c1 d1] [c1 g0]> [~ c1] <f0 g0> [c1 ~]")
-      .s("sawtooth")
-      .legato(0.95)
-      .gain(0.8)
-      .lpf(perlin.range(120,1800).slow(6))
-      .shape(0.22),
-    note("<[c3 eb3 g3] [d3 f3 a3] [bb2 d3 f3] [g2 bb2 d3]>")
-      .s("supersaw")
-      .slow(4)
-      .gain(0.22)
-      .lpf(sine.range(700,2600).slow(8))
-      .room(0.6)
-      .delay(0.33)
-  )
-  .lpf(perlin.range(900,9000).slow(10))
-  .room(sine.range(0.12,0.45).slow(12))
-  .delay(sine.range(0.08,0.28).slow(7))
-  .reset(48)
+setcps(42/70)
+
+const sub = sine.slow(9).range(80,220)
+const growl = perlin.slow(7).range(220,2400)
+const air = sine.slow(11).range(5000,12000)
+const space = perlin.slow(13).range(.16,.42)
+
+const intro =
+  note("<d1 ~ ~ a0 ~ ~ c1 ~>")
+    .fast(2)
+    .s("sawtooth")
+    .attack(.01).decay(.22).sustain(.05).release(.08)
+    .lpf(500).lpq(2.8).gain(.34).orbit(2)
+    .stack(
+      note("<[d4 a4 c5 f5] ~ [c4 g4 bb4 e5] ~>")
+        .s("supersaw")
+        .attack(.3).release(1.1).sustain(.45)
+        .lpf(sine.slow(6).range(300,2200)).lpq(.3)
+        .room(space).delay(".25:.25:.45").orbit(3).gain(.24)
+    )
+    .stack(
+      s("hh*8")
+        .gain(".01 .02 .02 .03 .01 .02 .02 .04")
+        .hpf(air)
+        .reset("<x ~ ~ x>")
+    )
+    .stack(
+      s("white")
+        .gain(perlin.slow(10).range(0,.04))
+        .hpf(7000).room(.5)
+    )
+
+const build =
+  s("bd")
+    .struct("x ~ ~ ~ ~ ~ ~ ~ x ~ ~ ~ ~ ~ [x x] ~")
+    .gain(.72)
+    .stack(
+      s("sd")
+        .struct("~ ~ ~ ~ x ~ ~ ~ ~ ~ ~ ~ x ~ ~ ~")
+        .gain(.42).room(.08)
+    )
+    .stack(
+      s("hh*16")
+        .gain(".03 .05 .04 .06 .03 .06 .04 .07 .03 .05 .04 .06 .03 .07 .04 .09")
+        .hpf(air)
+        .reset("<x ~ x ~>")
+    )
+    .stack(
+      note("<d1 d1 ~ d1 a0 d1 ~ c1 d1 d1 ~ f1 a0 c1 bb0 c1>")
+        .s("supersaw")
+        .detune(.18)
+        .attack(.01).decay(.18).sustain(.03).release(.07)
+        .lpf(growl).lpq(7).drive(1.1)
+        .gain(.36).orbit(2)
+    )
+    .stack(
+      note("<[d4 a4 c5 f5] ~ [c4 g4 bb4 e5] ~ [bb3 f4 a4 d5] ~ [c4 g4 bb4 e5] ~>")
+        .slow(2)
+        .s("supersaw")
+        .attack(.2).release(.9).sustain(.38)
+        .lpf(sine.slow(8).range(700,3200))
+        .room(space).delay(".18:.125:.4").orbit(3).gain(.18)
+    )
+    .stack(
+      s("bd")
+        .struct("x ~ ~ ~ ~ ~ ~ ~ x ~ ~ ~ ~ ~ [x x] ~")
+        .duckorbit("2:3").duckattack("0.18:0.24").duckdepth("0.9:0.45").postgain(0)
+    )
+
+const chorus =
+  s("bd")
+    .struct("x ~ ~ [~ x] ~ ~ ~ ~ x ~ ~ ~ ~ ~ [x x] ~")
+    .gain(.92)
+    .stack(
+      s("sd")
+        .struct("~ ~ ~ ~ x ~ ~ ~ ~ ~ ~ ~ x ~ ~ ~")
+        .gain(.78).room(.1)
+    )
+    .stack(
+      s("sd")
+        .struct("~ ~ x ~ ~ ~ ~ x ~ x ~ ~ ~ ~ ~ x")
+        .speed("1.1 1 1.2 1")
+        .gain(.14).hpf(900).lpf(2600).room(.18)
+        .reset("<x ~ ~ x>")
+    )
+    .stack(
+      s("hh*16")
+        .gain(".05 .09 .06 .11 .05 .12 .06 .1 .05 .09 .06 .12 .05 .11 .06 .15")
+        .hpf(air)
+        .pan(sine.slow(5).range(.35,.65))
+        .reset("<x ~ x ~>")
+    )
+    .stack(
+      s("oh")
+        .struct("~ ~ ~ ~ ~ ~ ~ x ~ ~ ~ ~ ~ ~ ~ [~ x]")
+        .gain(.16).hpf(7000).delay(".12:.125:.35")
+    )
+    .stack(
+      note("<d1 d1 ~ d1 a0 d1 ~ c1 d1 d1 ~ f1 a0 c1 bb0 c1>")
+        .s("supersaw")
+        .detune(".2 .24 .18 .26")
+        .attack(.005).decay(.16).sustain(.04).release(.06)
+        .lpf(growl).lpq(7).drive("1.2 1.6 1.3 1.8")
+        .gain(.52).orbit(2)
+        .reset("<x ~ ~ x>")
+    )
+    .stack(
+      note("<[d4 a4 c5 f5] ~ [c4 g4 bb4 e5] ~ [bb3 f4 a4 d5] ~ [c4 g4 bb4 e5] ~>")
+        .slow(2)
+        .s("supersaw")
+        .detune(.12)
+        .attack(.12).release(.7).sustain(.24)
+        .lpf(sine.slow(7).range(1200,4200)).lpq(.32)
+        .room(perlin.slow(6).range(.18,.34)).delay(".18:.125:.42")
+        .orbit(3).gain(.24)
+        .reset("<x ~ ~ x>")
+    )
+    .stack(
+      s("white")
+        .gain(perlin.slow(8).range(0,.06))
+        .bpf(sine.slow(6).range(2500,7200)).bpq(2)
+        .room(.35)
+    )
+    .stack(
+      s("bd")
+        .struct("x ~ ~ [~ x] ~ ~ ~ ~ x ~ ~ ~ ~ ~ [x x] ~")
+        .duckorbit("2:3").duckattack("0.16:0.22").duckdepth("1:0.5").postgain(0)
+    )
+
+const bridge =
+  s("bd")
+    .struct("x ~ ~ ~ ~ ~ ~ ~ x ~ ~ ~ ~ ~ ~ ~")
+    .gain(.66)
+    .stack(
+      s("sd")
+        .struct("~ ~ ~ ~ x ~ ~ ~ ~ ~ ~ ~ x ~ ~ ~")
+        .gain(.34).room(.16)
+    )
+    .stack(
+      s("hh*8")
+        .gain(".03 .05 .04 .07 .03 .06 .04 .08")
+        .hpf(9000)
+    )
+    .stack(
+      note("<d1 ~ a0 ~ c1 ~ bb0 ~>")
+        .s("square")
+        .attack(.01).decay(.28).sustain(0).release(.09)
+        .lpf(sub).drive(.5).gain(.38).orbit(2)
+    )
+    .stack(
+      note("<[f4 a4 c5] ~ [e4 g4 bb4] ~ [d4 f4 a4] ~ [c4 e4 g4] ~>")
+        .s("sawtooth")
+        .attack(.28).release(1.2).sustain(.3)
+        .hpf(sine.slow(6).range(180,900))
+        .lpf(sine.slow(5).range(600,2400))
+        .room(perlin.slow(9).range(.3,.55)).delay(".3:.25:.5").orbit(3).gain(.18)
+    )
+    .stack(
+      s("white")
+        .gain(perlin.slow(7).range(.01,.05))
+        .lpf(sine.slow(4).range(1200,6000))
+        .room(.45)
+    )
+    .stack(
+      s("bd")
+        .struct("x ~ ~ ~ ~ ~ ~ ~ x ~ ~ ~ ~ ~ ~ ~")
+        .duckorbit("2:3").duckattack("0.22:0.28").duckdepth("0.85:0.35").postgain(0)
+    )
+
+arrange([2, intro], [6, build], [12, chorus], [4, bridge], [18, chorus]).postgain(.96)

@@ -1,52 +1,45 @@
-// "Equinox Drift" — raw seasonal mutation from bloom to thaw
+// "Solstice Carousel" — seasonal downtempo electronica
 samples('github:tidalcycles/dirt-samples')
-setcps(0.8)
-  .stack(
-    s("<[bd(3,8) ~ bd(5,16)] [bd*4 [~ bd] bd(7,16)] [bd(5,8) ~ bd(3,8)] [bd(2,8) ~ ~ bd]>").slow(10)
-      .gain("0.95 1 0.9 0.86")
-      .lpf(perlin.slow(6).range(140,1200))
-      .room(0.12),
-    s("<~ [cp ~] ~ cp [~ sn]> <cp ~ [cp sn] ~ [~ cp]> <~ rim cp rim [~ sn]> <~ ~ sn ~ [~ cp]>").slow(10)
-      .gain(0.72)
-      .delay(0.25)
-      .delayfeedback(0.34)
-      .lpf(sine.slow(5).range(900,4200))
-      .room(0.34),
-    s("<hh(5,8) [hh*2 ~] hh(7,16) [~ hh]> <hh*8 [~ hh] [hh hh] ~> <hh(3,8) [~ hh] hh(5,8) ~> <~ hh(2,8) ~ [hh ~]>").slow(10)
-      .gain("0.24 0.36 0.3 0.22")
-      .hpf(sine.slow(7).range(2400,9800))
-      .delay(0.125),
-    s("arpy*8")
-      .n("<[0 2 4 7 9 7 4 2] [0 4 7 11 12 11 7 4] [0 2 3 7 8 7 3 2] [0 1 3 6 7 6 3 1]>").slow(10)
-      .scale("minor")
-      .gain("0.22 0.32 0.25 0.18")
-      .lpf(perlin.slow(8).range(600,4200))
-      .delay(0.375)
-      .delayfeedback(0.48)
-      .room(0.5),
-    s("bass*4")
-      .n("<[0 0 2 0] [0 0 5 7] [0 0 3 2] [0 ~ 1 0]>").slow(10)
-      .scale("minor")
-      .gain("0.66 0.72 0.6 0.54")
-      .lpf(sine.slow(4).range(90,620))
-      .room(0.16),
-    s("supersaw*2")
-      .n("<[0 7 12 14] [0 9 12 16] [0 5 10 12] [0 3 7 10]>").slow(10)
-      .scale("minor")
-      .legato(1.35)
-      .gain("0.14 0.2 0.16 0.12")
-      .lpf(perlin.slow(9).range(450,2800))
-      .room(0.78),
-    s("<noise*2 ~ ~ ~>").slow(10)
-      .gain("0.08 0.05 0.11 0.16")
-      .hpf(sine.slow(6).range(1800,7600))
-      .delay(0.5)
-      .delayfeedback(0.42)
-      .room(0.9)
-  )
-  .reset("<10 12 8 10>")
-  .room(perlin.slow(10).range(0.2,0.82))
-  .delay("<0.125 0.25 0.375 0.5>")
-  .delayfeedback(perlin.slow(11).range(0.28,0.62))
-  .lpf(sine.slow(12).range(320,5400))
-  .shape(0.11)
+setcps(110/60/4)
+
+const intro = 1
+const spring = 7
+const chorus = 8
+const autumn = 6
+const bridge = 4
+
+const introAir = s("hh*16").begin(sine.slow(5).range(0,.05)).end(.04).speed("<1 .96 1.02 .92>").hpf(sine.slow(7).range(7000,12000)).room(.7).gain(.05)
+const springAir = s("hh*16").begin(sine.slow(4).range(0,.06)).end(.06).speed("<1 1.06 .94 1.12>").hpf(sine.slow(6).range(5000,11000)).room(.46).gain(.1)
+const chorusAir = s("hh*16").begin(sine.slow(6).range(0,.04)).end(.05).speed("<1 1.08 .96 1.14>").hpf(sine.slow(6).range(6500,12500)).room(.54).gain(.12)
+const autumnAir = s("hh*16").begin(sine.slow(3).range(.02,.08)).end(.09).speed("<.82 .9 1 .76>").bpf(sine.slow(5).range(1600,4200)).bpq(.8).room(.58).gain(.08)
+const winterAir = s("hh*8").begin(.01).end(.03).speed("<2 1.5 1.25 2>").hpf(sine.slow(4).range(8000,14000)).room(.88).delay(".28:.5:.64").gain(.05)
+
+const springDrums = s("~ lt ~ ~, ~ ~ cp ~, hh*8, ~ ~ oh ~").begin("<0 .01 .02 .01>").end("<1 .08>").hpf(sine.slow(8).range(2500,9000)).room(.32).gain(.48)
+const chorusDrums = s("bd [~ bd] ~ bd, ~ cp ~ cp, hh*16, ~ ~ oh ~ ~ ~ oh ~").begin("<0 .01 .02 .01>").end("<1 .08>").hpf(sine.slow(8).range(1800,6000)).room(.18).gain(".9 .86 .84 .88").duckorbit("2:3:4").duckattack(.22).duckdepth(.75)
+const autumnDrums = s("bd ~ [~ bd] ~, ~ cp ~ ~, hh*12, ~ ~ oh ~").begin("<0 .01 .03>").end("<1 .08>").hpf(sine.slow(6).range(1200,4200)).room(.26).gain(.62).duckorbit("2:3:4").duckattack(.18).duckdepth(.58)
+const winterDrums = s("bd ~ ~ ~, ~ ~ ~ ~, hh*4, ~ ~ ~ ~").lpf(1800).room(.5).gain(.28).duckorbit("2:3:4").duckattack(.34).duckdepth(.4)
+
+const introBass = note("[d2 a2]").slow(2).s("sine").orbit(2).attack(.2).decay(.4).sustain(.8).release(1.5).lpf(240).room(.8).gain(.18)
+const springBass = note("<d2 g2 e2 a2>").slow(4).struct("[x ~ ~ x]").s("sawtooth").orbit(2).lpf(sine.slow(6).range(160,780)).lpq(.15).attack(.01).decay(.16).sustain(.38).release(.08).gain(.46).reset("<x ~ ~ x>")
+const chorusBass = note("<d2 g2 b1 a1>").slow(4).struct("[x ~ x [~ x]]").s("sawtooth").orbit(2).lpf(sine.slow(7).range(220,1400)).lpq(.2).attack(.01).decay(.18).sustain(.44).release(.08).gain(.7).reset("<x ~ x ~>")
+const autumnBass = note("<b1 g2 d2 a1>").slow(4).struct("[x ~ ~ [x ~]]").s("sawtooth").orbit(2).lpf(sine.slow(8).range(140,640)).lpq(.14).attack(.01).decay(.15).sustain(.34).release(.07).gain(.42).reset("<x ~ ~ x>")
+const winterBass = note("<d2 c2 bb1 a1>").slow(4).struct("[x ~ ~ x]").s("sawtooth").orbit(2).lpf(sine.slow(4).range(120,520)).attack(.02).decay(.24).sustain(.28).release(.12).gain(.34).reset("<x ~ x ~>")
+
+const introPads = note("[d4 a4 e5]").s("supersaw").orbit(3).attack(.3).decay(.5).sustain(.74).release(1.6).lpf(sine.slow(2).range(500,1800)).room(.92).delay(".35:.5:.52").gain(.2)
+const springPads = note("<[d4 fs4 a4] [g4 b4 d5] [e4 g4 b4] [a4 cs5 e5]>").slow(4).struct("[x ~ x ~]").s("supersaw").orbit(3).attack(.06).decay(.36).sustain(.58).release(.3).lpf(sine.slow(6).range(800,3800)).room(.56).delay(".24:.25:.34").gain(.28).reset("<x ~ x ~>")
+const chorusPads = note("<[d4 fs4 a4] [g4 b4 d5] [b4 d5 fs5] [a4 cs5 e5]>").slow(4).struct("[x ~ x x]").s("supersaw").orbit(3).attack(.02).decay(.3).sustain(.6).release(.24).lpf(sine.slow(8).range(1500,6800)).lpq(.2).room(.4).delay(".28:.375:.46").gain(.42).reset("<x ~ x ~>")
+const autumnPads = note("<[b3 d4 g4] [a3 cs4 e4] [g3 b3 d4] [e3 g3 b3]>").slow(4).struct("[x ~ ~ x]").s("pulse").orbit(3).attack(.02).decay(.22).sustain(.36).release(.16).lpf(sine.slow(7).range(700,2600)).room(.3).delay(".18:.25:.26").gain(.22).reset("<x ~ ~ x>")
+const winterPads = note("<[d4 a4] [c4 g4] [bb3 f4] [a3 e4]>").slow(4).struct("[x ~ x ~]").s("supersaw").orbit(3).attack(.1).decay(.48).sustain(.64).release(.48).lpf(sine.slow(4).range(500,2200)).room(.86).delay(".36:.5:.54").gain(.24).tremolosync(2).tremolodepth(.25).reset("<x ~ x ~>")
+
+const springLead = n("<0 2 4 7 4 2 0 ~ 1 3 5 8 5 3 1 ~>").scale("D5:major:pentatonic").fast(2).s("triangle").orbit(4).attack(.01).decay(.12).sustain(.24).release(.1).lpf(sine.slow(5).range(1500,4600)).chorus(.14).delay(".18:.25:.28").room(.26).gain(.16).reset("<x ~ ~ x>")
+const chorusLead = n("<0 2 4 7 9 7 4 2 0 2 4 7 11 9 7 4>").scale("D5:major").fast(2).s("pulse").orbit(4).attack(.02).decay(.16).sustain(.34).release(.14).lpf(sine.slow(6).range(2200,8400)).vib(5).vibmod(.08).chorus(.18).delay(".32:.25:.44").room(.3).gain(.26).reset("<x ~ x ~>")
+const autumnLead = n("<9 ~ 7 ~ 4 ~ 2 ~ 0 ~ 2 ~ 4 ~ 2 ~>").scale("B4:minor").fast(2).s("triangle").orbit(4).attack(.02).decay(.14).sustain(.24).release(.12).lpf(sine.slow(6).range(1300,4200)).chorus(.1).delay(".24:.25:.3").room(.28).gain(.16).reset("<x ~ ~ ~>")
+const winterLead = n("<0 ~ 2 ~ 3 ~ 2 ~>").scale("D5:minor").fast(2).s("sine").orbit(4).attack(.04).decay(.2).sustain(.22).release(.2).lpf(sine.slow(3).range(900,2400)).delay(".42:.5:.58").room(.72).gain(.12).reset("<x ~ x ~>")
+
+stack(
+  arrange([intro, silence], [spring, springDrums], [chorus, chorusDrums], [autumn, autumnDrums], [bridge, winterDrums], [chorus, chorusDrums]),
+  arrange([intro, introBass], [spring, springBass], [chorus, chorusBass], [autumn, autumnBass], [bridge, winterBass], [chorus, chorusBass]),
+  arrange([intro, introPads], [spring, springPads], [chorus, chorusPads], [autumn, autumnPads], [bridge, winterPads], [chorus, chorusPads]),
+  arrange([intro, silence], [spring, springLead], [chorus, chorusLead], [autumn, autumnLead], [bridge, winterLead], [chorus, chorusLead]),
+  arrange([intro, introAir], [spring, springAir], [chorus, chorusAir], [autumn, autumnAir], [bridge, winterAir], [chorus, chorusAir])
+).postgain(1.04)

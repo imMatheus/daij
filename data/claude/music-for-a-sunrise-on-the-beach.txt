@@ -1,31 +1,37 @@
-// 🎵 "Amber Tide" — Ambient Balearic Sunrise
+// "Golden Horizon" — Warm ambient sunrise with shimmering arpeggios and soft pads
+setcps(0.4)
 
-samples('github:tidalcycles/dirt-samples')
-setcps(.4)
+let pad = note("<[d3,f#3,a3,d4] [a2,c#3,e3,a3] [b2,d3,f#3,b3] [g2,b2,d3,g3]>")
+  .s("sawtooth").att(1.5).rel(3).sus(.8).dec(.8)
+  .lpf(perlin.range(400,1800).slow(6)).lpq(1.5)
+  .room(.85).sz(5).delay(.25).dfb(.4).dt(.4)
+  .gain(.25).vib(2).vibmod(.06).chorus(.35)
 
-n("<[~ 0 ~ 2] [4 ~ 2 ~] [~ 3 ~ 1] [2 ~ 0 ~]>")
-  .scale("D4:major:pentatonic").s("gm_epiano1")
-  .attack(.08).decay(.6).sustain(.35).release(1.8)
-  .lpf(sine.range(900,2800).slow(16))
-  .room(.72).delay(".35:.25:.5").gain(.38)
-  .reset("<x@7 x(3,8,1)>")
-.stack(
-  chord("<Dmaj9 Gmaj7 Bm7 A7sus4>").dict('ireal').voicing()
-    .s("gm_synth_strings_1").attack(1.8).decay(1.2).sustain(.7).release(3)
-    .lpf(sine.range(500,1600).slow(20)).room(.85).gain(.24),
-  note("<d1 g1 b0 a1>/4").s("sine")
-    .attack(2.5).sustain(.85).release(3).lpf(150).room(.5).gain(.2),
-  n("<[~ 4 ~ ~] [~ ~ 2 ~] [~ ~ ~ 5] [3 ~ ~ ~]>")
-    .scale("D5:major:pentatonic").s("gm_celesta")
-    .attack(.02).decay(.5).sustain(.12).release(1.5)
-    .room(.82).delay(".55:.4:.65")
-    .gain(perlin.range(.06,.2)).lpf(sine.range(2200,5500).slow(10)).pan(sine.slow(7)),
-  n("<0 ~ 4 2>(5,8)").scale("D5:major:pentatonic").s("gm_flute")
-    .attack(.06).decay(.3).sustain(.5).release(.8)
-    .room(.7).delay(".4:.3:.55").gain(.18)
-    .lpf(sine.range(1800,4500).slow(14)).vib(4).vibmod(.5)
-    .sometimes(x => x.add(note(12)).gain(.1)),
-  s("<bd ~ ~ ~>, <~ ~ [~ sd:1] ~>, hh(3,8,1)")
-    .bank("RolandTR808").gain(".28 .22 .25 .2").room(.5).lpf(2800).swing(3),
-  s("vinyl:2").gain(.1).room(1).lpf(2000)
+let arp = n("0 2 4 6 4 7 4 2").every(3, rev)
+  .scale("D4:major:pentatonic").s("triangle")
+  .att(.01).rel(.8).sus(.1).dec(.4)
+  .lpf(sine.slow(6).range(1500,6000))
+  .delay(.5).dfb(.6).dt(.375)
+  .room(.7).gain(.17).pan(sine.range(.2,.8).slow(5))
+  .juxBy(.5, x=>x.add(7).gain(.1))
+
+let shimmer = n("<[0,4] [2,6] [4,7] [6,2]>")
+  .scale("D5:major:pentatonic").s("sine")
+  .att(.3).rel(2.5).sus(.05).dec(.6)
+  .lpf(perlin.range(2000,7000).slow(5))
+  .room(.95).sz(8).delay(.6).dt(.33).dfb(.5)
+  .gain(.06).pan(perlin.range(.1,.9))
+
+let sub = note("<d2 a1 b1 g1>")
+  .s("sine").lpf(120).gain(.28)
+  .att(.8).rel(1.5)
+
+let waves = s("pink").lpf(perlin.range(80,350).slow(8))
+  .gain(.03).room(.9).sz(6)
+
+arrange(
+  [2, pad.gain(.06).lpf(600).stack(waves.gain(.015))],
+  [10, pad.stack(arp).stack(shimmer).stack(sub).stack(waves)],
+  [4, pad.gain(.2).lpf(sine.range(500,1600).slow(4)).stack(shimmer.slow(2).gain(.04)).stack(sub.gain(.15))],
+  [12, pad.stack(arp).stack(shimmer).stack(sub).stack(waves)]
 )

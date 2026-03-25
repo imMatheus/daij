@@ -1,33 +1,44 @@
-// 🎵 "Neural Bootstrap" — Industrial machine startup sequence
+// 🎵 "System.Boot(Neural)" — Industrial Algorithmic Wake-up sequence
 
-samples('github:tidalcycles/dirt-samples')
-
-setcps(0.8)
-
+setcps(0.4);
 stack(
-  s("industrial:2")
-    .note("-12")
-    .lpf(sine.range(100, 3000).slow(32))
-    .gain(saw.range(0, 0.7).slow(24)),
-  
-  s("click(<3 5 7 11>, 16, <0 2 4 6>)")
-    .room(0.9)
-    .hpf(2500)
-    .gain(perlin.range(0.1, 1).slow(16)),
-  
-  s("sid*16")
-    .note(sine.range(-12, 12).slow(12))
-    .lpf(sine.range(400, 8000).slow(24))
-    .gain(sine.range(0, 0.4).slow(32)),
-  
-  s("bd(3,8), [~ sn]*2, [~ hc:4]*4")
-    .gain(saw.range(0, 0.9).slow(64))
-    .room(0.4)
-    .delay(0.2),
-  
-  s("glitch(<7 13>, 16)")
-    .n(irand(10))
-    .speed(perlin.range(0.3, 3).slow(20))
-    .gain(0.6)
-    .pan(sine.slow(4))
-).reset(64)
+  // Power Source: Low-end rumble and machine hum
+  s("saw!8")
+    .note("<C1!4 G1!4 C1!8 G0!4 C1!8>")
+    .lpf(saw.slow(28).range(40, 600))
+    .lpq(8)
+    .distort(saw.slow(28).range(1, 12))
+    .gain(saw.slow(28).range(0.2, 0.8))
+    .room(0.4),
+
+  // Mechanical Clock: Percussive gears and clicks
+  s("<[~!4] [bd(3,8,2)] [bd*4,hh*16] [bd(5,8),sd(3,8)] [bd!4,cp(2,5)]>")
+    .bank("tr909")
+    .gain(saw.slow(28).range(0, 1))
+    .lpf(saw.slow(28).range(200, 3000))
+    .delay(0.4)
+    .delaytime(1/8)
+    .reset("<x!4 x(3,8)!10 x(1,4)!4 x(5,8)!10>"),
+
+  // Data Stream: FM Synthesis representing internal processing
+  n(irand(24).seg(16))
+    .scale("C:minor")
+    .s("fm")
+    .fmh("<1.5 2 3.14 0.5>")
+    .fmi(perlin.slow(4).range(0, 48))
+    .gain(saw.slow(28).range(0, 0.6))
+    .degradeBy(perlin.slow(8).range(0.9, 0.1))
+    .jux(rev)
+    .lpf(perlin.range(500, 8000)),
+
+  // System Glitches: Erratic crackle and static
+  s("crackle*16")
+    .gain(perlin.range(0, 0.7))
+    .speed(perlin.range(0.5, 4))
+    .pan(rand)
+    .mask("<1!4 1!10 0!4 1!10>") // Silenced during bridge
+    .room(1)
+    .size(4)
+).reset("<x!28>")
+ .slow(28)
+ .zoom(0, 1)

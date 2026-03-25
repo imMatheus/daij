@@ -1,64 +1,58 @@
-// 🤖 "Genesis Protocol" — Glitch-Industrial / Cybernetic Awakening
-setcps(0.45)
+// "Awakening Protocol" — Dark industrial electronic / robot coming to life
+setcps(0.5)
 
-stack(
-  // power core hum
-  note("c1").s("sawtooth")
-    .lpf(saw.slow(30).range(50,500))
-    .gain(saw.slow(22).range(.03,.28))
-    .room(.5).roomsize(5)
-    .attack(1).decay(2).sustain(.6),
+let kick = s("bd(3,8)").bank("RolandTR909").shape(.3).gain(.8)
+let snare = s("~ <cp sd>").bank("RolandTR909").gain(.55).room(.1)
+let hats = s("hh*16").bank("RolandTR909").speed(rand.range(.6,2.5)).pan(rand)
+  .gain(".3!3 .5").crush(5).hpf(3500)
+let bass = note("c1!3 eb1").s("sine").penv(12).pdecay(.1).pcurve(1)
+  .lpf(120).distort("3:.35").gain(.6)
+let arp = n("0 <2 [2 4]> <4 [4 7]> <7 [9 7]>").scale("C:minor")
+  .s("square").lpf(perlin.range(400,2800)).lpq(8)
+  .decay(.1).sustain(0).gain(.3).delay("0.35:0.166:0.5")
+let metal = note("c5(5,8,<0 1 2 3>)").s("sine")
+  .fm("<2 6 4 8>".slow(4)).fmh("2.01")
+  .fmdecay(.06).fmsustain(0).decay(.06).sustain(0)
+  .gain(.2).pan(rand).room(.08).delay("0.2:0.125:0.4")
+let pad = note("<[c3,eb3,g3]!4 [f3,ab3,c4]!4 [eb3,g3,bb3]!4>")
+  .s("sawtooth").attack(1.5).release(2)
+  .lpf(sine.range(500,1200).slow(8))
+  .gain(.15).room(.5).delay("0.12:0.25:0.3")
 
-  // machine heartbeat
-  s("bd(3,8)")
-    .bank("RolandTR909")
-    .gain(saw.slow(28).range(.06,.88))
-    .lpf(saw.slow(28).range(200,2500))
-    .room(.3).distort(saw.slow(30).range(0,.1)),
-
-  // mechanical clicks and servo noise
-  s("hh*8")
-    .bank("RolandTR808")
-    .gain(perlin.range(.04,.3))
-    .pan(perlin.range(0,1))
-    .crush(saw.slow(24).range(4,14))
-    .lpf(sine.range(1200,5500).slow(7))
-    .cut(1).room(.4),
-
-  // snare system activates
-  s("~ cp ~ <~ [cp cp]>")
-    .bank("RolandTR909")
-    .gain(saw.slow(30).range(0,.6))
-    .room(.35).delay(".2:.12:.25"),
-
-  // circuit sparks — low register arp
-  n("<[~ 0 ~ ~] [~ ~ 2 ~] [0 ~ 3 ~] [2 ~ 5 ~]>")
-    .scale("C3:minor").s("square").crush(8)
-    .lpf(saw.slow(26).range(200,2800))
-    .gain(saw.slow(26).range(0,.3))
-    .room(.5).delay(".3:.2:.35")
-    .decay(.15).sustain(.25),
-
-  // consciousness emerging — melody
-  n("<[~ ~ 0 ~] [~ 2 ~ 3] [5 ~ 3 ~] [~ 7 ~ 5]>")
-    .scale("C5:minor:pentatonic").s("triangle")
-    .lpf(saw.slow(32).range(400,4500))
-    .gain(saw.slow(32).range(0,.25))
-    .room(.6).delay(".25:.18:.45")
-    .decay(.1).sustain(.2).release(.4)
-    .sometimes(x => x.add(note(12)).gain(.12)),
-
-  // awareness expanding — pad
-  note("<c3 eb3 f3 g3>/4").s("sawtooth")
-    .attack(2).decay(1.5).sustain(.5).release(2)
-    .lpf(saw.slow(30).range(150,1800))
-    .gain(saw.slow(30).range(0,.2))
-    .room(.7).roomsize(4),
-
-  // diagnostic pings
-  n("<[~ ~ ~ 0] [~ ~ ~ ~] [~ ~ ~ 2] [~ ~ ~ ~]>")
-    .scale("C6:minor").s("sine")
-    .gain(saw.slow(32).range(0,.16))
-    .room(.8).delay(".5:.3:.6")
-    .lpf(3500).decay(.05).sustain(.1).release(.3)
+let intro = stack(
+  note("c1").s("sine").penv(48).pdecay(.5).pcurve(1)
+    .lpf(100).distort("2:.25").gain(.3),
+  s("hh*4").bank("RolandTR909").speed(rand.range(.3,3)).pan(rand)
+    .gain(.1).crush(8).hpf(5000),
+  note("[~ c6]*4").s("sine").fm(8).fmh(3.51)
+    .fmdecay(.03).fmsustain(0).decay(.02).sustain(0)
+    .gain(.12).room(.4).delay(.5)
 )
+
+let chorus = stack(kick, snare, hats, bass, arp, metal, pad)
+
+let bridge = stack(
+  kick.struct("x ~ [~ x] ~").gain(.4),
+  hats.gain(.12).crush(10).speed(.8),
+  note("<c1 eb1 f1 eb1>").s("sine").penv(24).pdecay(.2).pcurve(1)
+    .lpf(100).distort("3:.3").gain(.4),
+  n("<[0 4] [2 7] [4 9] [0 7]>").scale("C:minor").s("sine")
+    .fm(4).fmh(1.5).fmdecay(.15).fmsustain(0)
+    .decay(.2).sustain(0).gain(.2)
+    .delay("0.5:0.25:0.6").room(.3),
+  pad.gain(.06)
+)
+
+let chorus2 = stack(
+  kick.sometimesBy(.15, x => x.speed(1.12)),
+  snare.sometimesBy(.2, x => x.ply(2)),
+  hats.every(4, x => x.fast(2).gain(.2)),
+  bass.every(3, x => x.penv(24)),
+  arp.superimpose(x => x.add(7).gain(.15)),
+  metal.gain(.25),
+  pad.gain(.18),
+  note("c2").s("sine").penv(36).pdecay(.06).pcurve(1)
+    .struct("x(3,8)").gain(.3).distort("2:.3")
+)
+
+arrange([1, intro], [14, chorus], [5, bridge], [15, chorus2])

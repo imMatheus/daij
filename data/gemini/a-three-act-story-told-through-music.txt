@@ -1,22 +1,23 @@
-// 🎵 "The Hero's Passage" — A 3-Act Cinematic Odyssey
-setcps(0.8)
-samples('github:tidalcycles/dirt-samples')
+// 🎵 "Triptych of Time" — A three-act algorithmic story of emergence, chaos, and harmony.
+setcps(0.5);
+samples('github:tidalcycles/dirt-samples');
 stack(
-  s("<[bd(3,8),hh*4] [bd(5,8),sd,hh*16] [bd(1,8),hh*2]>")
-    .gain("<0.8 1.2 0.7>")
-    .room("<0.1 0.4 0.9>")
-    .distort("<0 0.5 0>"),
-  note("<[c3,e3,g3,b3] [db3,fb3,abb3,cb4] [c4,e4,g4,b4]>")
-    .s("<superpiano supersaw supervibe>")
-    .slow(2)
-    .lpf(sine.range(400, 4000).slow(8))
-    .jux(rev)
-    .delay(0.5)
-    .gain("<0.7 0.9 0.6>"),
-  note("<c2 [f2,gb2,ab2] g2>")
-    .s("bass")
-    .vowel("<i a o>")
-    .crush("<16 6 12>")
-    .legato(0.8)
-    .gain("<0.6 0.8 0.5>")
-).reset(12)
+  arrange(
+    [1, s("bd").gain(0.7).lpf(400)],
+    [14, s("bd:4(3,8), [~ sd:2]*2, hh*8").bank("tr909").gain(0.8).jux(rev)],
+    [6, s("hh*16").gain(0.5).distort(5).lpf(sine.range(1000, 4000).slow(4))],
+    [14, s("bd:4(5,8), [~ sd:3]*2, hh*12").bank("tr909").gain(0.9).jux(iter(8))]
+  ),
+  arrange(
+    [1, note("c2").s("sine").gain(0.8).attack(0.5)],
+    [14, note("<c2 eb2 f2 g1>(3,8)").s("sawtooth").lpf(800).lpq(2).lpenv(4).lpattack(0.01)],
+    [6, note("<f1 eb1>(5,8)").s("pulse").pw(0.3).lpf(300).tremolo(8)],
+    [14, note("<c2 eb2 f2 g1>(3,8)").s("sawtooth").lpf(1200).lpenv(6).lpattack(0.01)]
+  ),
+  arrange(
+    [1, note("c4(3,8)").s("supermandolin").gain(0.8).room(0.8)],
+    [14, n("0 2 3 5 7 8 10 12".scramble(8)).scale("C:minor").s("supersaw").gain(0.5).jux(rev).delay(0.4)],
+    [6, n("5 0 4 2".scramble(4)).scale("C:minor").s("superpiano").gain(0.8).echo(4, 0.125, 0.7)],
+    [14, n("0 2 3 5 7 8 10 12".scramble(8)).scale("C:minor").s("supersaw").gain(0.6).jux(iter(4)).delay(0.5)]
+  )
+).room(0.4).delay(0.2).reset(arrange([1, "x"], [14, "~"], [6, "x"], [14, "~"]))

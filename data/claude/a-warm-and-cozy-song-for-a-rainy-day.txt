@@ -1,88 +1,31 @@
-// 🌧️ "Blanket Weather" — Warm Lo-Fi Ambient Jazz / Rainy Day Comfort
-// At 70 BPM: intro(4) + A(8) + B(8) + outro(4) = 24 bars ≈ 82s
+// "Raindrops on Glass" — warm lo-fi ambient for a rainy afternoon
+setcps(0.27)
+samples('github:tidalcycles/dirt-samples')
 
-setcpm(70 / 4)
-
-$: s("vinyl:2").gain(.14).room(1).loop(1).lpf(2400)
-
-$: s("hh*16")
-   .bank("RolandTR808")
-   .gain(perlin.range(.03, .22))
-   .pan(perlin.range(.2, .8))
-   .cut(1)
-   .lpf(sine.range(2800, 5500).slow(14))
-
-$: arrange(
-  [4,  s("bd ~ ~ ~").bank("RolandTR808").gain(.48).room(.55).lpf(700)],
-  [8,  s("bd ~ ~ ~, ~ [~ sd:1] ~ ~")
-       .bank("RolandTR808").swing(4)
-       .gain(".7 .64").room(.42)],
-  [8,  s("bd ~ ~ bd, ~ [cp,sd:1] ~ ~, [~ hh]*4")
-       .bank("RolandTR808").swing(4).cut(1)
-       .gain(".78 .72").room(.35)
-       .every(4, x => x.press())],
-  [4,  s("bd ~ ~ ~")
-       .bank("RolandTR808").swing(4)
-       .gain(saw.slow(4).range(.48, .06)).room(.6)]
+stack(
+  chord("<F^7 Dm7 Bb^7 Am7>").voicing()
+    .s("piano").gain("<.3@2 .55@7 .35@2 .55@8>")
+    .lpf(sine.range(800,2400).slow(8))
+    .room(.7).size(2).delay(".3:.25:.4")
+    .att(.02).release(.6)
+    .reset("<x@2 x@7 x@2 x@8>"),
+  note("<f2 d2 bb1 a1>").s("sawtooth")
+    .lpf(280).gain("<0@2 .3@7 0@2 .3@8>")
+    .att(.1).decay(.4).sustain(.5).room(.3)
+    .reset("<x@2 x@7 x@2 x@8>"),
+  s("hh*16").gain(perlin.range(.03,.17))
+    .pan(rand).lpf(perlin.range(3000,8000).slow(5))
+    .room(.8).delay(.08)
+    .mask("<0@2 1@7 1@2 1@8>"),
+  note("<[f3,a3,c4] [d3,f3,a3] [bb2,d3,f3] [a2,c3,e3]>")
+    .s("sawtooth").lpf(sine.range(400,1100).slow(12))
+    .gain("<0@2 .15@7 .08@2 .15@8>")
+    .att(.5).sustain(.6).release(1).room(.9).size(3).chorus(.3)
+    .reset("<x@2 x@7 x@2 x@8>"),
+  n("<0 2 4 ~ [5 4] 2 ~ [0 ~]>").scale("F4:major")
+    .s("piano").gain("<0@2 .4@7 .25@2 .4@8>")
+    .lpf(1500).room(.65).delay(".35:.2:.5")
+    .slow(2).sometimesBy(.25, x=>x.add(7)),
+  s("brown").gain("<.03@2 .05@7 .04@2 .05@8>")
+    .lpf(sine.range(200,500).slow(6)).room(.9).size(4)
 )
-
-$: arrange(
-  [4,  silence],
-  [8,  note("<[a1 ~ ~ ~] [f#1 ~ ~ f#1] [d1 ~ ~ ~] [e1 ~ ~ ~]>")
-       .s("gm_acoustic_bass")
-       .decay(.4).sustain(.5).room(.25).gain(.72)],
-  [8,  note("<[a1 ~ a1 ~] [f#1 ~ ~ f#1] [d1 ~ d1 ~] [e1 ~ ~ e1]>")
-       .s("gm_acoustic_bass")
-       .decay(.3).sustain(.55).room(.2).gain(.78)],
-  [4,  note("<a1 ~ d1 ~>/2")
-       .s("gm_acoustic_bass")
-       .decay(.55).sustain(.4).room(.35).gain(.55).speed(.97)]
-)
-
-$: arrange(
-  [4,  chord("<Amaj9 Dmaj7>/2").dict('ireal').voicing()
-       .s("gm_synth_strings_1")
-       .attack(.9).decay(1).sustain(.7).release(2.5)
-       .lpf(1000).room(.8).gain(.3)],
-  [8,  chord("<Amaj9 F#m9 Dmaj9 E9>").dict('ireal').voicing()
-       .s("gm_epiano1")
-       .struct("~ [x ~] ~ [x ~]")
-       .lpf(2000).room(.55).delay(".25:.18:.35")
-       .gain(.46).speed(.98)],
-  [8,  chord("<Amaj9 F#m9 Dmaj9 E9>").dict('ireal').voicing()
-       .s("gm_epiano1")
-       .struct("[~ x]*2")
-       .lpf(2500).room(.5).delay(".2:.12:.28")
-       .gain(.5)],
-  [4,  chord("<Amaj9 Dmaj7>/2").dict('ireal').voicing()
-       .s("gm_synth_strings_1")
-       .attack(.9).sustain(.6).release(3)
-       .lpf(sine.range(400, 1100).slow(4))
-       .room(.85).gain(saw.slow(4).range(.3, .06))]
-)
-
-$: arrange(
-  [4,  n("<0 ~ 2 ~>/1").scale("A4:major:pentatonic")
-       .s("gm_epiano2")
-       .room(.8).delay(".5:.35:.6").gain(.26).lpf(1400).attack(.2)],
-  [8,  n("<[~ 0 ~ 2] [4 ~ 2 ~] [~ 3 ~ 4] [2 ~ ~ 0]>")
-       .scale("A5:major:pentatonic").s("gm_epiano2")
-       .lpf(sine.range(900, 2800).slow(10))
-       .room(.6).delay(".3:.22:.42").gain(.35)
-       .rarely(x => x.add(note(12)))],
-  [8,  n("<[0 ~ 2 4] [~ 5 4 ~] [2 ~ 0 ~] [~ 3 2 0]>")
-       .scale("A5:major:pentatonic").s("gm_epiano2")
-       .lpf(sine.range(1100, 3400).slow(8))
-       .room(.55).delay(".25:.18:.35").gain(.4)
-       .sometimes(x => x.add(note(12)))],
-  [4,  n("<[~ 0 ~ ~] [~ ~ 2 ~] [~ 4 ~ ~] [~ ~ 0 ~]>")
-       .scale("A5:major:pentatonic").s("gm_epiano2")
-       .room(.85).delay(".55:.4:.65").gain(.24)
-       .lpf(sine.range(500, 1600).slow(4))]
-)
-
-$: note("<a0 f#0 d0 e0>/4")
-   .s("sine")
-   .attack(1.8).decay(.8).sustain(.8).release(2)
-   .gain(.18).room(.55)
-   .lpf(170)

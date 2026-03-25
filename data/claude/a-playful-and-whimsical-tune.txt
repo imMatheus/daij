@@ -1,22 +1,71 @@
-// "Pixie Garden" — sprites bouncing through morning dewdrops
+// "Tinker's Garden" — Playful whimsical bounce
 setcps(0.55)
+
 stack(
-  s("bd ~ [~ bd] ~, ~ cp ~ ~, hh(5,8)")
-    .bank("RolandTR808").swing(3).gain(".78 .68").room(.25)
-    .every(4, x => x.fast(2).gain(.4)),
-  note("<[d2 ~ d2 ~] [g2 ~ ~ g2] [a2 ~ a2 ~] [b1 ~ ~ b1]>")
-    .s("sawtooth").lpf(850).decay(.12).sustain(.25).gain(.52).room(.2),
-  note("<[d4,fs4,a4] [g4,b4,d5] [a4,cs5,e5] [b3,d4,fs4]>")
-    .struct("[~ x ~ x]").s("square")
-    .lpf(sine.range(1400,3200).slow(8))
-    .decay(.18).sustain(.3).gain(.28).room(.4).delay(".2:.12:.25"),
-  n("<[0 2 4 ~] [~ 5 4 2] [4 ~ 7 5] [~ 4 2 0]>")
-    .scale("D5:major:pentatonic").s("triangle")
-    .lpf(perlin.range(2200,5000).slow(6))
-    .room(.5).delay(".25:.2:.35").gain(.34)
-    .every(3, x => x.add(note(12)).gain(.22)),
-  n("<[~ ~ 7 ~] [9 ~ ~ ~] [~ 5 ~ ~] [~ ~ 4 ~]>")
-    .scale("D6:major:pentatonic").s("gm_celesta")
-    .gain(.2).room(.65).delay(".4:.3:.5").lpf(6000).pan(sine.slow(3)),
-  note("d1").s("sine").gain(.15).lpf(140).attack(2).sustain(.8).release(2).room(.4)
+  // Intro chime — sets the playful mood
+  n("[0 ~ 4 ~ 7 ~ 4 ~]*2")
+    .scale("G4:major:pentatonic").s("sine")
+    .fm(3).fmh(2).fmdecay(.08).fmsustain(0)
+    .decay(.1).sustain(0)
+    .delay(.45).delaytime(3/16).delayfeedback(.5)
+    .room(.35).gain("<.28!2 0!36>"),
+  // Lead melody — FM toy bells
+  n("<[0 4 2 7]*2 [7 5 ~ 2]*2 [0 2 4 ~ 7 ~]*2 [5 ~ 4 2 0 ~]*2>")
+    .scale("G4:major:pentatonic").s("sine")
+    .fm("<2 3>").fmh(2.01).fmdecay(.12).fmsustain(0)
+    .decay(.12).sustain(.1).release(.15)
+    .lpf(sine.range(2500, 9000).slow(6))
+    .off(1/8, x => x.add(7).gain(.12).delay(.4))
+    .room(.2).pan(sine.range(.3, .7).slow(3))
+    .sometimesBy(.15, x => x.transpose(12))
+    .gain("<0!2 .35!14 0!6 .38!16>"),
+  // Pizzicato counter — high bouncy plucks
+  n("<[7 ~ 4 ~]*2 [5 ~ 2 ~]*2>")
+    .scale("G5:major:pentatonic").s("triangle")
+    .decay(.05).sustain(0)
+    .sometimesBy(.25, x => x.add(2))
+    .delay(.35).delaytime(1/8).delayfeedback(.45)
+    .room(.3).pan(perlin.range(.2, .8))
+    .gain("<0!2 .18!14 .1!6 .2!16>"),
+  // Chord plinks — offbeat stabs
+  chord("<G C D Em>").voicing().s("square")
+    .struct("~ x ~ ~ x ~ x ~")
+    .decay(.12).sustain(.15).release(.08)
+    .lpf(perlin.range(1500, 5000).slow(5)).lpq(1.5)
+    .room(.2).delay(.12).delaytime(3/8).delayfeedback(.25)
+    .gain("<0!2 .2!14 0!6 .22!16>"),
+  // Bridge pad — dreamy contrast
+  chord("<Em C G D>").voicing().s("sawtooth")
+    .attack(.5).sustain(.4).release(.9)
+    .lpf(sine.range(700, 2200).slow(3))
+    .room(.55).vib(3).vibmod(.06)
+    .gain("<0!16 .22!6 0!16>"),
+  // Bouncy bass — plucky and round
+  note("<g2!2 c2!2 d2!2 [e2 d2]>").s("sawtooth")
+    .struct("x(5,8)")
+    .decay(.07).sustain(.25).release(.04)
+    .lpf(sine.range(350, 1000).slow(4)).lpq(3)
+    .gain("<0!2 .45!14 .2!6 .48!16>"),
+  // Kick — light skippy pattern
+  s("bd ~ ~ bd ~ bd ~ ~").bank("RolandTR808")
+    .gain("<0!2 .55!14 .3!6 .58!16>"),
+  // Clap — end of phrase
+  s("~ ~ ~ ~ ~ ~ ~ cp").bank("RolandTR808")
+    .gain("<0!2 .4!14 0!6 .42!16>"),
+  // Hats — bouncy euclidean swing
+  s("hh(7,8,<0 2>)").bank("RolandTR808")
+    .gain(".3 .6 .35 .65 .3 .55 .35 .5")
+    .swingBy(1/6, 4)
+    .mask("<0!2 1!14 0!6 1!16>"),
+  // Toms — playful skipping fills
+  s("<[~ mt ~ lt ~ ~ lt ~] [lt ~ ~ ~ ~ mt ~ ~]>")
+    .bank("RolandTR808").gain(.25).room(.12)
+    .sometimesBy(.3, x => x.speed(1.5))
+    .mask("<0!2 1!14 0!6 1!16>"),
+  // High sparkle — twinkling fairy dust
+  n("{0 4 7 2 5 9}%6").scale("G5:major:pentatonic").s("sine")
+    .decay(.03).sustain(0)
+    .delay(.55).delaytime(1/6).delayfeedback(.5)
+    .pan(sine.range(.15, .85).slow(3))
+    .room(.35).gain("<0!2 .07!14 .04!6 .08!16>")
 )

@@ -1,51 +1,69 @@
-// 🎵 "Goodnight, Static" — Lullaby crumbling into digital noise
+// "Goodnight, Dissolving" — Lullaby melody gently unraveling into static and distortion
+samples('github:tidalcycles/dirt-samples')
+setcps(24/70)
 
-setcps(0.25)
+const intro = 1
+const chorus = 10
+const bridge = 4
+const finalChorus = 9
 
-$: arrange(
-  [4, n("<[0 2 4 2] [0 2 5 4]>").scale("Eb5:major").s("gm_music_box")
-      .lpf(3800).room(.8).delay(".4:.3:.5").gain(.4).decay(.7).sustain(.35).release(1.5)],
-  [4, n("<[0 2 4 2] [0 2 5 4]>").scale("Eb5:major").s("gm_music_box")
-      .lpf(2000).room(.6).delay(".5:.35:.55").gain(.35).crush(11).speed(perlin.range(.95,1.05))],
-  [4, n("<[0 2 4 5 4 2 0 ~] [5 4 2 0 ~ 2 4 5]>").scale("Eb5:major").s("gm_music_box")
-      .lpf(sine.range(500,2800).slow(3)).room(.35).gain(.28).crush(5).distort("2:.3").speed(perlin.range(.8,1.2))],
-  [4, n("<[0 5 2 8] [11 3 7 1] [9 4 10 6] [2 8 0 5]>*2").scale("Eb4:chromatic").s("sawtooth")
-      .lpf(sine.range(200,5000).slow(2)).gain(.18).crush(3).distort("5:.2").coarse("<4 8 16>")]
-).stack(
-  arrange(
-    [4, chord("<Ebmaj7 Cm7 Abmaj7 Bb7>").dict('ireal').voicing().s("gm_synth_strings_1")
-        .attack(1.2).sustain(.7).release(2.5).lpf(1200).room(.8).gain(.22)],
-    [4, chord("<Ebmaj7 Cm7 Abmaj7 Bb7>").dict('ireal').voicing().s("gm_epiano1")
-        .struct("~ [x ~] ~ x").lpf(1500).room(.5).delay(".3:.2:.4").gain(.28).crush(12)],
-    [4, chord("<Ebm Cm>/2").dict('ireal').voicing().s("gm_epiano1")
-        .struct("[x ~]*4").lpf(sine.range(400,3200).slow(3)).room(.3).gain(.24).crush(6).distort("1.5:.3")],
-    [4, chord("<Ebm Cm>/2").dict('ireal').voicing().s("sawtooth")
-        .struct("x*8").lpf(sine.range(150,4000).slow(2)).gain(.16).crush(3).distort("3:.25")]
-  ),
-  arrange(
-    [4, note("<eb2 c2 ab1 bb1>").s("gm_acoustic_bass").decay(.5).sustain(.55).room(.35).gain(.5).lpf(500)],
-    [4, note("<[eb2 ~ ~ eb2] [c2 ~ ~ ~] [ab1 ~ ~ ab1] [bb1 ~ ~ ~]>").s("gm_acoustic_bass")
-        .decay(.35).sustain(.4).room(.25).gain(.55).lpf(900).crush(13)],
-    [4, note("<[eb1 eb2 ~ ~] [c1 ~ c2 ~]>").s("sawtooth").decay(.2).sustain(.3)
-        .gain(.4).lpf(sine.range(300,2000).slow(4)).crush(7).distort("1.5:.3")],
-    [4, note("<eb1 c1>/2").s("sawtooth").sustain(.8).gain(.28)
-        .lpf(sine.range(80,2500).slow(2)).crush(3).distort("5:.2")]
-  ),
-  arrange(
-    [8, silence],
-    [4, s("vinyl:2").gain(.1).room(.6).loop(1).lpf(3000).crush(8)],
-    [4, s("vinyl:2").gain(.28).room(.3).loop(1).crush(3).distort("2:.3")]
-  ),
-  arrange(
-    [4, silence],
-    [4, s("hh*4").bank("RolandTR808").gain(.15).room(.4).lpf(2500)],
-    [4, s("bd ~ sd ~, hh*8").bank("RolandTR808").gain(perlin.range(.3,.55)).room(.25).crush(7).distort("1:.3")],
-    [4, s("bd(5,8), [cp sd]*4, hh*16").bank("RolandTR808").gain(perlin.range(.2,.6)).crush(3).distort("3:.25").every(2, x => x.rev())]
-  ),
-  arrange(
-    [4, note("eb1").s("sine").attack(2).sustain(.8).release(3).gain(.14).lpf(150).room(.5)],
-    [4, note("eb1").s("sine").attack(1.5).sustain(.7).release(2).gain(.16).lpf(200).room(.4)],
-    [4, note("<eb1 c1>/2").s("sine").sustain(.6).gain(.18).lpf(300).room(.3).crush(10)],
-    [4, note("<eb1 c1>/2").s("sawtooth").sustain(.9).gain(.2).lpf(sine.range(80,1500).slow(2)).crush(4).distort("3:.2")]
-  )
-)
+const decay = saw.slow(24)
+const clarity = isaw.slow(24)
+
+const melody = note("<[eb5 bb4 g4 ~ eb5 bb4 g4 ~] [f5 c5 ab4 ~ f5 c5 ab4 ~] [eb5 bb4 g4 ~ d5 bb4 g4 ~] [c5 ab4 f4 ~ bb4 ab4 f4 ~]>")
+  .s("triangle").att(.005).dec(.15).sus(.1).rel(.6)
+  .fm(decay.range(0, 6)).fmh(decay.range(1, 3.14)).fmdecay(decay.range(.5, .02))
+  .vib(decay.range(0, 14)).vibmod(decay.range(0, 5))
+  .lpf(clarity.rangex(600, 12000)).distort(decay.range(0, 9))
+  .postgain(clarity.range(.2, .5))
+  .delay(".25:.33:.4").room(.5).gain(.4)
+
+const pad = note("<[eb3,g3,bb3] [f3,ab3,c4] [eb3,g3,bb3] [ab3,c4,eb4]>")
+  .s("sawtooth").att(.4).dec(.3).sus(.4).rel(1.2)
+  .lpf(clarity.rangex(250, 2800)).lpq(decay.range(0, 10))
+  .distort(decay.range(0, 7)).postgain(clarity.range(.12, .3))
+  .room(.4).chorus(.2).gain(.2)
+
+const bass = note("<eb2 f2 eb2 ab2>")
+  .s("sine").att(.01).dec(.3).sus(.5).rel(.4)
+  .lpf(clarity.rangex(50, 350))
+  .distort(decay.range(0, 5)).postgain(clarity.range(.2, .45))
+  .gain(.3)
+
+const noise = s("pink").att(.1).rel(1.5)
+  .lpf(decay.rangex(300, 14000)).hpf(decay.rangex(40, 2400))
+  .distort(decay.range(0, 7)).postgain(.25)
+  .delay(".4:.125:.7").room(.7).gain(decay.range(0, .22))
+
+const glitch = s("hh").euclid(3,8)
+  .speed(decay.range(1, 5)).hpf(decay.rangex(2000, 9000))
+  .distort(decay.range(0, 10)).postgain(.25)
+  .delay(".3:.125:.6").gain(decay.range(0, .12))
+
+const introMelody = note("[eb5 ~ ~ bb4 ~ ~ g4 ~]")
+  .s("triangle").att(.01).dec(.2).sus(.08).rel(1.2)
+  .lpf(10000).delay(".4:.4:.55").room(.7).gain(.3)
+
+const introPad = note("[eb3,g3,bb3]")
+  .s("sine").att(.8).rel(2.5).lpf(2000).room(.6).gain(.1)
+
+const bridgePad = note("<[e3,ab3,bb3] [f3,a3,c4] [eb3,gb3,bb3] [ab3,b3,d4]>")
+  .s("sawtooth").att(.05).dec(.2).sus(.3).rel(.6)
+  .lpf(700).lpq(8).distort("5:.35:fold")
+  .delay(".5:.125:.75").room(.6).gain(.14)
+
+const bridgeMelody = note("<[eb5 e5 f5 e5 eb5 d5 c5 b4] [c5 db5 d5 eb5 e5 f5 gb5 g5]>")
+  .fast(2).s("pulse").att(.005).dec(.08).sus(.04).rel(.1)
+  .lpf(1100).distort("6:.35:sinefold")
+  .delay(".4:.125:.65").room(.3).gain(.1)
+
+const bridgeNoise = s("pink").struct("x [~ x] x [x x]")
+  .att(.01).rel(.4).bpf(3200).bpq(10)
+  .distort("8:.3:diode").room(.8).gain(.07)
+
+arrange([intro, introMelody], [chorus, melody], [bridge, bridgeMelody], [finalChorus, melody])
+  .stack(arrange([intro, introPad], [chorus, pad], [bridge, bridgePad], [finalChorus, pad]))
+  .stack(arrange([intro, silence], [chorus, bass], [bridge, bass], [finalChorus, bass]))
+  .stack(arrange([intro, silence], [chorus, noise], [bridge, bridgeNoise], [finalChorus, noise]))
+  .stack(arrange([intro, silence], [chorus, glitch], [bridge, silence], [finalChorus, glitch]))
+  .postgain(.85)

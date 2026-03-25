@@ -1,34 +1,42 @@
-// 🎵 "Bazaar After Rain" — percussive street-market groove with dusty melodic loops
+// "Lantern Bargain" — bustling modal groove for a night market under hanging tarps
 samples('github:tidalcycles/dirt-samples')
-setcps(0.5)
-s("bd(3,8,<0 1 2>) [~ bd] cp(2,8)")
-  .gain(0.95)
-  .stack(
-    s("hh*16")
-      .gain("0.18 0.24 0.2 0.26")
-      .speed("<1 1.02 0.98 1.04>")
-      .pan("0.2 0.8 0.4 0.7"),
-    s("<tabla:2 tabla:4 tabla:8>*4")
-      .gain("0.5 0.45 0.55 0.48")
-      .speed("<1 0.95 1.05 1>")
-      .room(0.25),
-    s("perc(5,8,<1 2 3>) [~ perc:4]")
-      .gain(0.5)
-      .pan("rand")
-      .delay(0.2),
-    s("arpy*8")
-      .n("<0 2 4 7 [9 7] 4 2>")
-      .gain(0.38)
-      .speed("<1 1.5 0.75 1>")
-      .lpf(sine.range(600,2600).slow(12))
-      .room(0.4)
-      .delay(0.35),
-    s("can(3,8)")
-      .gain(0.25)
-      .hpf(1200)
-      .pan("<0.1 0.9>")
-  )
-  .lpf(perlin.range(500,4200).slow(10))
-  .room(sine.range(0.15,0.7).slow(14))
-  .delay(sine.range(0.05,0.28).slow(16))
-  .reset(24)
+setcps(25/70)
+
+const intro = 1
+const chorus = 10
+const bridge = 4
+
+const air = s("oh").slow(2).begin(".03 .07").end(".2 .3").speed("<-1 -.84>").hpf(sine.slow(3).range(2600,7800)).room(.94).delay(.44).delaytime(.75).delayfeedback(.7).gain(.1)
+const introSteps = s("~ ~ rim ~ ~ ~ rim ~").end(.05).hpf(sine.slow(4).range(2600,7200)).room(.84).gain(.08)
+
+const chorusKick = s("bd [~ bd] ~ bd").lpf(980).room(.08).gain(.84).duckorbit("2:3:4:5").duckattack(.22).duckdepth(".78:.34:.2:.16")
+const chorusSnaps = s("~ rim ~ cp ~ rim ~ cp").lpf(2400).room(.24).gain(.22).reset("<x ~ x ~>")
+const chorusHat = s("hh*16").end(.045).hpf(sine.slow(6).range(6400,12000)).room(.22).gain("0.05 0.02 0.04 0.02 0.05 0.03 0.04 0.02 0.05 0.02 0.04 0.02 0.06 0.03 0.04 0.02").reset("<x ~ x ~>")
+const chorusHand = s("lt").euclidRot(5,8,1).lpf(sine.slow(5).range(1200,3400)).room(.34).gain(.18).reset("<x ~ x ~>")
+const bridgeKick = s("bd ~ ~ ~ ~ ~ bd ~").lpf(820).room(.12).gain(.34)
+const bridgeHat = s("hh").euclidRot(5,8,2).end(.05).hpf(sine.slow(3).range(5800,9800)).room(.42).gain(.05)
+const bridgeHand = s("rim").euclidRot(3,8,1).lpf(2200).room(.5).gain(.12).reset("<x ~ x ~>")
+
+const introDrone = note("[d4 a4 d5]").s("triangle").orbit(3).attack(.9).decay(.4).sustain(.86).release(2.6).lpf(sine.slow(2).range(420,1700)).room(.96).delay(.34).delaytime(.5).delayfeedback(.56).gain(.18)
+const chorusChords = note("<[d4 f4 a4 c5] [c4 e4 g4 bb4] [bb3 d4 f4 a4] [a3 c4 e4 g4]>").slow(2).struct("[x ~ x x]").s("supersaw").orbit(3).attack(.03).decay(.28).sustain(.58).release(.26).lpf(sine.slow(8).range(1200,5400)).lpq(.18).room(.34).delay(.24).delaytime(.375).delayfeedback(.42).gain(.34).reset("<x ~ x ~>")
+const bridgeChords = note("<[g3 bb3 d4 f4] [a3 cs4 e4 g4] [d4 f4 a4 c5] [a3 cs4 e4 g4]>").slow(2).struct("[x ~ x ~]").s("pulse").orbit(3).attack(.07).decay(.36).sustain(.6).release(.42).lpf(sine.slow(4).range(900,3600)).room(.72).delay(.32).delaytime(.5).delayfeedback(.54).gain(.22).reset("<x ~ x ~>")
+
+const chorusBass = note("<d2 c2 bb1 a1>").slow(2).struct("[x ~ x [~ x]]").s("sawtooth").orbit(2).attack(.01).decay(.18).sustain(.44).release(.1).lpf(sine.slow(7).range(170,980)).lpq(.22).gain(.58).reset("<x ~ x ~>")
+const bridgeBass = note("<g1 a1 d2 a1>").slow(2).struct("[x ~ ~ x]").s("sawtooth").orbit(2).attack(.02).decay(.2).sustain(.38).release(.12).lpf(sine.slow(4).range(150,720)).gain(.36).reset("<x ~ x ~>")
+
+const chorusHook = note("<f5 eb5 d5 c5 bb4 c5 d5 f5>").fast(2).s("triangle").orbit(4).attack(.01).decay(.12).sustain(.24).release(.12).lpf(sine.slow(5).range(1800,6800)).delay(.28).delaytime(.25).delayfeedback(.42).room(.22).gain(.22).reset("<x ~ x ~>")
+const chorusReply = note("<a4 ~ c5 ~ d5 ~ f5 ~>").fast(2).s("pulse").orbit(5).attack(.02).decay(.14).sustain(.28).release(.14).tremolosync(6).tremolodepth(.16).lpf(sine.slow(6).range(2200,7600)).delay(.34).delaytime(.25).delayfeedback(.48).room(.28).gain(.14).reset("<x ~ x ~>")
+const bridgeCall = note("<g5 ~ a5 ~ d5 ~ c5 ~>").fast(2).s("pulse").orbit(4).attack(.03).decay(.16).sustain(.26).release(.18).lpf(sine.slow(3).range(1600,5200)).delay(.46).delaytime(.5).delayfeedback(.62).room(.56).gain(.12).reset("<x ~ x ~>")
+
+stack(
+  arrange([intro, air], [chorus, air.gain(saw.slow(6).range(.08, .14))], [bridge, air.gain(sine.slow(2).range(.06, .11))], [chorus, air.gain(saw.slow(6).range(.08, .14))]),
+  arrange([intro, introSteps], [chorus, silence], [bridge, silence], [chorus, silence]),
+  arrange([intro, introDrone], [chorus, chorusChords], [bridge, bridgeChords], [chorus, chorusChords]),
+  arrange([intro, silence], [chorus, chorusBass], [bridge, bridgeBass], [chorus, chorusBass]),
+  arrange([intro, silence], [chorus, chorusKick], [bridge, bridgeKick], [chorus, chorusKick]),
+  arrange([intro, silence], [chorus, chorusSnaps], [bridge, silence], [chorus, chorusSnaps]),
+  arrange([intro, silence], [chorus, chorusHat], [bridge, bridgeHat], [chorus, chorusHat]),
+  arrange([intro, silence], [chorus, chorusHand], [bridge, bridgeHand], [chorus, chorusHand]),
+  arrange([intro, silence], [chorus, chorusHook], [bridge, silence], [chorus, chorusHook]),
+  arrange([intro, silence], [chorus, chorusReply], [bridge, bridgeCall], [chorus, chorusReply])
+).postgain(1.02)

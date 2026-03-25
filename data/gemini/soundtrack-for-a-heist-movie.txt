@@ -1,12 +1,33 @@
-// 🎵 "The Midnight Vault" — Cinematic Heist / Tension Funk
+// 🎵 "The Vault Breach" — Tense Cinematic Heist
+setcps(0.5);
 samples('github:tidalcycles/dirt-samples');
-setcps(125/120);
 
 stack(
-  s("bd:5(3,8), [~ sd:2]*2, hh*16").gain(0.9),
-  s("hc*8").gain(perlin.range(0.3, 0.6)).pan(sine.range(0.2, 0.8)),
-  note("e2(3,8,1)").s("bass1").lpf(1200).lpq(5).gain(1.2),
-  note("<[e2,g2,b2] [a2,c3,e3] [b2,d3,f#3]>").s("rhodes").struct("1(5,8,2)").gain(0.7).room(0.4).delay(0.2),
-  note("b3(3,8,4)").s("supervibe").gain(0.6).room(0.9).delay(0.4).delayfb(0.7),
-  note("e5 b4 g4 e4").s("superflute").struct("<0 [1 1] 0 0> <1 0 [1 1] 0>").gain(0.4).lpf(sine.range(1000, 3000)).room(1)
-).reset(16)
+  s("bd:4 [~ sd:2] bd:4 [sd:2 <~ [~ sd:2]>]")
+    .gain("<0!2 0.8!2 1.1!11 0!5 1.2!15>")
+    .room("<0.1!15 0.4!5 0.2!15>"),
+  s("hh*16")
+    .gain(perlin.range(0.3, 0.6).fast(4))
+    .mask("<0!1 1!14 1!5 1!15>")
+    .jux(rev),
+  s("rim(5,8)")
+    .gain("<0!15 0.7!5 0.8!15>")
+    .delay(0.5).dt(0.125),
+  note("<c2(3,8) [c2!3 eb2] [c2!3 gb2]>")
+    .s("sawtooth")
+    .lpf("<400!2 650!13 350!5 950!15>")
+    .lpq(4).lpenv(2).lpa(0.01)
+    .gain("<0.6!2 1!13 0.8!5 1.2!15>"),
+  note("~ <[c4,eb4,gb4] [eb4,gb4,bb4] [d4,f4,ab4]>")
+    .s("pulse").pw(0.5)
+    .adsr("0.01:0.08:0:0.1")
+    .gain("<0!8 0.6!7 0.2!5 0.7!15>")
+    .room(0.8).delay(0.5).dt(0.375),
+  note("<[c3,eb3,g3] [ab2,c3,eb3] [g2,b2,d3]>")
+    .s("sine")
+    .gain("<0!15 0.4!5 0.1!15>")
+    .lpf(sine.range(300, 1000).slow(4))
+    .room(1).slow(2)
+)
+.reset("<x!4 [~ x]!11 x!5 [x*2]!15>")
+.slow(35)

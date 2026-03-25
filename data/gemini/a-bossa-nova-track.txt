@@ -1,17 +1,29 @@
-// "Bossa de Bit" — a hazy, syncopated bossa nova track with warm electric piano
-setcps(1.55)
-stack(
-  s("bd:4").struct("1 0 0 <1 [0 1]> 1 0 0 0").gain(0.9).lpf(400),
-  s("hc*16").gain(perlin.range(0.2, 0.6)).pan(sine.range(0.2, 0.8)),
-  s("sid").struct("1 0 0 1 0 0 1 0 0 0 1 0 1 0 0 0").gain(0.7).room(0.5),
-  s("superpiano")
-    .n("<[f3,a3,c4,e4] [g3,b3,f4,e4] [e3,g3,b3,d4] [a2,g3,c#4,a#4]>")
-    .struct("0 1 0 1 0 0 1 0")
-    .velocity(perlin.range(0.4, 0.6))
-    .room(0.8).delay(0.25).delayfb(0.3)
-    .lpf(perlin.range(1200, 3500)),
-  s("superpiano")
-    .n("<f2 g2 e2 a1>")
-    .struct("1 0 0 1 1 0 0 0")
-    .velocity(0.7).lpf(600)
-).reset(16).room(0.4)
+// 🎵 "Copacabana Drift" — A breezy Bossa Nova with nylon-style keys and syncopated percussion
+setcps(0.48);
+samples('github:tidalcycles/dirt-samples');
+arrange(
+  [2, stack(
+    s("hc*16").gain(perlin.range(0.3, 0.5)),
+    s("bd(2,4)").gain(0.6).lpf(300)
+  )],
+  [12, stack(
+    s("hc*16").gain(perlin.range(0.4, 0.65)).reset("<x!8 x(5,8)!4>"),
+    s("rim(5,16,1)").gain(0.55).room(0.3),
+    s("bd(3,8)").gain(0.85).lpf(200),
+    n("<[0 7] [9 4] [2 9] [7 2]>").scale("C:major").s("sine").lpf(120).gain(0.7).adsr(".05:.3:.4:.2"),
+    chord("<Cmaj9 Am9 Dm11 G13>").voicing().struct("x . x x . x . x").s("supervibe").gain(0.45).room(0.5).delay(0.3).delaytime(0.2)
+  )],
+  [6, stack(
+    s("hc*16").gain(0.4),
+    s("rim(3,8,2)").gain(0.4).room(0.6),
+    n("<5 5 4 9>").scale("C:major").s("sine").lpf(180).gain(0.6),
+    chord("<Fmaj7 Fm7 Em7 A7>").voicing().struct("x x x x").s("supervibe").gain(0.35).lpf(sine.range(1000, 3000).slow(4)).room(0.8)
+  )],
+  [12, stack(
+    s("hc*16").gain(perlin.range(0.4, 0.65)),
+    s("rim(5,16,1)").gain(0.55).room(0.3),
+    s("bd(3,8)").gain(0.85).lpf(200),
+    n("<[0 7] [9 4] [2 9] [7 2]>").scale("C:major").s("sine").lpf(120).gain(0.7).adsr(".05:.3:.4:.2"),
+    chord("<Cmaj9 Am9 Dm11 G13>").voicing().struct("x . x x . x . x").s("supervibe").gain(0.45).room(0.5).delay(0.3).delaytime(0.2)
+  )]
+)

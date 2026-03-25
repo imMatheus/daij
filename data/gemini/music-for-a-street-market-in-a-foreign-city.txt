@@ -1,10 +1,13 @@
-// 🎵 "Dust and Spices" — Kinetic market atmosphere with Phrygian scales and layered folk percussion
-samples('github:tidalcycles/dirt-samples')
-setcps(0.42)
-stack(
-  s("bd:2(3,8), [~ sd:1]*2, [hc*16, <hc:2*8 hc:3*4>]").gain(0.7).room(0.3),
-  s("tabla:1(5,8), tabla:3(3,8), [~ [can:1 can:2]]*2").n(run(4)).gain(0.8).pan(perlin),
-  s("voodoo:2*4, [~ mouth:3]*2").gain(perlin.range(0.2, 0.5)).room(0.9).delay(0.4).delayfb(0.5).lpf(2000),
-  n("<0 3 2 5> [7 8 10 12]".scale("phrygian").struct("x(5,8, <0 2>)")).s("supermandolin").room(0.6).gain(0.5).cutoff(sine.range(600, 3500).slow(6)).jux(rev),
-  n("0 [~ -2] [~ 0] [~ -5]".scale("phrygian").add(-12)).s("superpwm").cutoff(400).gain(0.4).lp(perlin.range(300, 900))
-).reset(16)
+// 🎵 "Medina Mirage" — Busy Street Market Algorithmic Groove
+samples('github:tidalcycles/dirt-samples');
+setcps(115/60/4).stack(
+  s("industrial:4").gain(0.4).room(0.8).pan(sine.slow(4)),
+  s("bd [~ bd] <bd [~ bd*2]>").gain(0.9).mask("<0*2 1*14 0*4 1*14>"),
+  s("tabla:[0 1 2 3]*4").euclid("<5 7>", 8).gain(0.8).mask("<0*2 1*14 1*4 1*14>"),
+  s("hc*16").gain(0.3).mask("<0*2 1*14 0*4 1*14>"),
+  note("<[0 1 4 5] [7 8 11 12]>").scale("phrygian").s("superchip").gain(0.5)
+    .lpf(sine.range(600, 2400).slow(4))
+    .room("<0.1*16 0.9*4 0.1*14>")
+    .mask("<0.1*2 1*14 0.4*4 1*14>"),
+  s("vocal:4*2").speed("<1 1.2 0.8 1.5>").vowel("a e o").gain(0.6).mask("<0*10 1*6 0*4 1*14>")
+).reset(34)

@@ -1,40 +1,9 @@
-// "Celestial Sigh" — a slow-drifting ambient soundscape with evolving filters and sparse crystalline glimmers
+// 🎵 "Eternal Calm" — Peaceful ambient piece with soft drones and glistening melodic fragments
 
-setcps(0.08);
-
+setcps(0.45);
 stack(
-  // Foundation: Deep sub drone with slow filter movement
-  note("<f1 c1 d1 bb0>")
-    .s("sine")
-    .lpf(sine.range(60, 120).slow(8))
-    .gain(0.45)
-    .room(0.8)
-    .slow(8),
-
-  // Heart: Shifting harmonic pads using triangle waves and heavy resonance
-  note("<[f3, a3, c4, e4] [d3, f3, a3, c4] [bb2, d3, f3, a3] [c3, e3, g3, b3]>")
-    .s("triangle")
-    .lpf(perlin.range(200, 1600).slow(6))
-    .gain(0.22)
-    .room(1)
-    .delay(0.6)
-    .rev()
-    .slow(4),
-
-  // Atmosphere: Generative melodic glimmers with stochastic masking
-  note("f5 a5 c6 e6 g6".scramble().struct("1(3,8)"))
-    .s("sine")
-    .gain(perlin.range(0.03, 0.1).slow(4))
-    .room(1)
-    .delay(0.9)
-    .lpf(sine.range(1500, 5000).slow(9))
-    .slow(2)
-    .mask("<1 [1 0] 1 [0 1]>"),
-
-  // Texture: Breath-like noise floor
-  s("noise")
-    .gain(perlin.range(0.01, 0.04).slow(12))
-    .lpf(sine.range(100, 500).slow(10))
-    .hpf(80)
-    .slow(16)
-).reset(16)
+  note("f1 c1*2").s("sine").gain(0.4).lpf(150).room(1).delay(0.6).delaytime(1.5).delayfeedback(0.7),
+  s("pink").gain(perlin.slow(12).range(0.02, 0.12)).lpf(sine.slow(24).range(300, 2800)).room(2).pan(sine.slow(16)),
+  note("<0 4 5 3>").scale("f3:major").add("[0,2,4]").s("triangle").lpf(perlin.slow(8).range(500, 1800)).attack(2.5).release(3.5).gain("<0 0.3!13 0.1!4 0.3!13>").room(1.5).jux(rev).clip(2),
+  note(irand(15)).scale("f5:major").s("sine").gain("<0!3 0.1!11 0!4 0.1!13>").attack(1.2).release(2.4).room(2).delay(0.85).delaytime(0.75).reset("<x?0.3>")
+)

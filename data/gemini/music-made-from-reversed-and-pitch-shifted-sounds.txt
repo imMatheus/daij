@@ -1,9 +1,15 @@
-// 🎵 "Reversed Horizon" — Ambient Glitch with Pitch-Shifted Textures
-setcps(0.45).stack(
-  s("bd [~ sd] bd [~ sd]").rev().speed(0.75).room(0.3).gain(0.9),
-  s("hh*16").rev().speed(sine.range(0.2, 5).slow(2)).gain(0.4),
-  s("piano:[0,3,7,12]").rev().speed("<0.5 1.25 0.75 2>").room(0.9).delay(0.6).lpf(perlin.range(200, 3000).slow(8)).gain(0.7),
-  s("bass:3(3,8)").rev().speed(0.4).lpf(600).room(0.4),
-  s("glitch:2*8").rev().speed(sine.range(0.5, 8).slow(4)).room(0.8).gain(0.5).pan(sine),
-  s("arpy:1(5,8)").rev().speed("<1 2 0.5 1.5>").delay(0.4).room(0.5).gain(0.4)
-).reset(16)
+// 🎵 "Retrograde Flux" — A glitchy exploration of reversed textures and pitch-shifted grains
+setcps(0.6);
+samples('github:tidalcycles/dirt-samples');
+stack(
+  s("<[~ industrial:1]!2 [bd:4 [~ sn:2] bd:4 [sn:2*2]]!18 [~ bd:4*2]!6 [bd:4 [~ sn:2] bd:4 [sn:2*2]]!18>")
+    .speed("<1!2 [1 -1.4 0.8 -1.2]!18 [0.5]!6 [1.2 -1.6 0.9 -1.8]!18>")
+    .rev().gain(0.8).reset(4),
+  note("<[~]!2 [c3 g3 f3 d3]!18 [f2!3 g2!3]!6 [c3 g3 f3 d3]!18>")
+    .s("superfm")
+    .speed("<1!2 [-1 2 1.5 -0.5]!18 [0.25]!6 [-2 1 0.7 3]!18>")
+    .rev().jux(rev).delay(0.5).delayfeedback(0.6),
+  s("<[~]!2 [glitch:5*4]!18 [glitch:1*2]!6 [glitch:5*8]!18>")
+    .speed("<-0.5 2.5 0.75 -2>")
+    .rev().room(0.9).lpf(perlin.range(400, 3500).slow(8)).pan(sine.range(0.2, 0.8).slow(2))
+).gain(0.7)

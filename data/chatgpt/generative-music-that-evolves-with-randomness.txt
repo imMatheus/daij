@@ -1,46 +1,62 @@
-// "Entropy Bloom" — generative polyrhythmic ambient breakbeat
+// "Mutable Bloom" — generative ambient pulse that keeps mutating in place
 samples('github:tidalcycles/dirt-samples')
-setcps(0.82)
+useRNG('precise')
+setcps(34/70)
 
-$: s("bd(5,8,<0 1 2>) [~ bd]*2")
-  .gain(1.05)
-  .lpf(sine.range(280,920).slow(7))
-  .stack(
-    s("<hh(13,16) hh(9,16)> [~ hh]*2")
-      .gain(perlin.range(0.18,0.55).slow(4))
-      .hpf(sine.range(4500,9800).slow(9))
-      .room(0.18),
-    s("<cp(3,8,2) [~ cp]>")
-      .gain(0.6)
-      .delay(0.125)
-      .delayfeedback(0.42)
-      .room(0.25),
-    s("<lt(5,8) mt(3,8) ht(7,16) [lt ht](5,8)>*2")
-      .gain(0.35)
-      .lpf(perlin.range(500,2200).slow(5))
-      .pan(sine.slow(6))
-      .sometimesBy(0.35, x => x.rev()),
-    s("arpy*4")
-      .note("<[0 3 7 10] [2 5 9 12] [3 7 10 14] [5 9 12 15]>")
-      .add(irand(3))
-      .scale("minor")
-      .slow("<2 2 4 1>")
-      .gain(0.42)
-      .lpf(perlin.range(350,2800).slow(11))
-      .delay(0.35)
-      .delayfeedback(0.6)
-      .room(0.82)
-      .pan(perlin.range(0.15,0.85).slow(8)),
-    s("<[~ feel] [can can ~ can]>*2")
-      .speed("<0.5 1 1.5 -1>")
-      .begin(rand.range(0,0.2))
-      .end(rand.range(0.8,1))
-      .gain(0.25)
-      .room(0.7)
-      .delay(0.5)
-      .lpf(sine.range(700,4200).slow(13))
-  )
-  .reset(16)
-  .room(0.2)
+const intro = 1
+const chorus = 14
+const bridge = 5
 
-setTimeout(() => hush(), 48000)
+const air = s("pink").struct("x ~ ~ ~").attack(.03).release(1.2).hpf(perlin.slow(9).range(2400,9800)).bpf(perlin.slow(13).range(900,4200)).bpq(8).room(.96).delay(".62:0.25:0.86").gain(.035).reset("<x ~ ~ x>")
+
+const introPad = note("[e4 g4 b4 d5]").s("supersaw").orbit(3).attack(.9).decay(.6).sustain(.94).release(2.8).lpf(sine.slow(2).range(420,1500)).lpq(.2).room(.95).delay(".44:0.5:0.58").chorus(.34).gain(.2)
+const chorusPad = note("<[e4 g4 b4 d5] [c4 e4 g4 b4] [g3 b3 d4 a4] [d4 fs4 a4 c5]>").slow(4).struct("[x ~ x x]").s("supersaw").orbit(3).attack(.02).decay(.3).sustain(.62).release(.26).lpf(perlin.slow(8).range(1200,5600)).lpq(.24).room(.42).delay(".28:0.25:0.42").chorus(.28).gain(.34).reset("<x ~ x ~>")
+const bridgePad = cat(
+  chorusPad.mask("1 0 1 0 0 1 0 0").lpf(1100).gain(.18),
+  chorusPad.rev().slow(2).struct("[x ~ ~ x]").bpf(perlin.slow(3).range(700,2600)).bpq(6).delay(".54:0.125:0.74").room(.82).gain(.12),
+  s("pink").struct("x ~ [x ~] ~").attack(.03).release(1).hpf(1800).bpf(perlin.slow(4).range(1000,4600)).bpq(10).tremolosync(8).tremolodepth(.92).room(.98).delay(".7:0.25:0.9").gain(.05)
+)
+
+const chorusBass = note("<e2 c2 g1 d2>").slow(4).struct("[x [~ x] x [~ x]]").s("sawtooth").orbit(2).attack(.01).decay(.16).sustain(.22).release(.08).lpf(perlin.slow(6).range(160,980)).lpq(.28).lpenv(3).lpa(.02).gain(.62).reset("<x ~ x ~>")
+const bridgeBass = cat(
+  chorusBass.mask("1 0 1 0 0 1 0 0").lpf(240).gain(.42),
+  chorusBass.rev().slow(2).struct("[x ~ ~ x]").distort("4:.38:fold").lpf(170).gain(.2),
+  note("e1 ~ ~ ~").s("sine").attack(.005).decay(.32).sustain(0).release(.3).penv(26).pdecay(.06).pcurve(1).lpf(120).gain(.16)
+)
+
+const chorusKick = s("bd [~ bd] ~ bd").fast(2).orbit(1).begin("<0 .01 .02 .01>").end("<1 .08>").distort("<0 .7 0 1>").gain(".94 .8 .86 .74").duckorbit("2:3:4:5").duckattack(".28:.18:.12:.08").duckdepth(".86:.32:.22:.12").reset("<x ~ x ~>")
+const bridgeKick = cat(
+  chorusKick.mask("1 0 1 0 0 1 0 0").gain(.76),
+  s("[bd ~] ~ [bd bd] ~").fast(2).orbit(1).lpf(520).distort("4:.5:diode").gain(.4).duckorbit("2:3:4:5").duckattack(".18:.12:.08:.06").duckdepth(".7:.2:.14:.08"),
+  s("~ ~ ~ bd").orbit(1).lpf(220).room(.36).gain(.2).duckorbit("2:3:4:5").duckattack(".34:.2:.12:.08").duckdepth(".44:.12:.08:.04")
+)
+
+const chorusPerc = s("hh*8, ~ cp ~ cp, ~ ~ oh ~ [~ hh] ~ ~ ~").fast(2).n("<0 1 2 1>").orbit(6).begin("<0 .01>").end("<1 .07>").speed("<1 1 .99 1.02>").hpf(perlin.slow(8).range(3200,12000)).room(.18).delay(".16:0.125:0.26").gain(".28 .68 .22").reset("<x ~ x ~>")
+const bridgePerc = cat(
+  chorusPerc.mask("1 1 0 1 0 0 1 0").gain(.18),
+  s("hh [cp hh] ~ [oh ~], ~ ~ [hh hh] ~").fast(2).rev().orbit(6).hpf(5400).delay(".42:0.125:0.76").room(.48).gain(.1),
+  s("~ ~ ~ ~, [hh hh hh hh]*2").fast(2).orbit(6).hpf(9400).tremolosync(12).tremolodepth(1).room(.76).gain(.05)
+)
+
+const chorusBloom = n(irand(8).seg(16).add("<0 2 4 1>")).scale("E5:dorian").s("triangle").orbit(4).attack(.005).decay(.12).sustain(.14).release(.1).vib(6).vibmod(".04 .1 .18 .08").lpf(perlin.slow(5).range(1800,7600)).delay(".24:0.125:0.34").room(.24).gain(".08 .12 .1 .14").sometimesBy(.22, x => x.transpose("12")).reset("<x ~ ~ x>")
+const bridgeBloom = cat(
+  chorusBloom.mask("1 1 0 1 0 1 0 0").gain(.07),
+  chorusBloom.rev().slow(2).struct("[x ~ ~ x]").bpf(perlin.slow(4).range(1000,3600)).bpq(7).delay(".58:0.125:0.82").gain(.07),
+  n(irand(10).seg(8)).scale("E6:dorian").s("sine").attack(.01).release(1.1).tremolosync(10).tremolodepth(.9).hpf(2200).delay(".72:0.25:0.88").room(.96).gain(.04)
+)
+
+const chorusDust = n(irand(12).seg(8)).scale("<E6:dorian C6:lydian G5:major D6:mixolydian>").s("sine").orbit(5).struct("x ~ [x x] ~").attack(.004).decay(.06).sustain(.08).release(.18).hpf(1400).lpf(perlin.slow(7).range(2600,9000)).delay(".34:0.25:0.62").room(.78).pan(rand).gain(.05).sometimesBy(.3, x => x.rev()).reset("<x ~ x ~>")
+const bridgeDust = cat(
+  chorusDust.mask("1 0 1 0 1 0 0 0").gain(.035),
+  chorusDust.rev().slow(2).delay(".48:0.125:0.84").room(.9).gain(.03),
+  s("pink").struct("~ x ~ x").attack(.01).release(.28).hpf(5200).tremolosync(14).tremolodepth(1).room(.94).gain(.018)
+)
+
+arrange([intro, air.gain(.025)], [chorus, air], [bridge, air.gain(.045).rev()], [chorus, air])
+  .stack(arrange([intro, introPad], [chorus, chorusPad], [bridge, bridgePad], [chorus, chorusPad]))
+  .stack(arrange([intro, silence], [chorus, chorusBass], [bridge, bridgeBass], [chorus, chorusBass]))
+  .stack(arrange([intro, silence], [chorus, chorusKick], [bridge, bridgeKick], [chorus, chorusKick]))
+  .stack(arrange([intro, silence], [chorus, chorusPerc], [bridge, bridgePerc], [chorus, chorusPerc]))
+  .stack(arrange([intro, silence], [chorus, chorusBloom], [bridge, bridgeBloom], [chorus, chorusBloom]))
+  .stack(arrange([intro, chorusDust.gain(.02)], [chorus, chorusDust], [bridge, bridgeDust], [chorus, chorusDust]))
+  .postgain(1.02)

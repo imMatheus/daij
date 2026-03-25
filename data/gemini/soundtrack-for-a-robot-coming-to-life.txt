@@ -1,11 +1,24 @@
-// 🎵 "Automata Awakening" — Glitchy IDM Evolution
-setcps(115/120);
-stack(
-  s("sine").note("<c1 g1 f1 c1>").lpf(perlin.range(100, 900).slow(16)).gain(0.8),
-  s("superchip").note("<c4 eb4 g4 bb4>*16").struct("1 [0 1] 1 0 [1 1] 0 1 [0 1]").arp("up").room(0.7).lpf(sine.range(600, 6000).slow(12)).gain(0.45),
-  s("bd:4").struct("1 0 1 [~ 1]").gain(1).lpf(1000),
-  s("hh*16").gain(perlin.range(0.1, 0.85).slow(4)).hpf(5000).pan(perlin.slow(2)),
-  s("bit:1 [~ bit:2] bit:3 [~ bit:4]").struct("t(7,16)").delay(0.3).room(0.4).gain(0.7).crush(perlin.range(4, 16).slow(8)),
-  s("superreese").note("<c2 f2 g2 eb2>").slow(8).room(0.9).lpf(perlin.range(300, 3000).slow(20)).gain(0.35),
-  s("peri").note("<c6 g6 bb6 c7>(3,8)").room(1).delay(0.5).gain(sine.range(0, 0.4).slow(16))
-).reset(16)
+// 🎵 "Silicon Awakening" — Robotic IDM with glitchy FM textures and mechanical pulses
+setcps(0.2);
+arrange(
+  [1, stack(
+    s("sine").freq(50).gain(sine.range(0.2, 0.6).slow(2)),
+    s("crackle").density(rand.range(0, 0.1)).room(2).gain(0.4),
+    note(rand.mul(24).add(60)).s("sine").decay(0.01).room(1).gain(0.3)
+  )],
+  [5, stack(
+    s("bd(3,8)").bank("tr909").gain(1.2).distort(0.2),
+    s("hh*16").gain(perlin.range(0.2, 0.8)).pan(sine).reset("<x(3,8) x(5,8)>"),
+    n("<[0,7] [3,10] [5,12] [7,14]>").scale("Eb:minor").s("saw").fm(12).fmh(2.01).lpf(perlin.range(300, 3000)).decay(0.3).room(0.8).jux(rev)
+  )],
+  [2, stack(
+    s("sine").freq(sine.range(50, 5000).fast(16)).distort(10).gain(0.3).room(2),
+    s("hh*32").crush(2).gain(rand),
+    s("bd*8").speed(perlin.range(0.5, 4))
+  )],
+  [6, stack(
+    s("bd(3,8)").bank("tr909").gain(1.2).distort(0.4),
+    s("hh*16").gain(perlin.range(0.3, 0.9)).pan(cosine).reset("<x(5,8) x(7,8)>"),
+    n("<[0,7] [3,10] [5,12] [7,14]>").scale("Eb:minor").s("saw").fm(16).fmh(1.5).lpf(perlin.range(500, 5000)).decay(0.4).room(1).jux(iter(4))
+  )]
+).postgain(1.2)

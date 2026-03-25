@@ -1,47 +1,92 @@
-// "Barrio Candela" — raw salsa pulse with clave-led street percussion
+// "Barrio de Candela" — raw salsa heat
 samples('github:tidalcycles/dirt-samples')
-setcps(1.1)
-s("bd [~ bd] bd*2 [~ bd]")
-  .gain(0.95)
-  .stack(
-    s("[~ claves] ~ claves ~ ~ claves ~ claves")
-      .gain(0.82)
-      .pan("<0.35 0.65>")
+setcps(0.4)
+
+const introClave = s("rim").struct("~ x ~ ~ x ~ ~ x").lpf(2800).room(.32).gain(.16)
+const chorusClave = s("rim").struct("x ~ ~ x ~ ~ x ~ ~ ~ x ~ x ~ ~ ~").slow(2).lpf(3200).room(.22).gain(.18).reset("<x ~ x ~>")
+const bridgeClave = s("rim").struct("x ~ ~ x ~ ~ x ~ ~ ~ x ~ x ~ ~ ~").slow(2).lpf(2400).delay(".08:.125:.18").room(.38).gain(.14).reset("<x ~ x ~>")
+
+const introPiano = chord("Cm7").voicing().anchor("g5").s("gm_epiano1").struct("~ ~ x ~ ~ x ~ ~").attack(.02).decay(.16).sustain(.12).release(.6).lpf(1800).room(.58).delay(".18:.25:.24").gain(.16)
+const chorusPiano = chord("<Cm7 Ab7 Fm7 G7>").voicing().anchor("g5").slow(2).s("gm_epiano1").struct("[~ x x ~] [x ~ x ~]").attack(.01).decay(.16).sustain(.12).release(.35).lpf(perlin.slow(6).range(1800,4200)).room(.34).delay(".12:.125:.18").gain(.34).swing(4).reset("<x ~ x ~>")
+const bridgePiano = chord("<Fm7 G7 Cm7 G7>").voicing().anchor("g5").slow(2).s("gm_epiano1").struct("~ x ~ x ~ ~ x ~").attack(.02).decay(.18).sustain(.16).release(.9).lpf(sine.slow(4).range(1200,2800)).room(.62).delay(".22:.25:.32").gain(.22).swing(4).reset("<x ~ x ~>")
+
+const chorusBass = stack(
+  note("<c2 ab1 f2 g1>").slow(2).struct("~ x ~ ~ ~ x ~ ~"),
+  note("<g2 eb2 c3 d3>").slow(2).struct("~ ~ ~ x ~ ~ ~ x")
+).s("gm_acoustic_bass").attack(.01).decay(.18).sustain(.22).release(.14).lpf(sine.slow(6).range(180,520)).room(.14).gain(.58).swing(4).reset("<x ~ x ~>")
+const bridgeBass = stack(
+  note("<f2 g1 c2 g1>").slow(2).struct("~ x ~ ~ ~ x ~ ~"),
+  note("<c3 d2 g2 d2>").slow(2).struct("~ ~ ~ x ~ ~ ~ x")
+).s("gm_acoustic_bass").attack(.01).decay(.16).sustain(.18).release(.16).lpf(260).room(.2).gain(.46).swing(4).reset("<x ~ x ~>")
+
+const chorusConga = stack(
+  s("lt").struct("~ ~ x ~ ~ ~ x ~").gain(".16 .13").pan(.28),
+  s("mt").struct("~ x ~ ~ x ~ ~ ~").gain(".14 .12").pan(.62),
+  s("ht").struct("x ~ ~ x ~ ~ ~ x").gain(".1 .09").pan(.78)
+).lpf(perlin.slow(8).range(700,2200)).room(.24).swing(4).reset("<x ~ x ~>")
+const bridgeConga = stack(
+  s("lt").struct("~ ~ x ~ ~ ~ x ~").gain(".13 .11").pan(.3),
+  s("mt").struct("~ x ~ ~ x ~ ~ ~").gain(".12 .1").pan(.62),
+  s("ht").struct("~ ~ ~ x ~ ~ x ~").gain(".08 .07").pan(.78)
+).lpf(sine.slow(5).range(600,1800)).room(.34).delay(".12:.25:.18").swing(4).reset("<x ~ x ~>")
+
+const chorusShaker = s("hh*16").end(.05).bpf(sine.slow(8).range(5200,9800)).bpq(6).room(.16).gain("0.03 0.016 0.022 0.014 0.028 0.015 0.024 0.015 0.03 0.016 0.022 0.014 0.028 0.015 0.024 0.015").swing(4).reset("<x ~ x ~>")
+const bridgeShaker = s("hh").euclidRot(5,8,1).end(.07).bpf(7200).bpq(6).delay(".08:.125:.14").room(.28).gain(.04).swing(4).reset("<x ~ x ~>")
+
+const chorusDrums = stack(
+  s("bd").struct("x ~ ~ ~ ~ ~ x ~").lpf(900).room(.08).gain(.24),
+  s("cb").euclidRot(5,8,1).lpf(2600).room(.18).delay(".08:.125:.14").gain(.11),
+  s("cp").struct("~ ~ ~ ~ x ~ ~ ~").lpf(1800).room(.3).gain(.04)
+).swing(4).reset("<x ~ x ~>")
+const bridgeDrums = stack(
+  s("cb").euclidRot(3,8,1).lpf(2200).room(.26).delay(".12:.25:.18").gain(.09),
+  s("bd").struct("x ~ ~ ~ ~ ~ ~ ~").lpf(780).room(.12).gain(.12)
+).swing(4).reset("<x ~ x ~>")
+
+const chorusHorns = note("<[g4 bb4 d5] [g4 c5 eb5] [f4 ab4 c5] [f4 b4 d5]>").slow(2).struct("~ ~ x ~ x ~ ~ x").s("gm_trumpet").attack(.02).decay(.18).sustain(.28).release(.24).lpf(perlin.slow(5).range(900,2600)).delay(".18:.25:.22").room(.3).gain(.22).reset("<x ~ x ~>")
+const bridgeLead = note("<g5 f5 eb5 d5 c5 d5 eb5 g5>").fast(2).s("gm_flute").attack(.03).decay(.16).sustain(.18).release(.7).vib(6).vibmod(.45).lpf(sine.slow(3).range(1400,3600)).delay(".32:.375:.42").room(.56).gain(.14).reset("<x ~ x ~>")
+
+stack(
+  arrange(
+    [1, introPiano],
+    [12, chorusPiano],
+    [4, bridgePiano],
+    [12, chorusPiano]
+  ),
+  arrange(
+    [1, silence],
+    [12, chorusBass],
+    [4, bridgeBass],
+    [12, chorusBass]
+  ),
+  arrange(
+    [1, introClave],
+    [12, chorusClave],
+    [4, bridgeClave],
+    [12, chorusClave]
+  ),
+  arrange(
+    [1, silence],
+    [12, chorusConga],
+    [4, bridgeConga],
+    [12, chorusConga]
+  ),
+  arrange(
+    [1, silence],
+    [12, chorusShaker],
+    [4, bridgeShaker],
+    [12, chorusShaker]
+  ),
+  arrange(
+    [1, silence],
+    [12, chorusDrums],
+    [4, bridgeDrums],
+    [12, chorusDrums]
+  ),
+  arrange(
+    [1, silence],
+    [12, chorusHorns],
+    [4, bridgeLead],
+    [12, chorusHorns]
   )
-  .stack(
-    s("conga*8")
-      .n("<0 2 1 [2 3] 1 2 [3 2] 1>")
-      .euclid("<5 7>",8)
-      .gain(0.86)
-      .pan(perlin.range(0.2,0.8).slow(6))
-  )
-  .stack(
-    s("<bongo cowbell>*8")
-      .n("<[0 1] 2 [1 3] 2>")
-      .gain(0.63)
-      .speed("<1 1 0.96 1.04>")
-      .pan("<0.75 0.25>")
-  )
-  .stack(
-    s("shaker*16")
-      .gain(0.33)
-      .hpf(2500)
-      .pan(perlin.range(0.1,0.9).slow(10))
-  )
-  .stack(
-    s("bass*4")
-      .n("<0 ~ [0 1] ~ [2 1] ~ 0 ~>")
-      .lpf(sine.range(220,920).slow(4))
-      .gain(0.76)
-  )
-  .stack(
-    s("piano*8")
-      .n("<0 [7 12] 10 [7 12] 0 [8 12] 10 [7 12]>")
-      .gain(0.48)
-      .room(0.24)
-      .lpf(sine.range(800,2600).slow(5))
-  )
-  .reset(48)
-  .room(sine.range(0.14,0.5).slow(8))
-  .delay(perlin.range(0.05,0.24).slow(7))
-  .lpf(perlin.range(650,4300).slow(11))
+).postgain(1.04)

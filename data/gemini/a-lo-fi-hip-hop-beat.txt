@@ -1,12 +1,36 @@
-// "Midnight Dust" — Lo-fi hip hop with warm chords and a dusty boom-bap rhythm
+// 🎵 "Midnight Coffee" — A dusty lo-fi hip hop beat with jazz chords and vinyl crackle
 
-setcps(82/240)
+setcps(82/120);
 
 stack(
-  s("vinyl:2").gain(0.14).lpf(1300).room(1).pan(perlin.slow(10)).loop(1),
-  s("bd:4 [~ sd:2] [bd:4 bd:4] sd:2").bank("RolandTR808").gain(0.85).room(0.3).swing(0.12),
-  s("hh*8").gain(sine.slow(4).range(0.3, 0.6)).pan(sine.slow(8)).sometimes(x => x.fast(2)).room(0.15),
-  chord("<Cm9 Eb13 Abmaj9 G7alt>").s("gm_epiano1").struct("x ~ x ~ x ~ ~ x").gain(0.45).lpf(sine.slow(16).range(800, 2400)).room(0.7).delay(0.3).delayfb(0.4).pan(perlin.slow(6).range(-0.3, 0.3)),
-  note("<c2 eb2 ab1 g1>").s("gm_acoustic_bass").gain(0.78).lpf(350).room(0.2).cutoff(sine.slow(8).range(200, 500)),
-  n("<[~ 7 5 3] [~ 2 ~ 0] [~ 3 5 7] [~ 10 ~ 8]>").scale("C:minor").s("gm_piano2").gain(0.3).room(1).delay(0.5).lpf(1300).sometimes(x => x.add(note(12)).gain(0.15))
-).reset(8)
+  // Vinyl Crackle & Rain Atmosphere
+  s("noise").gain(0.06).lpf(sine.range(600, 1000).slow(4)).room(0.3),
+
+  // Jazzy Rhodes Chords
+  note("<[g3,bb3,d4,f4] [c3,eb3,g3,bb3] [f3,a3,c4,e4] [d3,f3,a3,c4]>")
+    .s("superpiano")
+    .velocity(perlin.range(0.35, 0.55).slow(2))
+    .vibrato(5, 0.2)
+    .lpf(sine.range(600, 1400).slow(8))
+    .room(0.6)
+    .delay(0.4).delayfb(0.3)
+    .gain("<0.6 [0.8!20]>"),
+
+  // Sub Bass
+  note("<g1 c1 f1 d1>").s("supersine")
+    .gain(0.7).lpf(180).mask("<0 [1!20]>"),
+
+  // Dusty Boom-Bap Drums
+  s("[bd:4 [~ sd:2] bd:4 [~ sd:2], hh*8]")
+    .gain(0.85)
+    .crush(5.5)
+    .lpf(2800)
+    .mask("<0 [1!8] [0!4] [1!8]>") // Intro, Chorus 1, Bridge (Silent), Chorus 2
+    .room(0.2)
+    .jux(rev),
+
+  // Melodic Fragments (appears in final chorus)
+  note("g4 f4 d4 bb3").s("superpiano")
+    .velocity(0.35).room(0.8).delay(0.5).delayfb(0.4)
+    .mask("<0!13 [1!8]>")
+).slow(21) // Total song structure across 21 cycles (~61 seconds at 82bpm)

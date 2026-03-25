@@ -1,38 +1,33 @@
-// "Crown of Glory" — soaring brass anthem of triumph and victory
-// ~60s at 132 BPM
-setcps(132/60/4)
+// "Rise Victorious" — Triumphant cinematic anthem with soaring synths and pounding drums
+setcps(140/60/4)
 
-n("<[0 ~ 0 2] [4 ~ ~ 4] [5 4 2 ~] [4 ~ 2 0] [0 2 4 5] [7 ~ 7 5] [4 5 7 9] [7 5 ~ 0]>")
-  .scale("Bb4:major").s("gm_trumpet")
-  .attack(.03).decay(.25).sustain(.7).release(.3)
-  .lpf(sine.range(2500,5500).slow(12)).room(.45).delay(".12:.08:.18").gain(.46)
-  .sometimes(x => x.add(note(12)).gain(.28))
-  .every(8, x => x.rev())
-.stack(
-  chord("<Bb Eb F Bb Gm Eb F Bb>").dict('ireal').voicing()
-    .s("gm_string_ensemble_1").attack(.2).decay(.4).sustain(.85).release(.8)
-    .lpf(sine.range(1800,4200).slow(16)).room(.5).gain(.52)
-).stack(
-  note("<[bb1 ~ ~ bb1] [eb2 ~ ~ ~] [f1 ~ ~ f1] [bb1 ~ f1 bb1] [g1 ~ ~ g1] [eb2 ~ ~ ~] [f1 ~ f1 ~] [bb1 ~ ~ bb1]>")
-    .s("gm_acoustic_bass").decay(.2).sustain(.55).room(.2).gain(.82)
-).stack(
-  s("bd ~ sd ~, bd [~ bd] sd [~ sd], [hh hh oh hh]*2, ~ ~ ~ cp")
-    .bank("RolandTR909").cut(1).gain(".92 .84 .88 .8").room(.25)
-    .every(4, x => x.fast(2).gain(.55))
-    .rarely(x => x.ply(2))
-).stack(
-  n("<[~ ~ 4 ~] [5 ~ ~ ~] [3 ~ ~ 2] [~ ~ 0 ~] [~ ~ 4 ~] [7 ~ ~ 5] [3 ~ ~ ~] [~ ~ 2 ~]>")
-    .scale("Bb3:major").s("gm_french_horn")
-    .attack(.1).decay(.3).sustain(.7).release(.5)
-    .lpf(3000).room(.5).delay(".2:.15:.3").gain(.35)
-).stack(
-  chord("<Bb Eb F Bb Gm Eb F Bb>").dict('ireal').voicing()
-    .s("gm_choir_aahs").attack(.5).sustain(.8).release(1)
-    .lpf(sine.range(1500,3500).slow(10)).room(.6).gain(.3)
-).stack(
-  note("<bb0 eb1 f0 bb0 g0 eb1 f0 bb0>/4").s("sine")
-    .attack(1.5).sustain(.8).release(2).gain(.2).lpf(180).room(.4)
-).stack(
-  s("sd:3(5,16)").bank("RolandTR909").gain(.22).room(.45).delay(".15:.1:.2")
-    .every(8, x => x.fast(2).gain(.35))
+let pad = note("<[d3,f#3,a3,d4] [a2,c#3,e3,a3] [b2,d3,f#3,b3] [g2,b2,d3,g3]>")
+  .s("supersaw").detune(.2).room(.3).release(.3)
+let bass = note("<d2 a1 b1 g1>").s("sawtooth").lpf(400).gain(.6)
+let drums = s("bd [~ bd] [~ bd] ~, ~ sd ~ sd, hh*8")
+  .gain(".9 .75 .85 .75").room(.08)
+let lead = n("<[0 2 4 7] [7 4 2 0] [0 2 4 9] [9 7 4 2]>*2")
+  .scale("D4:major").s("sawtooth").gain(.25).delay(.2).room(.15)
+
+arrange(
+  [2, pad.lpf(saw.range(200,2500).slow(2)).gain(.35).delay(.3)
+    .stack(note("d1").s("sine").decay(1).sustain(0).gain(.6))],
+  [16, pad.lpf(perlin.range(1500,5000)).delay(.12).gain(.55)
+    .stack(bass, drums, lead.lpf(sine.range(2000,6000).slow(4)))],
+  [6, note("<[e3,g3,b3,e4] [g2,b2,d3,g3] [a2,c#3,e3,a3]!2>")
+    .s("supersaw").detune(.12).lpf(saw.range(600,3500).slow(3))
+    .room(.4).delay(.25).gain(.4)
+    .stack(
+      note("<e2 g1 a1 a1>").s("sawtooth").lpf(300).gain(.5),
+      s("bd ~ [~ bd] ~, ~ sd ~ ~, hh*4").gain(.65)
+    )],
+  [16, pad.lpf(perlin.range(2000,6500)).delay(.15).gain(.6)
+    .stack(
+      bass.gain(.65),
+      s("bd [~ bd] [~ bd] bd, ~ sd ~ sd, [hh oh]*2 hh*4")
+        .gain(".9 .75 .85 .8").room(.1),
+      lead.s("supersaw").detune(.08)
+        .lpf(sine.range(2500,7000).slow(4)).gain(.3).room(.2)
+        .juxBy(.4, rev)
+    )]
 )

@@ -1,44 +1,85 @@
-// "Velvet Promise" - romantic, tender pulse in warm air
+// "Velvet Letters" — tender romantic downtempo ballad
 samples('github:tidalcycles/dirt-samples')
-setcps(0.75)
-$: note("<[c4 e4 g4] [d4 fs4 a4] [e4 g4 b4] [b3 d4 fs4]>")
-  .s("sine")
-  .slow(2)
-  .legato(1.35)
-  .gain(0.55)
-  .lpf(sine.slow(6).range(500,2400))
-  .room(0.75)
-  .delay(0.28)
-  .stack(
-    note("<[g5 e5 d5 b4] [a5 fs5 e5 c5] [b5 g5 fs5 d5] [fs5 d5 c5 a4]>")
-      .s("triangle")
-      .slow(4)
-      .legato(1.2)
-      .gain(0.32)
-      .delay(0.35)
-      .room(0.82)
-      .lpf(perlin.slow(5).range(900,3200))
-      .reset(8),
-    note("<[c3 g3 e3] [d3 a3 fs3] [e3 b3 g3] [b2 fs3 d3]>")
-      .s("sine")
-      .slow(2)
-      .legato(1.1)
-      .gain(0.28)
-      .lpf(900)
-      .room(0.6)
-      .reset(16),
-    s("~ [hh(5,8) hh(3,8)] <~ cp(3,8)> [~ hh] ~")
-      .bank("RolandTR808")
-      .gain(0.2)
-      .lpf(sine.slow(10).range(2500,7000))
-      .room(0.25)
-      .delay(0.12)
-      .reset(4),
-    s("<~ bd(2,8) ~ bd(3,8)>")
-      .bank("RolandTR808")
-      .gain(0.18)
-      .lpf(480)
-      .room(0.18)
-      .reset(8)
+setcps(0.4)
+
+const introPad = chord("Fmaj7").voicing().anchor("c5").s("triangle").attack(.7).decay(1).sustain(.82).release(3).lpf(1500).room(.9).delay(".28:.5:.42").chorus(.22).gain(.16)
+const chorusPad = chord("<Fmaj7 Cmaj9 Dm7 Bbmaj7>").voicing().anchor("c5").slow(4).s("triangle").attack(.24).decay(.6).sustain(.72).release(2.2).lpf(sine.slow(7).range(900,2600)).room(.78).delay(".24:.375:.34").chorus(.26).gain(.2).reset("<x ~ ~ ~>")
+const wanderPad = chord("<Dm7 Am7 Bbmaj7 C6>").voicing().anchor("c5").slow(4).s("triangle").attack(.3).decay(.7).sustain(.68).release(2.4).lpf(sine.slow(6).range(700,2200)).room(.84).delay(".32:.5:.46").chorus(.3).gain(.17).reset("<x ~ ~ ~>")
+const bridgePad = chord("<Gm7 C7 Fmaj7>").voicing().anchor("c5").slow(3).s("sine").attack(.42).decay(.8).sustain(.7).release(2.6).lpf(sine.slow(4).range(800,2000)).room(.9).delay(".42:.5:.58").chorus(.18).gain(.15).reset("<x ~ x ~>")
+
+const introLead = note("c5").s("sine").attack(.03).release(2.1).lpf(2600).room(.88).delay(".48:.25:.54").gain(.07)
+const chorusLead = note("<a4 c5 e5 f5 e5 c5 d5 c5 g4 a4 c5 d5 f5 e5 c5 a4>").slow(4).s("triangle").attack(.02).decay(.18).sustain(.24).release(.9).vib(4).vibmod(.12).lpf(sine.slow(8).range(1800,5200)).room(.46).delay(".36:.25:.46").gain(.16).reset("<x ~ ~ ~>")
+const wanderLead = note("<f5 e5 d5 c5 a4 c5 d5 a4 g4 a4 bb4 c5 e5 d5 c5 a4>").slow(4).s("sine").attack(.03).decay(.16).sustain(.18).release(1.1).vib(5).vibmod(.1).lpf(sine.slow(6).range(1500,4200)).room(.58).delay(".42:.375:.54").gain(.11).reset("<x ~ ~ ~>")
+const bridgeLead = note("<d5 f5 a5 g5 e5 c5>").slow(3).s("triangle").attack(.04).decay(.18).sustain(.2).release(1.4).vib(6).vibmod(.16).lpf(sine.slow(4).range(1600,3800)).room(.72).delay(".5:.5:.62").gain(.12).reset("<x ~ x ~>")
+
+const chorusBass = note("<f2 c2 d2 bb1>").slow(4).s("sine").attack(.01).decay(.28).sustain(.2).release(.8).lpf(240).gain(.24).reset("<x ~ ~ ~>")
+const wanderBass = note("<d2 a1 bb1 c2>").slow(4).s("sine").attack(.01).decay(.3).sustain(.16).release(.9).lpf(210).gain(.2).reset("<x ~ ~ ~>")
+const bridgeBass = note("<g1 c2 f2>").slow(3).s("sine").attack(.02).decay(.34).sustain(.18).release(1.2).lpf(190).gain(.18).reset("<x ~ x ~>")
+
+const chorusGlow = note("<c5 ~ a4 ~ c5 ~ g4 ~>").slow(2).s("sine").attack(.02).release(.7).lpf(sine.slow(9).range(1200,3600)).room(.66).delay(".28:.25:.38").gain(.07).reset("<x ~ x ~>")
+const wanderGlow = note("<a4 ~ f4 ~ g4 ~ e4 ~>").slow(2).s("sine").attack(.02).release(.9).lpf(sine.slow(7).range(1000,3000)).room(.72).delay(".34:.375:.46").gain(.06).reset("<x ~ x ~>")
+const bridgeGlow = note("<bb4 ~ g4 ~ a4 ~>").slow(3).s("sine").attack(.03).release(1.3).lpf(2200).room(.82).delay(".46:.5:.58").gain(.05).reset("<x ~ x ~>")
+
+const chorusKick = s("bd ~ ~ ~ ~ ~ ~ ~").lpf(900).room(.12).gain(.18).reset("<x ~ ~ ~>")
+const wanderKick = s("bd ~ ~ ~ [~ bd] ~ ~ ~").lpf(820).room(.14).gain(.16).reset("<x ~ ~ ~>")
+const bridgeKick = s("bd ~ ~ ~").lpf(700).room(.18).gain(.1).reset("<x ~ x ~>")
+
+const introDust = s("hh*4").bpf(6200).bpq(4).room(.7).gain(.01)
+const chorusBrush = s("hh").euclidRot(5,8,1).slow(2).bpf(sine.slow(10).range(5000,7800)).bpq(5).room(.82).delay(".14:.125:.22").gain(.03).reset("<x ~ x ~>")
+const wanderBrush = s("hh").euclidRot(3,8,1).slow(2).bpf(sine.slow(8).range(4200,7000)).bpq(5).room(.88).delay(".18:.25:.28").gain(.024).reset("<x ~ x ~>")
+const bridgeBrush = s("hh").euclidRot(5,8,2).slow(3).bpf(5600).bpq(6).room(.9).delay(".24:.25:.34").gain(.02).reset("<x ~ x ~>")
+
+const chorusSnap = s("~ ~ cp ~ ~ ~ cp ~").slow(2).lpf(1700).room(.28).gain(.08).reset("<x ~ x ~>")
+const wanderSnap = s("~ ~ cp ~ ~ ~ [~ cp] ~").slow(2).lpf(1500).room(.34).gain(.06).reset("<x ~ x ~>")
+
+stack(
+  arrange(
+    [1, introPad],
+    [8, chorusPad],
+    [8, wanderPad],
+    [3, bridgePad],
+    [8, chorusPad]
+  ),
+  arrange(
+    [1, introLead],
+    [8, chorusLead],
+    [8, wanderLead],
+    [3, bridgeLead],
+    [8, chorusLead]
+  ),
+  arrange(
+    [1, silence],
+    [8, chorusBass],
+    [8, wanderBass],
+    [3, bridgeBass],
+    [8, chorusBass]
+  ),
+  arrange(
+    [1, silence],
+    [8, chorusGlow],
+    [8, wanderGlow],
+    [3, bridgeGlow],
+    [8, chorusGlow]
+  ),
+  arrange(
+    [1, silence],
+    [8, chorusKick],
+    [8, wanderKick],
+    [3, bridgeKick],
+    [8, chorusKick]
+  ),
+  arrange(
+    [1, introDust],
+    [8, chorusBrush],
+    [8, wanderBrush],
+    [3, bridgeBrush],
+    [8, chorusBrush]
+  ),
+  arrange(
+    [1, silence],
+    [8, chorusSnap],
+    [8, wanderSnap],
+    [3, silence],
+    [8, chorusSnap]
   )
-  .reset(32)
+).postgain(1.04)

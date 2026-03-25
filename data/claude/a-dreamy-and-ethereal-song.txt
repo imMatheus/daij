@@ -1,32 +1,30 @@
-// 🎵 "Moonlit Veil" — Dreamy Ethereal Ambient
-setcps(.22)
-
-note("<[gb3,bb3,db4,f4] [db3,f3,ab3,c4] [eb3,gb3,bb3,db4] [bb2,db3,f3,ab3]>")
-  .s("triangle").attack(1.5).decay(2).sustain(.55).release(3.5)
-  .lpf(sine.range(400,1400).slow(18)).room(.93).roomsize(10)
-  .gain(.22).delay(".45:.3:.65")
-  .stack(
-    chord("<Gbmaj9 Dbmaj7 Ebm9 Bbm7>").dict('ireal').voicing()
-      .s("gm_epiano2").struct("~ [x ~] ~ [~ x]")
-      .lpf(perlin.range(1100,2400)).room(.7).delay(".35:.22:.5")
-      .gain(.3),
-    n("<[~ 0 ~ 3] [4 ~ 2 ~] [~ 1 ~ 4] [3 ~ ~ 0]>")
-      .scale("Gb5:major:pentatonic").s("gm_epiano2")
-      .lpf(sine.range(800,3500).slow(13))
-      .room(.72).delay(".5:.35:.6").gain(.26)
-      .vib(3).vibmod(.45)
-      .rarely(x => x.add(note(12))),
-    n("<[~ ~ 2 ~] [~ 4 ~ ~] [3 ~ ~ 1] [~ ~ ~ 0]>").slow(2)
-      .scale("Gb4:major:pentatonic").s("gm_flute")
-      .room(.82).delay(".55:.4:.68").gain(.16)
-      .lpf(3000).vib(5).vibmod(.6)
-      .attack(.12).sustain(.5).release(.7),
-    note("<gb0 db1 eb1 bb0>/4").s("sine")
-      .attack(2.8).decay(1.2).sustain(.75).release(3.5)
-      .gain(.14).room(.5).roomsize(5).lpf(140),
-    s("hh(3,8)").bank("RolandTR808")
-      .gain(perlin.range(.05,.16)).room(.88).lpf(1500)
-      .pan(sine.slow(6)).delay(".3:.2:.4"),
-    s("bd ~ ~ ~").bank("RolandTR808")
-      .gain(.2).room(.8).lpf(450)
-  )
+// "Dissolving Light" — Dreamy ethereal ambient
+setcps(0.45)
+stack(
+  note("<[c3,e3,g3,b3]@4 [a2,c3,e3,g3]@4 [f2,a2,c3,e3]@4 [g2,b2,d3,f#3]@4>")
+    .s("triangle").att(2).dec(1).sus(.7).rel(3)
+    .lpf(sine.range(500,1800).slow(16)).lpq(1.5)
+    .gain(sine.range(.15,.3).slow(16))
+    .vib(3).vibmod(.15)
+    .room(.85).size(4).delay(.3).dt(1/3).dfb(.4)
+    .pan(sine.range(.35,.65).slow(7)),
+  n("0 [4 ~] 2 [~ 6] 4 7 [2 ~] 4")
+    .scale("C4:major").s("sine")
+    .att(.05).rel(1.5)
+    .gain("<0@1 .2@5 .08@3 .2@5 0@2>")
+    .delay(.5).dt(1/6).dfb(.55)
+    .room(.65).size(3)
+    .lpf(perlin.range(1200,4500))
+    .pan(sine.range(.2,.8).slow(5)),
+  n("<[4,7] ~ [6,9] ~ [2,7] ~ [4,9] ~>")
+    .scale("C5:major").s("triangle")
+    .att(.4).rel(2.5)
+    .gain("<0@2 .11@4 0@3 .11@5 0@2>")
+    .room(.9).size(5).delay(.6).dt(3/8).dfb(.5)
+    .lpf(sine.range(2000,5000).slow(12))
+    .pan(cosine.range(.15,.85).slow(4)),
+  note("<c2@4 a1@4 f1@4 g1@4>")
+    .s("sine").att(.8).rel(2.5)
+    .gain("<0@1 .18@5 .08@3 .18@5 0@2>")
+    .lpf(180)
+).slow(2)

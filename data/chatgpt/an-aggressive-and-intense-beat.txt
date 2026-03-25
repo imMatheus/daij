@@ -1,4 +1,131 @@
-// "Riot Pulse" - serrated drums and grinding low-end
+// "Riot Pressure" — aggressive industrial club assault
 samples('github:tidalcycles/dirt-samples')
-setcps(1.7)
-$: s("<[bd*4 [bd bd*2] bd(7,8)] [bd*3 ~ bd*2 [bd bd]]>").gain(1.15).shape(0.72).stack(s("<[~ sd sd*2] [sd*2 ~ sd] [~ sd*3 ~]>").gain(1.0).shape(0.5),s("hh(13,16)*2").gain(0.42).hpf(7800).room(0.18),s("<cp*4 [cp cp*2] [~ cp]>").gain(0.58).lpf(2500),s("<[~ ~ ~ crash] [~ crash ~ ~]>/4").gain(0.72).room(0.84),s("gab(5,8) [gab:2 gab] [~ gab]").n("<0 2 3 5 7 3 2 0>").lpf(perlin.range(170,980).slow(2)).shape(0.78).gain(0.93),note("<[c2 c2 c2 eb2] [c2 g1 c2 bb1] [c2 c2 eb2 g1] [bb1 g1 c2 c2]>").sound("sawtooth").legato(0.9).gain(0.5).lpf(perlin.range(240,1500).slow(3))).delay(sine.range(0,0.33).slow(6)).room(perlin.range(0.16,0.76).slow(4)).lpf(perlin.range(480,4300).slow(8)).reset(64)
+setcps(160/240)
+
+const form = (intro, chorus, bridge) => arrange([2, intro], [18, chorus], [6, bridge], [18, chorus])
+
+form(
+  s("bd ~ ~ [bd bd]")
+    .gain("1 0 .65 .85")
+    .lpf(900)
+    .room(.18),
+  s("[bd bd] [~ bd] [bd bd*2] [~ bd]")
+    .gain("1 .92 .8 1 .88 .8 1 .76")
+    .lpf(1800)
+    .room(.03),
+  s("bd ~ ~ [bd bd] ~ ~ sd ~")
+    .gain("1 0 0 .85 0 0 .9 0")
+    .lpf(700)
+    .room(.18)
+).stack(
+  form(
+    s("~ ~ ~ ~"),
+    s("~ sd ~ [sd cp] ~ sd ~ [sd cp]")
+      .gain(".95 .85 1 .9")
+      .room(.14)
+      .delay(".08:0.125:0.25"),
+    s("~ ~ sd ~ ~ ~ [sd cp] ~")
+      .gain(".85 1")
+      .room(.22)
+  ),
+  form(
+    s("hh*8")
+      .gain(".05 .08 .1 .14 .18 .22 .3 .38")
+      .hpf(sine.range(4500,10000).slow(4))
+      .room(.2),
+    s("hh")
+      .euclid(13,16)
+      .gain(".38 .12 .26 .14 .34 .12 .24 .14 .4 .12 .28 .14 .36 .12 .22 .1")
+      .hpf(sine.range(6000,14000).slow(6))
+      .reset("<x ~ ~ x>")
+      .room(.06),
+    s("hh")
+      .euclid(7,16)
+      .gain(".16 .06 .12 .05 .18 .06 .1 .05")
+      .hpf(9000)
+      .room(.18)
+  ),
+  form(
+    note("c1 ~ c1 ~ eb1 ~ c1 [g0 bb0]")
+      .s("supersaw")
+      .attack(.001)
+      .decay(.18)
+      .sustain(0)
+      .release(.04)
+      .lpf(sine.range(500,2200).slow(6))
+      .drive(.85)
+      .gain(.72),
+    note("[c1 c2] ~ c1 ~ [eb1 eb2] ~ c1 [g0 bb0]")
+      .s("supersaw")
+      .attack(.001)
+      .decay(.16)
+      .sustain(0)
+      .release(.05)
+      .lpf(sine.range(700,2600).slow(8))
+      .drive(1.1)
+      .tremolosync(8)
+      .tremolodepth(.18)
+      .gain(.86),
+    note("c1 ~ ~ c1 eb1 ~ ~ bb0")
+      .s("sawtooth")
+      .attack(.003)
+      .decay(.35)
+      .sustain(0)
+      .release(.08)
+      .lpf(sine.range(250,1100).slow(4))
+      .drive(.55)
+      .gain(.58)
+  ),
+  form(
+    note("c4 ~ eb4 ~ g4 ~ eb4 ~")
+      .s("pulse")
+      .attack(.001)
+      .decay(.12)
+      .sustain(0)
+      .release(.08)
+      .struct("x ~ x ~")
+      .lpf(sine.range(900,3200).slow(5))
+      .delay(".25:0.125:0.55")
+      .room(.18)
+      .gain(.24),
+    note("c4 ~ eb4 [g4 bb4] c5 ~ eb4 g4")
+      .s("pulse")
+      .attack(.001)
+      .decay(.09)
+      .sustain(0)
+      .release(.06)
+      .struct("x ~ x [~ x] x ~ x x")
+      .lpf(sine.range(1400,4800).slow(7))
+      .delay(".32:0.125:0.62")
+      .room(.14)
+      .gain(.32),
+    note("<c4 eb4 g4 bb4>")
+      .slow(2)
+      .s("sawtooth")
+      .attack(.02)
+      .decay(.45)
+      .sustain(.12)
+      .release(.18)
+      .lpf(sine.range(300,1600).slow(3))
+      .delay(".45:0.25:0.7")
+      .room(.4)
+      .gain(.26)
+  ),
+  form(
+    s("cp")
+      .euclidRot(3,8,1)
+      .gain(".18 .12 .16")
+      .bpf(sine.range(900,2600).slow(5))
+      .room(.08),
+    s("<lt mt ht cp>")
+      .euclidRot(5,8,1)
+      .gain(".18 .12 .22 .14 .2")
+      .bpf(sine.range(700,2400).slow(9))
+      .room(.08),
+    s("cp")
+      .euclid(3,8)
+      .gain(".08 .05 .1")
+      .bpf(1200)
+      .room(.2)
+  )
+).postgain(1.1)

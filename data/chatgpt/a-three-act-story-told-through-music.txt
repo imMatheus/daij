@@ -1,23 +1,127 @@
-// 🎵 "Triptych of Sparks" — raw cinematic breakbeat tale
+// "Three Lanterns in the Flood" — cinematic trip-hop tale in three acts
 samples('github:tidalcycles/dirt-samples')
-setcps(0.9)
-$: s("<bd(3,8)!2 [bd*2 ~ bd] [bd*4 bd(5,8)]>").slow(16).gain(1.1).lpf(perlin.range(500,2200).slow(6)).room(0.15)
-.stack(
-  s("<~ hh*8 ~> <hh*16> <hh*24>").slow(16).gain(0.45).lpf(perlin.range(3000,9000).slow(4)).delay(0.125)
+setcps(24/70)
+
+const intro = 1
+const chorus = 10
+const bridge = 3
+const form = (a, b, c) => arrange([intro, a], [chorus, b], [bridge, c], [chorus, b])
+
+const dust = s("[~ hh] ~ ~ [hh oh], ~ ~ ~ ~")
+  .slow(2)
+  .begin("<0 .02>").end("<.05 .1>")
+  .speed("<1 .99 1.01 -.5>")
+  .hpf(sine.slow(9).range(5000, 12000))
+  .room(.92).delay(".41:0.25:0.55")
+  .gain(.06)
+
+const introPad = note("<[d4 a4 c5 e5] ~>")
+  .slow(2)
+  .s("triangle")
+  .attack(.12).release(2.8).sustain(.36)
+  .bpf(sine.slow(6).range(900, 2400)).bpq(2.4)
+  .room(.98).delay(".72:0.5:0.88")
+  .gain(.18)
+
+const chorusPad = note("<[d4 a4 c5 e5] [bb3 d4 f4 a4] [g3 d4 f4 a4] [a3 e4 g4 c5]>")
+  .slow(4)
+  .s("supersaw")
+  .orbit(3)
+  .attack(.03).decay(.24).sustain(.58).release(.4)
+  .lpf(perlin.slow(7).range(900, 4200)).lpq(.22)
+  .room(.44).delay(".32:0.25:0.44").chorus(.24)
+  .gain(.26)
+  .reset("<x ~ x ~>")
+
+const bridgePad = cat(
+  chorusPad.mask("1 0 1 0 1 0 0 0").lpf(1200).gain(.16),
+  chorusPad.rev().struct("[x ~ ~ x]").bpf(sine.slow(3).range(700, 2200)).bpq(6).distort("3:.4:fold").delay(".54:0.125:0.72").gain(.1),
+  note("<[f4 c5 d5] ~>").slow(2).s("sine").attack(.08).release(2.4).room(.97).delay(".83:0.5:0.92").gain(.08)
+).orbit(3)
+
+const chorusBass = note("<d2 bb1 g1 a1>")
+  .slow(4)
+  .struct("[x [~ x] x [~ x]]")
+  .s("sawtooth")
+  .orbit(2)
+  .attack(.01).decay(.18).sustain(.24).release(.1)
+  .lpf(perlin.slow(5).range(150, 900)).lpq(.22).lpenv(3).lpa(.02)
+  .gain(.54)
+  .reset("<x ~ x ~>")
+
+const bridgeBass = cat(
+  chorusBass.mask("1 0 1 0 0 1 0 0").lpf(220).gain(.32),
+  note("<d1 ~ ~ ~ a1 ~ ~ ~>").slow(2).s("sine").attack(.01).release(.4).penv(18).pdecay(.09).lpf(120).gain(.14),
+  chorusBass.rev().slow(2).distort("4:.3:diode").lpf(180).gain(.18)
+).orbit(2)
+
+const chorusKick = s("bd ~ [~ bd] ~, bd ~ ~ [bd bd]")
+  .fast(2)
+  .orbit(1)
+  .lpf(700)
+  .distort("<0 .7 0 .9>")
+  .gain(".94 .82 .78 .86")
+  .duckorbit("2:3:4")
+  .duckattack(".26:.18:.1")
+  .duckdepth(".94:.28:.16")
+  .reset("<x ~ x ~>")
+
+const bridgeKick = cat(
+  chorusKick.mask("1 0 1 0 1 0 0 0").gain(.74),
+  s("[bd ~] ~ [bd bd] ~").fast(2).orbit(1).lpf(520).distort("4:.45:fold").gain(.34).duckorbit("2:3:4").duckattack(".18:.14:.08").duckdepth(".72:.2:.1"),
+  s("~ ~ ~ bd").orbit(1).lpf(260).room(.28).gain(.18).duckorbit("2:3:4").duckattack(".3:.2:.1").duckdepth(".4:.08:.04")
 )
-.stack(
-  s("<~ sd:2 ~ [~ sd] ~> <~ [sd:2 ~] ~ sd> <sd*2 [~ sd] sd*2 [sd ~]>").slow(16).gain(0.85).room(0.35).delay(0.25)
+
+const chorusPerc = s("~ cp ~ ~, hh*8, ~ ~ oh ~ [~ hh] ~ ~ ~")
+  .fast(2)
+  .orbit(5)
+  .begin("<0 .01>").end("<1 .08>")
+  .speed("<1 1 .99 1.01>")
+  .hpf(perlin.slow(8).range(3200, 12000))
+  .room(.18).delay(".15:0.125:0.3")
+  .gain(".42 .18 .22")
+  .reset("<x ~ x ~>")
+
+const bridgePerc = cat(
+  chorusPerc.mask("1 1 0 1 0 0 1 0").gain(.14),
+  s("hh [cp hh] ~ [oh ~], ~ ~ [hh hh] ~").fast(2).rev().orbit(5).hpf(5600).delay(".38:0.125:0.72").room(.42).gain(.1),
+  s("~ ~ ~ ~, [hh hh hh hh]*2").fast(2).orbit(5).hpf(9000).tremolosync(12).tremolodepth(1).room(.7).gain(.04)
 )
-.stack(
-  n("<[0 2 3 5] [0 3 7 10] [0 2 5 9]>").slow(16).s("arpy").legato(1.2).gain(0.6).lpf(sine.slow(5).range(500,2600)).room(0.5).delay(0.375)
-)
-.stack(
-  n("<[~ 0 ~ -2] [0 ~ 3 ~] [0 5 7 10]>").slow(16).s("bass").gain(0.9).lpf(perlin.range(120,900).slow(3)).room(0.12)
-)
-.stack(
-  s("<~ ~ [cp cp] ~> <cp*2 [~ cp] ~ ~> <cp*4>").slow(16).gain(0.35).hpf(1200).delay(0.5)
-)
-.stack(
-  s("<~ ~ [rave:2 ~] ~> <~ [rave:3 rave:4] ~ ~> <rave*2 [~ rave:6]>").slow(16).gain(0.28).lpf(sine.slow(7).range(1000,5000)).room(0.7).delay(0.75)
-)
-.reset(48)
+
+const chorusLead = n("<0 2 4 7 9 7 4 2 [0 2] 4 7 9 11 9 7 4>")
+  .scale("D4:minor")
+  .fast(2)
+  .s("triangle")
+  .orbit(4)
+  .attack(.005).decay(.12).sustain(.14).release(.08)
+  .vib(6).vibmod(".04 .1 .16 .08")
+  .lpf(perlin.slow(6).range(1400, 5800))
+  .delay(".28:0.25:0.36").room(.24)
+  .gain(.14)
+  .reset("<x ~ ~ x>")
+
+const bridgeLead = cat(
+  chorusLead.mask("1 1 0 1 0 1 0 0").gain(.08),
+  chorusLead.rev().slow(2).struct("[x ~ ~ x]").bpf(sine.slow(2).range(900, 3600)).bpq(7).delay(".58:0.125:0.8").gain(.07),
+  note("<d5 ~ a4 ~ f5 ~ e5 ~>").slow(2).s("sine").attack(.02).release(1.8).tremolosync(10).tremolodepth(.8).hpf(1800).delay(".72:0.25:0.9").room(.94).gain(.05)
+).orbit(4)
+
+const chorusHalo = note("<[a4 d5] ~ [c5 e5] ~ [f4 a4] ~ [e4 g4] ~ [a4 d5] ~ [g4 bb4] ~ [f4 a4] ~ [e4 g4] ~>")
+  .slow(4)
+  .s("sine")
+  .orbit(6)
+  .attack(.06).release(2.4).sustain(.04)
+  .tremolosync(6).tremolodepth(.22)
+  .bpf(sine.slow(7).range(2200, 5200)).bpq(4)
+  .room(.99).delay(".86:0.5:0.94")
+  .gain(.04)
+  .reset("<x ~ ~ ~>")
+
+form(dust, dust.gain(.08), dust.gain(.1).rev())
+  .stack(form(introPad, chorusPad, bridgePad))
+  .stack(form(silence, chorusBass, bridgeBass))
+  .stack(form(silence, chorusKick, bridgeKick))
+  .stack(form(silence, chorusPerc, bridgePerc))
+  .stack(form(silence, chorusLead, bridgeLead))
+  .stack(form(silence, chorusHalo, chorusHalo.gain(.03).rev()))
+  .postgain(.98)

@@ -1,11 +1,25 @@
-// 🎵 "Quintuple Pulse" — Experimental polyrhythmic 5:4 groove
-setcps(1.25);
+// 🎵 "Quintessential Pulse" — Polyrhythmic IDM with 5:4 layering
+
+samples('github:tidalcycles/dirt-samples');
+setcps(0.45);
 stack(
-  s("bd*4").bank("RolandTR909").gain(1.2),
-  s("hc*5").bank("RolandTR808").gain(sine.range(0.3, 0.8).slow(4)).pan(perlin.slow(2)),
-  s("~ [sd,cp] ~ <sd [~ sd]>").bank("RolandTR909").room(0.4).gain(0.8),
-  note("c1(3,4,1)").s("sawtooth").lpf(sine.range(200, 1800).slow(8)).resonance(15).gain(0.6),
-  note("c3 g3 d3 f3 bb3").s("triangle").decay(0.15).room(0.6).delay(0.3).gain(0.5).pan(sine.slow(5)),
-  note("g4 d4 f4 bb4 c5").s("sine").struct("0 1 0 1 0").gain(0.25).room(1).rev(),
-  note("c5 eb5 g5 bb5 d6").s("superfm").struct("1 1 1 1 1").gain(0.2).velocity(0.4).lpf(sine.range(1000, 4000).slow(12))
+  s("bd*4, [~ sd]*2")
+    .gain("<0.6!1 0.9!13 0.3!5 0.9!13>")
+    .room(0.2).delay(0.1),
+  s("hh*5, [~ hc]*5")
+    .gain("<0.3!1 0.7!13 0.1!5 0.7!13>")
+    .pan(perlin.range(0.1, 0.9).slow(4))
+    .velocity(sine.range(0.5, 0.9).slow(2)),
+  note("c2*4").s("saw")
+    .gain("<0!1 0.6!13 0.3!5 0.6!13>")
+    .lpf(sine.range(200, 1000).slow(8))
+    .resonance(0.2),
+  note("c4 d4 eb4 g4 bb4")
+    .s("superfm")
+    .gain("<0.2!1 0.5!13 0.8!5 0.5!13>")
+    .jux(rev)
+    .delay(0.4).delayfeedback(0.6)
+    .room(0.5)
+    .reset(4)
+    .lpf(sine.range(1000, 5000).slow(12))
 )

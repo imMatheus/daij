@@ -1,31 +1,10 @@
-// "Dub Pressure" — Deep sub-bass and modulated feedback loops
-setcps(145/240);
+// 🎵 "Echoes of Kingston" — Deep reggae dub with heavy feedback delay and rolling bass
+setcps(140/60/4);
 samples('github:tidalcycles/dirt-samples');
 stack(
-  s("bd:4").struct("t f t f").gain(1.3),
-  s("~ <rim:1 rim:3 snare:2>").delay(0.7).delayfb(0.6).delaytime(0.25).room(0.6),
-  s("hh*16").gain(sine.range(0.3, 0.7).slow(8)).pan(perlin.slow(4)),
-  s("superpiano")
-    .note("<[c3,eb3,g3,c4] [f3,ab3,c4,f4] [g3,b3,d4,g4] [eb3,g3,bb3,eb4]>")
-    .struct("f t f t")
-    .delay(0.8).delayfb(0.75).delaytime(0.375)
-    .lpf(perlin.range(300, 3000).slow(16))
-    .room(0.8),
-  s("bass2")
-    .note("<c2 f1 g1 eb1>")
-    .struct("t [~ t] t [t ~]")
-    .lpf(perlin.range(150, 500).slow(12))
-    .gain(1.6),
-  s("can")
-    .n(irand(12))
-    .struct("~ ~ ~ <t f>/4")
-    .delay(0.95).delayfb(0.9).delaytime(0.5)
-    .room(1.2)
-    .rev()
-    .gain(0.7),
-  s("glitch")
-    .n(irand(8))
-    .struct("~ t/8 ~ ~")
-    .delay(0.8).delayfb(0.8).delaytime(0.125)
-    .pan(1)
-).reset(16)
+  s("bd:3 [~ <sn:2!3 rim:1>]").gain("<0!2 1.2!16 0.8!6 1.2!16>").delay(.4).ds(1/8).dfb(.6).room(.3).sz(2),
+  s("hh*8").velocity("<0!2 [1 .4 .7 .4]*2>").gain("<0!2 0.8!16 0.5!6 0.8!16>").swing(4).pan(perlin.range(0.3, 0.7)),
+  n("<0!2 [0 ~ 3 ~] [5 ~ 0 ~] [7 ~ 10 ~] [0 ~ 7 ~]>").scale("G1:minor").s("supersaw").lpf(300).lpq(12).gain(1.6).adsr(".05:.3:.4:.2").jux(x => x.lpf(150)).distort(0.2),
+  n("~ [0,3,7,10]").scale("G3:minor").s("piano").adsr("0:.08:0:0").gain("<0!2 0.7!16 0.2!6 0.7!16>").delay(.7).ds(3/16).dfb(.82).room(.5).sz(3).lpf(sine.range(800, 4000).slow(12)),
+  n("<~!20 [12 10 9 7]*2 ~!18>").scale("G3:minor").s("sine").gain(0.5).vib(12).vmod(3).delay(.9).ds(1/6).dfb(.9).room(.9).sz(6).lpf(perlin.range(500, 5000).slow(4))
+)

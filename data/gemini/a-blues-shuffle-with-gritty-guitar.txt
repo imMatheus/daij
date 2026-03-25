@@ -1,49 +1,19 @@
-// "Gritty Delta Shuffle" — A distorted blues stomp with a swing feel and overdriven guitar textures
-
-setcps(0.8);
-
-samples('github:tidalcycles/dirt-samples');
-
+// 🎵 "Rusty Fender Shuffle" — Gritty blues shuffle with overdriven guitar and walking bass
+setcps(0.4);
 stack(
-  // The Shuffle Beat
-  s("bd [~ bd] bd ~")
-    .gain(1.2)
-    .room(0.2),
-  
-  s("~ [cp,hc] ~ [cp,hc]")
-    .gain(0.8)
-    .delay(0.2)
-    .delayfb(0.3),
-  
-  s("hh*8")
-    .gain(sine.range(0.4, 0.7).slow(4))
-    .n("<[0 2] [3 1]>")
-    .velocity(0.5 + Math.random() * 0.2),
-
-  // Gritty Guitar Chords (Shuffle Rhythm)
-  note("e2*2 g2 a2 a#2".off(1/8, n => n.add(12)))
-    .s("gtr")
-    .gain(0.9)
-    .crush(4)
-    .lpf(perlin.range(800, 3000).slow(8))
-    .room(0.5),
-
-  // Lead Licks
-  note("<e3 [g3 a3] b3 [d4 e4]>")
-    .s("gtr")
-    .struct("1(3,8, <0 2>)")
-    .gain(0.8)
-    .distort(0.4)
-    .pan(sine.slow(10))
-    .delay(0.4)
-    .delayfeedback(0.6)
-    .room(0.8),
-
-  // Walking Bass
-  note("e1 g1 a1 a#1 b1 d2 e2 g2".slow(2))
-    .s("bass")
-    .gain(1.1)
-    .lpf(400)
-)
-.reset(8)
-.swing(0.15)
+  s("[bd!2, [~ sd]!2, [hh!4, ~ oh]]")
+    .swing(4).gain(1.2).room(0.3).lpf(8000),
+  note("0 3 4 5".scale("E2:blues"))
+    .transpose("<0!4 5!2 0!2 7 5 0 7>")
+    .s("sine").lpf(300).gain(1.1).adsr("0.02:0.2:0.4:0.1"),
+  note("[0, 3, 7, 10]".scale("E3:blues"))
+    .transpose("<0!4 5!2 0!2 7 5 0 7>")
+    .s("sawtooth").distort("7:0.5:diode")
+    .lpf(perlin.range(1000, 3000)).lpq(2).gain(0.6)
+    .adsr("0.04:0.1:0.6:0.2").jux(rev)
+    .mask("<0!1 1!12 0.2!4 1!12>"),
+  note("0 3 5 6 7 10 12".shuffle(16).scale("E4:blues"))
+    .s("pulse").pw(sine.range(0.2, 0.8).slow(4))
+    .distort("9:0.4:fold").lpf(2500).vib(6).gain(0.6)
+    .mask("<0!13 1!4 0!12>").delay(0.4).dt(1/6).dfb(0.6)
+).reset("<x!1 x!12 x!4 x!12>")

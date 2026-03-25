@@ -1,35 +1,25 @@
-// "2AM Instant Noodles" — dusty lo-fi hip hop, late night introspection
-setcpm(73/4)
-
+// "Midnight Study Session" — Lo-fi hip hop beat with dusty drums and warm jazz piano
+setcps(80/60/4)
+samples('github:tidalcycles/dirt-samples')
+let ch = "<0 0 1 1 1 1 1 1 1 1 0 0 0 1 1 1 1 1 1 1 1 0 0>"
 stack(
-  s("vinyl:2").gain(.13).room(1).loop(1).lpf(2300),
-  s("bd ~ ~ bd, ~ [cp,sd:1] ~ cp, hh(5,8)")
-    .bank("RolandTR808").swing(4)
-    .gain(perlin.range(.55,.85)).room(.35).cut(1)
-    .every(4, x=>x.fast(2).gain(.4)),
-  note("<[d2 ~ ~ d2] [a1 ~ ~ ~] [bb1 ~ ~ bb1] [c2 ~ ~ ~]>")
-    .s("gm_acoustic_bass").decay(.3).sustain(.5)
-    .room(.2).gain(.74).lpf(850),
-  chord("<Dm9 Am7 Bbmaj7 C9>")
-    .dict('ireal').voicing()
-    .s("gm_epiano2").struct("~ [x ~] ~ [x ~]")
-    .lpf(sine.range(900,2100).slow(14))
-    .room(.55).delay(".28:.18:.38").gain(.46).speed(.98),
-  n("<[~ 0 ~ 2] [4 ~ 3 ~] [~ 1 ~ 4] [3 ~ ~ 0]>")
-    .scale("D5:minor:pentatonic")
-    .s("gm_epiano2")
-    .lpf(perlin.range(800,2500))
-    .room(.6).delay(".4:.28:.5").gain(.3)
-    .pan(sine.slow(7))
-    .rarely(x=>x.add(note(12)))
-    .reset("<x@3 x@5>"),
-  n("<[~ ~ 3 ~] [~ 4 ~ ~] [3 ~ ~ 1] [~ ~ 0 ~]>")
-    .scale("D4:minor:pentatonic")
-    .s("gm_vibraphone").room(.7)
-    .delay(".5:.35:.6").gain(.22).lpf(3200)
-    .pan(sine.slow(9).range(.3,.7))
-    .attack(.02).decay(.3).sustain(.4).release(.5),
-  note("<d1 a0 bb0 c1>/4").s("sine")
-    .attack(1.5).decay(1).sustain(.7).release(2)
-    .gain(.17).lpf(160).room(.3)
+  s("<[bd:3 ~ ~ bd:3 ~ ~ bd:3 ~] [bd:3 ~ bd:3 ~ ~ ~ bd:3 ~]>")
+    .gain(.9).lpf(1400).room(.05).mask(ch),
+  s("~ ~ sd:1 ~ ~ ~ sd:1 ~")
+    .gain(.7).lpf(2800).room(.18)
+    .every(4, x=>x.echo(2,1/8,.5)).mask(ch),
+  s("hh*8").gain(".4 .6 .35 .65 .4 .55 .35 .6")
+    .swingBy(1/6,4).lpf(perlin.range(2500,5000).slow(6))
+    .sometimesBy(.1, x=>x.s("oh:1").gain(.3)).mask(ch),
+  note("<d2 g1 c2 a1>").s("sine")
+    .gain(.6).lpf(200).decay(.3).sustain(.6).mask(ch),
+  note("<[d3,f3,a3,c4] [g2,b2,d3,f3] [c3,e3,g3,b3] [a2,c3,e3,g3]>")
+    .s("piano").gain(.32).clip(.7).room(.4).pan(perlin.range(.35,.65))
+    .delay(.2).delaytime(.375).delayfeedback(.3)
+    .lpf(sine.range(700,1500).slow(16)),
+  note("<[a4 ~ f4 ~] [~ d4 ~ b3] [g4 ~ e4 ~] [~ c4 ~ a3]>")
+    .s("piano").gain(.18).clip(.5).room(.5).pan(.65)
+    .delay(.3).delaytime(.25).delayfeedback(.4)
+    .lpf(1000).degradeBy(.3).mask(ch),
+  s("pink").gain(.04).lpf(400).room(.1)
 )

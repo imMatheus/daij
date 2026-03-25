@@ -1,32 +1,44 @@
-// 🕹️ "Quarter Muncher" — Retro arcade chiptune brawler
-setcps(150/60/4)
+// "Coin Rush" — Chiptune retro arcade soundtrack
+setcps(0.5)
 
-stack(
-  s("<bd [~ bd] sd ~> <bd bd [~ sd] [bd sd]>, hh(5,8), ~ ~ ~ <oh ~>")
-    .bank("RolandTR808").crush(8)
-    .gain(".85 .7").room(.15)
-    .every(4, x => x.fast(2).gain(.4)),
-  note("<[c2 ~ c2 c3] [eb2 ~ eb2 eb3] [f2 ~ f2 f3] [g2 ~ g2 g3]>")
-    .s("square").crush(6).gain(.55)
-    .decay(.12).sustain(.3).lpf(1300),
-  note("<[c4,eb4,g4] [eb4,g4,bb4] [f4,ab4,c5] [g4,bb4,d5]>")
-    .s("square").struct("~ x ~ x").crush(5)
-    .gain(.32).decay(.2).sustain(.4)
-    .lpf(sine.range(1600,3200).slow(8)).room(.2),
-  n("<[0 2 4 7] [7 4 2 0] [2 5 7 9] [12 9 7 5]>")
-    .scale("C5:minor:pentatonic").s("triangle").crush(5)
-    .gain(.42).decay(.1).sustain(.35)
-    .lpf(3800).room(.2).delay(".12:.08:.15")
-    .sometimes(x => x.add(note(12)).gain(.25)),
-  n("[0 4 7 11]*4").scale("C6:minor:pentatonic")
-    .s("square").crush(4).gain(.14)
-    .lpf(sine.range(3000,5500).slow(6))
-    .room(.15).pan(sine.slow(2))
-    .every(3, x => x.rev()),
-  s("square").note(perlin.range(72,96).fast(8))
-    .crush(3).gain(.06).lpf(2000)
-    .struct("~ ~ ~ [x ~]")
-    .room(.3).delay(".3:.2:.4"),
-  note("<c1 eb1 f1 g1>").s("sine")
-    .gain(.16).lpf(120).room(.3)
+let intro = stack(
+  n("[~ ~ [~ 7] 12] [9 7 4 [0 2]]").scale("C4:minor:pentatonic").s("square")
+    .decay(.08).sustain(0).lpf(saw.slow(2).range(800,5000)).gain(.35)
+    .delay(".2:.15:.4"),
+  s("[~ ~ ~ hh] [~ hh ~ hh]").bank("RolandTR707").gain(.25),
+  n("[~ ~] [~ 0]").scale("C2:minor:pentatonic").s("sawtooth")
+    .lpf(300).decay(.15).sustain(.2).gain(.4)
 )
+
+let chorus = stack(
+  n("[0 0 [~ 4] 7] [9 ~ 7 4] [0 0 [~ 4] 7] [<12 9> ~ <9 [9 12]> ~]")
+    .scale("C4:minor:pentatonic").s("square")
+    .decay(.08).sustain(0).lpf(3500).gain(.35)
+    .delay(".12:.125:.3")
+    .off(1/8, x=>x.add(7).gain(.18))
+    .every(4, rev),
+  n("[0 2 4 7 9 7 4 2]*2").scale("C5:minor:pentatonic").s("square")
+    .decay(.04).sustain(0).lpf(perlin.range(1500,5000))
+    .gain(.12).pan(sine),
+  n("0 ~ [0 -3] [~ 0]").scale("C2:minor:pentatonic").s("sawtooth")
+    .lpf(500).lpenv(4).lpd(.12).decay(.2).sustain(.3).gain(.5),
+  s("bd [~ bd:1] sd [~ sd],hh*8").bank("RolandTR707")
+    .gain(".7 .5 1 .5, .35 .25 .45 .25 .35 .25 .45 .3"),
+  note("c6").s("sine").fm(12).fmh(2.5)
+    .fmdecay(.04).fmsustain(0).decay(.05).sustain(0)
+    .gain(.12).struct("~ ~ ~ ~ ~ ~ [~ x] ~")
+)
+
+let bridge = stack(
+  n("[4 7 9 ~] [12 9 7 ~] [4 7 [~ 9] 7] [4 ~ ~ ~]")
+    .scale("C4:minor:pentatonic").s("square")
+    .decay(.1).sustain(0).lpf(2000).gain(.3).room(.2),
+  note("[c5 ~ e5 ~] [g5 ~ c6 ~]").s("sine")
+    .fm(6).fmh(3).fmdecay(.06).fmsustain(0)
+    .decay(.08).sustain(0).gain(.2),
+  n("[2 ~ 4 0]").scale("C2:minor:pentatonic").s("sawtooth")
+    .lpf(400).lpenv(3).lpd(.1).decay(.2).sustain(.3).gain(.45),
+  s("bd ~ sd ~,hh*4").bank("RolandTR707").gain(.5)
+)
+
+arrange([2, intro], [14, chorus], [5, bridge], [14, chorus])

@@ -1,37 +1,36 @@
-// "Golden Hour" — lazy summer afternoons, warm breeze, nowhere to be
-setcps(116/60/4)
-
+// "Endless August" — Breezy tropical summer groove with warm synths and laid-back beats
+setcps(0.55)
+samples('github:tidalcycles/dirt-samples')
 stack(
-  s("vinyl:2").gain(.12).room(1).loop(1).lpf(3200),
-  s("hh*8").bank("RolandTR909")
-    .gain(perlin.range(.08,.34)).pan(sine.slow(5)).cut(1),
-  s("bd ~ <bd [~ bd]> ~, ~ cp ~ <~ cp>, ~ ~ ~ <~ ~ ~ [oh ~]>")
-    .bank("RolandTR909").swing(3)
-    .gain(".84 .76 .4").room(.3),
-  note("<[d2 ~ ~ d2] [g1 ~ ~ g1] [e2 ~ ~ e2] [a1 ~ ~ ~]>")
-    .s("gm_acoustic_bass").decay(.25).sustain(.52)
-    .room(.2).gain(.78),
-  chord("<Dmaj9 Gmaj9 Em9 A9>").dict('ireal').voicing()
-    .s("gm_acoustic_guitar_nylon")
-    .struct("[~ x ~ x] [x ~ x ~]")
-    .lpf(sine.range(2800,4500).slow(12))
-    .room(.45).delay(".18:.1:.22").gain(.52),
-  n("<[~ 0 ~ 2] [4 ~ 5 ~] [~ 4 ~ 2] [0 ~ ~ ~] [2 ~ 4 ~] [~ 5 7 ~] [5 ~ 4 ~] [2 ~ 0 ~]>")
-    .scale("D5:major:pentatonic").s("gm_epiano2")
-    .lpf(sine.range(1200,4000).slow(8))
-    .room(.55).delay(".28:.18:.35").gain(.4)
-    .sometimes(x => x.add(note(12))),
-  n("<[~ ~ 4 ~] [~ 5 ~ ~] [4 ~ ~ 2] [~ ~ 0 ~] [~ ~ 5 ~] [~ 7 ~ ~] [5 ~ ~ 4] [~ ~ 2 ~]>")
-    .scale("D4:major:pentatonic").s("gm_flute")
-    .room(.6).delay(".4:.3:.5").gain(.28)
-    .lpf(5000).vib(5).vibmod(.5)
-    .attack(.04).decay(.2).sustain(.6).release(.4),
-  chord("<Dmaj9 Gmaj9 Em9 A9>").dict('ireal').voicing()
-    .s("gm_synth_strings_1")
-    .attack(.8).decay(1).sustain(.65).release(2)
-    .lpf(sine.range(800,2000).slow(16))
-    .room(.7).gain(.25),
-  note("<d1 g1 e1 a1>/4").s("sine")
-    .attack(1.5).decay(1).sustain(.8).release(2)
-    .gain(.16).room(.5).lpf(160)
+  chord("<D Bm G A>").voicing()
+    .s("sawtooth").attack(.3).decay(.5).sustain(.6).release(.8)
+    .lpf(sine.range(600,2200).slow(16))
+    .chorus(.5).room(.4).gain(.25),
+  s("bd [~ bd] ~ bd, ~ sd ~ [sd ~]")
+    .bank("RolandTR909").gain(".8 .65")
+    .room(.08)
+    .mask("<~!4 x!13 ~!5 x!13 ~!3>"),
+  s("[~ hh]*4").gain(".4 .65 .45 .75 .4 .7 .45 .8")
+    .swingBy(1/6,4).pan(rand.range(.3,.7))
+    .sometimesBy(.15,x=>x.speed(1.2))
+    .mask("<~!2 x!33 ~!3>"),
+  s("~ ~ ~ rim").gain(.28).room(.3)
+    .mask("<~!4 x!13 ~!5 x!13 ~!3>"),
+  note("<[d2 ~ d2 ~] [~ d2 ~ a1] [g1 ~ g1 ~] [a1 ~ a1 ~]>")
+    .s("sawtooth").lpf(500).lpq(1.5)
+    .decay(.1).sustain(.5).release(.08)
+    .gain(.55)
+    .mask("<~!4 x!13 [~ x]!5 x!13 ~!3>"),
+  n("<[0 ~ 2 4] [7 4 2 ~] [0 2 ~ 7] [9 7 4 2]>")
+    .scale("D4:major:pentatonic")
+    .s("triangle").decay(.12).sustain(.1).release(.35)
+    .delay(.3).delaytime(3/8).delayfeedback(.3)
+    .lpf(perlin.range(2500,5500)).room(.2).gain(.4)
+    .every(4,x=>x.rev())
+    .mask("<~!5 x!12 ~!5 x!12 ~!4>"),
+  n("<[4 ~ 7 ~] [9 ~ 4 ~]>*2").scale("D5:major:pentatonic")
+    .s("sine").decay(.05).sustain(0).release(.1)
+    .gain(.17).pan(sine.range(.2,.8).slow(5))
+    .delay(.5).delayfeedback(.45).delaytime(3/16)
+    .mask("<~!7 x!10 ~!5 x!10 ~!6>")
 )

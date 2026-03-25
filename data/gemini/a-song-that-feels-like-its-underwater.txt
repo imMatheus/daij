@@ -1,10 +1,40 @@
-// 🎵 "Abyssal Drift" — Deep Underwater Ambient
-setcps(0.35)
-stack(
-  s("bd(3,8)").lpf(150).room(1).gain(0.9),
-  s("~ club:4").lpf(200).room(0.8).gain(perlin.range(0.4, 0.7).slow(4)),
-  s("cp").struct("0(5,8,2)").lpf(perlin.range(400, 1200).slow(6)).room(1).delay(0.6).gain(0.3),
-  note("<[c2,g2] [eb2,bb2] [f2,c3] [g2,d3]>").s("sine").lpf(sine.range(180, 450).slow(12)).room(1).gain(0.6).vibrato(2, 0.2),
-  note("<c4 eb4 g4 c5>(11,16,3)").s("fm").lpf(perlin.range(300, 3000).slow(14)).delay(0.8).room(1).gain(0.25).pan(perlin.slow(15)),
-  s("noise").lpf(sine.range(50, 350).slow(30)).gain(perlin.range(0.05, 0.15).slow(10))
-).lpf(sine.range(300, 1800).slow(40)).room(0.4).reset(32)
+// 🎵 "Abyssal Drift" — Immersive underwater soundscape with liquid FM bloops and muffled drones
+
+setcps(0.5)
+
+arrange(
+  [4, 
+    stack(
+      note("c1").s("sine").gain(0.6).lpf(perlin.range(60, 150).slow(4)).lpq(5).room(1.5),
+      s("pink").gain(0.08).lpf(150).room(2)
+    )
+  ],
+  [13, 
+    stack(
+      note("c1").s("sine").gain(0.7).lpf(perlin.range(80, 200).slow(4)).lpq(4).room(1),
+      note("<[c3,eb3,g3] [f2,ab2,c3] [g2,bb2,d3] [eb2,g2,bb2]>").s("sawtooth").gain(0.3)
+        .lpf(sine.range(200, 500).slow(8)).adsr("2:4:0.5:2").room(2).delay(0.6).delaytime(0.5),
+      note(irand(12).add(72)).fm(perlin.range(4, 16).slow(2)).fmh(2.01).adsr("0.01:0.08:0:0.05")
+        .struct("x(5,8, <0 3>)").gain(rand.range(0.2, 0.45)).lpf(1500).room(1.2).pan(sine.slow(4)),
+      s("pink").gain(perlin.range(0.04, 0.08).slow(10)).lpf(sine.range(100, 300).slow(8)).room(2)
+    )
+  ],
+  [5, 
+    stack(
+      note("c1").s("sine").gain(0.5).lpf(90).lpq(2).room(1.5),
+      note(irand(5).add(84)).fm(3).fmh(4.5).adsr("0.01:0.04:0:0.04").struct("x!16")
+        .gain(0.12).lpf(perlin.range(2000, 5000).slow(1)).room(2).pan(rand),
+      s("pink").gain(0.15).lpf(sine.range(400, 1200).slow(2)).room(2)
+    )
+  ],
+  [13, 
+    stack(
+      note("c1").s("sine").gain(0.75).lpf(perlin.range(80, 250).slow(4)).lpq(4).room(1),
+      note("<[c3,eb3,g3] [f2,ab2,c3] [g2,bb2,d3] [eb2,g2,bb2]>").s("sawtooth").gain(0.35)
+        .lpf(sine.range(250, 600).slow(8)).adsr("2:4:0.5:2").room(2).delay(0.7).delaytime(0.5).jux(rev),
+      note(irand(12).add(72)).fm(perlin.range(8, 24).slow(2)).fmh(2.05).adsr("0.02:0.1:0:0.08")
+        .struct("x(7,8)").gain(rand.range(0.2, 0.55)).lpf(2000).room(1.5).pan(perlin.slow(2)),
+      s("pink").gain(0.06).lpf(250).room(2)
+    )
+  ]
+)

@@ -1,47 +1,135 @@
-// "Midnight Express" — nocturnal ambient trip-hop; steel wheels on endless track, city lights streaming past
-setcps(82/60/4)
+// "Midnight Express" — Nocturnal dub electronica for a midnight train ride
+samples('github:tidalcycles/dirt-samples')
+setcps(80/240)
 
-stack(
-  s("vinyl:2").gain(.09).room(1).loop(1).lpf(1800),
-  s("[bd ~ ~ bd] [~ ~ bd ~], ~ [rim,sd:3] ~ rim, hh(5,8,<0 1>)")
-    .bank("RolandTR808").swing(3)
-    .gain(perlin.range(.4,.72)).room(.35).lpf(2200)
-    .delay(".22:.14:.3").cut(1),
-  s("hh:2*16").gain(perlin.range(.03,.18).slow(5))
-    .hpf(8000).pan(perlin.slow(3)).room(.2),
-  note("<[a1 ~ ~ a1] [e1 ~ ~ ~] [f1 ~ ~ f1] [g1 ~ ~ e1]>")
-    .s("gm_acoustic_bass").decay(.25).sustain(.55)
-    .room(.18).gain(.7).lpf(720),
-  chord("<Am9 Em7 Fmaj9 G6>")
-    .dict('ireal').voicing()
-    .s("gm_epiano2").struct("~ [x ~] ~ [~ x]")
-    .lpf(sine.range(700,1900).slow(16))
-    .room(.62).delay(".32:.22:.45").gain(.38).speed(.97),
-  n("<[~ 0 ~ 3] [4 ~ ~ 2] [~ 1 ~ ~] [3 ~ 0 ~]>")
-    .scale("A4:minor:pentatonic")
-    .s("gm_vibraphone")
-    .attack(.03).decay(.4).sustain(.25).release(.8)
-    .lpf(perlin.range(900,2800).slow(10))
-    .room(.72).delay(".45:.3:.55").gain(.2)
-    .pan(sine.slow(8).range(.25,.75))
-    .rarely(x=>x.add(note(12))),
-  n("<[~ ~ 2 ~] [~ 4 ~ ~] [0 ~ ~ 3] [~ ~ ~ 1]>".slow(2))
-    .scale("A5:minor:pentatonic")
-    .s("triangle")
-    .attack(.15).decay(.6).sustain(.12).release(1.5)
-    .lpf(sine.range(1200,3500).slow(22))
-    .room(.85).delay(".55:.4:.65").gain(perlin.range(.04,.14))
-    .pan(sine.slow(11).range(.2,.8)),
-  note("<a0 e0 f0 g0>/4").s("sine")
-    .attack(2).decay(1.5).sustain(.75).release(3)
-    .gain(.12).lpf(110).room(.4),
-  s("metal:3(3,8,<0 2 4>)").gain(perlin.range(.03,.1).slow(4))
-    .hpf(3000).lpf(perlin.range(4000,8000).slow(7))
-    .room(.6).delay(".38:.28:.5").pan(sine.slow(6).range(.3,.7)),
-  note("<[a2,c3,e3] [e2,g2,b2] [f2,a2,c3] [g2,b2,d3]>".slow(2))
-    .s("gm_synth_strings_1")
-    .attack(3).decay(2).sustain(.4).release(4)
-    .lpf(sine.range(300,1100).slow(20))
-    .room(.9).roomsize(7).gain(.06)
-    .pan(sine.slow(14).range(.3,.7))
-).reset("<x@7 x@9>")
+let chPad = cat(
+  "[bb3,db4,f4] ~ [ab3,c4,f4] ~",
+  "[bb3,db4,gb4] ~ [bb3,eb4,gb4] ~",
+  "[bb3,db4,f4] ~ [bb3,db4,gb4] ~",
+  "[ab3,c4,f4] ~ [bb3,eb4,gb4] ~"
+).note()
+let brPad = cat(
+  "[eb3,gb3,bb3] ~ [f3,ab3,c4] ~",
+  "[gb3,bb3,db4] ~ [ab3,c4,f4] ~",
+  "[eb3,gb3,bb3] ~ [db3,f3,ab3] ~"
+).note()
+
+let chBass = cat(
+  "bb1 ~ f1 ~ bb1 ~ f1 ab1",
+  "gb1 ~ db2 ~ eb1 ~ gb1 ~",
+  "bb1 ~ f1 ~ gb1 ~ db1 ~",
+  "f1 ~ c2 ~ eb1 ~ bb0 ~"
+).note()
+let brBass = cat(
+  "eb1 ~ ~ f1 ~ ~ bb0 ~",
+  "gb1 ~ ~ db1 ~ ~ f1 ~",
+  "eb1 ~ ~ bb0 ~ ~ f1 ~"
+).note()
+
+let chLead = cat(
+  "~ bb4 db5 f5 ab5 ~ f5 db5",
+  "~ gb4 bb4 db5 gb5 ~ eb5 db5",
+  "~ bb4 db5 eb5 ab5 ~ f5 eb5",
+  "~ ab4 c5 f5 ab5 ~ f5 db5"
+).note()
+let brLead = cat(
+  "~ ~ eb5 ~ f5 ~ ab5 ~",
+  "~ gb5 ~ ab5 ~ f5 ~ eb5",
+  "~ ~ db5 ~ eb5 ~ f5 ~"
+).note()
+
+let chKit = cat(
+  "bd hh [~ hh] bd:3 hh ~ bd hh",
+  "bd hh bd:3 hh ~ hh bd hh",
+  "[bd lt] hh bd hh ~ hh bd hh",
+  "bd hh bd:3 [hh hh] ~ hh [bd lt] hh"
+)
+let brKit = cat(
+  "~ hh ~ ~ rim ~ hh ~",
+  "~ ~ lt ~ ~ hh ~ ~",
+  "~ hh ~ ~ rim ~ ~ ~"
+)
+
+arrange(
+  [1, "[bb3,db4,f4] ~ ~ ~".note()],
+  [9, chPad],
+  [3, brPad],
+  [9, chPad],
+  [1, silence]
+)
+  .s("supersaw").detune(0.12)
+  .attack(0.25).release(1.5)
+  .lpf(sine.slow(14).range(600, 1800))
+  .room(0.72)
+  .delay(0.35).delaytime(0.375).delayfeedback(0.7)
+  .gain(0.18)
+  .stack(
+    arrange(
+      [1, "bb1 ~ ~ ~ ~ ~ ~ ~".note()],
+      [9, chBass],
+      [3, brBass],
+      [9, chBass],
+      [1, silence]
+    )
+      .s("sawtooth")
+      .attack(0.01).release(0.3)
+      .lpf(sine.slow(10).range(140, 400))
+      .lpenv(1.5).lpd(0.2)
+      .room(0.1)
+      .gain(0.3),
+    arrange(
+      [1, s("~ ~ ~ lt ~ ~ ~ ~")],
+      [9, chKit.s()],
+      [3, brKit.s()],
+      [9, chKit.s()],
+      [1, s("~")]
+    )
+      .lpf(sine.slow(11).range(800, 3000))
+      .room(0.2)
+      .gain(0.3)
+      .reset("<x ~ ~ ~ ~ ~ ~ ~>"),
+    arrange(
+      [1, s("hh*4")],
+      [9, s("hh*8")],
+      [3, s("hh").euclid(5, 8).fast(2)],
+      [9, s("hh*8")],
+      [1, s("~")]
+    )
+      .begin(0.82).end(0.95)
+      .speed("<1 0.5 1 -0.5>")
+      .bpf(sine.slow(9).range(3200, 7200))
+      .bpq(7)
+      .pan(sine.range(0.3, 0.7).slow(5))
+      .room(0.55)
+      .delay(0.12).delaytime(0.125).delayfeedback(0.45)
+      .gain(0.07),
+    arrange(
+      [1, silence],
+      [9, chLead],
+      [3, brLead],
+      [9, chLead],
+      [1, silence]
+    )
+      .s("triangle")
+      .attack(0.02).release(0.4)
+      .vib(3).vibmod(0.12)
+      .lpf(sine.slow(12).range(1200, 3500))
+      .delay(0.38).delaytime(0.25).delayfeedback(0.62)
+      .room(0.42)
+      .gain(0.14)
+      .reset("<x ~ ~ x ~ ~ ~ ~>"),
+    arrange(
+      [1, s("pink*2")],
+      [9, s("pink*8")],
+      [3, s("pink*4")],
+      [9, s("pink*8")],
+      [1, s("pink*2")]
+    )
+      .speed("<1 0.5 1 -0.5>")
+      .bpf(sine.slow(16).range(400, 1200))
+      .bpq(6)
+      .room(0.85)
+      .delay(0.18).delaytime(0.5).delayfeedback(0.5)
+      .gain(0.035)
+  )
+  .postgain(1.04)

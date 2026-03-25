@@ -1,39 +1,10 @@
-// "Iron Current" — Gritty drum and bass roller with morphing reese bass and industrial textures
-
-samples('github:tidalcycles/dirt-samples')
-
-setcps(174/60/4)
-
+// 🎵 "Velocity Roller" — Drum and Bass Roller
+setcps(174/240);
+samples('github:tidalcycles/dirt-samples');
 stack(
-  s("bd:3 [~ sd:2] [~ bd:3] [~ sd:2]")
-    .gain(1.2)
-    .every(8, x => x.fast(2).gain(0.9)),
-  s("hh*16")
-    .gain(perlin.range(0.4, 0.8))
-    .pan(sine.slow(4)),
-  s("hc(11,16)")
-    .n("<0 1 2 3>")
-    .gain(0.5)
-    .hpf(4000)
-    .room(0.2),
-  note("<c1 [c1*2] f0 [g0 <bb0 c1>]>")
-    .s("saw")
-    .detune(sine.slow(2).range(10, 50))
-    .lpf(perlin.slow(4).range(150, 1600))
-    .lpq(25)
-    .gain(0.8)
-    .distort(0.4)
-    .shape(0.3)
-    .every(12, x => x.lpf(5000).gain(0.6)),
-  note("<c4 eb4 g4 bb4>(3,8)")
-    .s("sine")
-    .gain(sine.slow(16).range(0.1, 0.4))
-    .room(1)
-    .delay(0.5)
-    .delayfb(0.5),
-  s("feel:3(3,8)")
-    .gain(0.4)
-    .room(0.8)
-    .rev()
-    .pan(perlin.slow(3))
-).reset(64)
+  s("bd <~ bd> [sd,cp] <~ [~ bd]>").mask("<1!4 1!18 0!10 1!18>").gain(1.2),
+  s("hh*16").gain(sine.range(0.3, 0.7).fast(8)).hpf(2500),
+  s("drum:5(11,16)").mask("<0!8 1!14 1!10 1!18>").gain(0.5).pan(perlin.slow(4)),
+  note("c1(5,8,2) <c1!7 eb1 c1!7 g1>").s("sine").lpf(350).gain("<0!4 1!18 0.4!10 1!18>").distort(0.2),
+  note("<[c3,g3,bb3] [f3,ab3,c4] [g3,bb3,d4] [ab3,c4,eb4]>").s("saw").lpf(sine.range(200, 1400).slow(12)).gain(0.2).room(0.8).sz(0.9)
+).reset(50)

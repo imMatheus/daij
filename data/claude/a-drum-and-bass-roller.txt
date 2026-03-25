@@ -1,26 +1,54 @@
-// "Concrete Lung" — dark drum and bass roller, reese bass and smashed breaks
-setcps(174/60/4)
+// "Dark Roller" — Drum and Bass
+samples('github:tidalcycles/dirt-samples')
+setcps(175/60/4)
 
-s("<[bd [~ bd] ~ [bd ~], ~ sd ~ [~ sd], hh*16, ~ ~ ~ oh] [bd ~ [bd ~] [~ bd], ~ [sd ~] ~ sd, hh*16, [~ oh]*2]>")
-.bank("RolandTR909").cut(1)
-.gain(perlin.range(.82,.98)).room(.18)
-.every(4, x => x.fast(2).gain(.5))
-.every(7, x => x.press())
-.stack(
-  note("<[e1 ~ e1 ~] [g1 ~ ~ g1] [c1 ~ c1 ~] [b0 ~ ~ b0]>")
-  .s("sawtooth").lpf(sine.range(150,850).slow(8))
-  .decay(.14).sustain(.55).release(.06)
-  .gain(.72).distort(.32).room(.1),
-  note("<e1 g1 c1 b0>/4").s("sine")
-  .lpf(100).gain(.5).decay(1.2).sustain(.85).release(.5),
-  chord("<Em9 Cmaj9 Am7 Bm7>").dict('ireal').voicing()
-  .s("gm_synth_strings_1")
-  .attack(.8).sustain(.6).release(1.5)
-  .lpf(sine.range(400,1500).slow(16)).room(.75).gain(.22),
-  n("<[~ 0 ~ ~] [~ ~ 3 ~] [~ ~ ~ 5] [2 ~ ~ ~]>")
-  .scale("E5:minor:pentatonic").s("triangle")
-  .lpf(sine.range(900,3000).slow(12))
-  .room(.55).delay(".35:.25:.45").gain(.2)
-  .attack(.01).decay(.15).sustain(.25).release(.2)
-  .rarely(x => x.add(note(12)).gain(.1))
+let drums = stack(
+  s("[bd ~!3 sd:3 ~!3 bd ~ bd ~ sd:3 ~!3]")
+    .gain("[.9 ~!3 .75 ~!3 .85 ~ .55 ~ .75 ~!3]"),
+  s("[~ hh:2]*8").gain(.3).pan(rand),
+  s("oh:1(3,16)").gain(.15)
+).bank("RolandTR909").hpf(40).room(.04).orbit(0)
+.off(3/16, x => x.gain(.12).hpf(3000).speed(1.15))
+
+let amen = s("breaks165")
+  .splice(8, "<[0 1 2 3 4 5 6 7] [0 1 [2 2] 3 [4 0] 5 6 7] [7 [6 5] 4 3 [2 1] 0 [7 0] 3]>")
+  .gain(.25).hpf(1200).lpf(6000)
+  .room(.06).jux(rev).orbit(1)
+
+let sub = note("f1").euclid(5,8)
+  .s("sine").gain(.7).lpf(120).orbit(2)
+
+let reese = note("<f2!2 db2 c2>").euclid(5,8)
+  .s("sawtooth")
+  .lpf(perlin.range(200, 700).slow(3))
+  .ftype("ladder").lpq(4)
+  .gain(.22).detune(.3)
+  .decay(.15).sustain(.3).release(.06)
+  .orbit(3)
+
+let pad = note("<[f3,ab3,c4]!2 [db3,f3,ab3] [c3,eb3,g3]>")
+  .s("sawtooth")
+  .lpf(sine.range(250, 1000).slow(16))
+  .attack(.5).release(2.5)
+  .room(.6).size(3).gain(.08)
+  .delay(.2).delaytime(3/8).delayfeedback(.25)
+  .orbit(4)
+
+let intro = drums.lpf(1500)
+
+let chorus = stack(
+  drums.lpf(perlin.range(5000, 14000).slow(4)),
+  amen, sub, reese, pad
+)
+
+let bridge = stack(
+  drums.lpf(perlin.range(2000, 8000).slow(2)),
+  sub
+)
+
+arrange(
+  [2, intro],
+  [20, chorus],
+  [8, bridge],
+  [20, chorus]
 )

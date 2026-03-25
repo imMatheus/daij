@@ -1,38 +1,50 @@
-// "Empty Rooms" — piano fog and aching minor chords in D minor
-setcps(.42)
+// "Fading Light" — Melancholic ambient piano in D minor
+setcps(0.3)
+samples('github:tidalcycles/dirt-samples')
 
-note("<[d3 ~ a3 ~] [f3 ~ c3 ~] [bb2 ~ f3 ~] [a2 ~ e3 ~]>")
-  .s("gm_epiano1")
-  .attack(.04).decay(.9).sustain(.35).release(2)
-  .lpf(sine.range(700,2800).slow(16))
-  .room(.8).delay(".5:.3:.6")
-  .gain(.42)
-  .stack(
-    n("<[~ ~ 4 ~] [~ 2 ~ ~] [~ ~ 5 ~] [3 ~ ~ 0]>")
-      .scale("D5:minor")
-      .s("gm_epiano2")
-      .lpf(sine.range(1000,3500).slow(12))
-      .room(.75).delay(".45:.3:.55")
-      .gain(.28)
-      .rarely(x => x.add(note(12)).gain(.12)),
-    chord("<Dm9 Fmaj7 Bbmaj9 Am7>")
-      .dict('ireal').voicing()
-      .s("gm_synth_strings_1")
-      .attack(1.8).decay(1.5).sustain(.55).release(4)
-      .lpf(sine.range(300,1100).slow(24))
-      .room(.9).roomsize(6)
-      .gain(.18),
-    note("<d1 f1 bb0 a0>")
-      .s("gm_acoustic_bass")
-      .decay(.5).sustain(.4)
-      .room(.3).gain(.55),
-    s("bd ~ ~ ~, ~ ~ [~ sd:1] ~, [~ hh]*4")
-      .bank("RolandTR808")
-      .gain(".5 .42")
-      .room(.45).swing(4),
-    note("<d1 f1 bb0 a0>/4")
-      .s("sine")
-      .attack(3).decay(2).sustain(.7).release(4)
-      .gain(.14).room(.7).lpf(130),
-    s("vinyl:2").gain(.1).room(1).loop(1).lpf(2000)
-  )
+let arp = n("<[0 4 2 ~ 4 7 4 ~] [5 0 2 ~ 5 7 5 ~] [2 6 4 ~ 2 4 6 ~] [6 4 2 ~ 0 2 -1 ~]>")
+  .scale("D4:minor").s("piano").gain(.5)
+  .decay(.5).sustain(.3).release(1)
+  .off(1/8, x => x.add(2).gain(.25))
+  .delay(.35).delaytime(.33).delayfeedback(.4)
+  .room(.6).roomsize(3)
+  .lpf(perlin.range(2000, 5000).slow(6))
+
+let pad = chord("<Dm Bb F C>").voicing()
+  .s("sawtooth").gain(.15)
+  .attack(.6).decay(.4).sustain(.35).release(2)
+  .lpf(sine.range(500, 1400).slow(8)).lpq(2)
+  .room(.7).roomsize(4)
+
+let bass = note("<d2 bb1 f2 c2>")
+  .s("triangle").gain(.25)
+  .lpf(300).attack(.05).release(.6).room(.3)
+
+let perc = s("~ sd:3 ~ ~, bd ~ ~ ~, ~@3 [~ hh]")
+  .gain(.2).room(.4)
+  .sometimesBy(.2, x => x.delay(.2))
+
+let chorus = stack(arp, pad, bass, perc)
+
+let intro = n("[0 ~ ~ 4 ~ ~ 2 ~]").scale("D4:minor").s("piano")
+  .gain(.3).release(1.5)
+  .delay(.5).delaytime(.4).delayfeedback(.55)
+  .room(.8).roomsize(4)
+
+let bridge = stack(
+  n("<[4 ~ 7 ~ 6 ~ 4 ~] [5 ~ 7 ~ 9 ~ 7 ~] [4 ~ 2 ~ 0 ~ 2 ~]>")
+    .scale("D4:minor").s("piano").gain(.4).release(1.3)
+    .delay(.5).delaytime(.5).delayfeedback(.5)
+    .room(.8).roomsize(4)
+    .lpf(perlin.range(1500, 3000).slow(3)),
+  chord("<Gm A>").voicing().s("sawtooth")
+    .gain(.12).attack(.8).release(2.5)
+    .lpf(600).room(.8).roomsize(4)
+)
+
+arrange(
+  [1, intro],
+  [8, chorus],
+  [3, bridge],
+  [9, chorus]
+)

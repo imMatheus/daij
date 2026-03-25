@@ -1,10 +1,30 @@
-// 🎵 "The Deep Unrest" — A suspenseful and eerie atmospheric piece
-setcps(0.3);
+// 🎵 "The Hollow Corridor" — A suspenseful and eerie track with dark drones and metallic echoes
+
+setcps(0.5);
+samples('github:tidalcycles/dirt-samples');
+
 stack(
-  note("c1*2 <c1 b0 g0>").s("saw").lpf(perlin.range(80, 400)).gain(0.7).room(0.8).resonance(0.2),
-  s("bd(3,8)").gain(sine.range(0.5, 1)).lpf(150).room(0.3),
-  note("c5 eb5 f#5 <b5 g5>").s("sine").struct("1(5,13,2)").gain(0.25).room(1).delay(0.8).pan(sine).rev(),
-  s("[~ hc]*4").gain(0.35).crush(sine.range(2, 16)).room(0.5).hpf(2000),
-  note("<[c4,gb4] [db4,g4]>").s("superfm").gain(0.2).attack(1).release(3).room(1).lpf(1200).detune(sine.range(0, 15)),
-  s("~ <cpu:3 cpu:4>").gain(0.3).room(0.8).delay(0.5).speed("<1 0.8 1.2>")
-).reset(12)
+  // Low-end dissonant drone
+  s("sine").note("<c1 eb1 [c1 b0] [ab0 g0]>").slow(4).gain(0.8).lpf(400).room(0.6).distort(0.2),
+  
+  // Ghostly atmospheric texture
+  s("cosmicg").n(2).note("<c4 b3 eb4 f#4>").slow(8).gain(0.5).room(0.9).sz(0.9).lpf(perlin.range(300, 1200)),
+  
+  // Tense heartbeat kick
+  s("bd:4").struct("1(3,8,2)").gain(0.9).room(0.4).mask("[0*2 1*33]"),
+  
+  // Metallic scraping echoes
+  s("alphabet").n(12).struct("1(5,8)").speed("<0.4 0.35 0.3>").gain(0.5).room(1).mask("[0*6 1*29]"),
+  
+  // High-pitched unsettling melody
+  note("<c6 [b5 g5] [f#5 eb5] [g5 ab5]>").s("triangle").decay(0.1).room(1).delay(0.7).gain(0.25).mask("[0*10 1*25]"),
+  
+  // Bridge tension: creeping filter saw
+  note("c3*4").s("saw").decay(0.05).lpf(sine.range(400, 2000)).resonance(15).gain(0.6).mask("[0*14 1*6 0*15]"),
+  
+  // Bridge tension: white noise swell
+  s("noise").gain(perlin.range(0, 0.4)).lpf(perlin.range(200, 5000)).mask("[0*14 1*6 0*15]"),
+  
+  // Random metallic clinks
+  s("metal:2").struct("~ 1").room(1).sz(0.9).gain(0.4).mask("[0*4 1*31]")
+).reset("[0*14 1 0*20]")

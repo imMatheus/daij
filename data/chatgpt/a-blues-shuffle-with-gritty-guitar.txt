@@ -1,20 +1,128 @@
-// "Rust Belt Shuffle" - gritty 12-bar blues shuffle with overdriven lead
+// "Smoke On Seventh Street" — blues shuffle with gritty guitar
 samples('github:tidalcycles/dirt-samples')
-setcps(0.333)
-$: note("<[c3 ~ eb3 g3] [c3 e3 g3 bb3] [c3 eb3 g3 c4] [c3 g3 bb3 c4] [f3 ~ ab3 c4] [f3 a3 c4 eb4] [c3 eb3 g3 bb3] [c3 g3 bb3 c4] [g3 ~ b3 d4] [f3 a3 c4 eb4] [c3 eb3 g3 bb3] [g3 b3 d4 f4]>")
-  .s("sawtooth")
-  .legato(0.9)
-  .gain(0.72)
-  .shape(0.72)
-  .lpf(perlin.range(550,2800).slow(3))
-  .delay(0.34)
-  .delaytime("3/16")
-  .delayfeedback(0.42)
-  .room(0.38)
-  .size(0.82)
-  .reset(12)
-  .stack(note("<c2 c2 c2 c2 f2 f2 c2 c2 g2 f2 c2 g2>").s("square").gain(0.58).shape(0.33).lpf(sine.range(120,620).slow(6)).room(0.12).reset(12))
-  .stack(s("bd [~ bd] bd [~ bd] [bd ~] [~ bd] bd [~ bd]").gain(1.05).lpf(170).room(0.05).reset(12))
-  .stack(s("~ [sn ~] ~ [~ sn] ~ [sn ~] ~ [sn sn]").gain(0.78).hpf(900).room(0.18).reset(12))
-  .stack(s("hh(7,12,<0 2 4>) <oh ~ hh*2 ~>").gain("0.22 0.3 0.26 0.34").hpf(6500).delay(0.18).delaytime("1/8").delayfeedback(0.25).reset(12))
-  .stack(s("cp*2").mask("<0 0 1 0 0 1 0 0 1 0 1 0>").gain(0.42).room(0.25).reset(12))
+setcps(2/7)
+
+const ampGlow = sine.slow(9).range(1100, 2600)
+const pickTone = sine.slow(7).range(1800, 4200)
+const roomFeel = sine.slow(11).range(.2, .46)
+const grit = sine.slow(5).range(2.4, 4.8)
+const hatTone = sine.slow(13).range(4200, 8600)
+
+const intro =
+  note("<~ ~ a4 c5 e5 g5 a5 g5 e5 c5 a4 ~>").s("gm_overdriven_guitar")
+    .attack(.01).decay(.18).sustain(.4).release(.28)
+    .lpf(ampGlow).hpf(140).drive(1.3).distort("3.2:.72:diode")
+    .room(.32).delay(".18:.125:.24").gain(".0 .0 .34 .42 .5 .58 .66 .52 .44 .36 .28 .0")
+    .swing(3)
+    .stack(
+      chord("A7").dict('ireal').anchor("a4").voicing().s("gm_drawbar_organ")
+        .struct("[x ~ ~ x ~ ~ x ~ ~ x ~ ~]")
+        .attack(.03).decay(.22).sustain(.74).release(.9)
+        .lpf(1300).room(.44).chorus(.18).gain(.14).swing(3)
+    )
+    .stack(
+      s("~ ~ hh ~ ~ hh ~ ~ hh ~ ~ hh").bank("RolandTR909")
+        .begin(".01 .02").end(".05 .07").bpf(6400).bpq(5)
+        .gain(".0 .0 .012 .0 .0 .018 .0 .0 .014 .0 .0 .02")
+        .room(.18).swing(3)
+    )
+
+const chorus =
+  chord("<A7 D7 A7 E7 D7 A7 E7 D7>").dict('ireal').anchor("a4").voicing().slow(8).s("gm_overdriven_guitar")
+    .struct("<[x ~ ~ x ~ x ~ ~ x ~ x ~] [x ~ ~ x ~ x ~ x ~ x ~ ~] [x ~ ~ x ~ x ~ ~ x ~ x ~] [x ~ ~ x ~ x x ~ x ~ ~ ~] [x ~ ~ x ~ x ~ x ~ x ~ ~] [x ~ ~ x ~ x ~ ~ x ~ x ~] [x ~ ~ x ~ ~ x ~ x ~ x ~] [x ~ ~ x ~ x ~ x ~ x x ~ ~]>")
+    .attack(.01).decay(.16).sustain(.38).release(.18)
+    .lpf(pickTone).hpf(120).drive(1.8).distort(grit).distorttype("diode")
+    .room(roomFeel).delay(".24:.125:.3").gain(.5).swing(3)
+    .reset("<x ~ ~ x>")
+    .stack(
+      cat(
+        note("a2 c#3 e3 f#3 g3 g#3 a3 e3 d3 c#3 b2 g#2"),
+        note("d2 f#2 a2 b2 c3 c#3 d3 a2 g2 f#2 e2 c#2"),
+        note("a2 c#3 e3 f#3 g3 g#3 a3 e3 d3 c#3 b2 g#2"),
+        note("e2 g#2 b2 c#3 d3 d#3 e3 b2 a2 g#2 f#2 d#2"),
+        note("d2 f#2 a2 b2 c3 c#3 d3 a2 g2 f#2 e2 c#2"),
+        note("a2 c#3 e3 f#3 g3 g#3 a3 e3 d3 c#3 b2 a2"),
+        note("e2 g#2 b2 d3 e3 g3 g#3 b3 a3 g3 f#3 d#3"),
+        note("d2 f#2 a2 c3 c#3 d3 f#3 a3 g3 f#3 e3 c#3")
+      ).s("gm_electric_bass_pick")
+        .attack(.01).decay(.18).sustain(.56).release(.1)
+        .lpf(sine.slow(10).range(420, 1100)).drive(.8).room(.16).gain(.82).swing(3)
+    )
+    .stack(
+      cat(
+        note("a4 ~ c5 d5 e5 ~ g5 e5 d5 c5 a4 ~"),
+        note("d5 ~ f5 g5 a5 ~ c6 a5 g5 f5 d5 ~"),
+        note("e5 ~ g5 a5 c6 a5 g5 e5 d5 c#5 a4 ~"),
+        note("e5 ~ g#5 b5 d6 b5 g#5 e5 d5 b4 a4 ~"),
+        note("d5 ~ f5 g5 a5 c6 a5 g5 f5 d5 c5 a4"),
+        note("a4 ~ c5 d5 e5 g5 a5 g5 e5 d5 c#5 a4"),
+        note("b4 ~ d5 e5 g#5 b5 d6 b5 g#5 e5 d5 b4"),
+        note("a4 ~ c5 c#5 e5 f#5 g5 e5 d5 c#5 a4 ~")
+      ).s("gm_overdriven_guitar")
+        .attack(.01).decay(.14).sustain(.34).release(.2)
+        .lpf(ampGlow).hpf(220).drive(2.2).distort("4:.66:diode")
+        .room(.36).delay(".32:.25:.34").gain(.28).vib(4).vibmod(.08).swing(3)
+        .reset("<x ~ x ~>")
+    )
+    .stack(
+      chord("<A7 D7 A7 E7 D7 A7 E7 D7>").dict('ireal').anchor("a5").voicing().slow(8).s("gm_drawbar_organ")
+        .struct("<[~ x ~ ~ ~ x ~ ~ ~ x ~ ~] [~ x ~ ~ ~ x ~ ~ ~ x ~ ~] [~ x ~ ~ ~ x ~ ~ ~ x ~ ~] [~ x ~ ~ x ~ ~ ~ x ~ ~ ~] [~ x ~ ~ ~ x ~ ~ x ~ ~ ~] [~ x ~ ~ ~ x ~ ~ ~ x ~ ~] [~ x ~ ~ x ~ ~ ~ x ~ ~ ~] [~ x ~ ~ ~ x ~ ~ x ~ ~ ~]>")
+        .attack(.02).decay(.24).sustain(.78).release(.82)
+        .lpf(1600).room(.3).chorus(.24).gain(.14).swing(3)
+    )
+    .stack(
+      s("bd ~ ~ sd ~ ~ bd ~ ~ sd ~ ~").bank("RolandTR909")
+        .end(".16 .12 .18 .12").lpf(1900).room(.18)
+        .gain(".72 0 0 .34 0 0 .66 0 0 .38 0 0")
+        .swing(3)
+    )
+    .stack(
+      s("hh*12").bank("RolandTR909")
+        .begin("<.01 .015 .02>").end("<.03 .05 .07>")
+        .bpf(hatTone).bpq(6)
+        .gain(".034 .018 .026 .042 .02 .028 .034 .018 .026 .048 .024 .03")
+        .room(.22).swing(3)
+        .reset("<x ~ ~ x>")
+    )
+
+const bridge =
+  chord("<D7 E7 A7>").dict('ireal').anchor("a4").voicing().slow(3).s("gm_overdriven_guitar")
+    .struct("<[x ~ ~ x ~ ~ x ~ x ~ ~ ~] [x ~ ~ ~ x ~ x ~ ~ x ~ ~] [x ~ ~ x ~ x ~ ~ x ~ ~ ~]>")
+    .attack(.01).decay(.18).sustain(.34).release(.24)
+    .lpf(sine.slow(6).range(900, 2200)).hpf(160)
+    .drive(2).distort("4.6:.62:diode").room(.42).delay(".28:.25:.36").gain(.42).swing(3)
+    .stack(
+      cat(
+        note("d2 f#2 a2 c3 d3 f3 a3 f3 d3 c3 a2 f#2"),
+        note("e2 g#2 b2 d3 e3 g3 g#3 b3 e4 b3 g#3 d3"),
+        note("a2 c#3 e3 g3 a3 c4 e4 c4 a3 g3 e3 c#3")
+      ).s("gm_electric_bass_pick")
+        .attack(.01).decay(.2).sustain(.58).release(.1)
+        .lpf(760).drive(.9).room(.16).gain(.78).swing(3)
+    )
+    .stack(
+      note("<a4 ~ c5 d5 f5 e5 d5 c5 a4 ~ e5 g5 a5 [c6 d6] a5 g5 e5 d5 b4 a4 ~ c5 e5 g5>").slow(3).s("gm_harmonica")
+        .attack(.03).decay(.16).sustain(.46).release(.24)
+        .lpf(sine.slow(8).range(1200, 2600)).room(.56).delay(".4:.33:.42").gain(.2).vib(5).vibmod(.18).swing(3)
+    )
+    .stack(
+      chord("<D7 E7 A7>").dict('ireal').anchor("a5").voicing().slow(3).s("gm_drawbar_organ")
+        .struct("<[~ x ~ ~ ~ x ~ ~ ~ x ~ ~] [~ x ~ ~ x ~ ~ ~ x ~ ~ ~] [~ x ~ ~ ~ x ~ ~ x ~ ~ ~]>")
+        .attack(.03).decay(.24).sustain(.8).release(1.1)
+        .lpf(1400).room(.5).chorus(.28).gain(.12).swing(3)
+    )
+    .stack(
+      s("bd ~ ~ sd ~ ~ bd ~ ~ ~ ~ sd").bank("RolandTR909")
+        .end(".15 .12").lpf(1700).room(.22)
+        .gain(".62 0 0 .28 0 0 .54 0 0 0 0 .26")
+        .swing(3)
+    )
+    .stack(
+      s("hh*12").bank("RolandTR909")
+        .begin(".01 .02").end(".03 .06")
+        .bpf(sine.slow(9).range(3600, 7200)).bpq(6)
+        .gain(".022 .014 .018 .03 .016 .02 .022 .014 .018 .034 .018 .022")
+        .room(.18).swing(3)
+    )
+
+arrange([1, intro], [8, chorus], [3, bridge], [8, chorus]).postgain(.96)

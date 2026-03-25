@@ -1,46 +1,117 @@
-// "Greasefire" — blown-speaker garage rock stomp
+// "Alleyway Ignition" — ragged garage rock stomp
 samples('github:tidalcycles/dirt-samples')
-setcps(0.74)
-$: s("[bd bd(5,8)] <[~ bd] [bd bd]> [bd ~]")
-  .gain(1.08)
-  .shape(0.42)
-  .stack(
-    s("<~ sd> [~ sd] <sd(3,8) sd(5,8)>")
-      .gain(0.92)
-      .shape(0.28)
+setcps(1/3)
+
+const form = (intro, chorus, bridge) => arrange([1, intro], [10, chorus], [3, bridge], [10, chorus])
+const grind = sine.slow(7).range(900, 2600)
+const snarl = sine.slow(5).range(2.2, 4.6)
+const air = sine.slow(9).range(4200, 9800)
+const splash = sine.slow(13).range(2600, 6200)
+const roomy = sine.slow(11).range(.14, .34)
+
+form(
+  note("<~ ~ e4 g4 a4 b4 a4 e4>").s("gm_overdriven_guitar")
+    .struct("~ ~ x x x x x x")
+    .attack(.01).decay(.12).sustain(.32).release(.18)
+    .lpf(1800).hpf(180).drive(1.6).distort("3:.72:diode")
+    .room(.28).delay(".18:.125:.24")
+    .gain(".0 .0 .34 .46 .58 .66 .54 .38"),
+  cat(
+    note("[e3 b3 e4] [g3 d4 g4] [a3 e4 a4] [b3 f#4 b4]"),
+    note("[e3 b3 e4] [g3 d4 g4] [a3 e4 a4] [b3 f#4 b4]"),
+    note("[c4 g4 c5] [a3 e4 a4] [g3 d4 g4] [b3 f#4 b4]"),
+    note("[e3 b3 e4] [g3 d4 g4] [a3 e4 a4] [b3 f#4 b4]")
+  ).s("gm_overdriven_guitar")
+    .attack(.01).decay(.14).sustain(.24).release(.12)
+    .lpf(grind).hpf(150).drive(2.4).distort(snarl).distorttype("diode")
+    .room(roomy).delay(".1:.125:.16").gain(.56)
+    .reset("<x ~ x ~>"),
+  cat(
+    note("[c4 g4 c5] [d4 a4 d5] [e4 b4 e5] [g3 d4 g4]"),
+    note("[a3 e4 a4] [c4 g4 c5] [b3 f#4 b4] [g3 d4 g4]"),
+    note("[e3 b3 e4] ~ [b3 f#4 b4] ~")
+  ).s("gm_overdriven_guitar")
+    .attack(.01).decay(.18).sustain(.28).release(.2)
+    .lpf(sine.slow(6).range(700, 1800)).hpf(140).drive(2.8).distort("4:.68:diode")
+    .room(.36).delay(".22:.25:.3").gain(.46)
+).stack(
+  form(
+    note("~ e1 ~ e1 g1 a1 b1 ~").s("gm_electric_bass_pick")
+      .attack(.01).decay(.18).sustain(.54).release(.08)
+      .lpf(720).drive(.8).room(.12).gain(".0 .58 .0 .62 .66 .72 .78 .0"),
+    cat(
+      note("e1 e1 g1 a1 b1 b1 a1 g1"),
+      note("e1 e1 g1 g1 a1 a1 b1 ~"),
+      note("c2 c2 a1 a1 g1 g1 b1 b1"),
+      note("e1 e1 g1 a1 b1 a1 g1 e1")
+    ).s("gm_electric_bass_pick")
+      .attack(.01).decay(.16).sustain(.56).release(.08)
+      .lpf(sine.slow(8).range(420, 980)).drive(1).room(.14).gain(.78)
+      .reset("<x ~ ~ x>"),
+    cat(
+      note("c2 c2 d2 d2 e2 e2 g1 g1"),
+      note("a1 a1 c2 c2 b1 b1 g1 g1"),
+      note("e1 ~ e1 ~ b1 ~ b1 ~")
+    ).s("gm_electric_bass_pick")
+      .attack(.01).decay(.2).sustain(.58).release(.1)
+      .lpf(680).drive(.9).room(.12).gain(.74)
+  ),
+  form(
+    s("bd ~ ~ ~ sd ~ ~ ~").bank("RolandTR909")
+      .end(".16 .12").lpf(1700).room(.12)
+      .gain(".82 0 0 0 .48 0 0 0"),
+    cat(
+      s("bd ~ ~ bd sd ~ bd ~"),
+      s("bd ~ bd ~ sd ~ bd ~"),
+      s("bd ~ ~ bd sd ~ ~ bd"),
+      s("bd ~ bd ~ sd ~ bd bd")
+    ).bank("RolandTR909")
+      .end(".15 .16 .12").lpf(1900).room(.14)
+      .gain(".84 0 0 .58 .72 0 .56 .42")
+      .reset("<x ~ x ~>"),
+    s("bd ~ ~ ~ sd ~ bd ~").bank("RolandTR909")
+      .end(".17 .12 .16").lpf(1600).room(.18)
+      .gain(".8 0 0 0 .56 0 .5 0")
+  ),
+  form(
+    s("~ ~ hh ~ ~ hh ~ oh").bank("RolandTR909")
+      .begin(".02").end(".05 .08").bpf(5600).bpq(6)
+      .gain(".0 .0 .12 .0 .0 .16 .0 .18").room(.16),
+    s("hh*8").bank("RolandTR909")
+      .begin(".02").end(".05")
+      .bpf(air).bpq(6)
+      .gain(".18 .11 .14 .1 .22 .11 .15 .18")
+      .room(.18)
+      .reset("<x ~ ~ x>"),
+    s("oh ~ hh ~ oh ~ hh ~").bank("RolandTR909")
+      .begin(".01 .02").end(".1 .05")
+      .bpf(splash).bpq(5)
+      .gain(".16 0 .1 0 .18 0 .12 0")
+      .room(.24)
+  ),
+  form(
+    note("<~ ~ b4 d5 e5 g5 e5 d5>").s("gm_overdriven_guitar")
+      .attack(.01).decay(.12).sustain(.22).release(.16)
+      .lpf(2200).hpf(240).drive(2).distort("3.2:.6:diode")
+      .room(.3).delay(".24:.125:.3").gain(".0 .0 .22 .28 .34 .4 .3 .24"),
+    cat(
+      note("e5 ~ g5 a5 b5 a5 g5 e5 ~"),
+      note("b4 ~ d5 e5 g5 e5 d5 b4 ~"),
+      note("c5 ~ e5 g5 a5 g5 e5 d5 ~"),
+      note("e5 ~ g5 a5 b5 a5 g5 e5 ~")
+    ).s("gm_overdriven_guitar")
+      .attack(.01).decay(.12).sustain(.2).release(.16)
+      .lpf(sine.slow(10).range(1500, 3200)).hpf(260)
+      .drive(1.8).distort("2.8:.62:diode").chorus(.14)
+      .room(.3).delay(".26:.25:.32").vib(4).vibmod(.08).gain(.24)
+      .reset("<x ~ x ~>"),
+    cat(
+      note("g5 ~ e5 d5 c5 ~ a4 ~"),
+      note("b4 ~ d5 e5 g5 ~ e5 ~"),
+      note("e5 ~ b4 g4 e4 ~ b4 ~")
+    ).s("gm_overdriven_guitar")
+      .attack(.01).decay(.16).sustain(.22).release(.22)
+      .lpf(2000).hpf(240).drive(2.1).distort("3.4:.58:diode")
+      .room(.4).delay(".34:.25:.38").vib(5).vibmod(.12).gain(.22)
   )
-  .stack(
-    s("hh*8 <hh(5,8) hh*4>")
-      .gain("0.42 0.36 0.5 0.4")
-      .hpf(sine.range(2600,9000).slow(7))
-  )
-  .stack(
-    n("<[0 0 3 5] [7 5 3 2] [0 3 5 7] [10 7 5 3]>")
-      .s("sawtooth")
-      .octave("3 3 4 3")
-      .legato(0.82)
-      .gain(0.78)
-      .lpf(perlin.range(220,2400).slow(9))
-      .shape(0.22)
-  )
-  .stack(
-    n("<[0 ~ 7 ~] [3 ~ 5 ~] [0 ~ 8 ~] [2 ~ 7 ~]>")
-      .s("square")
-      .octave(4)
-      .release(0.14)
-      .gain(0.34)
-      .pan(sine.slow(6))
-      .delay("0 .125 .25 .125")
-  )
-  .stack(
-    s("<rim cp> [~ cp] <~ cp rim cp>")
-      .gain(0.56)
-      .room(0.62)
-      .size(0.9)
-      .delay(0.25)
-  )
-  .room(0.36)
-  .size(0.72)
-  .delay(0.18)
-  .lpf(sine.range(480,5200).slow(12))
-  .reset(8)
+).postgain(.96)

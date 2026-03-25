@@ -1,40 +1,60 @@
-// 🎵 "Weightless" — Ambient Space Drift / Zero-G Meditation
-// At 56 BPM: intro(4) + float(8) + bloom(8) + fade(4) = 24 cycles ≈ 1:26
+// "Weightless" — Ambient zero-gravity drift
+setcps(0.25)
 
-setcpm(56 / 4)
+stack(
+  // floating pad — evolving chords in infinite space
+  note("<[eb3,g3,bb3]!2 [ab3,c4,eb4]!2 [f3,ab3,c4]!2 [bb2,d3,f3]!2>")
+    .s("sine").attack(2).release(3).sustain(.8)
+    .lpf(sine.range(600,2200).slow(8))
+    .room(.9).rsize(4).rfade(3)
+    .delay(.4).delaytime(.5).delayfeedback(.5)
+    .gain(saw.range(.08,.45).slow(18))
+    .orbit(1),
 
-$: s("vinyl:2").gain(.08).room(1).loop(1).lpf(1800)
+  // crystalline melody — sparse tones adrift in delay
+  note("<~ eb5 ~ g5 ~ bb5 ~ ab5>".slow(2))
+    .s("triangle").attack(.3).release(2.5).sustain(.3)
+    .lpf(perlin.range(1200,4000).slow(6))
+    .vib(2.5).vibmod(.4)
+    .room(.85).rsize(3)
+    .delay(.65).delaytime(1/3).delayfeedback(.7)
+    .gain(.25)
+    .juxBy(.6, x => x.late(.125).transpose(12))
+    .mask("<0 1 1 1 1 1 1 1 0 0 0 1 1 1 1 1 1 1>")
+    .orbit(2),
 
-$: note("<db1 ab0 eb1 db1>/4")
-   .s("sine")
-   .attack(3).decay(2).sustain(.8).release(4)
-   .gain(.2).room(.6)
-   .lpf(120)
+  // weightless FM arpeggio — cascading gently
+  n("<0 2 4 7 4 2 0 -1>".slow(2))
+    .scale("Eb4:major")
+    .s("sine").fm(1.5).fmh(2).fmdecay(.5).fmsustain(.15)
+    .attack(.1).release(1.5).sustain(.25)
+    .lpf(sine.range(500,2800).slow(10))
+    .room(.8).rsize(2)
+    .delay(.5).delaytime(.25).delayfeedback(.6)
+    .gain(.18).pan(sine.range(.2,.8).slow(5))
+    .mask("<0 1 1 1 1 1 1 1 0 0 0 1 1 1 1 1 1 1>")
+    .orbit(3),
 
-$: arrange(
-  [4,  chord("<Dbmaj9 Abmaj7>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(1.5).decay(1.5).sustain(.7).release(3).lpf(sine.range(400,1000).slow(12)).room(.85).gain(.22)],
-  [8,  chord("<Dbmaj9 Eb^7 Abmaj7 Bbm9>").dict('ireal').voicing().s("gm_synth_strings_1").attack(1).decay(1.2).sustain(.75).release(2.5).lpf(sine.range(500,1400).slow(10)).room(.8).gain(.3)],
-  [8,  chord("<Dbmaj9 Eb^7 Abmaj7 Bbm9>").dict('ireal').voicing().s("gm_synth_strings_1").attack(.8).decay(1).sustain(.8).release(2).lpf(sine.range(600,1800).slow(8)).room(.75).gain(.35)],
-  [4,  chord("<Dbmaj9 Abmaj7>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(2).sustain(.5).release(4).lpf(sine.range(300,800).slow(16)).room(.9).gain(saw.slow(4).range(.25,.05))]
-)
+  // bridge shimmer — ghostly high harmonics
+  note("<[bb5,eb6] ~ [ab5,c6] ~>")
+    .s("sine").attack(1).release(2).sustain(.2)
+    .fm(.8).fmh(3).fmdecay(1).fmsustain(.1)
+    .lpf(1200).room(.9).rsize(5)
+    .delay(.7).delaytime(.4).delayfeedback(.75)
+    .gain(.12)
+    .mask("<0 0 0 0 0 0 0 0 1 1 1 0 0 0 0 0 0 0>")
+    .orbit(5),
 
-$: arrange(
-  [4,  silence],
-  [8,  chord("<Dbmaj9 Eb^7 Abmaj7 Bbm9>").dict('ireal').voicing().s("gm_epiano2").struct("~ [x ~] ~ ~").lpf(1800).room(.65).delay(".4:.3:.55").gain(.32).speed(.98)],
-  [8,  chord("<Dbmaj9 Eb^7 Abmaj7 Bbm9>").dict('ireal').voicing().s("gm_epiano2").struct("[~ x] ~ [~ x] ~").lpf(2200).room(.6).delay(".35:.25:.5").gain(.38).speed(.99)],
-  [4,  chord("<Dbmaj9>/1").dict('ireal').voicing().s("gm_epiano2").struct("x ~ ~ ~").lpf(1200).room(.85).delay(".6:.4:.7").gain(.2)]
-)
+  // sub bass — more felt than heard
+  note("<eb2!2 ab1!2 f2!2 bb1!2>")
+    .s("sine").attack(1.5).release(2).sustain(.9)
+    .lpf(160).gain(.35).room(.2)
+    .mask("<0 1 1 1 1 1 1 1 0 0 [0 1] 1 1 1 1 1 1 1>")
+    .orbit(4),
 
-$: arrange(
-  [4,  silence],
-  [8,  n("<[~ 0 ~ ~] [~ ~ 2 ~] [~ 4 ~ 3] [~ ~ ~ 0]>").scale("Db5:lydian").s("gm_epiano1").lpf(sine.range(800,2800).slow(14)).room(.7).delay(".45:.35:.6").gain(.28).attack(.08).decay(.4).sustain(.5).release(.8)],
-  [8,  n("<[~ 2 ~ 4] [5 ~ ~ 3] [~ 4 ~ ~] [2 ~ 0 ~]>").scale("Db5:lydian").s("gm_epiano1").lpf(sine.range(1000,3500).slow(10)).room(.65).delay(".4:.3:.55").gain(.34).attack(.05).decay(.35).sustain(.55).release(.6).sometimes(x => x.add(note(12)))],
-  [4,  n("<[~ ~ 4 ~] [~ 0 ~ ~]>/2").scale("Db5:lydian").s("gm_epiano1").room(.85).delay(".6:.45:.7").gain(.2).lpf(sine.range(600,1600).slow(12))]
-)
-
-$: arrange(
-  [4,  silence],
-  [8,  silence],
-  [8,  n("<[~ ~ 0 ~] [~ 2 ~ ~] [4 ~ ~ ~] [~ ~ 2 ~]>").scale("Db6:lydian").s("gm_celesta").lpf(sine.range(2000,5000).slow(16)).room(.8).delay(".5:.35:.65").gain(.18).pan(sine.slow(9))],
-  [4,  silence]
+  // cosmic dust — filtered noise texture
+  s("pink").slow(4)
+    .lpf(perlin.range(150,600).slow(7))
+    .gain(.04).room(.6).rsize(2)
+    .orbit(6)
 )

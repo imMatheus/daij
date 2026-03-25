@@ -1,10 +1,47 @@
-// 🎵 "Adrenaline spike" — Anxious Microtonal Glitch
-setcps(160/60/4);
+// 🎵 "Neural Tremor" — Anxious Algorithmic Glitch
+
+setcps(138 / 60 / 4)
+
 stack(
-  s("bd(5,8)").lpf(200).gain(1).room(0.4),
-  s("~ [sn:2 <sn:2 [~ sn:2]>]").gain(0.7).delay(0.2).room(0.5),
-  s("hc(13,16)").n(irand(10)).gain(perlin.range(0.2, 0.8)).pan(sine),
-  note("<[0,1,4.5] [1,2,5.5] [0,0.5,6]>").s("supersaw").lpf(perlin.range(300, 2000)).gain(0.4).room(1),
-  s("glitch(11,16)").speed(range(1, 8, perlin)).gain(0.5).delay(0.4).delayfb(0.7),
-  note("12*16").s("supertron").struct("1(7,16)").gain(sine.range(0, 0.3)).hpf(3000)
-).reset(16)
+  // Structural Control & Global Mood
+  all(x => x.room(0.4).delay(0.2).distort(perlin.slow(16).range(0, 0.5))),
+
+  arrange(
+    // Intro: Sparse and uncertain (0-3s / 2 cycles)
+    [2, stack(
+      s("hh*16").degradeBy(0.8).gain(0.4),
+      n("0 6").scale("c2:locrian").s("sine").lpf(200).vib(8).vibmod(0.1)
+    )],
+
+    // Chorus: High tension, Locrian jitters (10-30s / 12 cycles)
+    [12, stack(
+      s("bd(3,8)").bank("tr808").distort(1.5).gain(1.2),
+      s("hh*[16|32]").degradeBy(perlin.slow(4).range(0.2, 0.7)).jux(rev),
+      s("cp:3(5,8,2)").bank("tr909").room(0.8).gain(0.7).rarely(x => x.ply(2)),
+      n("<[0,1,6,b5] [1,2,b5,6]>").scale("c2:locrian").s("sawtooth")
+        .lpf(sine.slow(8).range(100, 900)).lpq(12).vib(5).vibmod(0.2),
+      n(irand(12).seg(16)).scale("c5:locrian").s("fm").fm(8).fmh(1.618)
+        .gain(0.6).juxBy(0.5, x => x.slow(2).rev())
+    )],
+
+    // Bridge: Deconstructed chaos, no kick (2-12s / 6 cycles)
+    [6, stack(
+      s("hh*24").degradeBy(0.1).gain(perlin.slow(2).range(0.3, 0.9)),
+      s("glitch:4").slice(16, "0 [3 2] 7 [4 8]").chop(8).rev().gain(0.8),
+      s("crackle*16").density(saw.slow(6).range(0.1, 2)).distort(5).lpf(2000),
+      n("0 [7 6] 12 [13 11]").scale("c1:locrian").s("pulse").pw(0.2).lpf(400).lpq(20)
+        .lfo({ c: 'lpf', s: 4, dr: 200 })
+    )],
+
+    // Final Chorus: Maximum anxiety (10-30s / 20 cycles)
+    [20, stack(
+      s("bd(3,8)").bank("tr808").distort(3).gain(1.3).every(4, x => x.fast(2)),
+      s("hh*[32|64]").degradeBy(perlin.slow(2).range(0.1, 0.5)).jux(rev).gain(1.1),
+      s("cp:3(5,8,2)").bank("tr909").room(1).gain(0.9),
+      n("<[0,1,6,7] [1,2,7,8]>").scale("c2:locrian").s("sawtooth")
+        .lpf(sine.slow(4).range(100, 1500)).lpq(15).vib(10).vibmod(0.3),
+      n(irand(12).seg(16)).scale("c6:locrian").s("fm").fm(12).fmh(3.14).gain(0.7)
+        .echo(4, 1/16, 0.6).distort(0.5)
+    )]
+  )
+).reset("<x(1,40)>")

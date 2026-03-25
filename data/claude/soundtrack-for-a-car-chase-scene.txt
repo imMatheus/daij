@@ -1,42 +1,56 @@
-// "Burnout Protocol" — high-octane breakbeat chase, screeching synths and relentless percussion
-setcps(168/60/4)
-
-samples('github:tidalcycles/dirt-samples')
-
-stack(
-  s("<[bd [~ bd] bd [bd ~], ~ sd ~ sd:2, hh*16, ~ oh ~ oh] [bd*2 [~ bd] [bd ~] bd, ~ [sd sd] ~ sd, hh*16, oh(3,8)]>")
-    .bank("RolandTR909").cut(1)
-    .gain(perlin.range(.78,.98)).room(.15)
-    .every(4, x => x.fast(2).gain(.55))
-    .every(7, x => x.rev()),
-  s("breaks165").splice(8, "<[0 3 6 2] [7 1 5 4] [0 ~ 3 7] [6 2 ~ 1]>")
-    .cut(2).gain(.38)
-    .hpf(800).lpf(sine.range(2200,5800).slow(5))
-    .speed("<1 1.5 .75 2>")
-    .sometimes(x => x.crush(8)).room(.2),
-  note("<[e1 ~ e1 ~] [~ g1 ~ e1] [a1 ~ e1 ~] [~ b0 ~ e1]>")
-    .s("sawtooth").lpf(sine.range(180,1200).slow(6))
-    .decay(.12).sustain(.5).release(.06)
-    .gain(.75).distort(.35).room(.1),
-  note("<e0 g0 a0 b0>/4").s("sine")
-    .gain(.4).lpf(80).decay(1.5).sustain(.85).release(.5),
-  note("<[e3,g3,b3] [a3,c4,e4] [g3,b3,d4] [b3,d4,f4]>")
-    .s("square").struct("[x ~ x ~]*2")
-    .lpf(sine.range(800,4200).slow(7))
-    .gain(.38).distort(.3).room(.25).crush(9)
-    .every(3, x => x.fast(2).gain(.22)),
-  n("<[0 ~ 4 7] [~ 10 7 3] [5 ~ 7 ~] [10 7 ~ 3]>")
-    .scale("E5:minor:pentatonic").s("sawtooth")
-    .lpf(sine.range(1500,5500).slow(4))
-    .gain(.28).distort(.2).room(.4).delay(".2:.18:.3")
-    .decay(.08).sustain(.2)
-    .every(3, x => x.rev())
-    .sometimes(x => x.add(note(12)).gain(.15)),
-  note("e2*16").s("sawtooth")
-    .gain(perlin.range(.05,.2))
-    .lpf(sine.range(100,600).slow(3))
-    .distort(.6).room(.12),
-  s("cp(5,16,<0 2 4>)").bank("RolandTR909")
-    .gain(perlin.range(.15,.35)).room(.5).pan(perlin.range(.2,.8))
-    .delay(".15:.12:.2")
-).reset("<16 16 8 16>")
+// "Asphalt Fury" — Aggressive electronic chase soundtrack
+setcps(0.6)
+arrange(
+  // INTRO — rumble and tension
+  [2, stack(
+    note("e1*16").s("sawtooth").gain(saw.slow(2).range(.15,.55))
+      .lpf(saw.slow(2).range(80,400)).lpq(5).distort("2:.4"),
+    s("bd(3,8)").bank("RolandTR909").gain(saw.slow(2).range(.3,.65)),
+    s("hh(5,16)").bank("RolandTR909").gain(.2).hpf(8000)
+  )],
+  // CHORUS — pedal to the metal
+  [16, stack(
+    s("bd*4").bank("RolandTR909").gain(.85).distort("1.5:.5"),
+    s("~ sd ~ sd").bank("RolandTR909").gain(.7).room(.1),
+    s("hh*16").bank("RolandTR909")
+      .gain(".5 .3 .6 .3 .5 .35 .7 .3 .5 .3 .65 .3 .5 .35 .8 .4")
+      .hpf(7000),
+    s("~ ~ ~ ~ ~ ~ ~ oh").bank("RolandTR909").gain(.2).hpf(5000),
+    note("e1!6 <g1 d1> e1").s("sawtooth")
+      .lpf(sine.slow(8).range(200,800)).lpq(5).lpenv(3).lpd(.1)
+      .distort("3:.3").gain(.55),
+    note("[e4,g4,b4] ~ [d4,f4,a4] <~ [c4,e4,g4]>")
+      .s("supersaw").detune(.15).gain(.28)
+      .lpf(perlin.range(1500,5000)).decay(.15).sustain(.1)
+      .delay(".2:.12:.4").room(.08)
+  )],
+  // BRIDGE — gears down
+  [6, stack(
+    s("[bd ~ bd ~]*2").bank("RolandTR909").gain(.7).distort("2:.4").lpf(600),
+    s("~ [~ sd] ~ sd").bank("RolandTR909").gain(.5).room(.3).delay(".3:.16:.5"),
+    s("hh(5,8)").bank("RolandTR909").gain(.3).hpf(8000),
+    note("b1 ~ e1 ~ <b1 a1> ~ e1 ~").s("sawtooth")
+      .lpf(sine.slow(4).range(150,500)).lpq(6).distort("4:.25").gain(.45),
+    note("[b3,e4,g4] ~ ~ ~ [a3,d4,f4] ~ ~ ~")
+      .s("supersaw").detune(.2).gain(.18)
+      .lpf(2000).decay(.3).sustain(0).release(.4).room(.2)
+  )],
+  // CHORUS RETURN — redline
+  [18, stack(
+    s("bd*4").bank("RolandTR909").gain(.9).distort("2:.5"),
+    s("~ sd ~ <sd [sd sd]>").bank("RolandTR909").gain(.75).room(.1),
+    s("hh*16").bank("RolandTR909")
+      .gain(".5 .35 .7 .3 .5 .35 .8 .3 .5 .35 .7 .3 .55 .35 .9 .5")
+      .hpf(6500).sometimesBy(.3, x=>x.speed("1.5")),
+    s("~ ~ ~ ~ ~ ~ ~ oh").bank("RolandTR909").gain(.25).hpf(4000),
+    note("e1!6 <g1 a1> <e1 d1>").s("sawtooth")
+      .lpf(sine.slow(6).range(250,1100)).lpq(5).lpenv(4).lpd(.08)
+      .distort("3.5:.3").gain(.6),
+    note("[e4,g4,b4] ~ <[d4,f4,a4] [c4,e4,g4]> <~ [d4,f#4,a4]>")
+      .s("supersaw").detune(.15).gain(.32)
+      .lpf(perlin.range(2000,6000)).decay(.15).sustain(.1)
+      .delay(".25:.12:.45").room(.1),
+    note("<e5 b5> <g5 a5> <b5 d5> <a5 g5>").s("triangle")
+      .gain(.15).lpf(3000).delay(".3:.06:.4")
+  )]
+)

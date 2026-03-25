@@ -1,46 +1,59 @@
-// "Celestial Drift" — cinematic space exploration pulse
+// "Starfield Survey" — cinematic ambient pulse for a space exploration scene
 samples('github:tidalcycles/dirt-samples')
-setcps(0.42)
-note("<[0 2 4 7] [0 3 5 8] [2 5 7 10] [0 4 7 11]>/2")
-  .s("<supersaw superpiano>")
-  .scale("minor")
-  .legato(1.15)
-  .gain(0.55)
-  .lpf(sine.slow(16).range(500,4200))
-  .room(0.72)
-  .delay(0.28)
-  .stack(
-    note("<[0 7 12] [0 5 10] [2 9 14] [0 7 11]>/2")
-      .s("prophet")
-      .gain(0.32)
-      .room(0.96)
-      .lpf(perlin.slow(12).range(260,1700)),
-    s("<[bd(3,8)] [bd(5,16)] [bd(3,8) bd(5,16)] [bd(7,16)]>/2")
-      .gain(0.9)
-      .lpf(sine.slow(9).range(90,220))
-      .room(0.22),
-    s("[~ cp] <~ cp(3,8)> [~ <oh ch>] [cp ~]")
-      .fast(2)
-      .gain(0.34)
-      .delay(0.32)
-      .room(0.46)
-      .lpf(perlin.slow(7).range(1200,6800)),
-    s("<[hh*8] [hh*16] [hh*8 hh*4] [hh*12]>/2")
-      .gain(0.2)
-      .lpf(sine.slow(11).range(3000,9000))
-      .pan(sine.slow(6)),
-    note("<[12 14 17 19] [10 12 15 17] [9 12 14 16] [7 10 12 14]>/4")
-      .s("arpy")
-      .gain(0.28)
-      .fast(2)
-      .delay(0.45)
-      .room(0.86)
-      .lpf(perlin.slow(5).range(1400,5400)),
-    s("<space ~> [~ wind] <odx ~> [space ~]")
-      .slow(4)
-      .gain(0.3)
-      .room(1)
-      .delay(0.5)
-      .lpf(sine.slow(13).range(500,2600))
+setcps(0.4)
+stack(
+  arrange(
+    [1, "[c3,g3] ~ ~ ~"],
+    [3, "<[c3,g3,b3] [eb3,g3,bb3] [g3,bb3,d4] [bb2,d3,f3]>"],
+    [8, "<[c3,g3,b3] [eb3,g3,bb3] [g3,bb3,d4] [bb2,d3,f3]>"],
+    [5, "<[ab2,c3,eb3] [f2,ab2,c3] [g2,bb2,d3] [eb3,g3,bb3]>"],
+    [3, "<[f2,a2,c3] [g2,bb2,d3] [bb2,d3,f3] [d3,f3,a3]>"],
+    [8, "<[c3,g3,b3] [eb3,g3,bb3] [g3,bb3,d4] [bb2,d3,f3]>"]
+  ).note().slow(2).s("supersaw").attack(.8).release(2.8).detune(.35).chorus(.35)
+   .lpf(sine.slow(6).range(700,2600)).lpq(.22)
+   .room(.82).roomsize(.95).delay(.35).delaytime(.75).delayfeedback(.72).gain(.42),
+  arrange(
+    [1, "~"],
+    [3, "c1 ~ g0 ~"],
+    [8, "c1 ~ c1 ~ g0 ~ bb0 ~"],
+    [5, "ab0 ~ eb1 ~ f0 ~ g0 ~"],
+    [3, "f0 ~ g0 ~ bb0 ~ d1 ~"],
+    [8, "c1 ~ c1 ~ g0 ~ bb0 ~"]
+  ).note().s("sine").attack(.01).release(.7).penv(2).pdecay(.08)
+   .lpf(180).gain(.36).room(.12).reset("<x ~ ~ ~>"),
+  arrange(
+    [1, "~ ~ [g6,b6,d7] ~"],
+    [3, "<[g5,b5,d6] [bb5,d6,f6] [d6,g6,bb6] [f6,a6,c7]>"],
+    [8, "<[g5,b5,d6] [bb5,d6,f6] [d6,g6,bb6] [f6,a6,c7]>"],
+    [5, "<[ab5,c6,eb6] [c6,f6,ab6] [g5,bb5,d6] [eb6,g6,bb6]>"],
+    [3, "<[a5,c6,f6] [bb5,d6,g6] [d6,f6,bb6] [f6,a6,d7]>"],
+    [8, "<[g5,b5,d6] [bb5,d6,f6] [d6,g6,bb6] [f6,a6,c7]>"]
+  ).note().arp("0 1 2 1").fast(2).s("triangle").attack(.02).release(.22)
+   .vib(4).vibmod(.08).lpf(sine.slow(8).range(1800,6500))
+   .delay("0.55:0.25:0.78").room(.58).gain(.17).reset("<x ~ ~ ~ ~ ~ ~ ~>"),
+  arrange(
+    [1, "g6 ~ ~ d7"],
+    [3, "g6 ~ bb6 ~ d7 ~ f7 ~"],
+    [8, "g6 ~ bb6 ~ d7 ~ g7 ~"],
+    [5, "eb6 ~ c7 ~ g6 ~ d7 ~"],
+    [3, "f6 ~ a6 ~ c7 ~ d7 ~"],
+    [8, "g6 ~ bb6 ~ d7 ~ g7 ~"]
+  ).note().s("sine").attack(.02).release(1.2).lpf(2400)
+   .delay(.62).delaytime(.9).delayfeedback(.76).room(.9).gain(.1),
+  arrange(
+    [1, s("~")],
+    [3, s("~")],
+    [8, s("bd(3,8)").bank("tr909").gain(.7).lpf(220)],
+    [5, s("~")],
+    [3, s("bd*2").bank("tr909").gain(.28).lpf(200)],
+    [8, s("bd(3,8)").bank("tr909").gain(.7).lpf(220)]
+  ),
+  arrange(
+    [1, s("~")],
+    [3, s("hh").bank("tr909").euclid(3,8).gain(.05).hpf(9000).room(.35)],
+    [8, s("hh").bank("tr909").euclid(11,16).gain(.08).hpf(9000).delay(.12).room(.28)],
+    [5, s("hh").bank("tr909").euclid(5,16).gain(.04).hpf(10000).delay(.2).room(.45)],
+    [3, s("cp").bank("tr909").euclid(3,8).gain(.06).hpf(7000).delay(.18).room(.4)],
+    [8, s("hh").bank("tr909").euclid(11,16).gain(.08).hpf(9000).delay(.12).room(.28)]
   )
-  .reset(24)
+)

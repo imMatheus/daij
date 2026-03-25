@@ -1,10 +1,32 @@
-// 🎵 "Sunday Morning Haze" — Lo-fi ambient jazz for a lazy wake-up
-samples('github:tidalcycles/dirt-samples');
+// 🎵 "Sunday Slumber" — Cozy Ambient Chill
+
 setcps(0.35);
+
+samples('github:tidalcycles/dirt-samples');
+
 stack(
-  s("superrhodes").note("<[c3,g3,b3,d4] [f3,c4,e4,a4] [d3,a3,c4,f4] [g2,d3,f3,b3]>").gain(0.7).room(0.9).lpf(sine.range(400, 1200).slow(8)).jux(rev),
-  s("bd [~ [~ sd:2]] ~ [~ sd:2]").velocity("<0.5 0.3>").room(0.5).gain(0.6).hpf(200),
-  s("hh*16?").velocity(perlin.range(0.1, 0.3)).pan(perlin).gain(0.4),
-  s("superpiano").note("~ <[g4,b4] [a4,c5]> ~ <[e4,g4] [d4,f4]>").velocity(0.3).delay(0.7).room(1).gain(0.5).lpf(2000),
-  s("sine").note("<c2 f2 d2 g2>").gain(0.4).lpf(200)
-).reset(8)
+  // Warm Rhodes-like swell
+  note("<[f3,a3,c4,e4] [a2,c3,e3,g3] [bb2,d3,f3,a3] [c3,e3,g3,bb3,d4]>")
+  .s("superpiano").velocity(perlin.slow(4).range(0.3, 0.45)).release(6).room(0.9)
+  .lpf(sine.slow(10).range(400, 1000))
+  .mask("<1!25>"),
+
+  // Sublow Bass
+  note("<f1 a0 bb0 c1>").s("sine")
+  .gain(0.5).adsr("1:0.5:0.6:1.5")
+  .mask("<0!1 1!10 0!4 1!10>"),
+
+  // Heartbeat Kick
+  s("bd:4").gain(0.4).lpf(300)
+  .mask("<0!1 1!10 0!4 1!10>"),
+
+  // Distant Shakers
+  s("hh*16").gain(0.08).velocity(rand.range(0.05, 0.12)).room(0.5)
+  .mask("<0!3 1!8 0!6 1!8>"),
+
+  // Dreamy Twinkles
+  n(irand(7)).scale("F:major").s("superperi").gain(0.2)
+  .release(4).slow(2).jux(rev).room(1).delay(0.5).delaytime(0.75)
+  .mask("<0!2 1!9 0!6 1!8>")
+)
+.reset("<x!1 x!10 x!4 x!10>")

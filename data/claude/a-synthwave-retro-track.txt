@@ -1,26 +1,59 @@
-// "Midnight Chrome" — neon-soaked synthwave racing through a digital sunset
-setcps(120/60/4)
+// "Midnight Chrome" — synthwave retro night cruise
+samples('github:tidalcycles/dirt-samples')
+setcps(100/60/4)
 
-s("bd*4").bank("RolandTR909").gain(1.1).room(.15).lpf(900)
-.stack(
-  s("~ sd:3 ~ sd:3").bank("RolandTR909").gain(.78).room(.55).roomsize(3).delay(".06:.04:.08"),
-  s("hh(13,16)").bank("RolandTR909").gain(perlin.range(.12,.38)).pan(sine.slow(5)).cut(1).lpf(sine.range(4000,9000).slow(7)),
-  s("[~ oh]*2").bank("RolandTR909").gain(.18).room(.35).cut(1),
-  note("<[a1 ~ a1 ~] [a1 ~ ~ a1] [f1 ~ f1 ~] [g1 ~ ~ g1]>")
-    .s("sawtooth").lpf(sine.range(100,500).slow(16)).gain(.55)
-    .decay(.18).sustain(.45).release(.06).distort(.1),
-  n("<[0 4 7 12 7 4 0 4] [0 5 8 12 8 5 0 5] [0 4 7 12 7 4 0 4] [0 4 7 11 7 4 0 4]>")
-    .scale("A3:minor").s("sawtooth").decay(.06).sustain(.15).release(.04)
-    .lpf(sine.range(1400,5000).slow(6)).gain(.32).room(.45).delay(".22:.16:.3")
-    .pan(sine.slow(4)),
-  chord("<Am9 Fmaj7 C6 G>").dict('ireal').voicing()
-    .s("sawtooth").attack(.5).decay(.8).sustain(.55).release(1.2)
-    .lpf(sine.range(500,1600).slow(14)).room(.65).gain(.22)
-    .jux(rev),
-  n("<[~ 0 ~ 4] [2 ~ 7 ~] [~ 5 ~ 3] [7 ~ 4 ~]>")
-    .scale("A5:minor:pentatonic").s("square").decay(.12).sustain(.35).release(.15)
-    .lpf(sine.range(1800,5500).slow(8)).room(.5).delay(".35:.24:.48")
-    .gain(.3).pan(sine.slow(6)),
-  note("a0").s("sine").gain(.16).lpf(110).attack(2).sustain(.8).release(2.5)
-)
-.reset("<x x x [x x]>".slow(8))
+const intro = 1, chorus = 12, bridge = 4, outro = 1
+const chords = "<[a3 c4 e4] [f3 a3 c4] [c3 e3 g3] [e3 gs3 b3]>"
+const highChords = "<[a4 c5 e5] [f4 a4 c5] [c4 e4 g4] [e4 gs4 b4]>"
+const roots = "<a1 f1 c2 e1>"
+
+arrange(
+  [intro, s("~ ~ ~ ~, hh*8").hpf(9000).room(.5).gain(.06)],
+  [chorus, s("bd*4, ~ cp ~ cp, hh*8, ~ ~ oh ~").gain(".9 .5 .14 .07").room(.15).hpf(2200).swing(4)],
+  [bridge, s("bd ~ ~ bd, ~ ~ cp ~, hh*8, ~ oh ~ ~").gain(".65 .28 .1 .06").room(.35).lpf(sine.slow(4).range(2000,6000)).delay(".2:.5:.4")],
+  [chorus, s("bd*4, ~ cp ~ cp, hh*8, ~ ~ oh ~").gain(".9 .5 .14 .07").room(.15).hpf(2200).swing(4)],
+  [outro, s("bd*4, hh*4").gain(".25 .04").lpf(sine.slow(2).range(900,3000)).room(.6)]
+).stack(
+  arrange(
+    [intro, silence],
+    [chorus, s("bd*4").duckorbit("2:3:4:5").duckattack("0.3:0.25:0.2:0.18").duckdepth("1:.7:.5:.4").postgain(0)],
+    [bridge, s("bd*2").duckorbit("2:3:4:5").duckattack("0.4:0.35:0.3:0.25").duckdepth(".7:.4:.3:.2").postgain(0)],
+    [chorus, s("bd*4").duckorbit("2:3:4:5").duckattack("0.3:0.25:0.2:0.18").duckdepth("1:.7:.5:.4").postgain(0)],
+    [outro, silence]
+  ),
+  arrange(
+    [intro, note("a1").s("square").orbit(2).lpf(180).attack(.01).decay(.14).sustain(.3).release(.1).gain(.25)],
+    [chorus, note(roots).struct("[x ~ x ~]").s("square").orbit(2).lpf(sine.slow(5).range(180,850)).lpq(.18).attack(.01).decay(.15).sustain(.24).release(.08).distort(.1).gain(.52)],
+    [bridge, note("<a1 e1 f1 e1>").struct("[x ~ ~ x]").s("sine").orbit(2).lpf(sine.slow(4).range(140,480)).attack(.02).decay(.2).sustain(.28).release(.18).gain(.36).room(.2)],
+    [chorus, note(roots).struct("[x ~ x [~ x]]").s("square").orbit(2).lpf(sine.slow(6).range(200,1100)).lpq(.2).attack(.01).decay(.16).sustain(.26).release(.08).distort(.12).gain(.58)],
+    [outro, note("a1").s("sine").orbit(2).attack(.02).decay(.2).sustain(.18).release(.5).lpf(170).gain(.16)]
+  ),
+  arrange(
+    [intro, note("[a3 c4 e4]").s("supersaw").orbit(3).attack(.3).decay(.5).sustain(.82).release(1.3).lpf(sine.slow(2).range(550,1900)).room(.92).delay(".38:.5:.5").chorus(.3).gain(.18)],
+    [chorus, note(chords).struct("[x ~ x ~]").s("supersaw").orbit(3).attack(.04).decay(.32).sustain(.58).release(.24).lpf(perlin.slow(6).range(1600,5800)).lpq(.2).room(.38).delay(".28:.375:.4").chorus(.24).gain(.36)],
+    [bridge, note("<[f3 a3 c4] [e3 gs3 b3] [a3 c4 e4] [e3 gs3 b3]>").struct("[x ~ x ~]").s("supersaw").orbit(3).attack(.1).decay(.45).sustain(.7).release(.55).lpf(sine.slow(4).range(900,3200)).room(.82).delay(".44:.5:.55").chorus(.32).gain(.24)],
+    [chorus, note(chords).struct("[x ~ x x]").s("supersaw").orbit(3).attack(.03).decay(.28).sustain(.6).release(.22).lpf(perlin.slow(7).range(1800,6200)).lpq(.22).room(.32).delay(".3:.375:.42").chorus(.26).gain(.4)],
+    [outro, note("[a3 c4 e4]").s("supersaw").orbit(3).attack(.08).decay(.38).sustain(.5).release(1.4).lpf(sine.slow(2).range(600,1800)).room(.94).delay(".4:.5:.52").chorus(.3).gain(.15)]
+  ),
+  arrange(
+    [intro, silence],
+    [chorus, note(highChords).arp("0 1 2 1 2 1 0 1").fast(2).s("triangle").orbit(4).attack(.01).decay(.12).sustain(.14).release(.12).lpf(sine.slow(5).range(1800,5500)).delay(".25:.25:.34").room(.22).gain(.2)],
+    [bridge, note("<[a4 c5 e5] [gs4 b4 e5] [f4 a4 c5] [e4 gs4 b4]>").arp("0 1 2 1").fast(2).s("triangle").orbit(4).attack(.02).decay(.15).sustain(.14).release(.2).lpf(sine.slow(3).range(1400,3800)).delay(".48:.5:.62").room(.6).gain(.14)],
+    [chorus, note(highChords).arp("0 1 2 1 2 1 0 1").fast(4).s("triangle").orbit(4).attack(.01).decay(.1).sustain(.12).release(.1).lpf(sine.slow(6).range(2200,7200)).delay(".3:.25:.42").chorus(.14).room(.24).gain(.26)],
+    [outro, silence]
+  ),
+  arrange(
+    [intro, silence],
+    [chorus, n("<4 ~ 5 ~ 7 5 4 ~ 2 ~ 4 ~ 5 4 2 ~>").scale("A4:minor").fast(2).s("pulse").orbit(5).attack(.02).decay(.16).sustain(.26).release(.14).lpf(sine.slow(5).range(2200,8000)).chorus(.18).vib(5).vibmod(.08).delay(".34:.25:.48").room(.26).gain(.22)],
+    [bridge, n("<7 ~ 5 ~ 4 ~ 2 ~>").scale("A4:minor").fast(2).s("pulse").orbit(5).attack(.03).decay(.2).sustain(.22).release(.24).lpf(sine.slow(3).range(1700,4800)).chorus(.24).vib(4).vibmod(.1).delay(".5:.5:.64").room(.72).gain(.14)],
+    [chorus, n("<4 ~ 5 ~ 7 5 4 ~ 2 ~ 4 ~ 5 4 2 ~>").scale("A4:minor").fast(2).s("pulse").orbit(5).attack(.02).decay(.16).sustain(.26).release(.14).lpf(sine.slow(5).range(2200,8000)).chorus(.18).vib(5).vibmod(.08).delay(".34:.25:.48").room(.26).gain(.22)],
+    [outro, silence]
+  ),
+  arrange(
+    [intro, s("vinyl:2").loop(1).lpf(1600).room(.92).gain(.12)],
+    [chorus, s("vinyl:2").loop(1).lpf(2200).room(.76).gain(.08)],
+    [bridge, s("vinyl:2").loop(1).lpf(2000).room(.88).delay(".2:.5:.6").gain(.07)],
+    [chorus, s("vinyl:2").loop(1).lpf(2800).room(.6).gain(.05)],
+    [outro, s("vinyl:2").loop(1).lpf(1400).room(.95).gain(.1)]
+  )
+).postgain(1.04)

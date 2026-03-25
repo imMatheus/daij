@@ -1,41 +1,74 @@
-// "Neon Drive" — pulsing retro synthwave through midnight streets
+// "Neon Afterimage" — retro synthwave night drive
 samples('github:tidalcycles/dirt-samples')
-setcps(0.88)
-note("<[0 2 4 7] [0 3 5 8] [7 5 3 2] [0 2 5 7]>")
-  .scale("a:minor")
-  .s("sawtooth")
-  .legato(0.95)
-  .gain(0.62)
-  .room(0.48)
-  .delay(0.33)
-  .lpf(sine.slow(8).range(700,4300))
-  .stack(
-    note("<[a1 e2] [a1 c2] [f1 c2] [g1 d2]>")
-      .s("square")
-      .slow(2)
-      .gain(0.54)
-      .room(0.22)
-      .lpf(perlin.slow(4).range(180,980)),
-    s("<bd*4 [bd(3,8) ~ bd ~] bd*4 [bd*2 ~ bd]>")
-      .gain(1.08)
-      .lpf(980),
-    s("~ [~ sd] ~ sd")
-      .gain(0.9)
-      .room(0.24)
-      .delay(0.14),
-    s("hh(13,16) <hh(5,8) hh(7,12)>")
-      .gain(0.44)
-      .room(0.16)
-      .lpf(sine.slow(6).range(3200,9200)),
-    s("<[~ cp] [~ ~ cp] [~ cp ~] [cp ~ ~]>")
-      .gain(0.52)
-      .room(0.3)
-      .delay(0.2),
-    s("<arpy:0 arpy:2 arpy:4 arpy:6>*2")
-      .slow(2)
-      .gain(0.34)
-      .room(0.78)
-      .delay(0.5)
-      .lpf(sine.slow(12).range(1200,7200))
+setcps(100/60/4)
+
+const intro = 1, drive = 6, chorus = 8, bridge = 4, outro = 1
+const prog = "<[fs4 a4 cs5] [d4 fs4 a4] [a3 cs4 e4] [e4 gs4 b4]>"
+const highProg = "<[fs5 a5 cs6] [d5 fs5 a5] [a4 cs5 e5] [e5 gs5 b5]>"
+const roots = "<fs2 d2 a1 e2>"
+
+arrange(
+  [intro, s("~ ~ ~ ~, ~ ~ ~ ~, hh*8").begin(.02).end(.06).hpf(9000).room(.55).gain(.07)],
+  [drive, s("bd*4, ~ cp ~ cp, [hh*8 ~ hh*4], ~ ~ oh ~").begin("<0 .01 .02 .01>").end("<1 .08>").hpf(2200).room(.18).gain(".92 .42 .11 .08").swing(4)],
+  [chorus, s("bd*4, ~ cp ~ cp, [hh*16 [~ hh]*4], ~ oh ~ oh, ~ ~ lt ht").begin("<0 .01 .02 .01 .03>").end("<1 .08>").hpf(sine.slow(6).range(1800,5600)).room(.14).gain(".98 .54 .18 .11 .1").swing(4)],
+  [bridge, s("bd ~ ~ ~, ~ ~ cp ~, hh*8, ~ ~ oh ~").begin("<0 .01>").end("<1 .08>").lpf(sine.slow(4).range(1800,6200)).room(.42).delay(".18:.5:.35").gain(".62 .3 .08 .05").reset("<x ~ ~ x>")],
+  [chorus, s("bd*4, ~ cp ~ cp, [hh*16 [~ hh]*4], ~ oh ~ oh, ~ ~ lt ht").begin("<0 .01 .02 .01 .03>").end("<1 .08>").hpf(sine.slow(6).range(1800,5600)).room(.14).gain(".98 .54 .18 .11 .1").swing(4)],
+  [outro, s("bd*4, ~ ~ ~ ~, hh*8").begin(.01).end(.07).lpf(sine.slow(2).range(1200,4200)).room(.5).gain(".18 0 .04")]
+).stack(
+  arrange(
+    [intro, silence],
+    [drive, s("bd*4").duckorbit("2:3:4:5").duckattack("0.32:0.28:0.2:0.18").duckdepth("1:.72:.52:.4").postgain(0)],
+    [chorus, s("bd*4").duckorbit("2:3:4:5").duckattack("0.32:0.28:0.2:0.18").duckdepth("1:.72:.52:.4").postgain(0)],
+    [bridge, s("bd*2").duckorbit("2:3:4:5").duckattack("0.46:0.36:0.28:0.22").duckdepth(".72:.38:.3:.22").postgain(0)],
+    [chorus, s("bd*4").duckorbit("2:3:4:5").duckattack("0.32:0.28:0.2:0.18").duckdepth("1:.72:.52:.4").postgain(0)],
+    [outro, silence]
+  ),
+  arrange(
+    [intro, s("vinyl:2").loop(1).lpf(1800).room(.94).gain(.13)],
+    [drive, s("vinyl:2").loop(1).lpf(2400).room(.78).gain(.09)],
+    [chorus, s("vinyl:2").loop(1).lpf(3200).room(.62).gain(.05)],
+    [bridge, s("vinyl:2").loop(1).lpf(2200).room(.88).delay(".22:.5:.6").gain(.07)],
+    [chorus, s("vinyl:2").loop(1).lpf(3200).room(.62).gain(.05)],
+    [outro, s("vinyl:2").loop(1).lpf(1600).room(.96).gain(.11)]
+  ),
+  arrange(
+    [intro, silence],
+    [drive, note(roots).struct("[x ~ x ~]").s("square").orbit(2).lpf(sine.slow(5).range(170,760)).lpq(.16).attack(.01).decay(.16).sustain(.22).release(.08).distort(.08).gain(.54).reset("<x ~ ~ x>")],
+    [chorus, note(roots).struct("[x ~ x [~ x]]").s("square").orbit(2).lpf(sine.slow(6).range(220,1180)).lpq(.22).attack(.01).decay(.18).sustain(.26).release(.08).distort(.12).gain(.68).reset("<x ~ ~ x>")],
+    [bridge, note("<fs2 e2 d2 cs2>").struct("[x ~ ~ x]").s("sine").orbit(2).lpf(sine.slow(4).range(150,420)).attack(.03).decay(.24).sustain(.28).release(.18).gain(.38).room(.24).reset("<x ~ x ~>")],
+    [chorus, note(roots).struct("[x ~ x [~ x]]").s("square").orbit(2).lpf(sine.slow(6).range(220,1180)).lpq(.22).attack(.01).decay(.18).sustain(.26).release(.08).distort(.12).gain(.68).reset("<x ~ ~ x>")],
+    [outro, note("<fs2>").s("sine").orbit(2).attack(.02).decay(.2).sustain(.18).release(.4).lpf(180).gain(.16)]
+  ),
+  arrange(
+    [intro, note("[fs4 a4 cs5]").s("supersaw").orbit(3).attack(.28).decay(.6).sustain(.84).release(1.4).lpf(sine.slow(2).range(520,1800)).room(.94).delay(".38:.5:.5").chorus(.32).gain(.2)],
+    [drive, note(prog).struct("[x ~ x ~]").s("supersaw").orbit(3).attack(.05).decay(.34).sustain(.56).release(.28).lpf(perlin.slow(6).range(800,3000)).lpq(.18).room(.6).delay(".24:.25:.32").chorus(.22).gain(.3).reset("<x ~ x ~>")],
+    [chorus, note(prog).struct("[x ~ x x]").s("supersaw").orbit(3).attack(.02).decay(.3).sustain(.6).release(.22).lpf(perlin.slow(7).range(1700,6400)).lpq(.24).room(.34).delay(".32:.375:.42").chorus(.28).gain(.4).reset("<x ~ x ~>")],
+    [bridge, note("<[d4 fs4 a4] [e4 gs4 b4] [fs4 a4 cs5] [e4 gs4 b4]>").struct("[x ~ x ~]").s("supersaw").orbit(3).attack(.12).decay(.5).sustain(.72).release(.6).lpf(sine.slow(4).range(900,3400)).room(.82).delay(".42:.5:.58").chorus(.34).gain(.26).reset("<x ~ x ~>")],
+    [chorus, note(prog).struct("[x ~ x x]").s("supersaw").orbit(3).attack(.02).decay(.3).sustain(.6).release(.22).lpf(perlin.slow(7).range(1700,6400)).lpq(.24).room(.34).delay(".32:.375:.42").chorus(.28).gain(.4).reset("<x ~ x ~>")],
+    [outro, note("[fs4 a4 cs5]").s("supersaw").orbit(3).attack(.08).decay(.4).sustain(.58).release(1.2).lpf(sine.slow(2).range(700,2200)).room(.9).delay(".4:.5:.52").chorus(.3).gain(.18)]
+  ),
+  arrange(
+    [intro, silence],
+    [drive, note(highProg).arp("0 1 2 1 2 1 0 1").fast(2).s("triangle").orbit(4).attack(.01).decay(.12).sustain(.14).release(.12).lpf(sine.slow(5).range(1600,4200)).delay(".24:.25:.32").room(.22).gain(.16).reset("<x ~ ~ x>")],
+    [chorus, note(highProg).arp("0 1 2 1 2 1 0 1").fast(4).s("triangle").orbit(4).attack(.01).decay(.11).sustain(.12).release(.1).lpf(sine.slow(6).range(2400,7600)).delay(".32:.25:.42").chorus(.14).room(.24).gain(.28).reset("<x ~ ~ x>")],
+    [bridge, note("<[a4 cs5 e5] [gs4 b4 e5] [fs4 a4 cs5] [e4 gs4 b4]>").arp("0 1 2 1").fast(2).s("triangle").orbit(4).attack(.02).decay(.16).sustain(.14).release(.22).lpf(sine.slow(3).range(1400,3600)).delay(".46:.5:.64").room(.64).gain(.14).reset("<x ~ x ~>")],
+    [chorus, note(highProg).arp("0 1 2 1 2 1 0 1").fast(4).s("triangle").orbit(4).attack(.01).decay(.11).sustain(.12).release(.1).lpf(sine.slow(6).range(2400,7600)).delay(".32:.25:.42").chorus(.14).room(.24).gain(.28).reset("<x ~ ~ x>")],
+    [outro, silence]
+  ),
+  arrange(
+    [intro, silence],
+    [drive, silence],
+    [chorus, n("<4 ~ 6 ~ 7 6 4 ~ 2 ~ 4 ~ 6 4 2 ~>").scale("F#4:minor").fast(2).s("pulse").orbit(5).attack(.02).decay(.18).sustain(.28).release(.14).lpf(sine.slow(5).range(2200,8400)).chorus(.18).vib(5).vibmod(.08).delay(".36:.25:.5").room(.28).gain(.24).reset("<x ~ x ~>")],
+    [bridge, n("<7 ~ 6 ~ 4 ~ 2 ~>").scale("F#4:minor").fast(2).s("pulse").orbit(5).attack(.03).decay(.2).sustain(.24).release(.24).lpf(sine.slow(3).range(1600,4800)).chorus(.24).vib(4).vibmod(.1).delay(".48:.5:.66").room(.74).gain(.16).reset("<x ~ x ~>")],
+    [chorus, n("<4 ~ 6 ~ 7 6 4 ~ 2 ~ 4 ~ 6 4 2 ~>").scale("F#4:minor").fast(2).s("pulse").orbit(5).attack(.02).decay(.18).sustain(.28).release(.14).lpf(sine.slow(5).range(2200,8400)).chorus(.18).vib(5).vibmod(.08).delay(".36:.25:.5").room(.28).gain(.24).reset("<x ~ x ~>")],
+    [outro, silence]
+  ),
+  arrange(
+    [intro, silence],
+    [drive, silence],
+    [chorus, s("hh*16").begin(sine.slow(4).range(0,.05)).end(.05).speed("<1 1.08 .96 1.14>").hpf(sine.slow(5).range(8000,14000)).delay(".1:.125:.22").room(.4).gain(.06).orbit(6)],
+    [bridge, silence],
+    [chorus, s("hh*16").begin(sine.slow(4).range(0,.05)).end(.05).speed("<1 1.08 .96 1.14>").hpf(sine.slow(5).range(8000,14000)).delay(".1:.125:.22").room(.4).gain(.06).orbit(6)],
+    [outro, silence]
   )
-  .reset(64)
+).postgain(1.04)

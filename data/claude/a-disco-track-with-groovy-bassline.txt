@@ -1,37 +1,112 @@
-// "Mirror Ball Bounce" — groovy disco with funky octave-jumping bassline and lush strings
-setcps(120/60/4)
+// "Velvet Strobe" — Groovy disco with bouncing synth bassline and shimmering strings
+samples('github:tidalcycles/dirt-samples')
+setcps(120/240)
 
-s("bd*4").bank("RolandTR909").gain(.92).room(.2).shape(.08)
-.stack(
-  s("~ cp ~ cp").bank("RolandTR909").gain(.7).room(.35).delay(".1:.08:.12"),
-  s("[~ hh]*8").bank("RolandTR909").gain(perlin.range(.18,.44)).pan(sine.slow(6)).cut(1),
-  s("<[~ oh]*2 [~ oh ~ oh]>").bank("RolandTR909").gain(.28).room(.25).cut(1),
-  s("rim:2(5,16,<0 3>)").bank("RolandTR909").gain(.2).room(.3).pan(perlin.range(.3,.7)),
-  note("<[a1 ~ a2 a1] [~ a2 a1 ~] [d2 ~ d1 d2] [~ e1 e2 e1] [f1 ~ f2 f1] [~ g1 g2 ~] [a1 a2 ~ a1] [e1 ~ e2 e1]>")
-    .s("gm_slap_bass_1")
-    .lpf(sine.range(1400,3800).slow(8)).hpf(80)
-    .decay(.12).sustain(.38).release(.06)
-    .gain(.86).room(.15).distort(.04),
-  chord("<Am9 Dm7 Fmaj7 E7>").dict('ireal').voicing()
-    .s("gm_synth_strings_1")
-    .attack(.35).sustain(.72).release(1.5)
-    .lpf(sine.range(900,4200).slow(14))
-    .room(.6).gain(.36),
-  chord("<Am9 Dm7 Fmaj7 E7>").dict('ireal').voicing()
-    .s("gm_electric_guitar_clean")
-    .struct("<[~ x ~ x]*2 [~ x x ~] [x ~ x ~] [~ x ~ x]>")
-    .lpf(sine.range(1800,5200).slow(5))
-    .gain(.42).room(.22).delay(".08:.06:.14").swing(2),
-  chord("<Am9 Dm7 Fmaj7 E7>").dict('ireal').voicing()
-    .s("gm_clavinet")
-    .struct("[~ x]*4")
-    .lpf(sine.range(2000,5800).slow(7))
-    .gain(.3).room(.2).swing(3),
-  n("<[~ 0 2 4] [5 4 ~ 2] [~ 3 5 7] [4 ~ 2 ~]>")
-    .scale("A4:minor:pentatonic").s("gm_epiano2")
-    .lpf(sine.range(1500,5000).slow(10))
-    .room(.5).delay(".2:.15:.3").gain(.28)
-    .sometimes(x => x.add(note(12))),
-  note("<a0 d0 f0 e0>/4").s("sine")
-    .gain(.2).lpf(120).attack(1).sustain(.8).release(1.5)
-).reset(16)
+const sweep = sine.slow(6).range(700, 2800)
+const glow = perlin.slow(8).range(1800, 5500)
+const space = sine.slow(10).range(.18, .4)
+
+const pump = s("bd*4").bank("RolandTR909")
+  .duckorbit("2:3:4").duckattack("0.28:0.2:0.12").duckdepth("1:.72:.35").postgain(0)
+
+const intro = stack(
+  s("bd*4").bank("RolandTR909").lpf(700).gain(saw.slow(2).range(.35, .85)),
+  s("hh*8").bank("RolandTR909").gain(saw.slow(2).range(.008, .028)),
+  cat(
+    "c2 ~ c3 ~ ~ ~ eb2 ~",
+    "f1 ~ f2 ~ ~ ~ ab1 ~"
+  ).note().s("sawtooth")
+    .lpf(saw.slow(2).range(250, 800)).lpenv(3).lpd(.1)
+    .decay(.12).sustain(.2).gain(saw.slow(2).range(.25, .65))
+)
+
+const chorus = stack(
+  pump,
+  cat(
+    "c2 ~ c3 c2 eb2 ~ g2 c2 ~ c3 ~ eb2 f2 ~ g2 ~",
+    "f1 ~ f2 f1 ab1 ~ c2 f1 ~ f2 ~ ab1 bb1 ~ c2 ~",
+    "ab1 ~ ab2 ab1 c2 ~ eb2 ab1 ~ ab2 ~ c2 db2 ~ eb2 ~",
+    "g1 ~ g2 g1 bb1 ~ d2 g1 ~ g2 ~ bb1 c2 ~ d2 ~"
+  ).note().s("sawtooth")
+    .attack(.002).decay(.11).sustain(.2).release(.07)
+    .lpf(sweep).lpenv(5).lpd(.08).lpq(3).hpf(35)
+    .gain(.82).orbit(2),
+  cat("c1 ~ ~ ~ ~ ~ ~ ~", "f1 ~ ~ ~ ~ ~ ~ ~", "ab1 ~ ~ ~ ~ ~ ~ ~", "g1 ~ ~ ~ ~ ~ ~ ~")
+    .note().s("sine").decay(.3).sustain(.55).gain(.45).orbit(2),
+  cat("[c4,eb4,g4,bb4]", "[f3,ab3,c4,eb4]", "[ab3,c4,eb4,g4]", "[g3,b3,d4,f4]")
+    .note().s("gm_clavinet")
+    .struct("<[~ x ~ x ~ x x ~] [~ x x ~ ~ x ~ x]>")
+    .attack(.003).decay(.08).sustain(.04).release(.1)
+    .lpf(perlin.range(1400, 3000).slow(5)).drive(.14)
+    .room(.22).delay(.08).delaytime(.125).delayfeedback(.14)
+    .gain(.22).orbit(3),
+  cat("[c4,eb4,g4,bb4]", "[f3,ab3,c4,eb4]", "[ab3,c4,eb4,g4]", "[g3,b3,d4,f4]")
+    .note().s("gm_synth_strings_1")
+    .attack(.2).decay(.6).sustain(.62).release(1.2)
+    .lpf(sine.range(1100, 3200).slow(7))
+    .room(space).delay(.14).delaytime(.25).delayfeedback(.26)
+    .gain(.2).orbit(4),
+  cat(
+    "~ g5 ~ bb5 ~ c6 bb5 ~",
+    "~ ab5 ~ c6 ~ eb6 c6 ~",
+    "~ eb5 ~ g5 ~ ab5 g5 ~",
+    "~ d5 ~ g5 ~ b5 g5 ~"
+  ).note().s("triangle")
+    .attack(.01).decay(.12).sustain(.1).release(.22)
+    .lpf(glow).chorus(.32).vib(5.5).vibmod(.14)
+    .room(.36).delay(.22).delaytime(.25).delayfeedback(.34)
+    .gain(.1).orbit(4),
+  s("bd*4").bank("RolandTR909").lpf(1100).gain(.9).swing(4),
+  s("cp").bank("RolandTR909")
+    .struct("~ ~ ~ ~ x ~ ~ ~ ~ ~ ~ ~ x ~ ~ ~")
+    .lpf(2200).room(.2).gain(.32).swing(4),
+  s("hh").bank("RolandTR909")
+    .euclid(13, 16)
+    .begin("<.01 .02 .015 .03>").end("<.05 .06 .065 .08>")
+    .bpf(glow).bpq(5)
+    .delay(.08).delaytime(.125).delayfeedback(.16)
+    .room(.16).gain(".026 .016 .022 .014 .024 .018 .022 .015 .026 .018 .024 .015 .026")
+    .swing(4),
+  s("oh").bank("RolandTR909")
+    .struct("~ ~ ~ x ~ ~ ~ x ~ ~ ~ x ~ ~ ~ x")
+    .begin(.04).end(.16).hpf(5800).room(.16).gain(.11).swing(4)
+)
+
+const bridge = stack(
+  s("bd*4").bank("RolandTR909")
+    .duckorbit("2:3").duckattack("0.32:0.26").duckdepth("1:.58").postgain(0),
+  cat(
+    "ab1 ~ eb2 ~ ~ ab1 c2 eb2 ~ c2 ~ bb1 ~ eb2 ~ ~",
+    "bb1 ~ f2 ~ ~ bb1 d2 f2 ~ d2 ~ c2 ~ f2 ~ ~",
+    "db2 ~ ab2 ~ ~ db2 f2 ab2 ~ f2 ~ eb2 ~ ab1 ~ ~"
+  ).note().s("sawtooth")
+    .attack(.003).decay(.13).sustain(.15).release(.08)
+    .lpf(sine.slow(4).range(420, 1400)).lpenv(6).lpd(.1).lpq(4)
+    .delay(.12).delaytime(.25).delayfeedback(.18)
+    .room(.18).gain(.66).orbit(2),
+  cat("[ab3,c4,eb4,g4]", "[bb3,d4,f4,ab4]", "[db4,f4,ab4,c5]")
+    .note().s("gm_synth_strings_1")
+    .struct("<x ~ ~ x>")
+    .attack(.14).decay(.85).sustain(.62).release(1.6)
+    .lpf(sine.slow(4).range(700, 2400))
+    .room(.78).delay(.26).delaytime(.5).delayfeedback(.42)
+    .gain(.2).orbit(3),
+  cat("[ab3,c4,eb4,g4]", "[bb3,d4,f4,ab4]", "[db4,f4,ab4,c5]")
+    .note().s("gm_clavinet")
+    .struct("~ x ~ ~ x ~ x ~")
+    .attack(.003).decay(.08).sustain(.04).release(.1)
+    .lpf(sine.slow(5).range(500, 1700)).drive(.1)
+    .delay(.1).delaytime(.25).delayfeedback(.16)
+    .room(.3).gain(.1).orbit(3),
+  s("bd*4").bank("RolandTR909").lpf(sine.slow(3).range(650, 1250)).gain(.56),
+  s("hh").bank("RolandTR909").euclid(9, 16)
+    .begin("<.02 .03>").end("<.06 .08>")
+    .bpf(sine.slow(5).range(3400, 7200)).bpq(5)
+    .delay(.12).delaytime(.125).delayfeedback(.2)
+    .room(.26).gain(".016 .024 .016 .02 .018 .026 .016 .024 .018"),
+  s("cp").bank("RolandTR909")
+    .struct("~ ~ ~ ~ x ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~")
+    .lpf(1700).room(.24).gain(.1)
+)
+
+arrange([2, intro], [14, chorus], [6, bridge], [14, chorus])

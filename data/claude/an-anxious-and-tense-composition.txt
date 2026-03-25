@@ -1,82 +1,32 @@
-// 🎵 "Cortisol" — Dark Industrial / Anxious Ambient
-// At 140 BPM: intro(8) + buildup(16) + main(16) + breakdown(8) + main2(16) + peak(16) + outro(8) = 88 bars ≈ 2:31
-
-setcpm(140 / 4)
-
-$: note("b0").s("sawtooth").lpf(sine.range(40,180).slow(11)).gain(perlin.range(.08,.2)).room(.3).distort(.15).decay(4).sustain(.8)
-
-$: arrange(
-  [8,  s("bd(3,8)").bank("RolandTR909").gain(saw.slow(8).range(.3,.8)).room(.25).lpf(600)],
-  [16, s("bd(5,8), ~ ~ ~ [bd bd]").bank("RolandTR909").gain(perlin.range(.75,.95)).room(.2).distort(.06)],
-  [16, s("bd [~ bd] bd [bd ~], ~ ~ ~ [bd bd bd]").bank("RolandTR909").gain(".92 .8 .88 .95").room(.15).distort(.1)],
-  [8,  s("bd ~ ~ ~, ~ ~ [bd ~] ~").bank("RolandTR909").gain(saw.slow(8).range(.85,.3)).room(.4)],
-  [16, s("bd [~ bd] bd [bd ~], ~ ~ ~ [bd bd bd]").bank("RolandTR909").gain(".92 .8 .88 .95").room(.15).distort(.08)],
-  [16, s("bd*4, ~ [bd bd] ~ [bd bd bd]").bank("RolandTR909").gain(.97).room(.12).distort(.15)],
-  [8,  s("bd(3,8)").bank("RolandTR909").gain(saw.slow(8).range(.7,.0)).room(.4)]
+// "Paranoia" — Dark, anxious electronic tension with tritones and chromatic dread
+setcps(0.5)
+samples('github:tidalcycles/dirt-samples')
+stack(
+  note("<[~ ~ ~ c2]@2 [c2 ~ [~ c2] c2]@14 [~ c2 ~ ~]@4 [c2 [~ c2] ~ c2]@15>")
+    .s("sawtooth").lpf(160).lpq(15).lpenv(6).lpd(.08)
+    .decay(.12).sustain(0).gain(.75)
+    .distort("2.5:.35").room(.1),
+  n("<~@2 [0 ~ 3 ~]*4@14 [~ 5 ~ ~]*2@4 [0 1 3 5 7 5 3 1]@15>")
+    .scale("C4:phrygian").s("sine")
+    .fm(4).fmh(1.41).fmdecay(.1).fmsustain(0)
+    .decay(.06).sustain(0).gain(.2)
+    .pan(rand).delay(.15).delaytime(1/6).delayfeedback(.45),
+  s("<[~ ~ hh ~]@2 [hh*8]@14 [hh*4]@4 [hh*<8 12>]@15>")
+    .gain(perlin.range(.08,.35)).pan(rand)
+    .hpf(7000).speed(rand.range(0.9,1.3)),
+  note("<~@2 [c3,gb3]@14 [db3,g3]@4 [c3,gb3]@15>")
+    .s("sawtooth").lpf(sine.slow(16).range(150,600)).lpq(3)
+    .attack(1).release(2).gain(.12)
+    .room(.6).roomsize(3).delay(.25).delayfeedback(.3)
+    .vib(0.3).vibmod(0.5),
+  s("<~@2 [~ ~ ~ cp]@14 [~ cp ~ ~]@4 [~ ~ ~ [cp ~ cp ~]]@15>")
+    .gain(.4).room(.7).hpf(900)
+    .delay(.45).delaytime(1/3).delayfeedback(.6),
+  note("<~@2 [c5 db5 ~ ~]*2@14 [~ db5 ~ ~]@4 [c5 db5 eb5 ~ e5 ~ gb5 ~]@15>")
+    .s("triangle").lpf(sine.slow(8).range(400,2000))
+    .decay(.25).sustain(.15).release(.5).gain(.15)
+    .room(.45).delay(.3).delaytime(1/4).delayfeedback(.5)
+    .vib(6).vibmod(1),
+  s("<~@2 brown@14 ~@4 brown@15>")
+    .lpf(sine.slow(8).range(60,200)).gain(.06).room(.3)
 )
-
-$: arrange(
-  [8,  s("hh(5,16)").bank("RolandTR909").gain(perlin.range(.05,.25)).pan(perlin).cut(1)],
-  [16, s("hh*16, ~ ~ oh ~").bank("RolandTR909").gain(perlin.range(.15,.5)).pan(sine.slow(3)).cut(1).every(3, x=>x.fast(1.5).gain(.3))],
-  [16, s("[hh hh ~ hh]*4, [~ oh]*2").bank("RolandTR909").gain(perlin.range(.2,.55)).pan(perlin).cut(1).every(5, x=>x.rev()).sometimes(x=>x.speed(1.5))],
-  [8,  s("hh(7,16)").bank("RolandTR909").gain(perlin.range(.1,.3)).pan(sine.slow(2)).cut(1).lpf(sine.range(3000,8000).slow(4))],
-  [16, s("[hh hh ~ hh]*4, [~ oh]*2").bank("RolandTR909").gain(perlin.range(.2,.55)).pan(perlin).cut(1).every(5, x=>x.rev())],
-  [16, s("hh*16, [oh oh]*2").bank("RolandTR909").gain(perlin.range(.25,.6)).pan(perlin).cut(1).every(2, x=>x.fast(2).gain(.35))],
-  [8,  s("hh(5,16)").bank("RolandTR909").gain(saw.slow(8).range(.3,.0)).pan(sine.slow(4)).cut(1)]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, s("~ cp ~ ~, ~ ~ ~ [~ sd]").bank("RolandTR909").gain(.72).room(.35).delay(".12:.08:.15").distort(.05)],
-  [16, s("~ [cp ~] ~ cp, ~ ~ [sd sd] ~").bank("RolandTR909").gain(.8).room(.25).delay(".1:.06:.12").distort(.08)],
-  [8,  s("~ ~ cp ~").bank("RolandTR909").gain(.5).room(.6).delay(".35:.25:.5")],
-  [16, s("~ [cp ~] ~ cp, ~ ~ [sd sd] ~").bank("RolandTR909").gain(.8).room(.25).delay(".1:.06:.12").distort(.08)],
-  [16, s("~ cp [~ cp] ~, [sd ~] ~ [sd sd] ~").bank("RolandTR909").gain(.85).room(.2).every(4, x=>x.fast(2).gain(.5))],
-  [8,  s("~ cp ~ ~").bank("RolandTR909").gain(saw.slow(8).range(.6,.0)).room(.5)]
-)
-
-$: arrange(
-  [8,  note("b0").s("sawtooth").lpf(sine.range(60,250).slow(6)).gain(.4).room(.15).decay(.8).sustain(.4)],
-  [16, note("<[b0 ~ c1 ~] [bb0 ~ ~ bb0] [b0 ~ c1 ~] [a0 ~ ~ ab0]>").s("sawtooth").lpf(sine.range(80,500).slow(8)).gain(.48).room(.1).decay(.5).sustain(.45).cut(2)],
-  [16, note("<[b0 c1 b0 ~] [bb0 ~ bb0 a0] [b0 ~ c1 b0] [a0 ab0 ~ a0]>").s("sawtooth").lpf(sine.range(100,700).slow(6)).gain(.52).room(.1).decay(.4).sustain(.5).cut(2).distort(.12)],
-  [8,  note("b0").s("sawtooth").lpf(sine.range(50,200).slow(10)).gain(.35).room(.25).decay(1.2).sustain(.3).cut(2)],
-  [16, note("<[b0 c1 b0 ~] [bb0 ~ bb0 a0] [b0 ~ c1 b0] [a0 ab0 ~ a0]>").s("sawtooth").lpf(sine.range(100,700).slow(6)).gain(.52).room(.1).decay(.4).sustain(.5).cut(2)],
-  [16, note("<[b0 c1 bb0 ~] [a0 ~ ab0 a0] [b0 c1 b0 bb0] [a0 ab0 a0 g0]>").s("sawtooth").lpf(sine.range(150,900).slow(5)).gain(.55).room(.1).decay(.35).sustain(.55).cut(2).distort(.15)],
-  [8,  note("b0").s("sawtooth").lpf(saw.slow(8).range(400,50)).gain(saw.slow(8).range(.4,.0)).room(.2).decay(1).sustain(.3).cut(2)]
-)
-
-$: arrange(
-  [8,  chord("<Bdim7>/1").dict('ireal').voicing().s("gm_synth_strings_1").attack(.8).decay(1).sustain(.6).release(2).lpf(800).room(.7).gain(.2)],
-  [16, chord("<Bdim7 Bbm7b5 Am7b5 Abdim7>").dict('ireal').voicing().s("gm_epiano1").struct("[~ x] [x ~]").lpf(sine.range(800,2200).slow(6)).room(.45).delay(".2:.15:.3").gain(.42).speed(.97)],
-  [16, chord("<Bdim7 Bbm7b5 Am7b5 Abdim7>").dict('ireal').voicing().s("gm_epiano1").struct("[x ~ x]*2").lpf(sine.range(1000,3000).slow(5)).room(.4).delay(".15:.1:.2").gain(.5).speed(.98).distort(.05)],
-  [8,  chord("<Bdim7 Am7b5>/2").dict('ireal').voicing().s("gm_epiano1").struct("x ~ ~ ~").lpf(1000).room(.7).delay(".4:.3:.6").gain(.35).crush(12)],
-  [16, chord("<Bdim7 Bbm7b5 Am7b5 Abdim7>").dict('ireal').voicing().s("gm_epiano1").struct("[x ~ x]*2").lpf(sine.range(1000,3000).slow(5)).room(.4).delay(".15:.1:.2").gain(.5).speed(.98)],
-  [16, chord("<Bdim7 Bbm7b5 Am7b5 Abdim7>").dict('ireal').voicing().s("gm_epiano1").struct("[x x ~ x]*2").lpf(sine.range(1200,3500).slow(4)).room(.35).delay(".12:.08:.15").gain(.55).distort(.08)],
-  [8,  chord("<Bdim7>/1").dict('ireal').voicing().s("gm_synth_strings_1").attack(1).sustain(.4).release(3).lpf(sine.range(300,900).slow(8)).room(.85).gain(saw.slow(8).range(.25,.05))]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, n("<[~ 0 ~ 1] [~ 3 ~ 0] [~ 1 ~ 4] [3 ~ 0 ~]>").scale("B4:locrian").s("gm_epiano2").lpf(sine.range(800,2800).slow(8)).room(.55).delay(".3:.2:.45").gain(.34).vib(5).vibmod(.6).rarely(x => x.add(note(12)))],
-  [16, n("<[0 1 3 ~] [~ 4 1 ~] [3 ~ 0 1] [~ 4 3 0]>").scale("B4:locrian").s("gm_epiano2").lpf(sine.range(1000,3500).slow(6)).room(.5).delay(".25:.15:.35").gain(.4).vib(6).vibmod(.7).sometimes(x => x.add(note(12)).gain(.25))],
-  [8,  n("<[~ 0 ~ ~] [~ ~ 1 ~] [~ 3 ~ ~] [~ ~ 0 ~]>").scale("B4:locrian").s("gm_epiano2").room(.8).roomsize(6).delay(".6:.4:.7").gain(.22).lpf(sine.range(500,1500).slow(8))],
-  [16, n("<[0 1 3 ~] [~ 4 1 ~] [3 ~ 0 1] [~ 4 3 0]>").scale("B4:locrian").s("gm_epiano2").lpf(sine.range(1000,3500).slow(6)).room(.5).delay(".25:.15:.35").gain(.4).vib(6).vibmod(.7).sometimes(x => x.add(note(12)).gain(.25))],
-  [16, n("<[0 1 ~ 3] [4 ~ 1 0] [3 1 0 ~] [4 3 1 0]>").scale("B5:locrian").s("gm_epiano2").lpf(sine.range(1200,4000).slow(5)).room(.45).delay(".2:.12:.3").gain(.44).vib(7).vibmod(.8).sometimes(x => x.add(note(12)).gain(.2))],
-  [8,  silence]
-)
-
-$: arrange(
-  [8,  silence],
-  [16, note("<[~ b5 ~ c6] [~ ~ bb5 ~] [~ b5 ~ ~] [~ c6 ~ bb5]>").s("sine").gain(.14).room(.65).delay(".4:.3:.55").lpf(5000).attack(.01).decay(.2).sustain(.08).release(.3)],
-  [16, note("<[b5 ~ c6 ~] [bb5 ~ b5 c6] [~ c6 bb5 ~] [b5 ~ ~ c6]>").s("sine").gain(.18).room(.6).delay(".35:.25:.45").lpf(5500).attack(.005).decay(.15).sustain(.1).release(.25).pan(sine.slow(3))],
-  [8,  note("<[~ ~ b5 ~] [~ ~ ~ ~]>").s("sine").gain(.1).room(.85).roomsize(8).delay(".6:.45:.7").lpf(4000).attack(.05).decay(.3).sustain(.05).release(.6)],
-  [16, note("<[b5 ~ c6 ~] [bb5 ~ b5 c6] [~ c6 bb5 ~] [b5 ~ ~ c6]>").s("sine").gain(.18).room(.6).delay(".35:.25:.45").lpf(5500).attack(.005).decay(.15).sustain(.1).release(.25).pan(sine.slow(3))],
-  [16, note("<[b5 c6 bb5 b5] [c6 ~ b5 c6] [bb5 b5 c6 ~] [b5 c6 bb5 b5]>").s("sine").gain(.22).room(.5).delay(".3:.2:.4").lpf(6000).attack(.005).decay(.12).sustain(.12).release(.2).pan(perlin)],
-  [8,  silence]
-)
-
-$: note("b0")
-   .s("sine")
-   .attack(2).decay(1.5).sustain(.8).release(3)
-   .gain(.2).room(.5)
-   .lpf(120)

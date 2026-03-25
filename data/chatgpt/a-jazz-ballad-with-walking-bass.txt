@@ -1,36 +1,95 @@
-// "Blue Street Lanterns" — smoky jazz ballad with walking bass
+// "Midnight Steps" — jazz ballad with walking bass
 samples('github:tidalcycles/dirt-samples')
-setcps(0.7)
-note("<[c2 d2 e2 g2] [a1 c2 d2 e2] [d2 e2 fs2 a2] [g1 a1 b1 d2]>")
-  .s("sawtooth")
-  .legato(0.95)
-  .gain(0.58)
-  .lpf(perlin.slow(8).range(130,520))
-  .room(0.22)
-  .stack(
-    note("<[e4,g4,b4,d5] [c4,e4,g4,b4] [fs4,a4,c5,e5] [b3,d4,f4,a4]>/2")
-      .s("triangle")
-      .legato(1.2)
-      .gain(0.28)
-      .lpf(sine.slow(12).range(500,2200))
-      .room(0.7)
-      .delay(0.25),
-    note("<~ [g4 a4 b4 d5] ~ [e5 d5 b4 a4] ~ [a4 b4 c5 e5] ~ [d5 c5 a4 g4]>")
-      .s("sine")
-      .slow(2)
-      .gain(0.2)
-      .room(0.8)
-      .delay(0.35),
-    s("<[hh*8] [hh(5,8)]>")
-      .gain(0.22)
-      .lpf(9000)
-      .room(0.35),
-    s("<~ [sd(2,8,1)] ~ [sd(3,8,2)]>")
-      .gain(0.16)
-      .room(0.5),
-    s("<[bd(3,8)] [bd(2,8)]>")
-      .gain(0.24)
-      .lpf(220)
-      .room(0.18)
-  )
-  .reset(32)
+setcps(17/50)
+
+const wood = sine.slow(11).range(420, 1200)
+const glow = sine.slow(9).range(1100, 3200)
+const air = perlin.slow(13).range(.22, .58)
+const brush = sine.slow(7).range(4200, 8200)
+
+const intro =
+  chord("Dm9").dict('ireal').anchor("c5").voicing().s("piano")
+    .attack(.08).decay(.45).sustain(.66).release(2.2)
+    .lpf(1900).room(.72).delay(".18:.125:.22").gain(.44).swing(3)
+    .stack(
+      note("<d2 f2 a2 c3>").s("gm_acoustic_bass")
+        .attack(.02).decay(.28).sustain(.52).release(.12)
+        .lpf(wood).room(.18).gain(.62).swing(3)
+    )
+    .stack(
+      note("<~ ~ a4 c5>").s("gm_clarinet")
+        .attack(.04).decay(.18).sustain(.58).release(.42)
+        .lpf(2600).room(.64).delay(".28:.25:.34").gain(.18).vib(4).vibmod(.22)
+    )
+    .stack(
+      s("~ [hh ~] ~ [~ hh]").bank("RolandTR909")
+        .begin(".02 .01").end(".08 .06").bpf(6400).bpq(5).room(.3).gain(.03)
+    )
+
+const chorus =
+  chord("<Dm9 G13 Cmaj9 A7b13>").dict('ireal').anchor("c5").voicing().slow(4).s("piano")
+    .struct("<[x ~ ~ ~] [~ x ~ ~] [x ~ ~ x] [~ x ~ x]>")
+    .attack(.04).decay(.34).sustain(.62).release(1.25)
+    .lpf(glow).hpf(180).room(air).delay(".16:.125:.2").gain(.56).swing(3)
+    .stack(
+      note("<d2 f2 a2 c3 g1 b1 d2 f2 c2 e2 g2 a2 a1 c#2 e2 g2>").slow(4).s("gm_acoustic_bass")
+        .attack(.02).decay(.26).sustain(.56).release(.12)
+        .lpf(wood).room(.18).gain(.78).swing(3)
+    )
+    .stack(
+      note("<~ a4 ~ c5 ~ e5 d5 ~ g4 a4 ~ e4 ~ d5 c5 ~>").slow(4).s("gm_clarinet")
+        .attack(.04).decay(.2).sustain(.62).release(.38)
+        .lpf(sine.slow(8).range(1400, 3800))
+        .room(.58).delay(".32:.25:.38").gain(.22).vib(4).vibmod(.24)
+        .reset("<x ~ ~ x>")
+    )
+    .stack(
+      s("[~ hh]*8").bank("RolandTR909")
+        .begin("<.02 .01 .03 .01>").end("<.06 .08 .07 .09>")
+        .bpf(brush).bpq(4).room(.26).gain(".018 .05 .024 .06 .018 .05 .028 .07")
+        .swing(3)
+        .reset("<x ~ ~ x>")
+    )
+    .stack(
+      s("~ ~ sd ~").bank("RolandTR909")
+        .end(.12).lpf(2400).room(.34).delay(".12:.08:.14").gain(.06).swing(3)
+    )
+    .stack(
+      s("~ cp ~ ~").bank("RolandTR909")
+        .lpf(1800).room(.28).gain(.04).swing(3)
+    )
+
+const bridge =
+  chord("<Fmaj9 Fm9 Em7 A7b9>").dict('ireal').anchor("c5").voicing().slow(4).s("piano")
+    .struct("<[x ~ ~ ~] [~ x ~ ~] [~ x ~ x] [x ~ ~ x]>")
+    .attack(.06).decay(.4).sustain(.64).release(1.5)
+    .lpf(sine.slow(7).range(900, 2600)).hpf(160)
+    .room(perlin.slow(10).range(.34, .68)).delay(".22:.18:.28").gain(.5).swing(3)
+    .stack(
+      note("<f2 a2 c3 e3 f2 ab2 c3 eb3 e2 g2 b2 d3 a1 c#2 e2 g2>").slow(4).s("gm_acoustic_bass")
+        .attack(.02).decay(.28).sustain(.54).release(.14)
+        .lpf(sine.slow(9).range(380, 980)).room(.22).gain(.76).swing(3)
+    )
+    .stack(
+      note("<c5 ~ a4 ~ ab4 ~ g4 ~ b4 ~ a4 ~ e5 d5 c5 ~>").slow(4).s("gm_clarinet")
+        .attack(.05).decay(.22).sustain(.64).release(.46)
+        .lpf(sine.slow(6).range(1300, 3400))
+        .room(.66).delay(".4:.33:.46").gain(.19).vib(5).vibmod(.28)
+    )
+    .stack(
+      chord("<Fmaj9 Fm9 Em7 A7b9>").dict('ireal').anchor("c6").voicing().slow(4).s("gm_synth_strings_1")
+        .attack(.6).decay(.8).sustain(.68).release(2.2)
+        .lpf(1200).room(.78).gain(.14)
+    )
+    .stack(
+      s("~ [hh ~] ~ [hh ~] ~ [hh ~] ~").bank("RolandTR909")
+        .begin("<.01 .02>").end("<.05 .08>").bpf(sine.slow(5).range(3600, 7200)).bpq(5)
+        .room(.4).gain(".014 .03 .018 .034").swing(3)
+        .reset("<x ~ x ~>")
+    )
+    .stack(
+      s("~ ~ ~ sd").bank("RolandTR909")
+        .end(.1).lpf(2000).room(.4).gain(.045).swing(3)
+    )
+
+arrange([1, intro], [9, chorus], [4, bridge], [9, chorus]).postgain(.98)

@@ -1,15 +1,41 @@
-// "First Light Tide" — warm dawn haze over gentle surf
+// "First Light Foam" — salt-air downtempo opening into a golden beach sunrise
 samples('github:tidalcycles/dirt-samples')
-setcps(0.66)
-n("0 [2 4] <5 7> [9 7 5]").scale("major").slow(2).s("supersaw").legato(1.2).gain(0.34).lpf(perlin.range(700,2800).slow(6)).room(0.65).delay(0.35).delaytime(0.375).reset(32)
-  .stack(
-    note("<[0,4,7] [2,5,9]> [<[7,11,14] [5,9,12]> ~]").scale("major").slow(4).s("piano").attack(0.02).release(1.8).gain(0.3).lpf(sine.range(900,3200).slow(9)).room(0.88).reset(16),
-    s("~ <bd(3,8) [bd ~] bd(5,16)>").gain(0.56).lpf(420).room(0.25).reset(8),
-    s("<~ hh(5,8) [~ hh(7,16)] hh(11,16)>").gain(0.22).hpf(3200).room(0.42).delay(0.2).delaytime(0.125).reset(16),
-    s("[~ cp] <~ [~ cp] ~ [cp ~]>").gain(0.22).lpf(1800).room(0.35).reset(16),
-    n("<12 14 16 [19 17]>").scale("major").slow(8).s("triangle").gain(0.14).room(1).delay(0.42).delaytime(0.5).lpf(perlin.range(1300,4200).slow(11)).reset(24),
-    s("<arpy:6 arpy:7 [arpy:8 ~] ~>").slow(2).gain(0.12).speed("<0.7 0.8 0.6>").room(1).delay(0.45).delaytime(0.5).lpf(2200).reset(24)
-  )
-  .room(sine.range(0.25,0.82).slow(12))
-  .delay(sine.range(0.08,0.28).slow(7))
-  .lpf(perlin.range(600,4200).slow(10))
+setcps(108/60/4)
+
+const intro = 1
+const shore = 4
+const chorus = 10
+const bridge = 4
+const outro = 1
+
+const wash = s("oh").slow(2).begin(".04 .08").end(".22 .3").speed("<-1 -.85>").hpf(sine.slow(3).range(2800,7600)).room(.96).delay(.48).delaytime(.75).delayfeedback(.72).gain(.12)
+
+const shoreDrums = s("~ ~ ~ ~, ~ ~ ~ ~, hh*8, ~ ~ oh ~").begin("<.02 .01 .03 .02>").end(".06 .08").speed("<1 .98 1.01 1.03>").hpf(sine.slow(4).range(5200,11000)).room(.62).gain(.18)
+const chorusDrums = s("bd [~ bd] ~ bd, ~ cp ~ cp, hh*8, ~ ~ oh ~ ~ ~ oh ~").begin("<0 .01 .02 .01>").end("<1 .08>").speed("<1 1 .99 1.02>").hpf(sine.slow(6).range(1800,9200)).room(.18).gain(".82 .78 .8 .76").duckorbit("2:3:4:5").duckattack(.22).duckdepth(".72:.42:.28:.22")
+const bridgeDrums = s("bd ~ ~ ~, ~ ~ cp ~, hh*4, ~ ~ oh ~").begin("<0 .01>").end("<1 .08>").hpf(sine.slow(4).range(2200,7600)).room(.28).gain(.46).duckorbit("2:3:4:5").duckattack(.28).duckdepth(".48:.24:.16:.12")
+
+const shoreBass = note("<d2 a1 fs1 g1>").slow(4).struct("[x ~ ~ x]").s("sawtooth").orbit(2).lpf(sine.slow(6).range(160,720)).lpq(.18).attack(.02).decay(.18).sustain(.44).release(.12).gain(.42).reset("<x ~ ~ x>")
+const chorusBass = note("<d2 a1 fs1 g1>").slow(4).struct("[x ~ x [~ x]]").s("sawtooth").orbit(2).lpf(sine.slow(7).range(220,1280)).lpq(.22).attack(.01).decay(.2).sustain(.48).release(.1).gain(.62).reset("<x ~ x ~>")
+const bridgeBass = note("<b1 g1 d2 a1>").slow(4).struct("[x ~ ~ x]").s("sawtooth").orbit(2).lpf(sine.slow(4).range(140,640)).attack(.02).decay(.2).sustain(.36).release(.12).gain(.38).reset("<x ~ x ~>")
+
+const introPad = note("[d4 fs4 a4 cs5]").s("triangle").orbit(3).attack(.9).decay(.5).sustain(.84).release(2.8).lpf(sine.slow(2).range(500,1800)).room(.92).delay(.42).delaytime(.5).delayfeedback(.58).gain(.22)
+const shorePad = note("<[d4 fs4 a4 cs5] [a3 cs4 e4 b4] [fs4 a4 cs5 e5] [g3 b3 d4 a4]>").slow(4).struct("[x ~ x ~]").s("supersaw").orbit(3).attack(.08).decay(.4).sustain(.68).release(.58).lpf(sine.slow(5).range(800,3600)).room(.72).delay(.26).delaytime(.5).delayfeedback(.48).gain(.24).reset("<x ~ x ~>")
+const chorusPad = note("<[d4 fs4 a4 cs5] [a3 cs4 e4 b4] [fs4 a4 cs5 e5] [g3 b3 d4 a4]>").slow(4).struct("[x ~ x x]").s("supersaw").orbit(3).attack(.03).decay(.3).sustain(.58).release(.26).lpf(sine.slow(8).range(1400,6200)).lpq(.2).room(.38).delay(.3).delaytime(.375).delayfeedback(.44).gain(.38).reset("<x ~ x ~>")
+const bridgePad = note("<[b3 d4 fs4 a4] [g3 b3 d4 a4] [d4 fs4 a4 cs5] [a3 cs4 e4 g4]>").slow(4).struct("[x ~ x ~]").s("pulse").orbit(3).attack(.08).decay(.42).sustain(.62).release(.42).lpf(sine.slow(4).range(1000,4200)).room(.76).delay(.34).delaytime(.5).delayfeedback(.56).gain(.22).reset("<x ~ x ~>")
+
+const shoreArp = n("<0 2 4 7 9 7 4 2>").scale("D5:major:pentatonic").fast(2).s("triangle").orbit(4).attack(.01).decay(.12).sustain(.24).release(.12).lpf(sine.slow(4).range(1400,4600)).delay(.22).delaytime(.25).delayfeedback(.32).room(.18).gain(.14).reset("<x ~ ~ x>")
+const chorusArp = n("<0 2 4 7 9 11 9 7 4 2 [0 2] 4 7 9 7 4>").scale("D5:major").fast(2).s("triangle").orbit(4).attack(.01).decay(.14).sustain(.28).release(.12).lpf(sine.slow(6).range(1800,7600)).delay(.32).delaytime(.25).delayfeedback(.42).room(.24).gain(.24).reset("<x ~ x ~>")
+const chorusLead = n("<4 ~ 2 ~ 1 ~ 0 ~ 2 ~ 4 ~ 5 ~ 4 ~>").scale("D5:major").fast(2).s("pulse").orbit(5).attack(.02).decay(.18).sustain(.34).release(.16).tremolosync(6).tremolodepth(.18).lpf(sine.slow(5).range(2200,8200)).delay(.36).delaytime(.25).delayfeedback(.5).room(.3).gain(.16).reset("<x ~ x ~>")
+const bridgeLead = n("<6 ~ 4 ~ 2 ~ 1 ~>").scale("B4:minor").fast(2).s("pulse").orbit(5).attack(.03).decay(.18).sustain(.32).release(.18).tremolosync(4).tremolodepth(.22).lpf(sine.slow(3).range(1800,5600)).delay(.46).delaytime(.5).delayfeedback(.62).room(.56).gain(.12).reset("<x ~ x ~>")
+
+const sparkle = s("hh*16").begin(sine.slow(6).range(0,.05)).end(.07).speed("<1 1.02 .99 1.04>").hpf(sine.slow(5).range(7200,12500)).room(.52).gain(.08)
+
+stack(
+  arrange([intro, wash], [shore, wash.gain(saw.slow(4).range(.08, .14))], [chorus, wash.gain(saw.slow(6).range(.1, .16))], [bridge, wash.gain(sine.slow(2).range(.06, .12))], [chorus, wash.gain(saw.slow(6).range(.1, .16))], [outro, wash.gain(isaw.slow(2).range(.1, .02))]),
+  arrange([intro, silence], [shore, shoreDrums], [chorus, chorusDrums], [bridge, bridgeDrums], [chorus, chorusDrums], [outro, shoreDrums.gain(isaw.slow(2).range(.12, .02))]),
+  arrange([intro, introPad], [shore, shorePad], [chorus, chorusPad], [bridge, bridgePad], [chorus, chorusPad], [outro, introPad.gain(isaw.slow(2).range(.18, .04))]),
+  arrange([intro, silence], [shore, shoreBass], [chorus, chorusBass], [bridge, bridgeBass], [chorus, chorusBass], [outro, bridgeBass.gain(isaw.slow(2).range(.16, .03))]),
+  arrange([intro, silence], [shore, shoreArp], [chorus, chorusArp], [bridge, silence], [chorus, chorusArp], [outro, silence]),
+  arrange([intro, silence], [shore, silence], [chorus, chorusLead], [bridge, bridgeLead], [chorus, chorusLead], [outro, silence]),
+  arrange([intro, silence], [shore, silence], [chorus, sparkle], [bridge, silence], [chorus, sparkle], [outro, silence])
+).postgain(1.04)

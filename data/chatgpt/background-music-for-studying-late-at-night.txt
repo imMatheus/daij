@@ -1,41 +1,163 @@
-// "Neon Notebook" — hazy late-night study drift
-samples('github:tidalcycles/dirt-samples')
-setcps(0.5)
-$: n("<[0 2 4 7] [0 3 5 8] [2 5 7 10] [0 3 7 9]>/2")
-  .s("triangle")
+// "Afterhours Margins" — hushed lo-fi drift for late-night studying
+samples('github:tidalcycles/dirt-samples');
+setcps(24/70);
+
+const intro = 1;
+const chorus = 10;
+const bridge = 3;
+
+const haze = sine.slow(9).range(850, 2300);
+const shimmer = sine.slow(13).range(1800, 4600);
+const lowGlow = sine.slow(11).range(150, 320);
+
+const introPad = chord("Dm9")
+  .voicing().anchor("c5").s("triangle").orbit(2)
+  .attack(1).decay(1.2).sustain(0.9).release(5.2)
+  .lpf(1300)
+  .room(0.96).delay("0.42:0.5:0.7")
+  .gain(0.16);
+
+const chorusPad = chord("<Dm9 G13 Cmaj9 A7sus4>")
+  .voicing().anchor("c5").slow(4).s("triangle").orbit(2)
+  .attack(0.36).decay(0.9).sustain(0.78).release(2.8)
+  .lpf(haze)
+  .room(0.9).delay("0.24:0.375:0.52")
+  .gain(0.2)
+  .reset("<x ~ ~ ~>");
+
+const chorusGlow = note("<a4 ~ c5 ~ d5 ~ f5 ~ e5 ~ d5 ~ c5 ~ a4 ~>")
+  .slow(2).s("sine").orbit(3)
+  .attack(0.03).decay(0.18).sustain(0.16).release(1.2)
+  .lpf(shimmer)
+  .room(0.72).delay("0.32:0.25:0.46")
+  .gain(0.075)
+  .reset("<x ~ x ~>");
+
+const chorusBass = note("<d2 ~ g1 ~ c2 ~ a1 ~>")
+  .slow(2).s("sine")
+  .attack(0.01).decay(0.32).sustain(0).release(0.2)
+  .lpf(lowGlow)
+  .gain(0.22)
+  .reset("<x ~ ~ x>");
+
+const chorusKick = s("bd")
+  .struct("x ~ ~ ~ ~ x ~ ~")
   .slow(2)
-  .legato(1.4)
-  .lpf(perlin.range(500,2200).slow(6))
-  .room(0.7).size(0.95)
-  .delay(0.35).delaytime(sine.range(0.18,0.42).slow(5)).delayfeedback(0.45)
-  .gain(0.28)
+  .lpf(700)
+  .gain(0.2)
+  .duckorbit("2:3")
+  .duckattack("0.34:0.18")
+  .duckdepth("0.42:0.22");
+
+const chorusSnare = s("cp")
+  .struct("~ ~ x ~ ~ ~ x ~")
+  .slow(2)
+  .lpf(1800)
+  .room(0.18)
+  .gain(0.06);
+
+const chorusHat = s("hh*8")
+  .slow(2)
+  .gain(".008 .012 .009 .015 .01 .014 .009 .017")
+  .hpf(8200)
+  .delay("0.05:0.125:0.16")
+  .reset("<x ~ x ~>");
+
+const bridgePad = chord("<Bbmaj7 Am7 Dm9 G13>")
+  .voicing().anchor("c5").slow(4).s("sine").orbit(2)
+  .attack(0.55).decay(1.1).sustain(0.82).release(3.4)
+  .hpf(120)
+  .lpf(sine.slow(5).range(700, 1800))
+  .room(0.95).delay("0.44:0.5:0.72")
+  .gain(0.14)
+  .reset("<x ~ ~ ~>");
+
+const bridgeGlow = note("<d5 ~ f5 ~ c5 ~ e5 ~ a4 ~ c5 ~ d5 ~ g4 ~>")
+  .slow(2).s("triangle").orbit(3)
+  .attack(0.04).decay(0.22).sustain(0.12).release(1.5)
+  .lpf(sine.slow(7).range(1600, 3600))
+  .room(0.84).delay("0.46:0.25:0.58")
+  .gain(0.055)
+  .reset("<x ~ x ~>");
+
+const bridgeBass = note("<bb1 ~ a1 ~ d2 ~ g1 ~>")
+  .slow(2).s("sine")
+  .attack(0.01).decay(0.26).sustain(0).release(0.18)
+  .lpf(220)
+  .gain(0.16);
+
+const bridgePulse = s("hh*8")
+  .slow(2)
+  .gain(".006 .01 .007 .012 .008 .011 .007 .013")
+  .hpf(9000)
+  .delay("0.03:0.125:0.14")
   .stack(
-    n("<[12 14 15 19] [10 12 14 17] [9 10 12 15] [7 10 12 14]>/4")
-      .s("sawtooth")
-      .slow(4)
-      .lpf(sine.range(900,3200).slow(7))
-      .room(0.5)
-      .delay(0.22)
-      .gain(0.16)
-      .pan(sine.slow(9)),
-    s("<bd(3,8) [~ bd] ~ bd(5,16)>")
-      .gain(0.55)
-      .lpf(160)
-      .room(0.2),
-    s("[~ hh(5,8) <hh*2 hh(3,8)>] [~ <~ hh>]")
-      .gain(0.22)
-      .hpf(4500)
-      .room(0.35)
-      .delay(0.12),
-    s("<~ cp(2,8) ~ [cp cp]>")
-      .gain(0.25)
-      .lpf(2300)
-      .room(0.4)
-      .delay(0.2),
-    s("~ [hh(7,16) <~ hh(5,16,1)>]")
-      .gain(0.08)
-      .hpf(7000)
-      .room(0.8)
-      .pan(perlin.slow(3))
+    s("cp")
+      .struct("~ ~ ~ ~ x ~ ~ ~")
+      .slow(2)
+      .lpf(1600)
+      .room(0.22)
+      .gain(0.035)
+  );
+
+const dust = s("vinyl:2")
+  .loop(1)
+  .lpf(perlin.slow(8).range(1500, 2400))
+  .room(0.78)
+  .gain(0.07);
+
+arrange(
+  [intro, introPad],
+  [chorus, chorusPad],
+  [bridge, bridgePad],
+  [chorus, chorusPad]
+)
+  .stack(
+    arrange(
+      [intro, silence],
+      [chorus, chorusGlow],
+      [bridge, bridgeGlow],
+      [chorus, chorusGlow]
+    )
   )
-  .reset(32)
+  .stack(
+    arrange(
+      [intro, silence],
+      [chorus, chorusBass],
+      [bridge, bridgeBass],
+      [chorus, chorusBass]
+    )
+  )
+  .stack(
+    arrange(
+      [intro, silence],
+      [chorus, chorusKick],
+      [bridge, silence],
+      [chorus, chorusKick]
+    )
+  )
+  .stack(
+    arrange(
+      [intro, silence],
+      [chorus, chorusSnare],
+      [bridge, silence],
+      [chorus, chorusSnare]
+    )
+  )
+  .stack(
+    arrange(
+      [intro, silence],
+      [chorus, chorusHat],
+      [bridge, bridgePulse],
+      [chorus, chorusHat]
+    )
+  )
+  .stack(
+    arrange(
+      [intro, dust.gain(0.05)],
+      [chorus, dust],
+      [bridge, dust.gain(0.08).lpf(perlin.slow(5).range(1200, 2100))],
+      [chorus, dust]
+    )
+  )
+  .postgain(0.96);

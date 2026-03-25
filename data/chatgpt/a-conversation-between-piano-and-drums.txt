@@ -1,23 +1,100 @@
-// "Call and Answer" — raw jazz-leaning piano and drum dialogue
+// "Keys in Reply" — intimate jazz conversation between piano and drums
 samples('github:tidalcycles/dirt-samples')
-setcps(0.74)
-note("<[d4 f4 a4 c5] ~ [e4 g4 b4 d5] ~ [a3 c4 e4 g4] ~ [g3 bb3 d4 f4] [~ a4 g4 f4]>")
-.s("piano")
-.attack(0.01)
-.release(0.45)
-.legato(0.92)
-.gain("<0.58 0.52 0.6 0.55>")
-.lpf(perlin.range(900,3200).slow(7))
-.room(0.52)
-.delay(0.13)
-.stack(
-  s("<bd(3,8) [~ bd] bd(5,8) [bd ~]>").gain(0.92).lpf(perlin.range(140,900).slow(4)).room(0.18),
-  s("<~ sd ~ [sd sd]> [~ ~ sd ~] <sd(3,8) ~ ~ sd>").gain(0.62).lpf(2100).room(0.28).delay(0.08),
-  s("hh(11,16) [~ hh(5,8)] <hh*2 ~ hh>").gain(0.3).hpf(perlin.range(4200,9800).slow(6)).room(0.22),
-  note("<~ [a4 c5 e5] ~ [g4 bb4 d5] ~ [f4 a4 c5] ~ [e4 g4 b4]>").s("gm_acoustic_grand_piano").attack(0.005).release(0.3).gain(0.28).lpf(sine.range(1300,4200).slow(9)).room(0.68).delay(0.21),
-  s("<~ rim ~ rim rim(5,8) ~>").gain(0.35).hpf(1800).delay(0.16).room(0.4)
-)
-.lpf(perlin.range(420,4200).slow(10))
-.room(sine.range(0.22,0.74).slow(12))
-.delay(perlin.range(0.04,0.31).slow(8))
-.reset(48)
+setcps(24/70)
+
+const felt = sine.slow(9).range(900, 3200)
+const bite = sine.slow(7).range(1800, 6200)
+const wood = perlin.slow(11).range(320, 1100)
+const air = perlin.slow(13).range(.24, .58)
+
+const intro =
+  note("<[d4 f4 a4 c5] ~ [a3 d4 f4 c5] ~>").slow(2).s("piano")
+    .attack(.01).decay(.42).sustain(.54).release(2.2)
+    .lpf(felt).room(.84).delay(".32:.25:.44").gain(.36)
+    .stack(
+      note("<~ a4 c5 ~>").slow(2).s("piano")
+        .attack(.01).decay(.18).sustain(.22).release(.48)
+        .lpf(bite).room(.62).delay(".18:.125:.24").gain(.14)
+        .reset("<x ~ ~ x>")
+    )
+    .stack(
+      s("~ rim ~ ~").slow(2)
+        .lpf(wood).room(.34).gain(.05)
+    )
+    .stack(
+      s("~ ~ [hh hh] ~").bank("RolandTR909").slow(2)
+        .begin(".01 .02").end(".06 .08").bpf(bite).bpq(5).room(.28).gain(.024)
+    )
+
+const chorus =
+  chord("<Dm9 G13 Cmaj9 A7b13>").dict('ireal').anchor("c5").voicing().slow(4).s("piano")
+    .struct("<[x ~ x ~] [~ x ~ x] [x x ~ ~] [~ x x ~]>")
+    .attack(.01).decay(.32).sustain(.48).release(1.1)
+    .lpf(felt).hpf(120).room(air).delay(".16:.125:.22").gain(.52)
+    .reset("<x ~ ~ x>")
+    .stack(
+      note("<a4 ~ c5 ~ d5 ~ a4 ~ g4 ~ e5 ~ d5 ~ c5 ~>").slow(2).s("piano")
+        .attack(.01).decay(.16).sustain(.18).release(.34)
+        .lpf(bite).room(.46).delay(".22:.25:.28").gain(.18)
+        .reset("<x ~ x ~>")
+    )
+    .stack(
+      note("<d2 ~ a1 ~ c2 ~ g1 ~ d2 ~ a1 ~ c2 ~ e2 ~>").slow(2).s("piano")
+        .attack(.01).decay(.22).sustain(.1).release(.16)
+        .lpf(wood).room(.18).gain(.24)
+    )
+    .stack(
+      s("bd").bank("RolandTR909").euclidRot(5,8,1).slow(2)
+        .lpf(780).room(.16).gain(.54)
+    )
+    .stack(
+      s("~ sd ~ ~ ~ sd ~ [sd ~]").bank("RolandTR909").slow(2)
+        .end(.12).lpf(2400).room(.24).gain(.11)
+    )
+    .stack(
+      s("hh*8").bank("RolandTR909").slow(2)
+        .begin("<.01 .02 .01 .03>").end("<.05 .08 .06 .09>")
+        .bpf(sine.slow(5).range(4200, 8600)).bpq(5)
+        .gain(".028 .046 .032 .05 .03 .048 .034 .058")
+        .delay(".05:.125:.12")
+        .reset("<x ~ x ~>")
+    )
+    .stack(
+      s("~ rim ~ rim ~ ~ rim ~").slow(2)
+        .lpf(1400).room(.26).gain(.05)
+    )
+
+const bridge =
+  note("<[f4 a4 c5 e5] ~ [e4 g4 b4 d5] ~ [a3 c#4 e4 g4] ~>").slow(3).s("piano")
+    .struct("<[x ~ x ~] [~ x x ~] [x ~ ~ x]>")
+    .attack(.01).decay(.28).sustain(.36).release(.72)
+    .lpf(sine.slow(8).range(700, 2400)).hpf(180)
+    .room(.62).delay(".24:.25:.36").gain(.42)
+    .reset("<x ~ x ~>")
+    .stack(
+      note("<c5 ~ a4 g4 ~ b4 a4 ~ e5 d5 ~ c5>").slow(3).s("piano")
+        .attack(.01).decay(.14).sustain(.12).release(.22)
+        .lpf(sine.slow(6).range(1800, 5400)).room(.38).delay(".18:.125:.24").gain(.16)
+    )
+    .stack(
+      s("<bd*2 [~ bd] bd>").bank("RolandTR909").slow(3)
+        .lpf(820).room(.14).gain(.48)
+    )
+    .stack(
+      s("<~ sd ~ [sd sd] ~ sd>").bank("RolandTR909").slow(3)
+        .end(.11).lpf(2200).room(.2).gain(.1)
+    )
+    .stack(
+      s("<hh*8 hh*12 hh*8>").bank("RolandTR909").slow(3)
+        .begin(".01 .02").end(".06 .08")
+        .bpf(sine.slow(4).range(5000, 9800)).bpq(6)
+        .gain("<.026 .044 .03 .048 .032 .05 .028 .046>")
+        .delay(".08:.125:.16")
+        .reset("<x ~ ~ x>")
+    )
+    .stack(
+      s("<~ rim cp ~ [rim cp] ~>").slow(3)
+        .lpf(1700).room(.32).gain(.05)
+    )
+
+arrange([1, intro], [10, chorus], [3, bridge], [10, chorus]).postgain(.96)

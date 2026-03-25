@@ -1,18 +1,45 @@
-// "Pulse Vault" — hypnotic minimal techno loop with drifting textures and deep sub pressure
-samples('github:tidalcycles/dirt-samples')
+// "Nachtschicht" — Minimal Techno Loop
+
 setcps(130/60/4)
-s("bd:3*4").gain(.95).lpf(800).shape(.15).room(.08)
-.stack(
-  s("hh:2*16").gain(perlin.range(.08,.38).slow(3)).hpf(7000).pan(perlin.slow(2)).room(.12),
-  s("~ cp:4 ~ ~").gain(.45).room(.55).delay(".28:.18:.35").hpf(1200),
-  s("rim:2(5,16,<0 2>)").gain(perlin.range(.12,.32)).pan(sine.slow(4)).room(.3).delay(".35:.22:.4"),
-  s("~ ~ [~ sd:5] ~").gain(.18).room(.7).delay(".6:.45:.55").hpf(2000),
-  note("<[c1 ~ c1 ~] [c1 ~ ~ c1] [c1 ~ c1 ~] [~ c1 ~ c1]>")
-    .s("sawtooth").lpf(sine.range(60,280).slow(16)).resonance(.15)
-    .decay(.12).sustain(.3).release(.05).gain(.58).distort(.06).room(.08),
-  s("crow:3(3,8)").n(irand(6)).gain(perlin.range(.05,.22).slow(5))
-    .lpf(perlin.range(800,3200).slow(12)).room(.5).pan(sine.slow(6)),
-  s("gabba:2").struct("t(1,16,<0 4 8 12>)").gain(.12)
-    .lpf(perlin.range(400,2000).slow(8)).room(.6).delay(".4:.3:.45"),
-  note("c0").s("sine").gain(.16).lpf(90).attack(1.5).sustain(.8).release(2)
-).reset(16)
+
+const drift = perlin.range(8000, 14000).slow(4)
+const sweep = sine.slow(12).range(400, 2500)
+
+const kick = note("c1*4").s("sine").penv(48).pdecay(.05).pcurve(1)
+  .decay(.3).sustain(0).distort("2:.4").gain(.8)
+
+const intro = kick.gain(".5 .6 .5 .55").stack(
+  s("hh*8").bank("RolandTR909")
+  .gain(".15 .3 .18 .35 .15 .28 .2 .38")
+  .hpf(7000).lpf(drift).orbit(1))
+
+const chorus = kick.stack(
+  s("hh*16").bank("RolandTR909")
+  .gain(".3 .55 .35 .6 .3 .5 .38 .65")
+  .hpf(6500).lpf(drift).swingBy(1/6, 4).orbit(1),
+  s("~ ~ ~ [~ oh]").bank("RolandTR909").gain(.22)
+  .hpf(5000).decay(.12).sustain(0).orbit(1),
+  s("~ cp ~ cp").bank("RolandTR909").gain(.4)
+  .hpf(1200).room(.18).orbit(2),
+  note("<[c1 c1 c1 eb1] [c1 c1 bb0 c1]>").s("sawtooth")
+  .lpf(140).lpenv(5).lpd("<.1 .14 .08 .16>").lps(0).lpq(6)
+  .ftype(1).decay(.18).sustain(0).gain(.55).orbit(3),
+  note("<[c4,eb4,g4]!3 [bb3,d4,f4]>").struct("~ x ~ ~").s("sawtooth")
+  .lpf(sweep).lpq(2.5).decay(.1).sustain(0).gain(.18)
+  .delay(.22).delaytime(3/8).delayfeedback(.35).room(.1).orbit(4))
+
+const bridge = kick.stack(
+  s("hh*8").bank("RolandTR909")
+  .gain(".12 .25 .12 .28 .12 .2 .15 .28")
+  .hpf(7000).lpf(sine.slow(6).range(4000, 12000)).orbit(1),
+  note("[c3,eb3,g3]").s("sawtooth")
+  .lpf(sine.slow(6).range(200, 900)).lpq(1)
+  .attack(.3).release(.8).gain(.06).room(.35).orbit(5))
+
+const duck = s("bd*4").bank("RolandTR909")
+  .duckorbit("1:3:4").duckattack("0.25:0.18:0.12")
+  .duckdepth(".8:.5:.3").postgain(0).orbit(6)
+
+arrange([2, intro], [14, chorus], [6, bridge], [16, chorus])
+.stack(arrange([2, silence], [14, duck], [6, duck], [16, duck]))
+.postgain(.95)

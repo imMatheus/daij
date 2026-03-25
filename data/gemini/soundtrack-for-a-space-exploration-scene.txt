@@ -1,8 +1,28 @@
-// "Void Navigator" — expansive atmospheric pads drifting through cosmic interference and pulsar signals
-setcps(0.25).stack(
-  s("sine").note("<c1 f1 eb1 bb0>").gain(0.75).lpf(perlin.range(100, 500).slow(12)).room(0.5),
-  s("saw").note("<[c3,g3,c4,e4] [f3,c4,f4,a4] [eb3,bb3,eb4,g4] [bb2,f3,bb3,d4]>".slow(4)).gain(0.25).lpf(sine.range(300, 1800).slow(16)).lpq(20).room(0.9).size(0.95).attack(2).release(4),
-  s("sine").note(run(12).add(72).scramble().slow(4)).struct("1? <0.2 0.4 0.15>").gain(perlin.range(0.1, 0.5).slow(6)).delay(0.85).delayfb(0.75).room(1).pan(perlin),
-  s("noise").struct("1*16").gain(perlin.range(0, 0.12).slow(4)).hpf(perlin.range(4000, 12000).slow(8)).room(0.8).pan(sine.slow(2)),
-  s("sine").note("<c4 f4 g4>").gain(0.1).room(1).rev()
-).reset(32)
+// 🎵 "Voyager's Solitude" — Cinematic Space Ambient
+
+setcps(1);
+
+stack(
+  note("<c1!3 [c1,eb1,g1,bb1]!30 [f1,ab1,c2,eb2]!12 [c1,eb1,g1,bb1]!30>".scale("C:minor"))
+    .s("sawtooth")
+    .lpf(sine.slow(20).range(80, 500))
+    .lpq(3)
+    .gain(0.5)
+    .room(0.8).size(0.95),
+
+  note("<~!3 [c5 g5 eb6 f5 g5 c6]!30 [eb5 f5 g5 ab5]!12 [c5 g5 eb6 f5 g5 c6]!30>".scale("C:minor").sometimes(rev))
+    .s("sine")
+    .gain("<0!3 0.3!30 0.1!12 0.35!30>")
+    .delay(0.7).delaytime(0.35).delayfeedback(0.7)
+    .room(0.9).size(0.8)
+    .pan(sine.slow(15)),
+
+  s("<~!3 [bd:4 ~ bd:4 ~ ~ ~ ~ ~]!30 ~!12 [bd:4 ~]!30>")
+    .gain(0.4)
+    .lpf(sine.slow(12).range(100, 300))
+    .room(0.6),
+
+  s("noise").gain(perlin.slow(30).range(0.04, 0.12))
+    .hpf(perlin.slow(10).range(3000, 6000))
+    .pan(cosine.slow(25))
+).reset("<x!75>")

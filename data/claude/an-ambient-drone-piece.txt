@@ -1,38 +1,83 @@
-// "Tectonic Breath" — Ambient Drone / Deep Listening
+// "Abyssal Light" — Ambient drone with deep harmonic overtones and slow tidal movement
+setcps(20/70)
 
-setcps(0.125)
+const drift = perlin.slow(9).range(70, 190)
+const warmth = sine.slow(11).range(180, 850)
+const air = perlin.slow(6).range(1400, 5500)
 
-note("c1").s("sine")
-.attack(6).sustain(.95).release(8)
-.gain(.2).room(.7).roomsize(10).lpf(100)
-.stack(
-  note("<c2 c2 bb1 c2>").s("sawtooth")
-  .attack(5).sustain(.6).release(6)
-  .gain(.04).room(.9).roomsize(10)
-  .lpf(perlin.range(120,400).slow(8))
-  .pan(sine.slow(13).range(.25,.75)),
+const intro =
+  note("[c1,g1]").s("sine")
+  .attack(2.5).release(4).sustain(.92)
+  .fm(perlin.range(0,.08).slow(5)).fmh(2)
+  .lpf(drift)
+  .room(.92).rsize(5).gain(.22)
+  .stack(
+    sound("pink").struct("x")
+    .attack(1.8).release(3.5)
+    .lpf(perlin.range(120,350).slow(4)).hpf(40)
+    .room(.96).gain(.008)
+  )
 
-  note("<[c3,g3] [ab2,eb3] [bb2,f3] [g2,d3]>").s("triangle")
-  .attack(4).sustain(.5).release(5)
-  .gain(.035).room(.95).roomsize(10)
-  .lpf(sine.slow(20).range(250,800))
-  .delay(".6:.45:.75")
-  .pan(sine.slow(9).range(.2,.8)),
+const chorus =
+  note("[c1,g1]").s("sine")
+  .attack(1.5).release(4.5).sustain(.9)
+  .fm(perlin.range(0,.18).slow(8)).fmh(2)
+  .lpf(drift).room(.9).rsize(5).gain(.36)
+  .stack(
+    note("<[c2,g2,e3] [c2,g2,e3] [c2,eb3,bb3] [c2,g2,e3]>").slow(2)
+    .s("sawtooth").attack(2.5).release(4.5).sustain(.7)
+    .lpf(warmth).lpq(1.2).chorus(.32).detune(.09)
+    .room(.93).rsize(6).delay(".28:.75:.42").gain(.08)
+  )
+  .stack(
+    note("<c5 [g4,c5] [e5,b4] [g4,c5]>").slow(2)
+    .s("sine").attack(3).release(5.5).sustain(.06)
+    .vib(perlin.range(1.5,4.5).slow(7)).vibmod(.14)
+    .lpf(air).room(.97).rsize(8).delay(".48:1.1:.55").gain(.04)
+  )
+  .stack(
+    note("<[d5,a5] ~ [e5,g5] ~>").slow(2)
+    .s("triangle").attack(.12).release(3.8).sustain(.03)
+    .tremolosync(5).tremolodepth(.12)
+    .hpf(600).lpf(air)
+    .room(.98).delay(".65:.5:.8").gain(.022)
+  )
+  .stack(
+    sound("pink").euclid(3,8)
+    .attack(.06).release(1.4)
+    .bpf(sine.slow(9).range(1100,3400)).bpq(5)
+    .room(.97).delay(".18:.25:.48").gain(.008)
+  )
 
-  chord("<Cm11 Ab^9 Bbsus4 Cm9>").dict('ireal').voicing()
-  .s("gm_synth_strings_1")
-  .attack(5).sustain(.65).release(6)
-  .gain(sine.slow(24).range(.05,.16))
-  .room(.95).roomsize(10)
-  .lpf(sine.slow(28).range(250,700)),
+const bridge =
+  note("[c1,eb1]").s("sine")
+  .attack(2.5).release(5).sustain(.85)
+  .fm(perlin.range(.06,.32).slow(5)).fmh(1.5)
+  .lpf(perlin.range(50,140).slow(4))
+  .room(.93).rsize(6).gain(.3)
+  .stack(
+    note("<[eb2,bb2,g3] [f2,ab2,c3] [eb2,g2,bb2]>")
+    .s("triangle").attack(3).release(5.5).sustain(.5)
+    .lpf(sine.range(220,950).slow(7)).lpq(.85)
+    .room(.95).rsize(7).delay(".35:.6:.46").gain(.065)
+  )
+  .stack(
+    note("<eb5 [g4,bb4] ab5>")
+    .s("sine").attack(3).release(5.5).sustain(.04)
+    .vib(5).vibmod(.2)
+    .lpf(perlin.range(1100,3600).slow(6))
+    .room(.98).delay(".58:.85:.65").gain(.032)
+  )
+  .stack(
+    sound("brown").struct("x(2,5)")
+    .attack(.1).release(1.8)
+    .bpf(sine.slow(6).range(600,2000)).bpq(4)
+    .room(.97).delay(".25:.375:.52").gain(.01)
+  )
 
-  n("<[~ ~ 0 ~] [~ ~ ~ ~] [~ ~ ~ 3] [~ ~ ~ ~]>")
-  .scale("C5:minor:pentatonic").s("gm_epiano2")
-  .attack(.4).decay(1.2).sustain(.15).release(4)
-  .gain(.09).room(.95).roomsize(10)
-  .delay(".8:.55:.9")
-  .lpf(perlin.range(500,1800).slow(5))
-  .pan(perlin.range(.1,.9)),
-
-  s("vinyl:2").gain(.06).room(1).lpf(1400).loop(1)
-)
+arrange(
+  [1, intro],
+  [8, chorus],
+  [3, bridge],
+  [8, chorus]
+).postgain(.85)

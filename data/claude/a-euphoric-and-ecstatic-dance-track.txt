@@ -1,30 +1,50 @@
-// "Ascension" — euphoric and ecstatic dance anthem
+// "Solar Flare" — Euphoric and ecstatic dance track
+setcps(130/60/4)
 
-setcps(138/60/4)
-
-stack(
-  s("bd*4, ~ cp ~ cp, [~ hh]*8, <~ ~ ~ oh(3,8)>")
-    .bank("RolandTR909").cut(1)
-    .gain(".93 .82 .3 .42").room(.2)
-    .every(8, x => x.fast(2).gain(.5)),
-  note("<[ab1 ~ ab1 ~] [eb1 ~ ~ eb1] [f1 ~ f1 ~] [db1 ~ ab1 ~]>")
-    .s("sawtooth").lpf(sine.range(300,2400).slow(8))
-    .gain(.72).decay(.12).sustain(.4).room(.15).distort(.15),
-  note("<[ab3 c4 eb4 ab4 eb4 c4 ab3 c4] [eb3 g3 bb3 eb4 bb3 g3 eb3 g3] [f3 ab3 c4 f4 c4 ab3 f3 ab3] [db3 f3 ab3 db4 ab3 f3 db3 f3]>")
-    .s("sawtooth").lpf(sine.range(600,4500).slow(12))
-    .gain(.25).decay(.05).sustain(.25).release(.05)
-    .delay(".12:.1:.2").room(.3).hpf(200),
-  chord("<Ab Eb Fm Db>").dict('ireal').voicing()
-    .s("gm_synth_strings_1")
-    .attack(.3).sustain(.75).release(1.5)
-    .lpf(sine.range(600,5000).slow(16))
-    .room(.65).gain(.4),
-  n("<[~ ~ 4 7] [9 7 ~ 4] [~ 5 7 9] [7 ~ 4 ~]>")
-    .scale("Ab5:major").s("square")
-    .lpf(perlin.range(2000,6000))
-    .room(.45).delay(".25:.15:.4")
-    .gain(.3).decay(.1).sustain(.5)
-    .sometimes(x => x.add(note(12))),
-  note("<ab0 eb0 f0 db0>/4").s("sine")
-    .gain(.25).lpf(130).decay(1.2).sustain(.85)
+arrange(
+  [2, stack(
+    s("bd*4").gain(saw.slow(2).range(.5,.95)),
+    s("hh*8").gain(.25).lpf(saw.slow(2).range(600,7000)),
+    note("f1*4").s("sawtooth").lpf(saw.slow(2).range(200,2500)).lpenv(3).lpd(.2).gain(.4)
+  )],
+  [14, stack(
+    s("bd*4").gain(.9),
+    s("~ cp ~ cp").gain(.65).room(.15),
+    s("[~ hh]*8").gain(".35!3 .5").lpf(5500),
+    s("~ ~ ~ [~ oh]").gain(.35).room(.2),
+    note("<[f1 ~ f1 ~] [ab1 ~ ab1 ~] [db1 ~ db1 ~] [eb1 ~ eb1 ~]>")
+      .s("sawtooth").lpf(800).lpenv(4).lpd(.15).gain(.5).decay(.15).sustain(.2),
+    chord("<Fm Ab Db Eb>").voicing().s("supersaw")
+      .gain(.28).room(.2).delay(".15:.18:.4").lpf(perlin.range(3000,8000)).detune(.15),
+    n("0 2 4 [7 9] [7 4] 2 [0 2] 4").scale("F4:minor").s("triangle")
+      .gain(.16).delay(".2:.12:.5").room(.25).lpf(4000)
+  )],
+  [6, stack(
+    s("bd*4").gain("<.5 .55 .65 .75 .85 .95>"),
+    s("hh*16").gain(.2).lpf(saw.slow(6).range(600,14000)),
+    note("f2*16").s("sawtooth").lpf(saw.slow(6).range(200,8000)).lpq(5).gain(.28).decay(.06).sustain(0),
+    chord("<Fm Fm Ab Ab Db Eb>").voicing().s("supersaw")
+      .gain(saw.slow(6).range(.06,.32)).room(.3).lpf(saw.slow(6).range(800,10000)).detune(.2),
+    s("white").clip(1).gain(saw.slow(6).range(0,.1)).lpf(saw.slow(6).range(400,12000))
+  )],
+  [14, stack(
+    s("bd*4").gain(.95),
+    s("~ cp ~ cp").gain(.7).room(.15).echo(2,1/8,.4),
+    s("[~ hh]*8").gain(".4!3 .55").lpf(6000),
+    s("~ ~ ~ [~ oh]").gain(.4).room(.2),
+    note("<[f1 ~ f1 ~] [ab1 ~ ab1 ~] [db1 ~ db1 ~] [eb1 ~ eb1 ~]>")
+      .s("sawtooth").lpf(1100).lpenv(5).lpd(.15).gain(.55).decay(.15).sustain(.2),
+    chord("<Fm Ab Db Eb>").voicing().s("supersaw")
+      .gain(.33).room(.25).delay(".2:.2:.45").lpf(perlin.range(4000,10000)).detune(.2),
+    n("0 2 4 [7 9] [7 4] 2 [0 2] 4").scale("F4:minor").s("triangle")
+      .gain(.2).delay(".2:.15:.5").room(.3).lpf(5000),
+    n("<[0,4,7] [0,3,7] [0,4,7] [0,3,7]>").scale("F5:minor").s("square")
+      .gain(.1).room(.4).delay(".25:.18:.5").decay(.25).sustain(0)
+  )],
+  [2, stack(
+    s("bd*4").gain(isaw.slow(2).range(.3,.9)),
+    s("hh*8").gain(.15).lpf(isaw.slow(2).range(500,5000)),
+    chord("<Fm Ab Db Eb>").voicing().s("supersaw")
+      .gain(isaw.slow(2).range(.05,.25)).room(.5).delay(.3).lpf(isaw.slow(2).range(500,7000)).detune(.15)
+  )]
 )

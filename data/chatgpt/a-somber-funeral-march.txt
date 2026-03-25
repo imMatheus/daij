@@ -1,45 +1,131 @@
-// "Black Procession" — slow brass and drums in a rain-soaked funeral march
+// "Ashes in Procession" — somber funeral march
 samples('github:tidalcycles/dirt-samples')
-setcps(0.42)
-note("<[c2 ~ c2 g1] [eb2 ~ eb2 bb1] [ab1 ~ ab1 eb1] [g1 ~ g1 d1]>")
-  .s("sawtooth")
-  .gain(0.55)
-  .lpf(perlin.range(250,1400).slow(6))
-  .room(0.65).size(0.9)
-  .delay(0.28)
-  .reset(16)
-  .stack(
-    s("bd*<3 2 3 4>(5,8) [~ bd] [bd ~ ~]")
-      .gain(0.9)
-      .lpf(220)
-      .shape(0.25)
-      .room(0.2),
-    s("~ cp(3,8) ~ [cp ~] <~ cp>")
-      .gain(0.42)
-      .room(0.55)
-      .delay(0.33)
-      .lpf(perlin.range(600,2200).slow(5)),
-    s("<hh*2 hh*3> [~ hh](5,8)")
-      .gain(0.23)
-      .hpf(2400)
-      .room(0.35),
-    note("[c3 eb3 g3]*2 <~ [bb2 d3 f3]> [ab2 c3 eb3] [g2 bb2 d3]")
-      .s("gm_choir")
-      .attack(0.02).release(0.9)
-      .gain(0.34)
-      .lpf(sine.slow(7).range(500,1800))
-      .room(0.88).size(1)
-      .delay(0.4),
-    s("~ ~ [crow:2 crow:4](3,8) ~")
-      .gain(0.25)
-      .room(0.9)
-      .delay(0.5)
-      .lpf(1200),
-    s("<arpy:1 ~ arpy:3 ~>")
-      .speed("<0.25 0.5 0.25 -0.25>")
-      .gain(0.18)
-      .room(0.8)
-      .delay(0.44)
-      .lpf(perlin.range(700,2600).slow(9))
-  )
-  .release(0.5)
+setcps(27/70)
+
+const floor = sine.slow(15).range(95, 180)
+const fog = sine.slow(13).range(260, 1600)
+const brass = sine.slow(9).range(900, 3400)
+const nave = sine.slow(11).range(0.22, 0.56)
+
+const intro =
+  note("<[d3,a3,d4,f4] [bb2,f3,bb3,d4]>")
+    .slow(2)
+    .s("supersaw")
+    .attack(0.7).release(2.2).sustain(0.42)
+    .lpf(fog).lpq(0.24)
+    .room(nave).delay(0.18).delaytime(3/8).orbit(2).gain(0.42)
+    .stack(
+      note("<d5 ~ a4 ~>")
+        .slow(2)
+        .s("triangle")
+        .attack(0.01).release(1.4)
+        .lpf(brass)
+        .delay(0.42).delaytime(1/4).room(0.6).orbit(3).gain(0.14)
+    )
+    .stack(
+      note("<d2 ~ ~ ~>")
+        .slow(2)
+        .s("sine")
+        .attack(0.01).decay(0.6).sustain(0).release(0.2)
+        .lpf(floor).gain(0.36)
+    )
+    .stack(
+      s("~ hh ~ ~")
+        .gain(0.03).hpf(9000).room(0.2)
+    )
+
+const chorus =
+  note("<[d3,a3,d4,f4] [bb2,f3,bb3,d4] [g2,d3,g3,bb3] [a2,e3,g3,c#4]>")
+    .slow(2)
+    .s("supersaw")
+    .attack(0.22).release(1.8).sustain(0.5)
+    .lpf(sine.slow(8).range(420, 2200)).lpq(0.34)
+    .room(sine.slow(7).range(0.16, 0.4)).delay(0.12).delaytime(3/8).orbit(2).gain(0.58)
+    .stack(
+      note("<d2 ~ a1 ~ bb1 ~ g1 ~>")
+        .slow(2)
+        .s("sine")
+        .attack(0.01).decay(0.46).sustain(0).release(0.2)
+        .lpf(floor).gain(0.66)
+    )
+    .stack(
+      note("<a4 ~ f4 d4 ~ f4 ~ e4 c#4 ~ d4 a3 ~ f4 ~ e4>")
+        .slow(2)
+        .s("triangle")
+        .attack(0.02).release(0.72)
+        .vib(4).vibmod(0.14)
+        .lpf(brass)
+        .delay(0.36).delaytime(1/4).room(0.3).orbit(3).gain(0.24)
+        .reset("<x ~ ~ x>")
+    )
+    .stack(
+      s("bd")
+        .struct("x ~ ~ ~ x ~ ~ ~")
+        .gain(0.82).lpf(240)
+        .duckorbit("2:3").duckattack("0.28:0.18").duckdepth("0.9:0.48")
+    )
+    .stack(
+      s("sd")
+        .struct("~ ~ x ~ ~ ~ x ~")
+        .gain(0.12).lpf(1200).room(0.08)
+    )
+    .stack(
+      s("hh*8")
+        .gain(".03 .05 .04 .06 .03 .05 .04 .08")
+        .hpf(8200)
+        .reset("<x ~ x ~>")
+    )
+    .stack(
+      s("oh")
+        .struct("~ ~ ~ ~ ~ ~ ~ x")
+        .gain(0.05).hpf(6500).delay(0.1)
+    )
+
+const bridge =
+  note("<[g2,d3,g3,bb3] [f2,c3,f3,a3] [d3,a3,d4,f4] [a2,e3,g3,c#4]>")
+    .slow(2)
+    .s("sawtooth")
+    .attack(0.55).release(1.9).sustain(0.34)
+    .hpf(sine.slow(10).range(120, 760))
+    .lpf(sine.slow(6).range(900, 2400))
+    .room(sine.slow(9).range(0.28, 0.62)).delay(0.3).delaytime(1/2).orbit(2).gain(0.38)
+    .stack(
+      note("<d5 c5 a4 f4 g4 f4 e4 c#4>")
+        .slow(2)
+        .s("triangle")
+        .attack(0.03).release(0.96)
+        .vib(5).vibmod(0.2)
+        .lpf(sine.slow(5).range(1200, 4200))
+        .delay(0.46).delaytime(1/4).room(0.48).orbit(3).gain(0.18)
+        .reset("<x ~ x ~>")
+    )
+    .stack(
+      note("<g1 ~ f1 ~ d2 ~ a1 ~>")
+        .slow(2)
+        .s("sine")
+        .attack(0.01).decay(0.52).sustain(0).release(0.22)
+        .lpf(160).gain(0.48)
+    )
+    .stack(
+      s("bd")
+        .struct("x ~ ~ ~ ~ ~ x ~")
+        .gain(0.48).lpf(220)
+        .duckorbit("2:3").duckattack("0.34:0.22").duckdepth("0.74:0.36")
+    )
+    .stack(
+      s("sd")
+        .struct("~ ~ x ~ ~ ~ ~ ~")
+        .gain(0.08).lpf(900)
+    )
+    .stack(
+      s("hh*8")
+        .gain(".02 .04 .03 .06 .02 .04 .03 .07")
+        .hpf(9200)
+    )
+
+arrange(
+  [1, intro],
+  [11, chorus],
+  [4, bridge],
+  [11, chorus]
+).postgain(0.92)

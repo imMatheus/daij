@@ -1,11 +1,14 @@
-// 🎵 "Bifurcated Resonance" — Lo-fi hip-hop meeting glitchy IDM in harmonic unison
-setcps(0.75).stack(
+// 🎵 "Synchronous Contrast" — A dense industrial breakbeat track layered with an ethereal melodic waltz
+setcps(0.45);
+samples('github:tidalcycles/dirt-samples');
+stack(
   stack(
-    s("[bd(3,8), ~ sd, hh*16]").bank("roland808").gain(0.9),
-    note("c2 g2 f2 <bb1 c2>").s("superpwm").lpf(sine.range(400, 1200).slow(8)).gain(0.7)
-  ).pan(0.15).room(0.2),
+    s("breaks165*2").fit().slice(16, "0 2 4 [5 6] 8 10 12 [14 15]").gain(0.8).room(0.1),
+    s("bd(3,8), [~ sd], hh*16").bank("tr909").gain(0.9),
+    n("0 [~ 0] -2 [-4 -2]").scale("C:minor").s("sawtooth").lpf(perlin.range(200, 1200)).lpq(8).distort(0.5).gain(0.5)
+  ).jux(rev).mask("<1!2 1!12 0.2!6 1!12>"),
   stack(
-    note("c5 eb5 g5 bb5".scale("minor").struct("1(5,8,2)")).s("supervibe").room(0.8).delay(0.5).gain(0.6),
-    note("c4 d4 eb4 f4 g4".scale("minor").scramble().struct("1*16")).s("superhex").gain(0.3).room(0.6)
-  ).pan(0.85).jux(rev)
-).reset(16)
+    chord("<Cm9 Ebmaj7 Abmaj7 G7alt>").voicing().s("piano").gain(0.75).velocity(0.6).room(0.8).delay(0.5),
+    n("7 9 12 14 12 9 7 4").scale("C:minor").s("sine").vib(4).gain(0.5).pan(sine.slow(8))
+  ).slow(2).mask("<0!2 1!12 1!6 1!12>")
+)

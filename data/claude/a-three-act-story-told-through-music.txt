@@ -1,82 +1,61 @@
-// 🎭 "The Crossing" — Cinematic Three-Act Narrative Electronica
-// At 100 BPM: Act I - Departure (4+16+8=28) + Act II - Descent (16+12=28) + Act III - Return (16+8=24) = 80 bars ≈ 3:12
+It seems file write permissions need to be granted. Here's the song:
 
-setcpm(100 / 4)
-
-// tape hiss — the story is being told from memory
-$: s("vinyl:2").gain(.11).room(1).loop(1).lpf(2000)
-
-// drums — tentative steps → war march → gentle walk home
-$: arrange(
-  [4,  s("bd ~ ~ ~").bank("RolandTR808").gain(.4).room(.65)],
-  [16, s("bd ~ sd ~, hh*8").bank("RolandTR808").swing(3).gain(".75 .68").room(.38).cut(1)],
-  [8,  s("bd ~ sd ~, ~ cp ~ ~, [hh hh oh hh]*2").bank("RolandTR808").swing(3).gain(".85 .78").room(.32).cut(1)],
-  [16, s("bd(5,8), ~ [cp sd:2] ~ [cp ~ cp ~], [oh hh]*4").bank("RolandTR808").cut(1).gain(perlin.range(.82,.98)).room(.22).every(3, x => x.fast(2).gain(.5))],
-  [12, s("bd(7,16), [cp ~ cp ~]*2, [hh oh hh hh]*2").bank("RolandTR808").cut(1).gain(".96 .88 .92 .86").room(.18).every(4, x => x.rev())],
-  [16, s("bd ~ sd ~, hh*4").bank("RolandTR808").swing(4).gain(".68 .6").room(.48).cut(1).sometimes(x => x.gain(.28))],
-  [8,  s("bd ~ ~ ~").bank("RolandTR808").gain(saw.slow(8).range(.5,.04)).room(.72)]
+// "The Arc" — Three-act cinematic narrative: awakening, storm, resolution
+setcps(20/70)
+arrange(
+  // INTRO — a lone voice emerges from silence
+  [2, stack(
+    n("~ ~ 0 ~ ~ ~ 4 ~").scale("D4:dorian").s("triangle")
+      .lpf(800).rel(1).room(.6).gain(.3),
+    n("[0,4]").scale("D3:dorian").s("sawtooth")
+      .lpf(400).att(1.5).rel(2).gain(.1)
+  )],
+  // ACT I / CHORUS — the theme awakens, D dorian, hopeful but shadowed
+  [12, stack(
+    n("0 2 4 ~ 3 2 0 ~").scale("D4:dorian").s("triangle")
+      .lpf(sine.range(900,3500).slow(8)).rel(.35)
+      .delay(".25:.125:.45").room(.3).gain(.5),
+    n("<[0,2,4] [3,5,7] [-1,2,4] [0,3,5]>").scale("D3:dorian").s("sawtooth")
+      .lpf(perlin.range(500,1400).slow(4)).att(.5).rel(1.2).gain(.18),
+    s("bd(3,8), ~ sd ~ ~, [~ hh]*4").gain(.4).room(.12),
+    n("0 ~ ~ 3 ~ ~ 0 ~").scale("D2:dorian").s("triangle")
+      .lpf(250).gain(.35).rel(.15)
+  )],
+  // ACT II / BRIDGE — the storm, Bb phrygian, dark and relentless
+  [6, stack(
+    n("[0 1] [3 4] [5 ~] [4 2]").scale("Bb3:phrygian").s("sawtooth")
+      .lpf(sine.range(500,6000).slow(3)).lpq(5).rel(.1)
+      .distort("2:.3").delay(".15:.1:.6").gain(.4),
+    n("[0,2,4] ~ [1,3,5] ~").scale("Bb2:phrygian").s("square")
+      .lpf(350).att(.08).rel(.5).gain(.25),
+    s("bd [bd ~] [~ bd] bd, [sd:3 ~ sd:3 ~]*2, hh(7,16)").gain(.55).hpf(150),
+    n("0 ~ 3 ~ 0 ~ [3 5] ~").scale("Bb1:phrygian").s("sawtooth")
+      .lpf(160).gain(.5).rel(.06)
+  )],
+  // ACT III / CHORUS RETURN — resolution, D major, bright and triumphant
+  [12, stack(
+    n("0 2 4 ~ 3 2 0 ~").scale("D4:major").s("triangle")
+      .lpf(sine.range(1500,7000).slow(6)).rel(.5)
+      .delay(".3:.15:.4").room(.4).gain(.45),
+    n("0 ~ 4 ~ 3 ~ 0 ~").scale("D5:major").s("triangle")
+      .lpf(4000).rel(.3).delay(.35).gain(.2),
+    n("<[0,2,4] [2,4,6] [-1,2,4] [0,3,5]>").scale("D3:major").s("sawtooth")
+      .lpf(perlin.range(800,2500).slow(4)).att(.3).rel(1.5).gain(.2),
+    s("bd(3,8), ~ sd ~ ~, hh(5,8), ~ ~ ~ ~ ~ ~ oh ~").gain(.4).room(.18),
+    n("0 ~ 4 ~ 2 ~ [0 5] ~").scale("D2:major").s("sawtooth")
+      .lpf(400).gain(.4).rel(.1)
+  )],
+  // OUTRO — echoes dissolve into stillness
+  [3, n("[0,2,4,7]").scale("D4:major").s("triangle")
+    .lpf(600).rel(3).room(.7).delay(".4:.2:.5").gain(.3).att(.8)]
 )
 
-// bass — hopeful fifths → chromatic dread → grounded roots
-$: arrange(
-  [4,  silence],
-  [16, note("<[a1 ~ ~ a1] [e2 ~ ~ ~] [f1 ~ ~ f1] [g1 ~ ~ ~]>").s("gm_acoustic_bass").decay(.32).sustain(.48).room(.2).gain(.78)],
-  [8,  note("<[a1 ~ a1 ~] [e2 ~ ~ e2] [f1 ~ f1 ~] [g1 ~ ~ g1]>").s("gm_acoustic_bass").decay(.25).sustain(.55).room(.2).gain(.82)],
-  [16, note("<[f#1 ~ a1 ~] [b0 ~ ~ b0] [c#1 ~ d1 ~] [e1 ~ ~ e1]>").s("gm_acoustic_bass").decay(.2).sustain(.6).room(.18).gain(.88)],
-  [12, note("<[f#1 a1 b1 ~] [~ c#1 d1 ~] [e1 ~ f#1 a1] [b0 ~ ~ e1]>").s("gm_acoustic_bass").decay(.15).sustain(.5).room(.15).gain(.92)],
-  [16, note("<[d1 ~ ~ d1] [a1 ~ ~ ~] [g1 ~ ~ g1] [f1 ~ ~ ~]>").s("gm_acoustic_bass").decay(.35).sustain(.44).room(.3).gain(.7)],
-  [8,  note("<d1 ~ a1 ~ g1 ~ f1 ~>/2").s("gm_acoustic_bass").decay(.6).sustain(.3).room(.42).gain(.5).speed(.97)]
-)
+**Structure:** 35 cycles at `setcps(20/70)` ≈ 70 seconds
 
-// chords — open wonder → claustrophobic minor → warm daylight
-$: arrange(
-  [4,  chord("<Am7 Fmaj7>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(1.1).decay(1).sustain(.72).release(2.2).lpf(950).room(.82).gain(.28)],
-  [16, chord("<Am7 Em7 Fmaj7 G7>").dict('ireal').voicing().s("gm_epiano1").struct("~ [x ~] ~ [x ~]").lpf(2100).room(.5).delay(".22:.14:.32").gain(.48).speed(.98)],
-  [8,  chord("<Am7 Em7 Fmaj7 G7>").dict('ireal').voicing().s("gm_epiano1").struct("[~ x]*2").lpf(2700).room(.44).delay(".15:.1:.22").gain(.56)],
-  [16, chord("<F#m7 Bm7 C#m7b5 D7>").dict('ireal').voicing().s("gm_epiano2").struct("[x ~ x ~]*2").lpf(1600).room(.38).delay(".22:.16:.32").gain(.52).crush(13).distort(.04)],
-  [12, chord("<F#m7 Bm7 C#m7b5 D7>").dict('ireal').voicing().s("gm_epiano2").struct("x*4").lpf(sine.range(1100,3400).slow(6)).room(.32).delay(".15:.1:.22").gain(.6)],
-  [16, chord("<Dmaj7 Am7 G6 Fmaj7>").dict('ireal').voicing().s("gm_epiano1").struct("~ [x ~] ~ [x ~]").lpf(2000).room(.56).delay(".25:.16:.36").gain(.46).speed(.99)],
-  [8,  chord("<Dmaj7 Fmaj7>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(1).sustain(.58).release(3.2).lpf(sine.range(380,1300).slow(8)).room(.88).gain(saw.slow(8).range(.34,.06))]
-)
+- **Intro** (4s): Sparse triangle and pad drone in D dorian
+- **Act I / Chorus** (24s): Main theme emerges — melodic triangle lead, dorian chord pads, euclidean drums, sub bass
+- **Act II / Bridge** (12s): The storm — shifts to Bb phrygian, aggressive sawtooth with distortion, driving double-time drums, resonant filter sweeps
+- **Act III / Chorus Return** (24s): Resolution — same melody now in D major (bright), doubled an octave up, fuller arrangement with open hats
+- **Outro** (6s): Final major chord dissolves into reverb and delay
 
-// strings — emotional weather of each act
-$: arrange(
-  [4,  silence],
-  [16, note("<a3 e3 f3 g3>/4").s("gm_synth_strings_1").attack(1.5).decay(1).sustain(.7).release(2).lpf(1300).room(.72).gain(.24)],
-  [8,  note("<a3 e4>/2").s("gm_synth_strings_1").attack(.8).sustain(.78).release(1.8).lpf(1700).room(.65).gain(.3)],
-  [16, note("<f#3 b3 c#4 d4>/4").s("gm_synth_strings_1").attack(.45).decay(.8).sustain(.58).release(1.4).lpf(sine.range(750,2300).slow(8)).room(.48).gain(.36).distort(.12)],
-  [12, note("<f#3 d4>/2").s("gm_synth_strings_1").attack(.3).sustain(.68).release(1).lpf(2600).room(.42).gain(.4)],
-  [16, note("<d3 a3 g3 f3>/4").s("gm_synth_strings_1").attack(1.5).decay(1.2).sustain(.74).release(2.5).lpf(1150).room(.76).gain(.26)],
-  [8,  note("<d3 a3>/2").s("gm_synth_strings_1").attack(2).sustain(.58).release(3.2).lpf(sine.range(280,950).slow(8)).room(.92).gain(saw.slow(8).range(.28,.04))]
-)
-
-// melody — the traveler's theme, broken apart, then made whole
-$: arrange(
-  [4,  silence],
-  [16, n("<[~ 0 ~ 2] [4 ~ 2 ~] [~ 0 ~ 4] [2 ~ ~ 0]>").scale("A4:minor:pentatonic").s("gm_epiano1").lpf(sine.range(950,3100).slow(10)).room(.56).delay(".32:.22:.42").gain(.38).rarely(x => x.add(note(12)))],
-  [8,  n("<[0 2 4 ~] [~ 5 4 ~] [2 ~ 0 ~] [~ 4 2 0]>").scale("A5:minor:pentatonic").s("gm_epiano1").lpf(2700).room(.48).delay(".24:.16:.34").gain(.45).sometimes(x => x.add(note(12)))],
-  [16, n("<[~ 0 ~ ~] [2 ~ ~ 0] [~ ~ 3 ~] [0 ~ ~ ~]>").scale("F#4:minor:pentatonic").s("gm_epiano2").lpf(sine.range(550,2100).slow(8)).room(.62).delay(".42:.32:.52").gain(.36).vib(5).vibmod(.65)],
-  [12, n("<[0 2 3 5] [~ 3 5 7] [5 3 2 0] [3 5 7 ~]>").scale("F#5:minor:pentatonic").s("gm_epiano2").lpf(sine.range(1400,3800).slow(5)).room(.48).delay(".2:.14:.28").gain(.5).vib(4).vibmod(.8).every(4, x => x.rev())],
-  [16, n("<[~ 0 ~ 2] [4 ~ 2 ~] [~ 0 ~ 4] [2 ~ ~ 0]>").scale("D4:major:pentatonic").s("gm_epiano1").lpf(sine.range(800,2500).slow(12)).room(.62).delay(".36:.26:.46").gain(.36).vib(3).vibmod(.4)],
-  [8,  silence]
-)
-
-// clarinet — appears at turning points, the narrator's voice
-$: arrange(
-  [4,  silence],
-  [16, silence],
-  [8,  n("<[~ ~ 4 ~] [~ 5 ~ ~] [4 ~ ~ 2] [~ ~ 0 ~]>").scale("A4:minor:pentatonic").s("gm_clarinet").room(.66).delay(".46:.32:.56").gain(.26).lpf(4400).vib(5).vibmod(.7).attack(.05).decay(.2).sustain(.58).release(.4)],
-  [16, silence],
-  [12, n("<[0 ~ 2 3] [~ 5 ~ 3] [2 ~ 0 ~] [~ ~ ~ ~]>").scale("F#4:dorian").s("gm_clarinet").room(.58).delay(".38:.28:.48").gain(.32).lpf(4800).vib(6).vibmod(.88).attack(.04).decay(.16).sustain(.68).release(.32)],
-  [16, n("<[~ ~ 2 ~] [~ 4 ~ ~] [2 ~ ~ 0] [~ ~ ~ ~]>").scale("D5:major:pentatonic").s("gm_clarinet").room(.72).delay(".52:.36:.62").gain(.22).lpf(3600).vib(4).vibmod(.5).attack(.08).decay(.25).sustain(.5).release(.5)],
-  [8,  silence]
-)
-
-// sub bass — the ground beneath the story
-$: arrange(
-  [4,  note("a1").s("sine").attack(2).sustain(.8).release(2).gain(.18).lpf(150).room(.4)],
-  [24, note("<a1 e1>/8").s("sine").attack(1.5).sustain(.78).release(1.5).gain(.2).lpf(175).room(.35)],
-  [28, note("<f#1 b0>/8").s("sine").attack(1).sustain(.68).release(1).gain(.24).lpf(155).room(.28)],
-  [24, note("<d1 a1>/8").s("sine").attack(2).sustain(.8).release(2.5).gain(.18).lpf(140).room(.46)],
-  [4,  silence]
-)
+The harmonic journey (D dorian → Bb phrygian → D major) tells the story: hopeful ambiguity → dark conflict → triumphant resolution.

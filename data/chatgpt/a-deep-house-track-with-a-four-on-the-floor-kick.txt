@@ -1,17 +1,70 @@
-// "Submerged Glow" — deep house pressure with a locked four-on-the-floor kick
+// "Blue Hour Pressure" — deep house with warm stabs and a four-on-the-floor kick
 samples('github:tidalcycles/dirt-samples')
-setcps(0.92)
-$: s("bd*4")
-  .gain("1.1 1 1.05 1")
-  .lpf(perlin.slow(2).range(90,140))
-  .stack(
-    s("hh*16").euclid("<11 13 9 12>",16).gain(.28).lpf(sine.slow(3).range(5000,12000)).room(.15),
-    s("[~ cp] ~ [~ cp ~ cp] ~").gain(.42).room(.35).delay(.125),
-    s("<~ oh*2> [~ oh] ~ oh").gain(.24).delay(.25).room(.55).lpf(7000),
-    s("bass*8").n("<[0 0 -1 0] [0 2 3 2] [0 -2 -1 0] [3 2 0 -1]>").legato(.9).lpf(perlin.slow(4).range(140,480)).gain(.72),
-    s("stab*4").n("<0 2 3 5>").room(.7).delay(.3).lpf(sine.slow(2).range(900,3200)).gain(.2),
-    s("perc*8").euclid("<3 5 7>",8).gain(.22).room(.45).delay(.2).lpf(perlin.slow(6).range(1200,6000))
+setcps(124/60/4)
+
+arrange(
+  [2,
+    s("bd*4, ~ ~ ~ ~, [~ hh]*4").bank("RolandTR909")
+      .gain(".94 0 .1").lpf(7600).room(.18).swing(4)
+  ],
+  [6,
+    s("bd*4, ~ cp ~ cp, hh*8, ~ ~ oh ~").bank("RolandTR909")
+      .gain(".96 .48 .14 .1").lpf("<8200 11000 9800>").room(.16).swing(4)
+  ],
+  [12,
+    s("bd*4, ~ cp ~ cp, [hh*8 [~ hh]*4], ~ oh ~ oh").bank("RolandTR909")
+      .gain(".98 .58 .18 .14").lpf("<11000 14000 12000 15000>").room(.14).swing(4)
+  ],
+  [4,
+    s("bd*4, ~ cp ~ cp, hh*8, ~ ~ oh ~").bank("RolandTR909")
+      .gain(".88 .42 .12 .08").lpf(sine.slow(4).range(1400,3200)).room(.42)
+      .delay(.18).delaytime(.25).delayfeedback(.35).swing(4).reset("<x ~ ~ x>")
+  ],
+  [12,
+    s("bd*4, ~ cp ~ cp, [hh*8 [~ hh]*4], ~ oh ~ oh").bank("RolandTR909")
+      .gain(".98 .58 .18 .14").lpf("<11000 14000 12000 15000>").room(.14).swing(4)
+  ]
+).stack(
+  arrange(
+    [2, silence],
+    [6, s("bd*4").bank("RolandTR909").duckorbit("2:3:4:5").duckattack("0.32:0.24:0.38:0.18").duckdepth("1:.86:.72:.42").postgain(0)],
+    [12, s("bd*4").bank("RolandTR909").duckorbit("2:3:4:5").duckattack("0.32:0.24:0.38:0.18").duckdepth("1:.86:.72:.42").postgain(0)],
+    [4, s("bd*4").bank("RolandTR909").duckorbit("2:3:4:5").duckattack("0.32:0.24:0.38:0.18").duckdepth("1:.86:.72:.42").postgain(0)],
+    [12, s("bd*4").bank("RolandTR909").duckorbit("2:3:4:5").duckattack("0.32:0.24:0.38:0.18").duckdepth("1:.86:.72:.42").postgain(0)]
+  ),
+  arrange(
+    [2, s("vinyl:2").gain(.12).loop(1).lpf(2100).room(.9)],
+    [6, s("vinyl:2").gain(.08).loop(1).lpf(2800).room(.72)],
+    [12, s("vinyl:2").gain(.06).loop(1).lpf(3400).room(.64)],
+    [4, s("vinyl:2").gain(.05).loop(1).lpf(2200).room(.9).delay(.22).delaytime(.5).delayfeedback(.6)],
+    [12, s("vinyl:2").gain(.06).loop(1).lpf(3400).room(.64)]
+  ),
+  arrange(
+    [2, silence],
+    [6, note("<[~ d2 ~ d2] [~ f2 ~ f2] [~ c2 ~ c2] [~ a1 ~ c2]>").s("square").lpf(perlin.slow(6).range(180,420)).hpf(45).attack(.01).decay(.18).sustain(.18).release(.08).distort(.12).gain(.52).orbit(2)],
+    [12, note("<[~ d2 a2 d2] [~ f2 c3 f2] [~ c2 g2 c3] [~ a1 e2 a2]>").s("square").lpf(perlin.slow(6).range(220,620)).hpf(45).attack(.01).decay(.16).sustain(.2).release(.08).distort(.16).gain(.64).orbit(2).reset("<x ~ ~ x>")],
+    [4, note("<d2 f2 c2 a1>").slow(2).s("sine").attack(.02).decay(.28).sustain(.2).release(.22).lpf(sine.slow(4).range(160,380)).gain(.42).room(.2).orbit(2)],
+    [12, note("<[~ d2 a2 d2] [~ f2 c3 f2] [~ c2 g2 c3] [~ a1 e2 a2]>").s("square").lpf(perlin.slow(6).range(220,620)).hpf(45).attack(.01).decay(.16).sustain(.2).release(.08).distort(.16).gain(.64).orbit(2).reset("<x ~ ~ x>")]
+  ),
+  arrange(
+    [2, note("<[d4 f4 a4 c5] [f4 a4 c5 e5]>").slow(2).s("gm_synth_strings_1").attack(.7).decay(1).sustain(.7).release(2.4).lpf(1400).room(.82).gain(.24).orbit(4)],
+    [6, note("<[d4 f4 a4 c5] [f4 a4 c5 e5] [c4 e4 g4 b4] [a3 c4 e4 g4]>").s("gm_epiano2").struct("~ x ~ x").attack(.02).decay(.36).sustain(.32).release(.25).lpf(sine.slow(6).range(1600,3200)).room(.46).delay(.18).delaytime(.375).delayfeedback(.32).gain(.46).swing(4).orbit(3)],
+    [12, note("<[d4 f4 a4 c5] [f4 a4 c5 e5] [c4 e4 g4 b4] [a3 c4 e4 g4]>").s("gm_epiano2").struct("[~ x]*2").attack(.01).decay(.3).sustain(.28).release(.22).lpf(sine.slow(6).range(2200,4600)).room(.34).delay(.16).delaytime(.375).delayfeedback(.28).gain(.56).swing(4).orbit(3)],
+    [4, note("<[d4 f4 a4 c5] [f4 a4 c5 e5] [c4 e4 g4 b4] [a3 c4 e4 g4]>").slow(2).s("gm_synth_strings_1").attack(.15).decay(.8).sustain(.78).release(1.8).lpf(sine.slow(5).range(900,2400)).room(.88).delay(.3).delaytime(.5).delayfeedback(.7).gain(.3).orbit(3)],
+    [12, note("<[d4 f4 a4 c5] [f4 a4 c5 e5] [c4 e4 g4 b4] [a3 c4 e4 g4]>").s("gm_epiano2").struct("[~ x]*2").attack(.01).decay(.3).sustain(.28).release(.22).lpf(sine.slow(6).range(2200,4600)).room(.34).delay(.16).delaytime(.375).delayfeedback(.28).gain(.56).swing(4).orbit(3)]
+  ),
+  arrange(
+    [2, silence],
+    [6, silence],
+    [12, note("<[d5 f5 a5 c6] [f5 a5 c6 e6] [e5 g5 b5 d6] [a4 c5 e5 g5]>").arp("0 2 1 3").fast(2).reset("<x ~ ~ x>").s("triangle").attack(.01).decay(.14).sustain(.12).release(.14).lpf(perlin.slow(7).range(1500,5200)).delay(.32).delaytime(.25).delayfeedback(.42).room(.28).gain(.3).orbit(5)],
+    [4, note("<a4 c5 e5 g5 e5 c5 a4 ~>").fast(2).reset("<x ~ x ~>").s("sine").attack(.02).decay(.18).sustain(.12).release(.4).lpf(sine.slow(4).range(900,2600)).delay(.44).delaytime(.5).delayfeedback(.74).room(.78).gain(.22).orbit(5)],
+    [12, note("<[d5 f5 a5 c6] [f5 a5 c6 e6] [e5 g5 b5 d6] [a4 c5 e5 g5]>").arp("0 2 1 3").fast(2).reset("<x ~ ~ x>").s("triangle").attack(.01).decay(.14).sustain(.12).release(.14).lpf(perlin.slow(7).range(1500,5200)).delay(.32).delaytime(.25).delayfeedback(.42).room(.28).gain(.3).orbit(5)]
+  ),
+  arrange(
+    [2, silence],
+    [6, s("hh*16").bank("RolandTR808").hpf(sine.slow(4).range(7000,12000)).gain("<0 .04 .06 .09 .12 .14>").delay(.1).delaytime(.125).delayfeedback(.22).orbit(6)],
+    [12, s("hh*16, ~ ~ oh ~, ~ lt ~ ht").bank("RolandTR808").gain(".1 .08 .07").hpf(sine.slow(4).range(9000,16000)).delay(.12).delaytime(.125).delayfeedback(.28).orbit(6)],
+    [4, s("hh*8, ~ ~ oh ~").bank("RolandTR808").gain(".06 .05").hpf(sine.slow(4).range(5000,9000)).delay(.16).delaytime(.25).delayfeedback(.35).orbit(6)],
+    [12, s("hh*16, ~ ~ oh ~, ~ lt ~ ht").bank("RolandTR808").gain(".1 .08 .07").hpf(sine.slow(4).range(9000,16000)).delay(.12).delaytime(.125).delayfeedback(.28).orbit(6)]
   )
-  .reset(64)
-  .room(.22)
-  .delay(.18)
+).postgain(1.02)

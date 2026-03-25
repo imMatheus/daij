@@ -1,17 +1,147 @@
-// "Kickflip Heatwave" - gritty breakbeat skate montage
+// "Frontside Sparks" — gritty breakbeat rush for a skateboard montage
 samples('github:tidalcycles/dirt-samples')
-setcps(0.9)
-s("<bd*2 [bd bd(3,8)] bd*2 [bd(5,8) ~ bd]>")
-  .stack(
-    s("[~ sn] <~ [sn cp] ~ [sn:2 cp]>").gain(0.95).room(0.15),
-    s("hh(13,16,<0 1 2 3>)").gain(0.45).speed("<1 1.01 0.99 1.02>"),
-    s("<[oh ~ oh] [hc*2 ~ hc] [~ cp cp] [rim rim ~ rim]>").degradeBy(0.28).gain(0.5),
-    n("<0 [0 3] 5 [7 10]>").s("bass").slow(2).gain(0.85).lpf(sine.range(120,420).slow(8)),
-    n("<0 [2 4] 7 [10 7]>").s("arpy").slow(2).gain(0.3).speed("<1 1.5 0.5 1>").pan(sine.slow(7)),
-    s("<[glitch*4] [~ ~ glitch:2 ~] [glitch:3*2 ~]>").gain(0.35).speed("<1 0.5 1.5 1>").delay(0.22)
-  )
-  .lpf(sine.range(900,5600).slow(16))
-  .hpf(sine.range(40,180).slow(11))
-  .delay(sine.range(0.05,0.28).slow(9))
-  .room(sine.range(0.12,0.58).slow(13))
-  .reset(64)
+setcps(24/70)
+
+const grind = sine.slow(9).range(900,3200)
+const air = sine.slow(7).range(4800,11000)
+const curb = sine.slow(11).range(140,420)
+const haze = sine.slow(13).range(.16,.36)
+
+const intro =
+  s("breaks125")
+    .fit()
+    .slice(8,"<0 ~ 2 ~ 4 ~ [6 7] ~>")
+    .speed("<1 .94 -1 .88>")
+    .begin("<0 .03 .06 .02>")
+    .end("<.94 .72 .4 .56>")
+    .hpf(220).lpf(sine.slow(6).range(600,2400))
+    .room(.28).delay(".22:.25:.32").gain(.28).orbit(2)
+    .stack(
+      note("<~ e4 g4 a4 b4 d5 e5 ~>")
+        .s("sawtooth")
+        .attack(.02).decay(.22).sustain(.08).release(.16)
+        .lpf(sine.slow(5).range(700,2600)).lpq(5).drive(.8)
+        .vib(4).vibmod(.06).room(.28).delay(".18:.125:.22").gain(".0 .14 .2 .28 .34 .4 .46 .0").orbit(3)
+    )
+    .stack(
+      s("hh*8")
+        .begin(".02").end(".05")
+        .hpf(air)
+        .gain(".0 .0 .01 .02 .01 .03 .02 .04")
+    )
+
+const chorus =
+  s("breaks165")
+    .fit()
+    .slice(16,"<0 [1 2] 3 [4 5] 6 [7 0] 2 [4 3] 5 [6 7] 4 [2 1] 7>")
+    .speed("<1 1 .98 1.02>")
+    .begin("<0 .01 .02 .03>")
+    .end("<.96 .92 .88 .84>")
+    .lpf(grind).room(.08).gain(.52).orbit(2)
+    .stack(
+      s("bd").bank("RolandTR909")
+        .struct("x ~ ~ [~ x] ~ ~ x ~ x ~ ~ [x x] ~ ~ ~ ~")
+        .end(".16 .14 .15 .18")
+        .lpf(1800).gain(.86)
+    )
+    .stack(
+      s("sd").bank("RolandTR909")
+        .struct("~ ~ ~ ~ x ~ ~ ~ ~ ~ ~ ~ x ~ ~ [~ x]")
+        .end(".14 .12")
+        .room(.12).gain(.44)
+    )
+    .stack(
+      s("hh*16").bank("RolandTR909")
+        .begin(".02").end(".05")
+        .hpf(air)
+        .gain(".08 .05 .07 .04 .1 .05 .08 .06 .08 .05 .07 .05 .12 .05 .09 .07")
+        .pan(sine.slow(5).range(.35,.65))
+        .reset("<x ~ x ~>")
+    )
+    .stack(
+      note("<e1 e1 ~ g1 a1 e1 ~ d1 e1 e1 ~ g1 a1 b1 d2 b1>")
+        .s("square")
+        .attack(.01).decay(.18).sustain(.04).release(.08)
+        .lpf(curb).lpq(7).drive("1 .9 1.1 .95")
+        .gain(.38).orbit(4)
+        .reset("<x ~ ~ x>")
+    )
+    .stack(
+      note("<e4 ~ g4 a4 b4 a4 g4 e4 d4 ~ g4 a4 b4 d5 e5 b4>")
+        .s("supersaw")
+        .attack(.01).decay(.16).sustain(.14).release(.14)
+        .lpf(sine.slow(8).range(1400,3600)).hpf(260).drive(.7)
+        .chorus(.2).vib(5).vibmod(.08)
+        .room(haze).delay(".24:.25:.3").gain(.2).orbit(3)
+        .reset("<x ~ x ~>")
+    )
+    .stack(
+      s("breaks125")
+        .fit()
+        .slice(8,"<0 [2 3] 4 [6 5] 7 [1 0] 3 [5 7]>")
+        .slow(2)
+        .speed("<1 -1 .9 .5>")
+        .begin("<0 .04 .01 .06>")
+        .end("<.8 .34 .72 .42>")
+        .hpf(1400).bpf(sine.slow(6).range(2200,7600)).bpq(2)
+        .room(.24).delay(".18:.125:.36").gain(.14).orbit(5)
+    )
+    .stack(
+      s("bd").bank("RolandTR909")
+        .struct("x ~ ~ [~ x] ~ ~ x ~ x ~ ~ [x x] ~ ~ ~ ~")
+        .duckorbit("2:3:4:5").duckattack("0.14:0.16:0.18:0.12").duckdepth("0.42:0.58:0.82:0.36").postgain(0)
+    )
+
+const bridge =
+  s("breaks125")
+    .fit()
+    .slice(8,"<0 ~ 3 ~ 5 ~ [7 6] ~>")
+    .slow(2)
+    .speed("<1 .82 -1 .62>")
+    .begin("<0 .08 .12 .03>")
+    .end("<.86 .42 .24 .5>")
+    .hpf(480).lpf(sine.slow(5).range(900,2600))
+    .room(.4).delay(".3:.375:.52").gain(.26).orbit(2)
+    .stack(
+      note("<e2 ~ d2 ~ c2 ~ b1 ~>")
+        .slow(2)
+        .s("sawtooth")
+        .attack(.02).decay(.34).sustain(.04).release(.12)
+        .lpf(sine.slow(9).range(160,520)).lpq(6).drive(.9)
+        .gain(.26).orbit(4)
+    )
+    .stack(
+      note("<b4 ~ a4 ~ g4 ~ e4 ~>")
+        .slow(2)
+        .s("supersaw")
+        .attack(.02).decay(.2).sustain(.12).release(.22)
+        .lpf(sine.slow(6).range(1000,2400)).hpf(300)
+        .chorus(.24).vib(4).vibmod(.1).room(.42).delay(".34:.25:.38").gain(.16).orbit(3)
+    )
+    .stack(
+      s("hh*8").bank("RolandTR909")
+        .slow(2)
+        .begin(".02").end(".05")
+        .hpf(air)
+        .gain(".02 .04 .03 .05 .02 .05 .03 .06")
+    )
+    .stack(
+      s("white")
+        .gain(sine.slow(8).range(0,.04))
+        .bpf(sine.slow(4).range(1800,5200)).bpq(3)
+        .room(.48)
+    )
+    .stack(
+      s("bd").bank("RolandTR909")
+        .struct("x ~ ~ ~ ~ ~ x ~")
+        .slow(2)
+        .lpf(1600).gain(.48)
+    )
+    .stack(
+      s("bd").bank("RolandTR909")
+        .struct("x ~ ~ ~ ~ ~ x ~")
+        .slow(2)
+        .duckorbit("2:3:4").duckattack("0.22:0.24:0.2").duckdepth("0.3:0.56:0.78").postgain(0)
+    )
+
+arrange([1, intro], [10, chorus], [3, bridge], [10, chorus]).postgain(.98)

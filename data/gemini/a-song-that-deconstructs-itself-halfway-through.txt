@@ -1,15 +1,22 @@
-// 🎵 "The Heat Death of a Groove" — A rhythmic industrial loop that disintegrates into a granular void
-samples('github:tidalcycles/dirt-samples');
-setcps(125/60/4);
-stack(
-  s("bd [~ sd] [bd*2] [~ sd]").gain(0.8),
-  s("hh*16").gain(0.4).pan(sine.slow(8)),
-  s("saw").note("0 [3 7] 5 [10 12]").struct("1*16").lpf(3000).lpq(15).gain(0.6),
-  s("superpiano").note("12 15 17 19").struct("1(5,8)").room(0.2).delay(0.3)
+// 🎵 "Entropy Protocol" — Industrial glitch deconstructing into raw noise
+
+setcps(0.8);
+
+arrange(
+  [4, s("bd*2, [~ hh]*8").bank("tr909").lpf(sine.range(100, 1200).slow(4)).room(0.4)],
+  [20, stack(
+    s("bd:1 [~ bd:1] bd:1 [sd:4 bd:1], hh*16").bank("tr909"),
+    note("<c2 f1 g1 bb1>*4").s("pulse").pw(sine.range(0.2, 0.8).slow(4)).lpf(800).lpq(2),
+    note("c4 eb4 g4 bb4".struct("x(5,8,2)")).s("supersaw").decay(0.12).detune(8).room(0.3)
+  ).gain(0.8)],
+  [12, stack(
+    s("bd:1 [~ bd:1] bd:1 [sd:4 bd:1], hh*16").bank("tr909"),
+    note("<c2 f1 g1 bb1>*4").s("pulse").pw(0.5).lpf(800),
+    note("c4 eb4 g4 bb4".struct("x(5,8,2)")).s("supersaw").decay(0.1)
+  ).chunk(4, x => x.scramble(16).distort(25).slow(2)).slow("<1 2 4 8>").rev().room(1.5)],
+  [20, stack(
+    s("bd:1 [~ bd:1] bd:1 [sd:4 bd:1], hh*16").bank("tr909"),
+    note("<c2 f1 g1 bb1>*4").s("pulse").pw(0.5).lpf(800),
+    note("c4 eb4 g4 bb4".struct("x(5,8,2)")).s("supersaw").decay(0.1)
+  ).degradeBy(perlin.range(0.2, 0.95).slow(2)).slice(16, run(16).shuffle()).distort(8).room(8).gain(0.6)]
 )
-.slow("1 1 2 4 8 16 32 64".slow(32))
-.chop("1 1 16 64 128 256 512 1024".slow(32))
-.delay("0 0 0.5 0.7 0.8 0.9 0.95 0.98".slow(32)).delayfb(0.8)
-.room("0.1 0.1 0.5 0.7 0.9 0.95 0.98 1".slow(32))
-.lpf("5000 5000 2000 1000 500 200 100 50".slow(32))
-.gain("1 1 0.9 0.8 0.7 0.6 0.4 0.2".slow(32))

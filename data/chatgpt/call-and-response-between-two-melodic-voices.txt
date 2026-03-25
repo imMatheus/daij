@@ -1,37 +1,181 @@
-// 🎵 "Mirrored Lanterns" — raw call-and-response duet over broken pulse
+// "Across the Hall" — dusky downtempo duet with answering synth lines
 samples('github:tidalcycles/dirt-samples')
-setcps(0.8)
-note("<[c4 e4 g4 b4] ~ [d4 f4 a4 c5] ~ [e4 g4 b4 d5] ~ [g4 b4 d5 f5] ~>")
-  .s("<sawtooth square>")
-  .struct("euclid(5,8)")
-  .legato(0.92)
-  .gain(0.56)
-  .pan(sine.slow(7).range(-0.75,-0.2))
+setcps(0.4)
+
+const velvet = sine.slow(10).range(900, 2600)
+const silver = sine.slow(7).range(1800, 5400)
+const root = perlin.slow(12).range(180, 720)
+const bloom = perlin.slow(9).range(.28, .74)
+
+let introCall = "a4 ~ ~ c5 ~ ~ d5 ~".note()
+let introReply = "~ ~ ~ ~ e5 ~ d5 ~".note()
+
+let chorusCall = cat(
+  "a4 ~ c5 d5 ~ ~ ~ ~",
+  "f4 ~ a4 c5 ~ ~ ~ ~",
+  "g4 a4 c5 ~ ~ ~ ~ ~",
+  "e4 ~ g4 a4 ~ ~ ~ ~",
+  "f4 ~ a4 g4 ~ ~ ~ ~",
+  "e4 g4 a4 ~ ~ ~ ~ ~"
+).note()
+
+let chorusReply = cat(
+  "~ ~ ~ ~ f5 e5 d5 c5",
+  "~ ~ ~ ~ d5 c5 a4 g4",
+  "~ ~ ~ ~ d5 f5 e5 c5",
+  "~ ~ ~ ~ c5 bb4 a4 g4",
+  "~ ~ ~ ~ d5 c5 a4 d5",
+  "~ ~ ~ ~ c5 a4 g4 e4"
+).note()
+
+let bridgeCall = cat(
+  "d5 ~ f5 a5 ~ ~ ~ ~",
+  "c5 ~ d5 f5 ~ ~ ~ ~",
+  "bb4 ~ d5 g5 ~ ~ ~ ~",
+  "a4 ~ c5 f5 ~ ~ ~ ~"
+).note()
+
+let bridgeReply = cat(
+  "~ ~ ~ ~ a5 g5 f5 d5",
+  "~ ~ ~ ~ g5 f5 d5 c5",
+  "~ ~ ~ ~ f5 d5 c5 bb4",
+  "~ ~ ~ ~ f5 e5 d5 a4"
+).note()
+
+let introPad = "[d4 f4 a4] ~ [c4 e4 g4] ~".note()
+let chorusPad = cat(
+  "[d4 f4 a4 c5] ~ [d4 f4 a4] ~",
+  "[bb3 d4 f4 a4] ~ [bb3 d4 f4] ~",
+  "[f4 a4 c5] ~ [f4 a4 c5] ~",
+  "[c4 e4 g4] ~ [c4 e4 g4] ~",
+  "[g3 bb3 d4] ~ [g3 bb3 d4 f4] ~",
+  "[c4 e4 g4 bb4] ~ [c4 e4 g4] ~"
+).note()
+
+let bridgePad = cat(
+  "[bb3 d4 f4 a4] ~ [g3 bb3 d4] ~",
+  "[c4 e4 g4] ~ [c4 e4 g4 bb4] ~",
+  "[d4 f4 a4] ~ [bb3 d4 f4] ~",
+  "[c4 e4 g4] ~ [a3 c4 e4] ~"
+).note()
+
+let introBass = "d2 ~ ~ ~ a1 ~ ~ ~".note()
+let chorusBass = cat(
+  "d2 ~ a1 ~ d2 ~ a1 ~",
+  "bb1 ~ f2 ~ bb1 ~ f2 ~",
+  "f2 ~ c2 ~ f2 ~ c2 ~",
+  "c2 ~ g1 ~ c2 ~ g1 ~",
+  "g1 ~ d2 ~ g1 ~ d2 ~",
+  "c2 ~ g1 ~ c2 ~ bb1 ~"
+).note()
+
+let bridgeBass = cat(
+  "bb1 ~ f2 ~ g1 ~ d2 ~",
+  "c2 ~ g1 ~ c2 ~ g1 ~",
+  "d2 ~ a1 ~ bb1 ~ f2 ~",
+  "c2 ~ g1 ~ a1 ~ e2 ~"
+).note()
+
+let introPulse = s("~ ~ [hh hh] ~").slow(2)
+let chorusPulse = cat(
+  "bd ~ [hh hh] ~ bd ~ hh ~",
+  "bd ~ hh ~ [bd cp] ~ hh ~",
+  "bd ~ [hh hh] cp bd ~ hh ~",
+  "bd ~ hh ~ bd ~ [hh cp] ~",
+  "[bd lt] ~ hh ~ bd ~ hh ~",
+  "bd ~ hh cp bd ~ hh ~"
+).s()
+
+let bridgePulse = cat(
+  "bd ~ ~ hh cp ~ hh ~",
+  "~ hh ~ ~ bd ~ cp ~",
+  "bd ~ lt ~ ~ hh ~ ~",
+  "~ ~ cp ~ bd ~ hh ~"
+).s()
+
+arrange([1, introCall], [12, chorusCall], [4, bridgeCall], [12, chorusCall])
+  .s("pulse")
+  .attack(.01)
+  .decay(.14)
+  .sustain(.12)
+  .release(.26)
+  .vib(6)
+  .vibmod(.18)
+  .lpf(silver)
+  .hpf(220)
+  .delay(".32:.25:.42")
+  .room(.42)
+  .gain(.16)
+  .reset("<x ~ x ~>")
   .stack(
-    note("<~ [g3 b3 d4 f4] ~ [a3 c4 e4 g4] ~ [f3 a3 c4 e4] ~ [e3 g3 b3 d4]>")
-      .s("<triangle sine>")
-      .struct("euclid(5,8,3)")
-      .legato(0.95)
-      .gain(0.58)
-      .pan(sine.slow(9).range(0.2,0.75))
+    arrange([1, introReply], [12, chorusReply], [4, bridgeReply], [12, chorusReply])
+      .s("triangle")
+      .attack(.02)
+      .decay(.2)
+      .sustain(.16)
+      .release(.38)
+      .chorus(.28)
+      .lpf(sine.slow(8).range(1400, 4800))
+      .delay(".4:.375:.52")
+      .room(.58)
+      .gain(.15)
+      .reset("<~ x ~ x>")
   )
   .stack(
-    s("bd*<4 3 5> [~ bd] <[~ bd] [bd ~]>")
-      .lpf(170)
-      .gain(0.9)
+    arrange([1, introPad], [12, chorusPad], [4, bridgePad], [12, chorusPad])
+      .s("sawtooth")
+      .attack(.35)
+      .release(1.8)
+      .lpf(velvet)
+      .hpf(120)
+      .room(bloom)
+      .delay(".22:.125:.28")
+      .gain(.18)
+      .reset("<x ~ ~ x>")
   )
   .stack(
-    s("<hh*8 [hh*16]>")
-      .struct("euclid(11,16)")
-      .hpf(5200)
-      .gain(0.27)
+    arrange([1, introBass], [12, chorusBass], [4, bridgeBass], [12, chorusBass])
+      .s("sine")
+      .attack(.01)
+      .release(.3)
+      .lpf(root)
+      .room(.12)
+      .gain(.26)
+      .reset("<x ~ ~ ~ x ~ ~ ~>")
   )
   .stack(
-    s("~ cp ~ <cp rim>")
-      .struct("euclid(3,8)")
-      .gain(0.33)
+    arrange([1, introPulse], [12, chorusPulse], [4, bridgePulse], [12, chorusPulse])
+      .lpf(sine.slow(11).range(1400, 3600))
+      .room(.24)
+      .gain(.26)
   )
-  .room(perlin.slow(6).range(0.25,0.72))
-  .delay(sine.slow(12).range(0.08,0.33))
-  .lpf(perlin.slow(10).range(850,2800))
-  .reset(48)
+  .stack(
+    arrange(
+      [1, s("~ hh*4")],
+      [12, s("hh").euclidRot(11, 16, 3).fast(2)],
+      [4, s("hh").euclidRot(5, 8, 1).fast(2)],
+      [12, s("hh").euclidRot(11, 16, 3).fast(2)]
+    )
+      .begin("<.82 .84>")
+      .end("<.93 .96>")
+      .bpf(sine.slow(9).range(3800, 9000))
+      .bpq(7)
+      .delay(".08:.125:.14")
+      .room(.54)
+      .gain(.07)
+      .reset("<x ~ ~ x>")
+  )
+  .stack(
+    arrange(
+      [1, s("pink*4")],
+      [12, s("pink*8")],
+      [4, s("pink*4")],
+      [12, s("pink*8")]
+    )
+      .bpf(sine.slow(13).range(700, 2200))
+      .bpq(8)
+      .room(.82)
+      .delay(".12:.5:.35")
+      .gain(.03)
+  )
+  .postgain(1.04)

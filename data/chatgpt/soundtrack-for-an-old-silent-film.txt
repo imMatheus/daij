@@ -1,46 +1,138 @@
-// 🎵 "Flicker Reels" — haunted ragtime pulse for an old silent film
+// "Flicker Palace" — silent-film piano chase with sepia melodrama
 samples('github:tidalcycles/dirt-samples')
-setcps(0.9)
-note("<[0 3 7 10] [2 5 9 12] [5 8 12 15] [7 10 14 17]>")
-  .scale("minor")
-  .s("piano:1")
-  .slow(2)
-  .attack(0.01)
-  .release(0.35)
-  .gain(0.55)
-  .room(sine.slow(8).range(0.2,0.75))
-  .delay(perlin.slow(7).range(0,0.35))
-  .lpf(perlin.slow(5).range(600,2600))
-  .stack(
-    s("<~ [bd bd*2] [bd(5,8) ~ bd] [bd*3] [bd(3,8) ~]>")
-      .gain(0.8)
-      .lpf(perlin.slow(6).range(400,1700))
-      .room(0.25),
-    s("<[~ sd] [sd ~ sd] [~ sd sd] [sd:2 ~]>")
-      .gain(0.45)
-      .room(0.4)
-      .delay(0.15),
-    s("hh(13,16) <~ hh:2> [hh(5,8) ~]")
-      .gain(0.22)
-      .hpf(perlin.slow(10).range(3500,9000))
-      .delay(0.2),
-    n("<0 0 -2 -3 [0 2] 3 5 [3 2]>")
-      .s("bass:<saw square>")
-      .slow(2)
-      .gain(0.42)
-      .lpf(perlin.slow(4).range(120,520))
-      .room(0.18),
-    note("<[12 14 15 17] [10 12 14 15] [8 10 12 14] [7 8 10 12]>")
-      .s("violin:2")
-      .slow(4)
-      .legato(1.2)
-      .gain(0.28)
-      .room(0.82)
-      .delay(0.3)
-      .lpf(sine.slow(6).range(1200,3400)),
-    s("cp*2 [~ cp] [cp cp:2] [~ ~ cp]")
-      .gain(0.18)
-      .speed("<1 0.8 1.2 1>")
-      .room(0.65)
-  )
-  .reset(32)
+setcps(24/70)
+
+const sepia = sine.slow(9).range(1100, 2800)
+const wood = sine.slow(13).range(260, 760)
+const shimmer = sine.slow(7).range(3200, 7200)
+const haze = perlin.slow(11).range(.28, .64)
+
+const intro =
+  chord("Cm6").dict('ireal').anchor("c5").voicing().s("piano")
+    .struct("[x ~ x [x x] ~ x ~]")
+    .attack(.01).decay(.34).sustain(.24).release(1.3)
+    .lpf(1700).room(.58).delay(".14:.125:.18").gain(.44)
+    .stack(
+      note("c2 ~ g2 ~ c3 ~ g2 ~").s("gm_acoustic_bass")
+        .attack(.01).decay(.2).sustain(.08).release(.08)
+        .lpf(wood).room(.18).gain(.5)
+    )
+    .stack(
+      note("~ g4 bb4 d5 ~ f5 eb5 d5").s("gm_clarinet")
+        .attack(.04).decay(.18).sustain(.56).release(.36)
+        .lpf(2200).room(.66).delay(".24:.25:.3").gain(.16).vib(4).vibmod(.18)
+    )
+    .stack(
+      s("white")
+        .gain(perlin.slow(5).range(.004, .014))
+        .bpf(4800).bpq(2).room(.42)
+    )
+
+const verse =
+  chord("<Cm6 G7 Cm6 G7>").dict('ireal').anchor("c5").voicing().slow(4).s("piano")
+    .struct("<[x ~ x x] [x x ~ x] [x ~ x [x x]] [x x ~ x]>")
+    .attack(.01).decay(.22).sustain(.16).release(.32)
+    .lpf(sine.slow(8).range(1500, 2500)).room(.4).delay(".1:.125:.14").gain(.54)
+    .stack(
+      note("<c2 g2 c3 g2 g1 d2 g2 d2 c2 g2 c3 g2 g1 d2 g2 d2>").slow(4).s("gm_acoustic_bass")
+        .attack(.01).decay(.16).sustain(.06).release(.07)
+        .lpf(wood).room(.16).gain(.62)
+    )
+    .stack(
+      note("<~ g4 bb4 d5 ~ f5 eb5 d5 ~ g4 bb4 d5 ~ f5 d5 bb4>").slow(4).s("gm_clarinet")
+        .attack(.05).decay(.2).sustain(.58).release(.34)
+        .lpf(sine.slow(7).range(1600, 3200))
+        .room(.56).delay(".28:.25:.32").gain(.18).vib(4).vibmod(.2)
+        .reset("<x ~ ~ x>")
+    )
+    .stack(
+      chord("<Cm6 G7 Cm6 G7>").dict('ireal').anchor("c6").voicing().slow(4).s("gm_string_ensemble_1")
+        .attack(.42).decay(.58).sustain(.66).release(1.5)
+        .lpf(sine.slow(10).range(900, 1700)).room(.72).gain(.14)
+    )
+    .stack(
+      note("<~ [g5 bb5] ~ [f5 a5] ~ [g5 bb5] ~ [f5 a5]>").slow(4).s("folkharp")
+        .attack(.01).decay(.12).sustain(0).release(.22)
+        .lpf(4200).room(.62).delay(".16:.125:.22").gain(.1)
+        .reset("<x ~ x ~>")
+    )
+    .stack(
+      s("white")
+        .gain(perlin.slow(6).range(.006, .018))
+        .bpf(shimmer).bpq(2).room(.38)
+    )
+
+const chorus =
+  chord("<Cm6 G7 Cm6 G7 Ab G7 Cm6 G7>").dict('ireal').anchor("c5").voicing().slow(8).s("piano")
+    .struct("<[x ~ x [x x]] [x x ~ x] [x ~ x [x x]] [x x ~ x] [x ~ x x] [x x ~ x] [x ~ x [x x]] [x x ~ [x x]]>")
+    .attack(.005).decay(.18).sustain(.1).release(.26)
+    .lpf(sepia).room(haze).delay(".09:.125:.16").gain(.64)
+    .stack(
+      note("<g5 bb5 d6 g5 f5 a5 c6 f5 g5 bb5 d6 g5 f5 a5 d6 f6 ab5 c6 eb6 c6 f5 a5 d6 c6 g5 bb5 d6 g5 f5 a5 c6 g5>").slow(8).s("piano")
+        .attack(.002).decay(.1).sustain(0).release(.08)
+        .lpf(3200).room(.28).gain(.22)
+        .reset("<x ~ ~ x>")
+    )
+    .stack(
+      note("<c2 g2 c3 e3 g1 d2 f2 b2 c2 g2 c3 e3 g1 d2 f2 b2 ab1 eb2 g2 c3 g1 d2 f2 b2 c2 g2 c3 e3 g1 d2 f2 g2>").slow(8).s("gm_acoustic_bass")
+        .attack(.01).decay(.16).sustain(.05).release(.06)
+        .lpf(wood).room(.14).gain(.7)
+    )
+    .stack(
+      note("<~ g4 bb4 d5 ~ f5 eb5 d5 ~ g4 bb4 d5 ~ f5 d5 bb4 ~ c5 eb5 g5 ~ a5 f5 d5 ~ g4 bb4 d5 ~ f5 eb5 d5>").slow(8).s("gm_clarinet")
+        .attack(.04).decay(.18).sustain(.56).release(.32)
+        .lpf(sine.slow(8).range(1700, 3600))
+        .room(.6).delay(".22:.25:.28").gain(.21).vib(5).vibmod(.22)
+        .reset("<x ~ x ~ ~ x ~ x>")
+    )
+    .stack(
+      chord("<Cm6 G7 Cm6 G7 Ab G7 Cm6 G7>").dict('ireal').anchor("c6").voicing().slow(8).s("gm_string_ensemble_1")
+        .attack(.3).decay(.52).sustain(.68).release(1.3)
+        .lpf(sine.slow(10).range(1000, 1900)).room(.78).gain(.18)
+    )
+    .stack(
+      note("<~ [g5 bb5] ~ [d6 f6] ~ [g5 bb5] ~ [a5 c6] ~ [ab5 c6] ~ [a5 d6] ~ [g5 bb5] ~ [f5 a5]>").slow(8).s("folkharp")
+        .attack(.01).decay(.1).sustain(0).release(.2)
+        .lpf(4600).room(.66).delay(".18:.125:.24").gain(.12)
+        .reset("<x ~ ~ x>")
+    )
+    .stack(
+      s("white")
+        .gain(perlin.slow(7).range(.008, .024))
+        .bpf(shimmer).bpq(2).room(.4)
+    )
+
+const bridge =
+  chord("<Fm6 Ab G7>").dict('ireal').anchor("c5").voicing().slow(3).s("piano")
+    .struct("<[x ~ ~ x] [~ x x ~] [x ~ x [~ x]]>")
+    .attack(.02).decay(.38).sustain(.3).release(1.6)
+    .lpf(sine.slow(7).range(900, 1900)).room(.74).delay(".24:.25:.3").gain(.46)
+    .stack(
+      note("<f2 c3 ab2 eb3 g1 d2 b2 d3 c2 g2 eb2 g2>").slow(3).s("gm_acoustic_bass")
+        .attack(.01).decay(.2).sustain(.08).release(.08)
+        .lpf(sine.slow(9).range(220, 620)).room(.2).gain(.56)
+    )
+    .stack(
+      note("<c6 ab5 f5 eb5 d5 b4 g4 f4 ab4 g4 d5 ~>").slow(3).s("gm_clarinet")
+        .attack(.06).decay(.24).sustain(.6).release(.5)
+        .lpf(sine.slow(6).range(1500, 3000))
+        .room(.72).delay(".34:.33:.4").gain(.17).vib(4).vibmod(.26)
+    )
+    .stack(
+      chord("<Fm6 Ab G7>").dict('ireal').anchor("c6").voicing().slow(3).s("gm_string_ensemble_1")
+        .attack(.6).decay(.8).sustain(.72).release(2)
+        .lpf(1300).room(.84).gain(.16)
+    )
+    .stack(
+      note("<~ [c6 f6] ~ [eb6 g6] ~ [d6 g6]>").slow(3).s("folkharp")
+        .attack(.01).decay(.14).sustain(0).release(.28)
+        .lpf(4000).room(.7).delay(".28:.25:.34").gain(.1)
+        .reset("<x ~ x>")
+    )
+    .stack(
+      s("white")
+        .gain(perlin.slow(5).range(.01, .028))
+        .bpf(sine.slow(5).range(2500, 5600)).bpq(2).room(.5)
+    )
+
+arrange([1, intro], [4, verse], [8, chorus], [3, bridge], [8, chorus]).postgain(.98)

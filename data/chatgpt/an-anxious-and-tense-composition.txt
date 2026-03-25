@@ -1,47 +1,128 @@
-// "Nervewire" — claustrophobic pulse and fractured breath
+// "Pulse Under Glass" - anxious, tense live-coded pressure
 samples('github:tidalcycles/dirt-samples')
-setcps(0.85)
-s("<bd(5,8,[0 1 2]) [~ bd]*2 bd(3,8) [bd*2 ~]>")
-  .stack(
-    s("<~ [hh*8]!2 [hh(13,16,3)] [hh*16]>")
-      .gain("0.18 0.24 0.2 0.16")
-      .lpf(perlin.range(2200,9400).slow(6))
-      .delay(0.125)
-      .delayfeedback(0.45),
-    s("<~ sd:2 [~ sd] [sd ~ sd:3] [~ sd sd]>")
-      .gain(0.7)
-      .room(0.35)
-      .delay(0.25),
-    n("<[0 1 0 -1] [0 2 -1 3] [0 1 4 2] [0 -2 1 -3]>")
-      .scale("chromatic")
-      .s("sawtooth")
+setcps(3/7)
+
+const chorus = stack(
+  s("bd ~ [bd bd] ~ bd ~ [bd ~] bd").fast(2)
+    .lpf(650)
+    .gain(".95 .82 .88 .76"),
+  s("~ [sd cp] ~ ~ ~ sd ~ [cp ~]").fast(2)
+    .room(.22)
+    .delay(".12:0.125:0.35")
+    .gain(.5),
+  s("hh*16")
+    .begin("<0 .02 .03 .01>")
+    .end("<.08 .12 .1 .07>")
+    .speed("<1 1.01 .99 1.02>")
+    .hpf(sine.slow(4).range(6500,12000))
+    .gain(".08 .12 .07 .15 .08 .11 .07 .18")
+    .reset("<x ~ ~ x ~ ~ x ~>"),
+  note("c2 ~ db2 ~ c2 ~ bb1 g1").fast(2)
+    .s("sawtooth")
+    .attack(.01).decay(.18).sustain(.06).release(.1)
+    .lpf(sine.slow(6).range(160,1100))
+    .drive(".4 .8 .5 .9")
+    .gain(.5)
+    .reset("<x ~ ~ x ~ ~ ~ x>"),
+  note("<g4 ab4 eb4 db4 [g4 bb4] ab4 eb4 db4>*2")
+    .s("supersaw")
+    .attack(.02).decay(.14).sustain(.12).release(.18)
+    .lpf(sine.slow(8).range(900,3400))
+    .vib(6).vibmod(.12)
+    .tremolosync(6).tremolodepth(.18).tremoloskew(.8)
+    .delay(".32:0.125:0.68")
+    .room(".32:1.1")
+    .gain(.18)
+    .reset("<x ~ x ~ ~ x ~ ~>"),
+  note("<[c4 db4 g4] [bb3 c4 eb4] [c4 db4 g4] [ab3 bb3 eb4]>")
+    .slow(2)
+    .s("supersaw")
+    .attack(.25).decay(.5).sustain(.32).release(1)
+    .lpf(sine.slow(7).range(500,2200))
+    .chorus(.22)
+    .room(".7:1.6")
+    .gain(.22)
+)
+
+arrange(
+  [1, stack(
+    note("<[c4 db4 g4] [bb3 c4 eb4]>")
       .slow(2)
-      .legato(1.15)
-      .lpf(perlin.range(140,2100).slow(7))
-      .gain(0.42),
-    n("<[7 8 6 9]*2 [11 9 10 8]*2 [12 11 13 9]*2 [8 7 9 6]*2>")
-      .scale("chromatic")
-      .s("square")
-      .fast(2)
-      .gain("0.14 0.2 0.16 0.24")
-      .pan(sine.range(0.12,0.88).slow(11))
-      .lpf(sine.range(900,4200).slow(5))
-      .delay(0.375)
-      .delayfeedback(0.68),
-    s("<cp(3,8,2) ~ [cp cp:2 ~ cp]>")
-      .gain(0.34)
-      .room(0.65)
-      .size(0.9)
-      .hpf(600),
-    s("<~ ~ [arpy:3*4]!2 [arpy:5*8]>")
-      .gain(0.22)
-      .speed("<1 0.5 1.5 -1>")
-      .room(0.8)
-      .delay(0.5)
-      .delayfeedback(0.72)
-      .lpf(perlin.range(500,5000).slow(9))
-  )
-  .distort(0.18)
-  .room(0.22)
-  .size(0.7)
-  .reset(48)
+      .s("supersaw")
+      .attack(.35).decay(.4).sustain(.35).release(1.4)
+      .lpf(sine.slow(4).range(420,2200))
+      .room(".8:1.2")
+      .delay(".35:0.25:0.65")
+      .gain(.3),
+    note("c2")
+      .s("sine")
+      .decay(.5).sustain(0).release(.3)
+      .penv(18).pdecay(.18).pcurve(1)
+      .gain(.55)
+      .struct("x ~ ~ ~"),
+    s("~ ~ hh ~")
+      .speed(.7)
+      .hpf(9000)
+      .room(.4)
+      .gain(.08)
+  )],
+  [4, stack(
+    s("bd ~ ~ bd ~ ~ [bd bd] ~").fast(2)
+      .lpf(600)
+      .gain(".9 .75 .85 .7"),
+    s("~ sd ~ ~ ~ sd ~ ~").fast(2)
+      .room(.18)
+      .gain(.45),
+    s("hh*16")
+      .begin("<0 .02 .04 .01>")
+      .end(.12)
+      .hpf(sine.slow(3).range(5000,11000))
+      .gain(".05 .08 .04 .09 .05 .08 .04 .12")
+      .reset("<x ~ ~ x ~ ~ ~ x>"),
+    note("c2 ~ db2 ~ c2 ~ bb1 ~").fast(2)
+      .s("sawtooth")
+      .attack(.01).decay(.16).sustain(.05).release(.08)
+      .lpf(sine.slow(5).range(140,900))
+      .drive(".3 .6 .4 .7")
+      .gain(.42),
+    note("<g4 ab4 eb4 db4>*2")
+      .s("pulse")
+      .attack(.02).decay(.12).sustain(.08).release(.1)
+      .bpf(sine.slow(6).range(700,2400)).bpq(8)
+      .delay(".22:0.125:0.5")
+      .gain(.12)
+      .reset("<x ~ ~ x ~ x ~ ~>")
+  )],
+  [10, chorus],
+  [5, stack(
+    s("bd ~ ~ ~ bd ~ ~ [bd ~]").fast(2)
+      .lpf(450)
+      .room(.1)
+      .gain(.82),
+    s("~ ~ hh ~ ~ hh ~ ~").fast(2)
+      .speed("-1 1 .8 1.2")
+      .hpf(8000)
+      .gain(.06),
+    note("<db5 c5 bb4 gb4 [db5 eb5] c5 bb4 gb4>*2")
+      .s("supersaw")
+      .attack(.03).decay(.2).sustain(.12).release(.25)
+      .lpf(sine.slow(3).range(900,3600))
+      .vib(7).vibmod(.22)
+      .delay(".42:0.25:0.72")
+      .room(".55:1.4")
+      .gain(.2)
+      .reset("<x ~ x ~ x ~ ~ x>"),
+    note("<[c4 db4 g4] [db4 eb4 a4] [c4 db4 g4] [bb3 c4 f4]>")
+      .slow(2)
+      .s("sawtooth")
+      .attack(.1).decay(.45).sustain(.25).release(.8)
+      .bpf(sine.slow(5).range(350,1400)).bpq(4)
+      .gain(.18),
+    note("c2 db2 c2 bb1").slow(2)
+      .s("sine")
+      .decay(.35).sustain(0).release(.2)
+      .penv(24).pdecay(.12).pcurve(1)
+      .gain(.42)
+  )],
+  [10, chorus]
+)

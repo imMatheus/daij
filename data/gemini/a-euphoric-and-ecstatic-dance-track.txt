@@ -1,13 +1,11 @@
-// 🎵 "Ecstatic Radiance" — Euphoric Progressive House
-setcps(135/60/4);
+// 🎵 "Aura of Ecstasy" — Euphoric dance track with shimmering supersaws and driving sidechain rhythms
+setcps(138/60/4)
 stack(
-  s("bd:5*4").gain(1.3),
-  s("~ cp:2").gain(0.8).room(0.4).delay(0.2),
-  s("hh27*16").gain(perlin.range(0.4, 0.9).slow(4)),
-  s("oh:1").struct("0 1 0 1").gain(1).room(0.2),
-  note("c2(3,8) g1(3,8)".scale("c:major")).s("saw").lpf(perlin.range(400, 2000).slow(4)).decay(0.08).gain(0.7),
-  note("<[c4,e4,g4,b4] [f4,a4,c5,e5] [g4,b4,d5,f5] [e4,g4,b4,d5]>").s("saw")
-    .room(0.9).sz(0.9).delay(0.5).delayfb(0.6).gain(0.4).lpf(sine.range(1000, 6000).slow(24)),
-  note("c5 e5 g5 b5 c6 g5 e5 c5".scale("c:major").segment(16).struct("1(13,16,3)")).s("saw")
-    .gain(0.55).decay(0.12).room(0.6).delay(0.375).lpf(sine.range(4000, 14000).slow(8)).jux(rev)
-).reset(64)
+  s("bd*4").bank("tr909").gain("<0!2 1.2!16 0!8 1.2!14>").distort(0.1),
+  s("hh*16").gain("<0!1 0.6!1 1!16 0.4!8 1!14>").pan(perlin.slow(4).range(0.2, 0.8)).orbit(1),
+  s("clap").beat("4,12", 16).gain("<0!4 1.1!14 0!8 1.1!14>").room(0.3).orbit(1),
+  n("<0 3 5 7>").scale("C:major").s("sawtooth").lpf(400).lpe(6).lpa(0.05).gain("<0!2 0.8!16 0.3!8 0.8!14>").orbit(1),
+  n("{0 4 7 11 12 7 4 2}%16").scale("C:major").s("supersaw").unison(6).detune(0.2).spread(1).room(0.6).delay(0.25).gain("<0.4!2 0.9!16 0.6!8 0.9!14>").lpf(sine.slow(16).range(1500, 14000)).orbit(1).reset("<1!2 0!16 1!8 0!14>"),
+  chord("<C G Am F>").voicing().s("sine").gain("<0.3!2 0.8!16 0.5!8 0.8!14>").vib(5).vibmod(0.4).room(0.8).orbit(1),
+  s("bd*4").gain(0).duckorbit(1).duckattack(0.2).duckdepth(0.9)
+)

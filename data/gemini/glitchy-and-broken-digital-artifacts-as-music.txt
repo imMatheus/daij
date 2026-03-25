@@ -1,9 +1,26 @@
-// 🎵 "Data Corruption" — Glitchy digital artifacts and broken buffer streams
-setcps(1.4);
+// 🎵 "Data Corruption" — Glitchy and broken digital artifacts as music
+setcps(155/60);
+const s1 = (i, c, b) => slowcat(...Array(2).fill(i), ...Array(16).fill(c), ...Array(12).fill(b), ...Array(16).fill(c));
 stack(
-  s("glitch(11,16,<0 3>)").n(irand(12)).crush("<2 8 4 16>").pan(perlin.slow(4)).gain(1.2).mask("<1!7 0.5>"),
-  s("cpu(7,16)").n(run(8)).speed("<2 0.5 4 1>").room(0.8).delay(0.2).delayfb(0.7).lpf(sine.slow(3).range(400, 8000)).lpq(10),
-  s("bit*16?").n(irand(4)).speed(4).gain(0.7).hpf(5000).jux(rev),
-  note("<c2(3,8) [eb2 g2]> [~ f1]*2").s("superchip").decay(0.02).release(0.08).lpf(1500).lpq(15).gain(0.8).room(0.4),
-  s("sine").freq(perlin.slow(0.25).range(50, 12000)).gain(perlin.slow(1).range(0, 0.3)).clip(rand).pan(rand).cut(1)
-).reset(16)
+  s1(
+    s("click:1*8").gain(0.4),
+    s("[bd [~ cp]] [glitch:3*2 <glitch:5!3 [glitch:5 glitch:2]>]").crush(3).room(0.2).distort(0.1),
+    s("glitch:[0..5]*4").slow(2).gain(0.5).crush(16).rev()
+  ),
+  s1(
+    silence,
+    s("sine").n("<[c4 eb4 g4 bb4] [f4 ab4 c5 eb5]>").struct("1(5,8)").crush(1.5).delay(0.4).delayfb(0.6).room(0.6).gain(0.4),
+    s("saw").n("<c2!3 eb2>").lpf(perlin.range(100, 600).slow(4)).gain(0.6).crush(12).room(0.5)
+  ),
+  s1(
+    s("glitch:[0..10]*16").chop(16).scramble().gain(0.3),
+    s("glitch:[0..10]*16").chop(8).scramble().gain(0.7).pan(perlin.slow(4)).striate(4),
+    s("noise").lpf(300).gain(0.3).crush(4).hpf(100)
+  ),
+  s1(
+    silence,
+    s("bit:3*16").gain(sine.range(0.1, 0.4).slow(2)).pan(1),
+    s("crush:1*4").gain(0.3).slow(2),
+    s("bit:2*16").gain(0.3).pan(0)
+  )
+).reset(46).bank('dirt-samples')

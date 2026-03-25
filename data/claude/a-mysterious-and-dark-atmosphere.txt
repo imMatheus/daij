@@ -1,58 +1,93 @@
-// 🌑 "Obsidian Veil" — Dark Ambient / Cinematic Noir
-// At 56 BPM: intro(4) + build(6) + peak(6) + outro(2) = 18 bars ≈ 77s
+// "Obsidian Descent" — Dark mysterious ambient drone
+setcps(0.3)
 
-setcpm(56 / 4)
+const darkChord = "<[c#3,e3,g#3,b3] [a2,c#3,e3,g3] [f#2,a2,c#3,e3] [g#2,b2,d#3,f#3]>"
+const bridgeChord = "<[d3,f3,ab3,b3] [bb2,db3,f3,ab3]>"
+const dread = perlin.slow(14).range(300, 1600)
+const murk = sine.slow(10).range(0.3, 0.7)
 
-// deep sub drone
-$: note("c1").s("sine")
-   .attack(4).decay(2).sustain(.9).release(4)
-   .gain(.2).room(.8).roomsize(8)
-   .lpf(100)
+const intro =
+  note("<[c#3,e3,g#3]>")
+    .s("sawtooth")
+    .attack(2).release(3).sustain(.4)
+    .lpf(sine.slow(6).range(200, 800)).lpq(3)
+    .room(.85).rsize(6).delay(.3).delayfb(.55)
+    .gain(.15)
+    .stack(
+      note("<g#5 ~ ~ b5>")
+        .s("sine").attack(.4).release(2.5)
+        .gain(.06).delay(.7).delayfb(.7).delayt(.5)
+        .room(.95).rsize(8)
+    )
 
-// vinyl hiss — filtered dark
-$: arrange(
-  [4,  silence],
-  [6,  s("vinyl:2").gain(.06).room(1).loop(1).lpf(1200)],
-  [6,  s("vinyl:2").gain(.1).room(1).loop(1).lpf(1800)],
-  [2,  s("vinyl:2").gain(.04).room(1).loop(1).lpf(800)]
-)
+const chorus =
+  note(darkChord)
+    .slow(2)
+    .s("sawtooth")
+    .attack(.8).release(1.8).sustain(.35)
+    .lpf(dread).lpq(2.5)
+    .room(murk).rsize(5).delay(.2).delayfb(.5)
+    .gain(.32)
+    .stack(
+      note("<c#2 a1 f#1 g#1>")
+        .slow(2)
+        .s("sine").lpf(120).gain(.45)
+        .attack(.3).release(1.5)
+    )
+    .stack(
+      note("<g#4 ~ b4 ~ e4 ~ d#4 ~>")
+        .slow(2)
+        .s("triangle")
+        .attack(.05).release(.9)
+        .lpf(sine.slow(7).range(800, 3500))
+        .delay(.55).delayfb(.65).delayt(.375)
+        .room(.6).gain(.14)
+        .reset("<x ~ ~ x>")
+    )
+    .stack(
+      s("bd").euclid(3,8)
+        .slow(2)
+        .gain(.4).lpf(200)
+        .room(.3).distort("1.5:.3")
+    )
+    .stack(
+      s("~ cp ~ ~, ~ ~ ~ [~ hh]")
+        .slow(2)
+        .gain(.12).room(.5).hpf(2000)
+        .sometimesBy(.3, x => x.delay(.4))
+    )
+    .stack(
+      sound("brown").gain(.06)
+        .lpf(perlin.slow(8).range(100, 600))
+        .room(.7)
+    )
 
-// muted heartbeat pulse
-$: arrange(
-  [4,  s("bd ~ ~ ~").bank("RolandTR808").gain(.3).lpf(200).room(.8).roomsize(7).speed(.6)],
-  [6,  s("bd ~ ~ ~, ~ ~ ~ [~ cp]").bank("RolandTR808").gain(.4).lpf(350).room(.7).roomsize(6).speed(.65)],
-  [6,  s("bd ~ [~ bd] ~, ~ ~ ~ [cp ~], hh(3,8)").bank("RolandTR808").gain(".5 .35 .4 .35").lpf(500).room(.6).roomsize(5).speed(.7).every(4, x => x.gain(.25))],
-  [2,  s("bd ~ ~ ~").bank("RolandTR808").gain(saw.slow(2).range(.35,.05)).lpf(180).room(.9).roomsize(8).speed(.55)]
-)
+const bridge =
+  note(bridgeChord)
+    .slow(2)
+    .s("sawtooth")
+    .attack(1.2).release(2.5).sustain(.3)
+    .lpf(sine.slow(5).range(400, 1200)).lpq(3.5)
+    .hpf(perlin.slow(6).range(80, 400))
+    .room(.9).rsize(7).delay(.4).delayfb(.6).delayt(.5)
+    .gain(.25)
+    .stack(
+      note("<f5 ~ ab5 ~ db5 ~ b4 ~>")
+        .slow(2)
+        .s("sine")
+        .attack(.15).release(1.8)
+        .delay(.65).delayfb(.72).delayt(.33)
+        .room(.85).gain(.1)
+    )
+    .stack(
+      s("~ ~ [~ lt] ~")
+        .slow(2)
+        .gain(.15).lpf(700).room(.6)
+    )
 
-// bass — dark and brooding
-$: arrange(
-  [4,  note("<c2 ~ ~ ~>/1").s("gm_acoustic_bass").lpf(300).room(.5).gain(.5).decay(.8).sustain(.5).speed(.9)],
-  [6,  note("<[c2 ~ ~ ~] [db2 ~ ~ ~] [ab1 ~ ~ ~] [g1 ~ ~ ~]>").s("gm_acoustic_bass").lpf(sine.range(250,500).slow(12)).room(.45).gain(.6).decay(.5).sustain(.5).speed(.92)],
-  [6,  note("<[c2 ~ c2 ~] [db2 ~ ~ db2] [ab1 ~ ~ ab1] [g1 ~ g1 ~]>").s("gm_acoustic_bass").lpf(sine.range(300,600).slow(8)).room(.4).gain(.65).decay(.4).sustain(.5).speed(.94)],
-  [2,  note("<c2 ~ ~ ~>/1").s("gm_acoustic_bass").lpf(250).room(.6).gain(saw.slow(2).range(.5,.1)).decay(1).sustain(.3).speed(.88)]
-)
-
-// dark pads — Cm → Dbmaj7 → Abm → Gsus4
-$: arrange(
-  [4,  chord("<Cm Abm>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(2).decay(1.5).sustain(.8).release(3).lpf(sine.range(300,700).slow(8)).room(.9).roomsize(8).gain(.25)],
-  [6,  chord("<Cm Dbmaj7 Abm G7sus4>").dict('ireal').voicing().s("gm_synth_strings_1").attack(1.5).decay(1).sustain(.75).release(2.5).lpf(sine.range(400,1000).slow(12)).room(.85).roomsize(7).gain(.35).pan(sine.slow(10))],
-  [6,  chord("<Cm Dbmaj7 Abm G7sus4>").dict('ireal').voicing().s("gm_synth_strings_1").attack(1).decay(.8).sustain(.8).release(2).lpf(sine.range(500,1400).slow(8)).room(.8).roomsize(6).gain(.42).pan(sine.slow(6))],
-  [2,  chord("<Cm Abm>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(3).decay(2).sustain(.6).release(4).lpf(sine.range(200,500).slow(4)).room(.95).roomsize(10).gain(saw.slow(2).range(.28,.05))]
-)
-
-// eerie melody — sparse phrygian fragments
-$: arrange(
-  [4,  silence],
-  [6,  n("<[~ 0 ~ ~] [~ ~ 3 ~] [~ 5 ~ ~] [3 ~ ~ ~]>").scale("C5:phrygian").s("gm_epiano2").lpf(sine.range(500,1500).slow(14)).room(.85).roomsize(7).delay(".5:.4:.7").gain(.25).attack(.15).speed(.92).pan(sine.slow(7))],
-  [6,  n("<[0 ~ 3 ~] [5 ~ ~ 7] [~ 5 3 ~] [~ ~ 0 ~]>").scale("C5:phrygian").s("gm_epiano2").lpf(sine.range(700,2000).slow(8)).room(.8).roomsize(6).delay(".4:.35:.6").gain(.32).attack(.1).speed(.94).pan(sine.slow(5)).sometimes(x => x.add(note(12)).gain(.18))],
-  [2,  n("<[~ 0 ~ ~] [~ ~ ~ 3]>").scale("C5:phrygian").s("gm_epiano2").lpf(800).room(.9).roomsize(8).delay(".65:.5:.8").gain(.2).attack(.2).speed(.9)]
-)
-
-// ghostly flute — appears only at peak
-$: arrange(
-  [4,  silence],
-  [6,  silence],
-  [6,  n("<[~ ~ 5 ~] [7 ~ ~ ~] [~ 5 ~ 3] [~ ~ ~ ~]>").scale("C6:phrygian").s("gm_flute").lpf(sine.range(600,2000).slow(6)).room(.9).roomsize(8).delay(".6:.45:.75").gain(.18).vib(5).vibmod(.9).attack(.15).decay(.4).sustain(.4).release(.8).pan(perlin.range(.2,.8))],
-  [2,  silence]
-)
+arrange(
+  [1, intro],
+  [8, chorus],
+  [3, bridge],
+  [8, chorus.lpf(perlin.slow(6).range(400, 2000))]
+).postgain(.88)

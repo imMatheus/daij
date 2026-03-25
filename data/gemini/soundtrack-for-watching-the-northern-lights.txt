@@ -1,35 +1,30 @@
-// 🎵 "Emerald Shimmer" — Ethereal Polar Ambient Soundscape
+// 🎵 "Aurora Drift" — Ethereal Lydian soundscape with shimmering pads and dancing solar particles
 
-setcps(0.08);
+setcps(0.4);
+
 stack(
-  s("superpwm")
-    .note("<[c2, g2, c3] [ab1, eb2, ab2] [f2, c3, f3] [g2, d3, g3]>")
-    .lpf(perlin.range(200, 1500).slow(12))
-    .lpq(0.3)
-    .room(1)
-    .sz(0.98)
-    .gain(0.55)
-    .slow(8),
-  s("supervibe")
-    .note("<[g4, c5, eb5, bb5] [f4, bb4, d5, a5]>".scramble())
-    .struct("1(5,12, <0 2 4>)")
-    .room(1)
-    .sz(0.95)
-    .delay(0.8)
-    .delayfb(0.8)
-    .gain(perlin.range(0.1, 0.35).slow(6))
-    .hpf(sine.range(1000, 5000).slow(18))
-    .pan(sine.slow(20)),
-  s("superhex")
-    .note("<c6 eb6 g6 bb6>*[4 | 8 | 16]")
-    .gain(perlin.range(0.02, 0.15).slow(9))
-    .room(1)
-    .hpf(perlin.range(3000, 8000).slow(10))
-    .pan(perlin.slow(14)),
-  s("supernoise")
-    .lpf(sine.range(40, 500).slow(32))
-    .gain(perlin.range(0.1, 0.4).slow(28))
-    .room(1)
-    .sz(1)
-    .pan(sine.slow(40))
-).reset(32)
+  // The Shifting Glow: Evolving supersaw curtains with drifting filters
+  note("<~ [c3,g3,b3,d4]!10 [f2,c3,e3,g3]!6 [c3,g3,b3,d4]!11>")
+    .s("supersaw").gain(0.32).unison(8).detune(perlin.range(0.1, 0.45).slow(8))
+    .lpf(sine.range(400, 1600).slow(14)).lpq(15).room(2).delay(0.7).delayt(1/2).jux(rev)
+    .velocity(perlin.range(0.4, 0.8).slow(5)),
+
+  // Solar Wind: High-altitude crackle and frozen textures
+  s("crackle").density(perlin.range(0.04, 0.14)).gain(0.18).hpf(perlin.range(2000, 5000).slow(10)).room(1.5),
+
+  // Dancing Particles: Shimmering high harmonics and resonant "light" pulses
+  note("<~ [c5 e5 g5 b5 d6]*2!10 ~!6 [c6 b5 g5 e5 c5]*4!11>")
+    .s("sine").gain(perlin.range(0.15, 0.55)).vowel("<a i o u>").room(2)
+    .delay(0.85).delayt(3/4).velocity(perlin.range(0.3, 0.9)).pan(sine.slow(24))
+    .rarely(x => x.transpose(12)).scramble(4),
+
+  // Magnetic Rumble: Deeper foundations that surge during the bridge
+  note("<~!11 c2!6 ~!11>")
+    .s("sawtooth").gain(0.35).lpf(250).lpq(20).room(1.2).distort(0.15)
+    .lfo({ c: "lpf", s: 0.2, depth: 100 }),
+
+  // High Altitude Bells: Glassy accents
+  note("<~!4 [b6,e7,g7](3,8)!8 ~!16>")
+    .s("sine").gain(0.2).attack(0.01).release(0.5).room(3).delay(0.5)
+)
+.reset("<x!28>")

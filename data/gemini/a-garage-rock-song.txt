@@ -1,10 +1,27 @@
-// "Fuzz Pedal" — Fast, raw garage rock with high-gain power chords
-samples('github:tidalcycles/dirt-samples');
-setcps(155/60/4);
+// 🎵 "Rusty Transmission" — Raw garage rock with fuzzy guitars and a driving stomp
+setcps(110/60);
 stack(
-  s("bd:5 [sn:2,cp] <bd:5*2 [bd:5 sn:2]> sn:2").bank("dirt").distort(0.1).gain(1.2),
-  s("hh*16").bank("dirt").gain(perlin.range(0.3, 0.8)).pan(perlin.range(-0.5, 0.5)),
-  s("bass:3").note("<e1 g1 a1 b1>(3,8)").bank("dirt").distort(0.7).lpf(500).gain(1.1),
-  s("superpwm").note("<[e2,b2] [g2,d3] [a2,e3] [b2,f#3]>").struct("1*8").distort(0.95).lpf(sine.range(1500, 6000).slow(16)).room(0.2).gain(0.6),
-  s("guitar").note("<e3 g3 a3 b3>").bank("dirt").struct("0 0 0 [1*4]").distort(0.9).delay(0.3).room(0.6).gain(0.4)
-).reset(16)
+  cat(
+    s("bd!2 sd!2").bank("tr909").gain(1.1).repeatCycles(2),
+    s("[bd:1 [~ bd:1] sd:2 [~ bd:1], hh*8, <cy!1 ~!15>]").bank("tr808").gain(1.2).repeatCycles(12),
+    s("bd:1*4, hh*4, sd:2*2").bank("tr808").gain(1.1).repeatCycles(6),
+    s("[bd:1 [~ bd:1] sd:2 [~ bd:1], hh*8, <cy!1 ~!15>]").bank("tr808").gain(1.2).repeatCycles(12)
+  ).distort(0.3),
+  cat(
+    n("a1!8").repeatCycles(2),
+    n("<a1!8 g1!8 d1!8 a1!8>").repeatCycles(12),
+    n("<e1!8 f1!8>").repeatCycles(6),
+    n("<a1!8 g1!8 d1!8 a1!8>").repeatCycles(12)
+  ).s("pulse").lpf(350).lpq(2).distort(0.6).gain(0.85).pw(0.5),
+  cat(
+    s("~").repeatCycles(2),
+    n("<[a2,e3,a3]!8 [g2,d3,g3]!8 [d2,a2,d3]!8 [a2,e3,a3]!8>").repeatCycles(12),
+    n("<[e2,b2,e3]!8 [f2,c3,f3]!8>").repeatCycles(6),
+    n("<[a2,e3,a3]!8 [g2,d3,g3]!8 [d2,a2,d3]!8 [a2,e3,a3]!8>").repeatCycles(12)
+  ).s("supersaw").distort(5).lpf(perlin.range(2000, 7000).slow(8)).gain(0.5).unison(3).detune(0.25).jux(x=>x.rev()),
+  cat(
+    s("~").repeatCycles(14),
+    n("<[a3 c4 d4 c4]*2 [a3 c4 e4 d4]*2>").repeatCycles(6),
+    n("<[a4 a4 g4 g4] [e4 e4 d4 c4]>").repeatCycles(12)
+  ).s("sawtooth").distort(2.5).gain(0.45).delay(0.25).delayfb(0.4).pan(0.5)
+).room(0.3).delay(0.2).delayfb(0.2)

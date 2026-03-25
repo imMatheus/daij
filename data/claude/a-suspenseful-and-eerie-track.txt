@@ -1,47 +1,84 @@
-// 🎵 "Hollow Corridors" — Suspenseful Dark Ambient / Eerie Cinematic
-// 15 cycles at .25 cps ≈ 60 seconds
+// "The Watcher" — Suspenseful eerie ambient with dissonant drones and spectral textures
+setcps(0.4)
+samples('github:tidalcycles/dirt-samples')
 
-setcps(.25)
+const creep = perlin.slow(12).range(250, 1000)
+const drift = sine.slow(14).range(0.12, 0.35)
 
-$: arrange(
-  [3, s("bd ~ ~ ~").bank("RolandTR808").gain(.4).room(.7).roomsize(6).lpf(400)
+const intro =
+  note("[c2,gb2]")
+    .s("sawtooth")
+    .attack(1.5).release(2).sustain(.3)
+    .lpf(saw.slow(1).range(80, 350)).lpq(4)
+    .room(.9).rsize(6)
+    .gain(saw.slow(1).range(0, .22))
     .stack(
-      s("hh*4").bank("RolandTR808").gain(perlin.range(.02,.09)).pan(sine.slow(5)).cut(1).lpf(2000).room(.5),
-      note("eb1").s("sawtooth").lpf(sine.range(40,130).slow(12)).gain(.2).room(.3).decay(1.5).sustain(.7).cut(2)
-    )],
-  [5, s("<[bd ~ ~ ~] [bd ~ ~ bd]>, ~ ~ ~ [~ cp]").bank("RolandTR808").gain(perlin.range(.5,.72)).room(.55).roomsize(5).lpf(700)
-    .stack(
-      s("hh(5,16)").bank("RolandTR808").gain(perlin.range(.04,.16)).pan(sine.slow(4)).cut(1).lpf(sine.range(1500,3500).slow(8)).room(.4),
-      note("<[eb2 ~ ~ ~] [d2 ~ ~ ~] [ab1 ~ ~ ~] [bb1 ~ ~ ~]>").s("gm_acoustic_bass").decay(.4).sustain(.35).room(.3).gain(.68).lpf(650)
-    )],
-  [5, s("bd ~ bd ~, ~ [cp,sd:1] ~ [~ cp], [~ hh oh ~]*2").bank("RolandTR808").cut(1).gain(perlin.range(.58,.85)).room(.4).roomsize(4).lpf(1100)
-    .stack(
-      s("hh*16").bank("RolandTR808").gain(perlin.range(.05,.2)).pan(sine.slow(3)).cut(1).lpf(sine.range(2000,4500).slow(6)).room(.3),
-      note("<[eb2 ~ eb2 ~] [d2 ~ ~ d2] [ab1 ~ ab1 ~] [bb1 ~ ~ bb1]>").s("gm_acoustic_bass").decay(.3).sustain(.4).room(.25).gain(.74).lpf(750)
-    )],
-  [2, s("bd ~ ~ ~").bank("RolandTR808").gain(saw.slow(2).range(.45,.05)).room(.8).roomsize(7).lpf(300)
-    .stack(
-      note("eb1").s("sawtooth").lpf(saw.slow(2).range(110,30)).gain(saw.slow(2).range(.18,.02)).room(.4).decay(2).sustain(.5).cut(2)
-    )]
-)
+      s("~ ~ ~ metal:3")
+        .speed(.4).gain(.07)
+        .room(.95).rsize(8)
+        .delay("0.7:0.3:0.8")
+    )
 
-$: arrange(
-  [3, chord("Ebm7b5").dict('ireal').voicing().s("gm_synth_strings_1").attack(2).decay(1.5).sustain(.6).release(3).lpf(600).room(.85).roomsize(6).gain(.22)],
-  [5, chord("<Ebm7b5 Dmaj7 Abm7 Bb7b9>").dict('ireal').voicing().s("gm_synth_strings_1").attack(1).decay(1).sustain(.65).release(2)
-       .lpf(sine.range(500,1300).slow(14)).room(.75).roomsize(5).gain(.28)
+const chorus =
+  note("<[c1 ~] [~ db1]>")
+    .s("sawtooth")
+    .lpf(sine.slow(10).range(60, 220)).lpq(6)
+    .gain(.35).release(.5)
+    .room(.5).rsize(3)
+    .distort("0.8:0.4")
     .stack(
-      n("<[~ 0 ~ ~] [~ ~ ~ 3] [~ 1 ~ ~] [~ ~ 4 ~]>").scale("Eb5:locrian").s("gm_epiano2")
-        .room(.8).roomsize(6).delay(".5:.4:.65").gain(.2).lpf(1600).vib(3).vibmod(.7)
-    )],
-  [5, chord("<Ebm7b5 D7 Abm7 Bb7b9>").dict('ireal').voicing().s("gm_synth_strings_1").attack(.8).decay(.8).sustain(.7).release(1.5)
-       .lpf(sine.range(700,1800).slow(10)).room(.65).roomsize(4).gain(.32)
+      note("<[c3,gb3,bb3] [db3,e3,ab3]>/2")
+        .s("triangle")
+        .attack(1).release(2).sustain(.2)
+        .lpf(creep).lpq(2)
+        .room(.9).rsize(5)
+        .delay("0.45:0.25:0.7")
+        .gain(.15)
+    )
     .stack(
-      n("<[0 ~ 3 ~] [~ 4 ~ 3] [1 ~ ~ 0] [~ 3 4 ~]>").scale("Eb5:locrian").s("gm_epiano2")
-        .room(.7).roomsize(5).delay(".4:.3:.55").gain(.26).lpf(sine.range(900,2400).slow(8)).vib(4).vibmod(.6)
-        .sometimes(x => x.add(note(12)).gain(.14))
-    )],
-  [2, chord("Ebm7b5").dict('ireal').voicing().s("gm_synth_strings_1").attack(2).sustain(.5).release(4)
-       .lpf(saw.slow(2).range(700,200)).room(.9).roomsize(8).gain(saw.slow(2).range(.24,.03))]
-)
+      s("[~ metal:2] ~ [~ ~ metal:5 ~] ~")
+        .speed("<.6 -.4 .3 -.7>")
+        .gain(.11).hpf(2500)
+        .room(.85).delay("0.6:0.2:0.8")
+    )
+    .stack(
+      note("~ [gb5 ~] ~ [~ b5]")
+        .s("sine").gain(.07)
+        .vib("5:2").release(1.2)
+        .room(.8).delay("0.5:0.35:0.65")
+    )
+    .stack(
+      s("bd:4").euclid(3,16)
+        .gain(.28).lpf(140)
+        .room(.4).distort("1.5:0.3")
+    )
+    .stack(
+      sound("brown").gain(drift)
+        .lpf(perlin.slow(8).range(150, 550))
+        .hpf(50).room(.6)
+    )
 
-$: note("<eb1 d1 ab1 bb1>/4").s("sine").attack(2.5).decay(1.5).sustain(.8).release(3).gain(.17).room(.6).lpf(130)
+const bridge =
+  note("c1!4")
+    .s("sine").lpf(100)
+    .gain(.4).release(.3)
+    .tremolo(1.5).room(.7).rsize(5)
+    .stack(
+      s("[~ hh:3] ~ ~ ~")
+        .gain(.05).speed(.3)
+        .room(.95).rsize(7)
+        .delay("0.8:0.35:0.85")
+    )
+    .stack(
+      note("~ ~ ~ [~ gb6]")
+        .s("triangle").gain(.04)
+        .release(2.5).room(.9).rsize(6)
+        .vib("8:4")
+    )
+
+arrange(
+  [1, intro],
+  [12, chorus],
+  [3, bridge],
+  [12, chorus]
+).postgain(.85)

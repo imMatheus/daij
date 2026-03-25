@@ -1,62 +1,113 @@
-// "Lampglow Drizzle" — soft chords and rainy window warmth
+// "Lamp by the Window" — warm rainy-day lo-fi drift
 samples('github:tidalcycles/dirt-samples')
-setcps(0.66)
-note("<[c4 eb4 g4 bb4] [f3 a3 c4 eb4] [g3 bb3 d4 f4] [eb3 g3 bb3 d4]>")
-  .s("supersaw")
-  .slow(2)
-  .legato(1.15)
-  .gain(0.4)
-  .lpf(perlin.slow(6).range(450,2200))
-  .room(sine.slow(10).range(0.2,0.5))
-  .delay(0.24)
-  .delayfeedback(0.36)
-  .reset(16)
+setcps(13/35)
+
+const introPad = chord("Fmaj7")
+  .voicing().anchor("c5").s("triangle")
+  .attack(.7).decay(1).sustain(.82).release(3.6)
+  .lpf(1400).room(.94).delay(".35:.5:.58").chorus(.34).gain(.18)
+
+const chorusPad = chord("<Fmaj7 Cmaj9 Dm7 G6>")
+  .voicing().anchor("c5").slow(4).s("triangle")
+  .attack(.35).decay(.9).sustain(.8).release(2.8)
+  .lpf(sine.slow(9).range(850,2200))
+  .room(.88).delay(".28:.375:.42").chorus(.32).gain(.22)
+  .reset("<x ~ ~ ~>")
+
+const chorusLead = note("<a4 c5 e5 g5 e5 d5 c5 a4 g4 a4 c5 d5 e5 d5 c5 a4>")
+  .slow(4).s("sine")
+  .attack(.03).release(1.1).sustain(.12)
+  .vib(4).vibmod(.14)
+  .lpf(sine.slow(7).range(1600,4200))
+  .room(.76).delay(".4:.25:.46").gain(.11)
+  .reset("<x ~ ~ ~>")
+
+const chorusBass = note("<f2 c2 d2 g1>")
+  .slow(4).s("sine")
+  .attack(.01).release(1.3)
+  .lpf(240).gain(.18)
+  .reset("<x ~ ~ ~>")
+
+const bridgePad = chord("<Bbmaj7 C6 Am7 Dm9>")
+  .voicing().anchor("c5").slow(4).s("sine")
+  .attack(.45).decay(1.1).sustain(.78).release(3.2)
+  .lpf(sine.slow(6).range(700,1800))
+  .room(.95).delay(".46:.5:.64").chorus(.46).gain(.16)
+  .reset("<x ~ ~ ~>")
+
+const bridgeLead = note("<d5 f5 g5 a5 c6 a5 g5 e5>")
+  .slow(4).s("triangle")
+  .attack(.05).release(1.6).sustain(.18)
+  .tremolosync(5).tremolodepth(.16)
+  .lpf(sine.slow(5).range(1400,3400))
+  .room(.86).delay(".5:.375:.58").gain(.09)
+  .reset("<x ~ ~ ~>")
+
+const bridgeBass = note("<bb1 c2 a1 d2>")
+  .slow(4).s("sine")
+  .attack(.01).release(1.6)
+  .lpf(210).gain(.15)
+  .reset("<x ~ ~ ~>")
+
+arrange(
+  [1, introPad],
+  [9, chorusPad],
+  [4, bridgePad],
+  [9, chorusPad],
+  [3, chord("<Fmaj7 Cmaj9 Dm7>").voicing().anchor("c5").slow(3).s("triangle").attack(.6).release(4).lpf(sine.slow(3).range(700,1500)).room(.97).delay(".55:.5:.72").chorus(.38).gain(saw.slow(3).range(.16,.05))]
+)
   .stack(
-    note("<[c2 ~ c2] [~ g1 c2] [c2 ~ ~] [g1 ~ c2]>")
-      .s("sawtooth")
-      .slow(2)
-      .gain(0.28)
-      .lpf(perlin.slow(8).range(180,820))
-      .hpf(55)
-      .room(0.2)
-      .reset(8)
+    arrange(
+      [1, note("<c5 e5 a5>").slow(2).s("sine").attack(.04).release(1.8).room(.88).delay(".5:.25:.55").gain(.06)],
+      [9, chorusLead],
+      [4, bridgeLead],
+      [9, chorusLead],
+      [3, note("<a4 g4 e4>").slow(3).s("sine").attack(.04).release(2.4).room(.92).delay(".62:.5:.74").gain(saw.slow(3).range(.08,.02))]
+    )
   )
   .stack(
-    s("<[bd(3,8) ~ bd] [~ sd:2] [bd ~ sd:3] [~ bd(5,8)]>")
-      .gain(0.62)
-      .lpf("<750 1200 900 1500>")
-      .room(0.12)
-      .delay(0.08)
-      .delayfeedback(0.18)
-      .reset(8)
+    arrange(
+      [1, silence],
+      [9, chorusBass],
+      [4, bridgeBass],
+      [9, chorusBass],
+      [3, note("<f2 c2 d2>").slow(3).s("sine").attack(.02).release(2.4).lpf(180).gain(saw.slow(3).range(.12,.03))]
+    )
   )
   .stack(
-    s("<hh(5,8) [hh*2 hh(3,8)] [~ hh(7,16)] [hh*4]>")
-      .gain(0.24)
-      .speed("<1 0.98 1.03 0.96>")
-      .lpf(perlin.slow(5).range(2600,9000))
-      .room(0.58)
-      .delay(0.31)
-      .delayfeedback(0.43)
+    arrange(
+      [1, silence],
+      [9, s("bd ~ ~ ~ [~ bd] ~ ~ ~").lpf(900).room(.16).gain(.3).reset("<x ~ ~ ~>")],
+      [4, s("bd ~ ~ ~").lpf(700).room(.22).gain(.16).reset("<x ~ ~ ~>")],
+      [9, s("bd ~ ~ ~ [~ bd] ~ ~ ~").lpf(900).room(.16).gain(.3).reset("<x ~ ~ ~>")],
+      [3, silence]
+    )
   )
   .stack(
-    s("<[cp ~] [~ cp] [cp cp ~] [~ ~ cp]>")
-      .gain(0.21)
-      .lpf(1800)
-      .room(0.72)
-      .delay(0.27)
-      .delayfeedback(0.54)
-      .reset(12)
+    arrange(
+      [1, silence],
+      [9, s("~ ~ cp ~ ~ ~ cp ~").lpf(1800).room(.34).gain(.13).reset("<x ~ ~ ~>")],
+      [4, s("~ ~ ~ ~ ~ ~ cp ~").lpf(1600).room(.42).gain(.08).reset("<x ~ ~ ~>")],
+      [9, s("~ ~ cp ~ ~ ~ cp ~").lpf(1800).room(.34).gain(.13).reset("<x ~ ~ ~>")],
+      [3, silence]
+    )
   )
   .stack(
-    note("<[[c5 eb5 g5] ~] [[d5 f5 a5] ~] [[bb4 d5 f5] ~] [[g4 bb4 d5] ~]>")
-      .s("gm_epiano1")
-      .slow(2)
-      .legato(0.85)
-      .gain(0.23)
-      .lpf(perlin.slow(7).range(850,2500))
-      .room(0.82)
-      .delay(0.38)
-      .delayfeedback(0.5)
-      .reset(16)
+    arrange(
+      [1, s("hh*8").bpf(6200).bpq(5).room(.9).delay(".18:.125:.26").gain(.018)],
+      [9, s("hh*16").bpf(sine.slow(11).range(4800,8200)).bpq(4).room(.93).delay(".22:.125:.33").gain(sine.slow(9).range(.015,.045))],
+      [4, s("hh*12").bpf(sine.slow(8).range(4200,7600)).bpq(5).room(.95).delay(".3:.25:.42").gain(sine.slow(7).range(.012,.032))],
+      [9, s("hh*16").bpf(sine.slow(11).range(4800,8200)).bpq(4).room(.93).delay(".22:.125:.33").gain(sine.slow(9).range(.015,.045))],
+      [3, s("hh*8").bpf(5400).bpq(5).room(.97).delay(".42:.25:.55").gain(saw.slow(3).range(.025,.006))]
+    )
   )
+  .stack(
+    arrange(
+      [1, s("vinyl:2").loop(1).lpf(2100).room(.7).gain(.08)],
+      [9, s("vinyl:2").loop(1).lpf(sine.slow(10).range(1700,2600)).room(.7).gain(.1)],
+      [4, s("vinyl:2").loop(1).lpf(sine.slow(6).range(1400,2200)).room(.78).gain(.11)],
+      [9, s("vinyl:2").loop(1).lpf(sine.slow(10).range(1700,2600)).room(.7).gain(.1)],
+      [3, s("vinyl:2").loop(1).lpf(1600).room(.82).gain(saw.slow(3).range(.08,.02))]
+    )
+  )
+  .postgain(1.04)

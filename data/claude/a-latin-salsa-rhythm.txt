@@ -1,58 +1,121 @@
-// 🎵 "Sabor de la Noche" — Latin Salsa Dura
-// At 108 BPM: intro(4) + verso(8) + coro(8) + mambo(4) + outro(4) = 28 bars ≈ 1:02
+// "Calle Caliente" — fiery Latin salsa with son clave, montuno piano, tumbao bass, and brass
+samples('github:tidalcycles/dirt-samples')
+setcps(0.42)
 
-setcpm(108 / 4)
+let cl = s("rim").struct("x ~ ~ x ~ ~ x ~ ~ ~ x ~ x ~ ~ ~").slow(2)
+  .lpf(3000).room(.2).gain(.16).reset("<x ~ x ~>")
 
-// son clave 3-2 — the heartbeat of salsa
-$: s("<[cp [~ cp] ~ cp] [~ cp cp ~]>")
-   .bank("RolandTR808").speed(1.5).hpf(3500).gain(.42).room(.25)
+let introPerc = stack(
+  cl,
+  s("lt").struct("~ ~ ~ x ~ ~ x x").gain("~ ~ ~ .14 ~ ~ .12 .11").room(.12).pan(.35),
+  s("mt").struct("~ x ~ ~ x ~ ~ ~").gain("~ .12 ~ ~ .11 ~ ~ ~").room(.1).pan(.65)
+).swing(4)
 
-// campana — cowbell riding the groove
-$: arrange(
-  [4, silence],
-  [8, s("[~ cowbell:0 ~ cowbell:0]*2").bank("RolandTR808").speed(1.25).hpf(4200).gain(.28).room(.2).pan(.6)],
-  [8, s("[cowbell:0 cowbell:0]*4").bank("RolandTR808").speed(1.25).hpf(4200).gain(.32).room(.15).pan(.6).every(4, x => x.struct("[x ~ x x] [x x ~ x]").gain(.22))],
-  [4, s("[~ cowbell:0]*4").bank("RolandTR808").speed(1.25).hpf(4200).gain(.22).room(.3).pan(.6)],
-  [4, silence]
-)
+let conga = stack(
+  s("lt").struct("~ ~ ~ x ~ ~ x x").gain("~ ~ ~ .15 ~ ~ .13 .12").pan(.32),
+  s("mt").struct("~ x ~ ~ x ~ ~ ~").gain("~ .13 ~ ~ .12 ~ ~ ~").pan(.64),
+  s("ht").struct("x ~ ~ ~ ~ x ~ ~").gain(".08 ~ ~ ~ ~ .07 ~ ~").pan(.78)
+).lpf(perlin.slow(6).range(800,2400)).room(.18).swing(4).reset("<x ~ x ~>")
 
-// timbales and congas
-$: arrange(
-  [4, s("[~ hh]*4, bd ~ ~ bd").bank("RolandTR808").gain(.68).room(.28).swing(3)],
-  [8, s("[~ hh]*4, bd ~ [~ bd] ~, ~ cp ~ cp").bank("RolandTR808").gain(".84 .76 .8 .76").room(.22).swing(3)],
-  [8, s("[hh hh]*4, bd [~ bd] [bd ~] ~, ~ [cp sd:1] ~ [cp sd:1], [oh ~ ~ ~]*2").bank("RolandTR808").cut(1).gain(".88 .8 .85 .78").room(.18).swing(3).every(4, x => x.fast(2).gain(.4))],
-  [4, s("[~ hh]*4, bd ~ ~ ~, ~ ~ cp ~").bank("RolandTR808").gain(.62).room(.38).swing(3)],
-  [4, s("bd ~ ~ ~").bank("RolandTR808").gain(saw.slow(4).range(.55,.08)).room(.45)]
-)
+let shaker = s("hh*16").end(.04).bpf(sine.slow(7).range(5400,9200)).bpq(5)
+  .room(.14).gain("0.028 0.015 0.022 0.013 0.026 0.014 0.024 0.014 0.028 0.016 0.022 0.013 0.026 0.015 0.024 0.013")
+  .swing(4).reset("<x ~ x ~>")
 
-// bass — tumbao in G minor
-$: arrange(
-  [4, note("<[~ ~ g2 ~] [~ ~ d2 ~]>/2").s("gm_acoustic_bass").decay(.22).sustain(.42).room(.18).gain(.58)],
-  [8, note("<[~ ~ g2 g1] [~ ~ c2 c1] [~ ~ eb2 eb1] [d2 ~ ~ d1]>").s("gm_acoustic_bass").decay(.25).sustain(.5).room(.18).gain(.8).swing(3)],
-  [8, note("<[g1 ~ g2 g1] [c1 ~ c2 ~] [eb1 ~ eb2 eb1] [d1 ~ ~ d2]>").s("gm_acoustic_bass").decay(.2).sustain(.55).room(.18).gain(.85).swing(3)],
-  [4, note("<g1 ~ d1 ~>/2").s("gm_acoustic_bass").decay(.5).sustain(.3).room(.32).gain(.52)],
-  [4, silence]
-)
+let drums = stack(
+  s("bd").struct("x ~ ~ ~ ~ ~ x ~").lpf(850).room(.06).gain(.22),
+  s("cb").euclidRot(5,8,1).lpf(2800).room(.16).delay(".06:.125:.12").gain(.1),
+  s("cp").struct("~ ~ ~ ~ x ~ ~ ~").lpf(1600).room(.28).gain(.035)
+).swing(4).reset("<x ~ x ~>")
 
-// piano montuno — driving syncopation
-$: arrange(
-  [4, chord("<Gm7 D7>/2").dict('ireal').voicing().s("gm_epiano1").struct("~ x ~ x").lpf(2600).room(.38).gain(.4)],
-  [8, chord("<Gm7 Cm7 Ebmaj7 D7>").dict('ireal').voicing().s("gm_epiano1").struct("[~ x] [x ~] [~ x] [x ~]").lpf(3200).room(.32).delay(".1:.08:.15").gain(.55).swing(3)],
-  [8, chord("<Gm7 Cm7 Ebmaj7 D7>").dict('ireal').voicing().s("gm_epiano1").struct("[~ x x ~] [~ x x ~]").lpf(3800).room(.28).delay(".12:.1:.18").gain(.62).swing(3).every(4, x => x.fast(2).gain(.3))],
-  [4, chord("<Gm7 D7>/2").dict('ireal').voicing().s("gm_epiano1").struct("~ x ~ ~").lpf(2000).room(.55).delay(".3:.2:.4").gain(.36)],
-  [4, chord("<Gm7>").dict('ireal').voicing().s("gm_epiano1").struct("x ~ ~ ~").lpf(1400).room(.7).gain(saw.slow(4).range(.34,.05))]
-)
+let piano = chord("<Cm7 Ab7 Fm7 G7>").voicing().anchor("g5").slow(2)
+  .s("gm_epiano1").struct("[~ x x ~] [x ~ x ~]")
+  .attack(.01).decay(.14).sustain(.14).release(.32)
+  .lpf(perlin.slow(5).range(1600,3800)).room(.32).delay(".1:.125:.16")
+  .gain(.32).swing(4).reset("<x ~ x ~>")
 
-// brass section — trombone-style riffs
-$: arrange(
-  [4, silence],
-  [8, n("<[0 ~ ~ 2] [~ 4 ~ ~] [2 ~ 0 ~] [~ ~ 4 2]>").scale("G4:minor:pentatonic").s("gm_synth_strings_1").lpf(4000).room(.38).gain(.36).attack(.05).decay(.22).sustain(.58).release(.32)],
-  [8, n("<[0 2 4 5] [~ 4 2 ~] [5 ~ 4 2] [4 2 0 ~]>").scale("G4:minor:pentatonic").s("gm_synth_strings_1").lpf(4600).room(.32).gain(.44).attack(.03).decay(.15).sustain(.65).release(.25).sometimes(x => x.add(note(12)))],
-  [4, n("<[0 ~ 2 ~] [4 ~ 5 ~]>/2").scale("G4:minor:pentatonic").s("gm_synth_strings_1").lpf(3000).room(.55).delay(".4:.3:.5").gain(.3).attack(.08)],
-  [4, silence]
-)
+let introPiano = chord("Cm7").voicing().anchor("g5")
+  .s("gm_epiano1").struct("~ ~ x ~ ~ x ~ ~")
+  .attack(.02).decay(.16).sustain(.12).release(.55)
+  .lpf(1600).room(.52).delay(".16:.25:.22").gain(.15)
 
-// sub bass warmth
-$: note("<g0 c0 eb0 d0>/4")
-   .s("sine").attack(1.2).decay(1).sustain(.7).release(1.8)
-   .gain(.18).room(.32).lpf(140)
+let bass = stack(
+  note("<c2 ab1 f2 g1>").slow(2).struct("~ x ~ ~ ~ x ~ ~"),
+  note("<g2 eb2 c3 d2>").slow(2).struct("~ ~ ~ x ~ ~ ~ x")
+).s("gm_acoustic_bass").attack(.01).decay(.16).sustain(.2).release(.12)
+  .lpf(sine.slow(5).range(200,480)).room(.12).gain(.55).swing(4).reset("<x ~ x ~>")
+
+let bridgePiano = chord("<Fm7 G7 AbM7 G7>").voicing().anchor("g5").slow(2)
+  .s("gm_epiano1").struct("~ x ~ x ~ ~ x ~")
+  .attack(.02).decay(.16).sustain(.14).release(.8)
+  .lpf(sine.slow(4).range(1100,2600)).room(.56).delay(".2:.25:.28")
+  .gain(.2).swing(4).reset("<x ~ x ~>")
+
+let bridgeBass = stack(
+  note("<f2 g1 ab1 g1>").slow(2).struct("~ x ~ ~ ~ x ~ ~"),
+  note("<c3 d2 eb2 d2>").slow(2).struct("~ ~ ~ x ~ ~ ~ x")
+).s("gm_acoustic_bass").attack(.01).decay(.14).sustain(.16).release(.14)
+  .lpf(240).room(.18).gain(.42).swing(4).reset("<x ~ x ~>")
+
+let bridgeConga = stack(
+  s("lt").struct("~ ~ x ~ ~ ~ x ~").gain("~ ~ .12 ~ ~ ~ .11 ~").pan(.34),
+  s("mt").struct("~ x ~ ~ x ~ ~ ~").gain("~ .11 ~ ~ .1 ~ ~ ~").pan(.64),
+  s("ht").struct("~ ~ ~ x ~ ~ x ~").gain("~ ~ ~ .07 ~ ~ .06 ~").pan(.76)
+).lpf(sine.slow(4).range(600,1600)).room(.3).delay(".1:.25:.16").swing(4).reset("<x ~ x ~>")
+
+let bridgeShaker = s("hh").euclidRot(5,8,1).end(.06).bpf(6800).bpq(5)
+  .delay(".06:.125:.12").room(.24).gain(.035).swing(4).reset("<x ~ x ~>")
+
+let bridgeDrums = stack(
+  s("cb").euclidRot(3,8,1).lpf(2200).room(.22).delay(".1:.25:.16").gain(.08),
+  s("bd").struct("x ~ ~ ~ ~ ~ ~ ~").lpf(750).room(.1).gain(.12)
+).swing(4).reset("<x ~ x ~>")
+
+let horns = note("<[g4 bb4 d5] [g4 c5 eb5] [f4 ab4 c5] [g4 b4 d5]>").slow(2)
+  .struct("~ ~ x ~ x ~ ~ x").s("gm_trumpet")
+  .attack(.02).decay(.16).sustain(.26).release(.22)
+  .lpf(perlin.slow(4).range(900,2400)).delay(".16:.25:.2")
+  .room(.28).gain(.2).reset("<x ~ x ~>")
+
+let bridgeFlute = note("<g5 f5 eb5 d5 c5 d5 eb5 g5>").fast(2)
+  .s("gm_flute").attack(.03).decay(.14).sustain(.16).release(.65)
+  .vib(5.5).vibmod(.4).lpf(sine.slow(3).range(1500,3400))
+  .delay(".28:.375:.38").room(.5).gain(.12).reset("<x ~ x ~>")
+
+stack(
+  arrange(
+    [1, introPiano],
+    [12, piano],
+    [5, bridgePiano],
+    [12, piano]
+  ),
+  arrange(
+    [1, silence],
+    [12, bass],
+    [5, bridgeBass],
+    [12, bass]
+  ),
+  arrange(
+    [1, introPerc],
+    [12, cl.stack(conga)],
+    [5, cl.stack(bridgeConga)],
+    [12, cl.stack(conga)]
+  ),
+  arrange(
+    [1, silence],
+    [12, shaker],
+    [5, bridgeShaker],
+    [12, shaker]
+  ),
+  arrange(
+    [1, silence],
+    [12, drums],
+    [5, bridgeDrums],
+    [12, drums]
+  ),
+  arrange(
+    [1, silence],
+    [12, horns],
+    [5, bridgeFlute],
+    [12, horns]
+  )
+).postgain(1.06)

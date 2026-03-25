@@ -1,36 +1,14 @@
-// 🎵 "Luminous Drift" — Ethereal ambient soundscape with shifting filters and sparkling textures
+// 🎵 "Nebula Sigh" — Ethereal and dreamy ambient textures with shifting filters
 
-setcps(0.25);
-
+setcps(0.4);
 stack(
-  s("supervibe")
-    .note("<[f3,a3,c4,e4] [g3,b3,d4,f4] [d3,f3,a3,c4] [e3,g3,b3,d4]>")
-    .slow(4)
-    .sustain(12)
-    .gain(0.6)
-    .lpf(sine.range(400, 1200).slow(16)),
-
-  s("superpiano")
-    .note("<c5 e5 g5 b5>*8".shuffle())
-    .mask("<t(5,8) t(3,8) t(7,16)>")
-    .iter(8)
-    .gain(perlin.range(0.2, 0.5).slow(12))
-    .jux(rev)
-    .delay(0.75)
-    .delayfb(0.8),
-
-  s("superfork")
-    .note("<c2 f2 d2 e2>".slow(4))
-    .gain(0.4)
-    .sustain(4)
-    .lpf(300),
-
-  s("supernoise")
-    .gain(perlin.range(0.05, 0.12).slow(7))
-    .hpf(sine.range(2000, 5000).slow(20))
-    .room(1)
-)
-.room(0.9)
-.size(0.8)
-.reset(16)
-.lpf(sine.range(1000, 6000).slow(32))
+  note("<[c3,e3,g3,b3] [f3,a3,c4,e4] [d3,f3,a3,c4] [g3,b3,d4,f4]>")
+    .s("sine").gain(0.45).adsr(4, 1, 1, 5).lpf(perlin.range(300, 1500).slow(12)).room(.9).size(.9)
+    .phaser(sine.slow(16).range(0,4)),
+  note("c5 e5 g5 b5 d6".scale("c:lydian").struct("k(7,16,3)"))
+    .s("triangle").gain("<0*2 1*10 0.3*4 1*10 0*2>".slow(28)).gain(perlin.range(0.1, 0.35).slow(4))
+    .delay(.8).delayfb(.7).room(.7).pan(perlin.slow(5)),
+  note("<c2 f2 d2 g1>").s("saw").lpf(130).lpq(12).gain(.4).gain("<0*2 1*24 0*2>".slow(28)),
+  s("bd(3,8,2)").gain(.3).lpf(350).room(.3).gain("<0*6 1*6 0*4 1*6 0*6>".slow(28)),
+  s("hh*16").gain(perlin.range(0, 0.2).slow(3)).hpf(5000).gain("<0*8 1*4 0.5*4 1*4 0*8>".slow(28))
+).reset(28)

@@ -1,32 +1,144 @@
-// 🎵 "Neon Roller" — raw disco heat with a groovy elastic bassline
+// "Mirrorball Fever" — disco pulse with a groovy, syncopated bassline
 samples('github:tidalcycles/dirt-samples')
-setcps(0.62)
-$: s("bd*4")
-  .gain(1.04)
-  .lpf(150)
-  .stack(
-    s("<~ cp ~ cp>").gain(0.82).room(0.18),
-    s("hh(11,16)").gain(0.42).hpf(7600).room(0.15),
-    s("<~ oh ~ [oh ~]>").gain(0.3).hpf(9300).delay(0.25).delaytime(0.375).delayfeedback(0.34),
-    note("<[c2 c2] [eb2 g1] [bb1 g1] [eb2 c2] [c2 c2] [eb2 g1] [bb1 g1] [g1 bb1]>")
-      .s("sawtooth")
-      .gain(0.9)
-      .lpf(sine.slow(8).range(520,2800))
-      .room(0.2)
-      .delay(0.125)
-      .delayfeedback(0.22),
-    note("<~ [g3 bb3 c4] ~ [f3 g3 bb3] ~ [g3 bb3 d4] ~ [f3 g3 c4]>")
-      .s("triangle")
-      .gain(0.33)
-      .lpf(sine.slow(5).range(1200,4200))
-      .room(0.46)
-      .delay(0.375)
-      .delayfeedback(0.45)
-      .pan(sine.slow(7)),
-    s("<[~ hh:2]*8 [~ hh:4]*8>")
-      .gain(0.22)
-      .hpf(5400)
-      .pan(sine.slow(9))
-  )
-  .room(0.12)
-  .reset(32)
+setcps(103/240)
+
+const shimmer = sine.slow(7).range(4200, 9800)
+const wah = sine.slow(9).range(700, 2600)
+const glow = perlin.slow(11).range(1500, 5200)
+const space = sine.slow(13).range(.18, .42)
+const duck = s("bd*4").bank("RolandTR909")
+  .duckorbit("2:3:4").duckattack("0.3:0.24:0.16").duckdepth("1:.78:.36").postgain(0)
+
+const intro = stack(
+  note("<~ a1 ~ c2 ~ e2 ~ g1>").s("gm_slap_bass_1")
+    .attack(.002).decay(.1).sustain(.14).release(.08)
+    .lpf(850).lpenv(6).lpattack(.01).room(.12).gain(".72 0 .66 0 .7 0 .62 0"),
+  note("[a3 c4 e4 g4]").s("gm_synth_strings_1")
+    .attack(.18).decay(.6).sustain(.6).release(1.4)
+    .lpf(1100).room(.7).delay(.18).delaytime(.25).delayfeedback(.28).gain(.18),
+  s("bd*2").bank("RolandTR909").lpf(900).room(.18).gain(.54),
+  s("hh*4").bank("RolandTR909")
+    .begin(.02).end(.06).bpf(6400).bpq(6).gain(".016 .024 .018 .03")
+)
+
+const chorus = stack(
+  duck,
+  cat(
+    "<a1 ~ [a1 e2] ~ ~ a1 g1 e2 ~ a1 c2 ~ g1 ~ e2 ~>",
+    "<d2 ~ [d2 a1] ~ ~ d2 f2 a1 ~ c2 a1 ~ d2 ~ f2 ~>",
+    "<g1 ~ [g1 d2] ~ ~ g1 a1 b1 ~ d2 b1 ~ a1 ~ g1 ~>",
+    "<c2 ~ [g1 c2] ~ ~ e2 g1 a1 ~ g1 e2 ~ d2 ~ c2 ~>"
+  ).note().s("gm_slap_bass_1")
+    .attack(.002).decay(".12 .1 .09 .11").sustain(.18).release(.08)
+    .lpf(sine.slow(5).range(900, 1700)).lpenv(6).lpattack(.01)
+    .room(.1).gain(.92).orbit(2).reset("<x ~ ~ x>"),
+  cat(
+    "<a1 ~ ~ a1 ~ ~ g1 ~ c2 ~ ~ g1 ~ e2 ~ ~>",
+    "<d2 ~ ~ d2 ~ ~ c2 ~ f1 ~ ~ a1 ~ d2 ~ ~>",
+    "<g1 ~ ~ g1 ~ ~ b1 ~ d2 ~ ~ a1 ~ g1 ~ ~>",
+    "<c2 ~ ~ c2 ~ ~ b1 ~ g1 ~ ~ e2 ~ c2 ~ ~>"
+  ).note().s("square")
+    .attack(.01).decay(.18).sustain(.16).release(.12)
+    .lpf(sine.slow(6).range(180, 420)).hpf(45).distort(.12).gain(.38).orbit(2),
+  cat(
+    "[a3 c4 e4 g4]",
+    "[d4 f4 a4 c5]",
+    "[g3 b3 d4 f4]",
+    "[c4 e4 g4 b4]"
+  ).note().s("gm_synth_strings_1")
+    .struct("[~ x]*2")
+    .attack(.015).decay(.28).sustain(.18).release(.22)
+    .lpf(glow).room(space).delay(.14).delaytime(.25).delayfeedback(.22)
+    .gain(.32).orbit(3),
+  cat(
+    "[a3 c4 e4 g4]",
+    "[d4 f4 a4 c5]",
+    "[g3 b3 d4 f4]",
+    "[c4 e4 g4 b4]"
+  ).note().s("gm_clavinet")
+    .struct("<[~ x ~ x ~ x x ~] [~ x x ~ ~ x ~ x]>")
+    .attack(.002).decay(.08).sustain(.04).release(.1)
+    .lpf(wah).drive(".12 .18 .1 .22").room(.24)
+    .delay(.08).delaytime(.125).delayfeedback(.14)
+    .gain(.22).orbit(3).reset("<x ~ ~ x>"),
+  cat(
+    "<~ e5 ~ g5 ~ a5 g5 ~>",
+    "<~ f5 ~ a5 ~ c6 a5 ~>",
+    "<~ d5 ~ g5 ~ b5 a5 ~>",
+    "<~ e5 ~ g5 ~ b5 g5 ~>"
+  ).note().s("triangle")
+    .attack(.01).decay(.12).sustain(.12).release(.24)
+    .lpf(glow).chorus(.3).room(.34)
+    .delay(.24).delaytime(.25).delayfeedback(.36)
+    .vib(5).vibmod(.16).gain(.12).orbit(4).reset("<x ~ ~ x>"),
+  s("bd*4").bank("RolandTR909").lpf(1050).gain(.92).swing(4),
+  s("cp").bank("RolandTR909")
+    .struct("~ ~ ~ ~ x ~ ~ ~ ~ ~ ~ ~ x ~ ~ ~")
+    .lpf(2400).room(.24).gain(.34).swing(4),
+  s("hh").bank("RolandTR909")
+    .euclidRot(13, 16, 1)
+    .begin("<.01 .02 .015 .03>").end("<.05 .06 .07 .08>")
+    .bpf(shimmer).bpq(6)
+    .delay(.1).delaytime(.125).delayfeedback(.18).room(.18)
+    .gain("0.032 .018 .024 .016 .03 .02 .024 .018 .028 .02 .024 .016 .03")
+    .swing(4),
+  s("oh").bank("RolandTR909")
+    .struct("~ ~ ~ x ~ ~ ~ x ~ ~ ~ x ~ ~ ~ x")
+    .begin(.05).end(.18).hpf(6200).room(.18).gain(.12).swing(4),
+  s("rim").bank("RolandTR909")
+    .struct("~ ~ x ~ ~ ~ ~ ~ ~ ~ x ~ ~ ~ ~ ~")
+    .lpf(2600).room(.16).gain(.08).swing(4)
+)
+
+const bridge = stack(
+  s("bd*4").bank("RolandTR909")
+    .duckorbit("2:3").duckattack("0.34:0.28").duckdepth("1:.65").postgain(0),
+  cat(
+    "<f1 ~ c2 ~ ~ f1 a1 c2 ~ a1 ~ g1 ~ c2 ~>",
+    "<g1 ~ d2 ~ ~ g1 b1 d2 ~ b1 ~ a1 ~ d2 ~>",
+    "<e1 ~ b1 ~ ~ e2 g2 b1 ~ g1 ~ d2 ~ b1 ~>",
+    "<d1 ~ a1 ~ ~ d2 f2 a1 ~ f2 ~ c2 ~ a1 ~>",
+    "<e1 ~ b1 ~ ~ e2 g#2 b1 ~ d2 ~ b1 ~ g#1 ~>"
+  ).note().s("gm_slap_bass_1")
+    .attack(.003).decay(".14 .12 .1").sustain(.16).release(.09)
+    .lpf(sine.slow(5).range(520, 1200)).lpenv(7).lpattack(.02)
+    .delay(.12).delaytime(.25).delayfeedback(.18)
+    .room(.18).gain(.74).orbit(2).reset("<x ~ x ~>"),
+  cat(
+    "[f3 a3 c4 e4]",
+    "[g3 b3 d4 f4]",
+    "[e3 g3 b3 d4]",
+    "[d3 f3 a3 c4]",
+    "[e3 g#3 b3 d4]"
+  ).note().s("gm_synth_strings_1")
+    .struct("<x ~ ~ x>")
+    .attack(.12).decay(.8).sustain(.6).release(1.6)
+    .lpf(sine.slow(4).range(800, 2600))
+    .room(.82).delay(.26).delaytime(.5).delayfeedback(.48)
+    .gain(.24).orbit(3),
+  cat(
+    "[f3 a3 c4 e4]",
+    "[g3 b3 d4 f4]",
+    "[e3 g3 b3 d4]",
+    "[d3 f3 a3 c4]",
+    "[e3 g#3 b3 d4]"
+  ).note().s("gm_clavinet")
+    .struct("~ x ~ ~ x ~ x ~")
+    .attack(.003).decay(.09).sustain(.05).release(.12)
+    .lpf(sine.slow(6).range(450, 1800)).drive(.16)
+    .delay(.12).delaytime(.25).delayfeedback(.2)
+    .room(.34).gain(.12).orbit(3),
+  s("bd*4").bank("RolandTR909")
+    .lpf(sine.slow(4).range(700, 1400)).gain(.62),
+  s("hh").bank("RolandTR909")
+    .euclidRot(9, 16, 3)
+    .begin("<.02 .03>").end("<.06 .08>")
+    .bpf(sine.slow(6).range(3600, 7600)).bpq(5)
+    .delay(.14).delaytime(.125).delayfeedback(.24)
+    .room(.28).gain(".018 .028 .016 .024 .02 .03 .018 .024 .02"),
+  s("cp").bank("RolandTR909")
+    .struct("~ ~ ~ ~ x ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~")
+    .lpf(1800).room(.26).gain(.12)
+)
+
+arrange([1, intro], [12, chorus], [5, bridge], [12, chorus]).postgain(1.02)

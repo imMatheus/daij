@@ -1,14 +1,95 @@
-// "Saudade Pulse" - warm, syncopated bossa groove with drifting tape-space
+// "Luz de Varanda" — late-night bossa nova sway
 samples('github:tidalcycles/dirt-samples')
-setcps(0.62)
-$: s("bd(3,8,<0 2 1>) [~ bd] <rim rim:2>")
-  .gain(0.9)
-  .stack(s("[hh(11,16) ~] <~ oh>").gain(0.28).lpf(sine.range(2800,9000).slow(5)).room(0.15))
-  .stack(s("~ [cp ~ cp] <~ rim rim:3>").gain(0.38).delay(0.2).room(0.35))
-  .stack(note("<[a2 ~ e2 ~] [a2 ~ g2 ~] [f2 ~ c3 ~] [e2 ~ b2 ~]>").s("sine").legato(0.9).gain(0.32).lpf(perlin.range(220,880).slow(6)).room(0.2).reset(16))
-  .stack(note("<[[a3 c4 e4 g4] ~ [g3 b3 d4 f4] ~] [[f3 a3 c4 e4] ~ [e3 g3 b3 d4] ~]>").s("triangle").legato(1.2).gain(0.23).lpf(sine.range(700,2400).slow(9)).delay(0.35).room(0.62).reset(32))
-  .stack(note("<~ e5 ~ [g5 a5] ~ d5 ~ [c5 b4]>").s("sawtooth").gain("<0.12 0.18 0.14 0>").lpf(perlin.range(1100,4200).slow(7)).delay(0.42).room(0.7).reset(24))
-  .room(sine.range(0.2,0.55).slow(8))
-  .delay(0.18)
-  .lpf(perlin.range(600,4800).slow(10))
-  .reset(48)
+setcps(0.4571)
+
+const introHarmony = chord("Cmaj7").voicing().anchor("e5").s("triangle").struct("x ~ ~ x ~ ~ x ~").attack(.03).decay(.18).sustain(.2).release(1.6).lpf(sine.slow(6).range(1200,2600)).room(.72).delay(".24:.375:.28").gain(.11)
+const verseHarmony = chord("<Dm7 G7 Cmaj7 A7>").voicing().anchor("e5").slow(2).s("triangle").struct("x ~ ~ x ~ x ~ ~").attack(.02).decay(.16).sustain(.18).release(1.2).lpf(sine.slow(8).range(1300,3200)).room(.5).delay(".18:.25:.24").gain(.1).reset("<x ~ ~ ~>")
+const chorusHarmony = chord("<Fmaj7 Em7 A7 Dm7 G7 Cmaj7 A7 Dm7 G7 Cmaj7>").voicing().anchor("f5").s("sawtooth").struct("x ~ x ~ ~ x ~ x").attack(.01).decay(.14).sustain(.16).release(.9).lpf(sine.slow(5).range(1600,4200)).lpq(.4).room(.38).delay(".16:.25:.22").gain(.085).reset("<x ~ ~ ~>")
+const bridgeHarmony = chord("<Bbmaj7 A7 Dm7>").voicing().anchor("e5").s("triangle").struct("x ~ ~ x ~ x ~ ~").attack(.03).decay(.2).sustain(.22).release(1.4).lpf(sine.slow(4).range(900,2400)).room(.66).delay(".28:.375:.34").gain(.1).reset("<x ~ x ~>")
+
+const introBass = stack(
+  note("c2").struct("x ~ ~ ~ ~ ~ ~ ~"),
+  note("g2").struct("~ ~ ~ ~ x ~ ~ ~")
+).s("sine").attack(.01).decay(.22).sustain(.18).release(.6).lpf(220).gain(.22)
+const verseBass = stack(
+  note("<d2 g1 c2 a1>").slow(2).struct("x ~ ~ ~ ~ ~ ~ ~"),
+  note("<a2 d2 g2 e2>").slow(2).struct("~ ~ ~ ~ x ~ ~ ~")
+).s("sine").attack(.01).decay(.24).sustain(.16).release(.7).lpf(220).gain(.22).reset("<x ~ ~ ~>")
+const chorusBass = stack(
+  note("<f2 e2 a1 d2 g1 c2 a1 d2 g1 c2>").struct("x ~ ~ ~ ~ ~ ~ ~"),
+  note("<c3 b2 e2 a2 d2 g2 e2 a2 d2 g2>").struct("~ ~ ~ ~ x ~ ~ ~")
+).s("sine").attack(.01).decay(.26).sustain(.16).release(.72).lpf(240).gain(.24).reset("<x ~ ~ ~>")
+const bridgeBass = stack(
+  note("<bb1 a1 d2>").struct("x ~ ~ ~ ~ ~ ~ ~"),
+  note("<f2 e2 a2>").struct("~ ~ ~ ~ x ~ ~ ~")
+).s("sine").attack(.01).decay(.24).sustain(.18).release(.8).lpf(210).gain(.21).reset("<x ~ x ~>")
+
+const introLead = note("e5 ~ g5 ~ b4 ~ d5 ~").s("sine").attack(.02).decay(.1).sustain(.12).release(1.1).lpf(2600).room(.82).delay(".34:.25:.42").gain(.08)
+const verseLead = note("<e5 d5 c5 b4 a4 g4 a4 b4>").s("triangle").struct("~ ~ x ~ ~ x ~ ~").attack(.02).decay(.12).sustain(.12).release(.8).lpf(sine.slow(7).range(1800,4200)).room(.36).delay(".22:.25:.28").gain(.09).reset("<x ~ ~ ~>")
+const chorusLead = note("<a4 c5 e5 d5 g4 a4 g4 e4 d4 c5>").s("triangle").struct("~ x ~ ~ x ~ ~ x").attack(.02).decay(.14).sustain(.14).release(.95).lpf(sine.slow(6).range(2200,5200)).room(.3).delay(".18:.125:.24").gain(.095).reset("<x ~ ~ ~>")
+const bridgeLead = note("<d5 f5 e5>").s("sine").struct("~ ~ x ~ x ~ ~ ~").attack(.03).decay(.12).sustain(.1).release(1.2).lpf(sine.slow(4).range(1600,3600)).room(.48).delay(".26:.375:.34").gain(.08).reset("<x ~ x ~>")
+
+const introBrush = s("hh*8").end(.06).bpf(sine.slow(8).range(4200,7000)).bpq(5).room(.76).gain("0.012 0.008 0.01 0.008 0.012 0.008 0.01 0.008")
+const verseKick = s("bd").struct("x ~ ~ ~ x ~ ~ ~").lpf(900).room(.08).gain(.16).reset("<x ~ ~ ~>")
+const chorusKick = s("bd").struct("x ~ ~ x ~ ~ x ~").lpf(1000).room(.06).gain(.18).reset("<x ~ ~ ~>")
+const bridgeKick = s("bd").struct("x ~ ~ ~ ~ ~ x ~").lpf(800).room(.1).gain(.12).reset("<x ~ x ~>")
+const verseRim = s("rim").struct("~ x ~ ~ x ~ x ~").lpf(2400).room(.18).gain(.11).reset("<x ~ ~ ~>")
+const chorusRim = s("rim").struct("~ x ~ x ~ x ~ x").lpf(2600).room(.14).gain(.095).reset("<x ~ ~ ~>")
+const bridgeRim = s("rim").struct("~ ~ x ~ ~ x ~ ~").lpf(2000).room(.24).gain(.08).reset("<x ~ x ~>")
+const verseHat = s("hh*8").bpf(sine.slow(8).range(5000,9000)).bpq(5).delay(".06:.125:.12").room(.22).gain("0.03 0.018 0.028 0.016 0.032 0.018 0.026 0.016").reset("<x ~ ~ ~>")
+const chorusHat = s("hh*8").bpf(sine.slow(7).range(5200,9800)).bpq(6).delay(".08:.125:.14").room(.2).gain("0.034 0.02 0.03 0.018 0.036 0.02 0.03 0.018").reset("<x ~ ~ ~>")
+const bridgeHat = s("hh").euclidRot(3,8,1).bpf(6800).bpq(6).delay(".1:.125:.16").room(.32).gain(.04).reset("<x ~ x ~>")
+const verseGhost = s("cp").struct("~ ~ ~ ~ x ~ ~ ~").lpf(1800).room(.4).gain(.032)
+const chorusGhost = s("cp").struct("~ ~ x ~ ~ ~ x ~").lpf(1900).room(.34).gain(.03)
+
+stack(
+  arrange(
+    [1, introHarmony],
+    [8, verseHarmony],
+    [10, chorusHarmony],
+    [3, bridgeHarmony],
+    [10, chorusHarmony]
+  ),
+  arrange(
+    [1, introBass],
+    [8, verseBass],
+    [10, chorusBass],
+    [3, bridgeBass],
+    [10, chorusBass]
+  ),
+  arrange(
+    [1, introLead],
+    [8, verseLead],
+    [10, chorusLead],
+    [3, bridgeLead],
+    [10, chorusLead]
+  ),
+  arrange(
+    [1, introBrush],
+    [8, verseHat],
+    [10, chorusHat],
+    [3, bridgeHat],
+    [10, chorusHat]
+  ),
+  arrange(
+    [1, silence],
+    [8, verseKick],
+    [10, chorusKick],
+    [3, bridgeKick],
+    [10, chorusKick]
+  ),
+  arrange(
+    [1, silence],
+    [8, verseRim],
+    [10, chorusRim],
+    [3, bridgeRim],
+    [10, chorusRim]
+  ),
+  arrange(
+    [1, silence],
+    [8, verseGhost],
+    [10, chorusGhost],
+    [3, silence],
+    [10, chorusGhost]
+  )
+).postgain(1.02)

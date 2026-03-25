@@ -1,12 +1,68 @@
-// 🎵 "Grand Genesis" — Orchestral crescendo via additive layers
-setcps(0.5)
+// 🎵 "Orchestral Ascension" — A gradual buildup from a lone harp to a majestic full symphony orchestra
+
+setcps(0.35);
 stack(
-  s("heavy:2").struct("1(3,8)").gain("<1!32>").lpf(300).room(.6),
-  s("superpiano").note("<c2!4 f1!4 g1!4 c2!20>").gain("<0!4 1!28>").velocity(.5),
-  s("superstrings").note("<[c3,g3,c4]!8 [f3,c4,f4]!4 [g3,d4,g4]!4 [c4,g4,c5]!16>").gain("<0!8 .7!24>").room(.8).delay(.4),
-  s("superhorn").note("<c4 e4 g4>").gain("<0!12 .6!20>").detune(sine.slow(8).range(0,10)),
-  s("superflute").note("<g5 c6 e6 g6>").gain("<0!16 .5!16>").vib(6).room(1),
-  s("superglock").note("c7(5,8,2)").gain("<0!20 .4!12>").delay(.6),
-  s("snare:3").struct("~ 1 ~ 1").gain("<0!24 .8!8>").room(.5),
-  s("metal:4").struct("1!4").gain("<0!28 1!4>").hpf(2000).room(1)
-).reset(32).room(.3)
+  // Layer 1: Lone Harp - Delicate and sparkling
+  note("c4 g4 e5 b4".slow(2))
+    .s("triangle")
+    .adsr("0.01:0.4:0.1:0.5")
+    .gain(0.7)
+    .room(0.8)
+    .delay(0.25)
+    .color("#f1c40f"),
+
+  // Layer 2: Deep Cello Drone - Entering cycle 2
+  note("c2 g1")
+    .s("sawtooth")
+    .lpf(400)
+    .lpq(2)
+    .gain(0.6)
+    .mask("<0!2 1!30>")
+    .color("#e67e22"),
+
+  // Layer 3: Dancing Woodwinds - Entering cycle 4
+  note("c5 d5 e5 g5 b5 a5 g5 e5".fast(2))
+    .s("sine")
+    .adsr("0.05:0.1:0.3:0.2")
+    .gain(0.4)
+    .vib(5)
+    .mask("<0!4 1!24>")
+    .color("#2ecc71"),
+
+  // Layer 4: Staccato String Section - Entering cycle 6
+  note("c3 e3 g3 b3".fast(4))
+    .s("sawtooth")
+    .adsr("0.01:0.1:0:0.05")
+    .lpf(1200)
+    .gain(0.5)
+    .jux(rev)
+    .mask("<0!6 1!10 0!4 1!8>")
+    .color("#3498db"),
+
+  // Layer 5: Majestic Brass & Timpani - Entering cycle 8 (Chorus)
+  stack(
+    chord("<C:maj9 F:maj7 G:13 C:maj9>").voicing()
+      .s("pulse")
+      .pw(0.5)
+      .lpf(perlin.range(1000, 3000))
+      .gain(0.4),
+    s("bd:4")
+      .gain(1.4)
+      .penv(36)
+      .pdecay(0.08)
+  )
+    .mask("<0!8 1!8 0!4 1!8>")
+    .room(1)
+    .color("#e74c3c"),
+
+  // Layer 6: High Violins - Soaring in for the final peak
+  note("c6 b5 g5 e5".slow(2))
+    .s("supersaw")
+    .detune(0.05)
+    .gain(0.3)
+    .lpf(2000)
+    .mask("<0!12 1!4 0!4 1!8>")
+    .color("#9b59b6")
+)
+.reset("<x!4 y!4 z!8 w!4 v!8>")
+.postgain(1.2)

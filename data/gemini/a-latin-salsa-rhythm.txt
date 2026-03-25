@@ -1,13 +1,39 @@
-// "Salsa de la Calle" — Kinetic salsa rhythm with 3-2 clave and piano montuno
+// 🎵 "Ritmo de Salsa" — Latin Salsa rhythm with piano montuno, tumbao bass and 2-3 clave
 
-setcps(1.05);
+setcps(0.85);
 
 stack(
-  s("cb").struct("[1 0 0 1 0 0 1 0 0 0 1 0 1 0 0 0]/2").gain(0.6).room(0.4),
-  s("hh*16").gain(perlin.range(0.4,0.7)).pan(sine),
-  s("bd").struct("0 0 0 1 0 0 0 1").gain(1.2),
-  s("hc(5,8)").gain(0.5).delay(0.2).room(0.2),
-  note("<[g2 c3] [c3 f3]>").struct("0 0 0 1 0 0 0 1").s("sine").lpf(400).gain(1.1),
-  note("<[c4 e4 g4 c5] [f4 a4 c5 f5]>").struct("1 0 1 0 [0 1] 1 0 0").s("sine").lpf(1800).room(0.6).velocity(0.6).release(0.15),
-  s("hc:1").struct("0 1 1 0 1 1 0 1").gain(0.4).pan(0.7)
+  // Piano Montuno Pattern
+  arrange(
+    [4, silence],
+    [24, n("<[c3,e3,g3,c4] [~ [c3,e3,g3,c4]] [~ [f3,a3,c4,f4]] [~ [f3,a3,c4,f4]]>").s("piano").velocity(0.6).room(0.4).delay(0.2).delaytime(0.15)],
+    [8, n("<[c3,e3,g3,c4]>").s("piano").velocity(0.4).lpf(800).room(0.6)],
+    [24, n("<[c3,e3,g3,c4] [~ [c3,e3,g3,c4]] [~ [f3,a3,c4,f4]] [~ [f3,a3,c4,f4]]>").s("piano").velocity(0.7).room(0.4)]
+  ),
+  // Bass Tumbao Pattern
+  arrange(
+    [4, n("c1").s("sine").gain(0.7).lpf(200)],
+    [24, n("<c1 [~ c1] ~ g0>").s("sine").gain(0.9).lpf(150)],
+    [8, n("<c1 [~ c1] ~ f0>").s("sine").gain(0.6).lpf(100)],
+    [24, n("<c1 [~ c1] ~ g0>").s("sine").gain(1).lpf(150)]
+  ),
+  // Percussion: Clave 2-3
+  arrange(
+    [2, s("rim").struct("<[~ x x ~] [x ~ x ~]>").gain(0.5)],
+    [58, s("rim").struct("<[~ x x ~] [x ~ x ~]>").gain(0.85)]
+  ),
+  // Percussion: Congas
+  arrange(
+    [4, silence],
+    [56, s("[conga:4 [conga:0 conga:1] [conga:2 conga:3] conga:0]").gain(0.75)]
+  ),
+  // Percussion: Cowbell (Mambo/Montuno Section)
+  arrange(
+    [28, silence],
+    [4, s("cowbell*4").gain(0.6).velocity(0.8)],
+    [4, silence],
+    [24, s("cowbell*4").gain(0.75).velocity(0.9)]
+  ),
+  // Maracas / Shakers
+  s("hh:1*8").gain(perlin.range(0.2, 0.45)).pan(sine.slow(8))
 ).reset(8)

@@ -1,56 +1,45 @@
-// "Slice Machine" — Grimy breakbeat with chopped amen slices and dusty textures
-setcps(.75)
-
+// "Chopped & Rewired" — Gritty breakbeat with sliced drum breaks and bass stabs
 samples('github:tidalcycles/dirt-samples')
-
-stack(
-  s("breaks165").splice(8, "<0 3 [6 2] 7 [1 5] 4 [0 3] [7 6]>")
-    .cut(1).gain(.72)
-    .hpf(400).lpf(sine.range(3200,6800).slow(7))
-    .speed("<1 1 [1.5 .75] 1>")
-    .room(.18).distort(.12)
-    .every(4, x => x.rev())
-    .every(7, x => x.fast(2).gain(.5))
-    .sometimes(x => x.crush(10)),
-
-  s("breaks125").splice(8, "<[5 ~ 2 ~] [~ 3 ~ 7] [0 ~ 6 1] [~ 4 ~ 0]>")
-    .cut(2).gain(.35)
-    .hpf(1200).lpf(4200)
-    .speed("<.5 1 .75 1.25>")
-    .pan(sine.slow(5))
-    .room(.3).delay(".15:.1:.25")
-    .rarely(x => x.rev()),
-
-  s("bd [~ bd] ~ [bd ~], ~ cp ~ [~ cp]")
-    .bank("RolandTR808")
-    .gain(".88 .72 .82 .68")
-    .room(.15).distort(.08)
-    .swing(3),
-
-  s("[hh hh oh hh]*2")
-    .bank("RolandTR808")
-    .gain(perlin.range(.15,.42))
-    .pan(perlin.range(.3,.7))
-    .cut(3).hpf(6000),
-
-  note("<[a1 ~ ~ a1] [~ ~ e1 ~] [g1 ~ a1 ~] [~ e1 ~ g1]>")
-    .s("sawtooth")
-    .lpf(sine.range(180,650).slow(11))
-    .decay(.18).sustain(.4).release(.08)
-    .gain(.62).room(.12).distort(.22),
-
-  note("<a0 e0 g0 e0>/4")
-    .s("sine")
-    .gain(.45).lpf(90)
-    .decay(1.2).sustain(.85).release(.4),
-
-  chord("<Am7 Em7 Gm7 Em7>")
-    .dict('ireal').voicing()
-    .s("gm_epiano2")
-    .struct("~ [x ~] ~ x")
-    .lpf(sine.range(800,2400).slow(9))
-    .room(.55).delay(".25:.18:.35")
-    .gain(.32).crush(13),
-
-  s("vinyl:3").gain(.09).loop(1).lpf(2200).room(.8)
-).reset("<8 16 16 8>")
+setcps(0.55)
+let mainBreak = s("breaks165")
+  .slice(16, "0 4 <2 14> [8 1] 5 <10 [12 3]> [7 11] <6 [15 13]>")
+  .every(3, rev).sometimesBy(0.3, x => x.speed("<-1 0.5 2>"))
+  .gain(0.85).room(0.1)
+  .lpf(perlin.range(1500, 10000).slow(4))
+  .juxBy(0.4, rev)
+let chopLayer = s("breaks125")
+  .splice(8, "<[0 3 5 2] [7 1 4 6]>")
+  .gain(0.4).hpf(500)
+  .delay("0.25:0.17:0.35")
+  .pan(sine.range(0.3, 0.7))
+let drums = s("bd:4(3,8)").gain(0.9).lpf(180)
+  .stack(
+    s("~ sd:3 ~ [sd:1 sd:3?]").gain(0.55).room(0.25).speed("<1 1.2>"),
+    s("hh*16").gain("0.3 0.5 0.3 0.7 0.3 0.5 0.3 0.9")
+      .pan(rand).hpf(6000).sometimesBy(0.2, x => x.speed(2))
+  )
+let bass = note("<c2 [c2 eb2] c2 [bb1 c2]>").s("sawtooth")
+  .lpf(400).lpenv(4).lpd(0.15).gain(0.65)
+  .decay(0.15).sustain(0)
+arrange(
+  [2, s("breaks165").slice(8, "0 1 2 3 4 5 6 7")
+    .lpf(saw.range(200, 6000).slow(2)).room(0.4).gain(0.7)
+    .stack(s("bd:4").euclid(3,8).gain(0.5).lpf(200))
+  ],
+  [14, mainBreak.stack(chopLayer, drums, bass)],
+  [5, s("breaks165").slice(8, "0 ~ 2 ~ 4 ~ 6 ~")
+    .gain(0.55).room(0.5).delay("0.4:0.25:0.5")
+    .speed("<1 0.5 -1 2>/2")
+    .lpf(sine.range(500, 3500).slow(2.5))
+    .stack(
+      s("bd:4 ~ ~ bd:4 ~ ~ bd:4 ~").gain(0.7),
+      note("<c2 ~ eb2 ~>").s("sawtooth").lpf(300).gain(0.5).decay(0.3).sustain(0)
+    )
+  ],
+  [16, mainBreak.stack(chopLayer, drums, bass,
+    s("cp:4(5,8)").gain(0.35).room(0.3).delay("0.15:0.12:0.3").speed(1.5)
+  )],
+  [1, s("breaks165").chop(8).rev()
+    .lpf(isaw.range(100, 4000)).room(0.6).gain(0.5)
+  ]
+)

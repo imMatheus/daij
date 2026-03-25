@@ -1,45 +1,90 @@
-// 🎵 "Pressure and Light" — Subaquatic Ambient
-// At 56 BPM: intro(3) + drift(6) + deep(5) + fade(3) = 17 bars ≈ 73s
+// "Abyssal Drift" — Deep ambient underwater soundscape with muffled synths and submerged delay
+setcps(0.4)
 
-setcpm(56 / 4)
+const introDrone = note("[eb1,bb1]")
+  .s("sine").attack(2).release(3)
+  .lpf(saw.slow(2).range(60, 150))
+  .room(.92).rsize(5).rlp(1500).rdim(400)
+  .gain(.3).orbit(0);
 
-$: note("c1")
-   .s("sine")
-   .attack(3).decay(2).sustain(.9).release(4)
-   .gain(.2).room(.9).roomsize(10)
-   .lpf(100)
+const chorusDrone = note("<eb1 [eb1 db1] eb1 bb0>".slow(2))
+  .s("sine").attack(1.5).release(2.5)
+  .lpf(sine.slow(12).range(100, 210))
+  .room(.9).rsize(5).rlp(2000).rdim(500)
+  .gain(.48).orbit(0);
 
-$: arrange(
-  [3, note("g0").s("sine").attack(4).decay(2).sustain(.85).release(5).gain(.12).room(.9).roomsize(10).lpf(80)],
-  [6, note("<g0 ab0>/6").s("sine").attack(3).decay(2).sustain(.85).release(5).gain(.15).room(.9).roomsize(10).lpf(sine.range(60,120).slow(12))],
-  [5, note("<g0 f0>/5").s("sine").attack(3).decay(2).sustain(.85).release(5).gain(.16).room(.9).roomsize(10).lpf(sine.range(70,140).slow(10))],
-  [3, note("g0").s("sine").attack(4).decay(2).sustain(.8).release(6).gain(saw.slow(3).range(.12,.02)).room(.95).roomsize(10).lpf(80)]
-)
+const bridgeDrone = note("<eb1 gb1>".slow(2))
+  .s("sine").attack(2).release(2.5)
+  .lpf(130).room(.92).rsize(5).rlp(1500).rdim(400)
+  .gain(.32).orbit(0);
 
-$: arrange(
-  [3, silence],
-  [6, chord("<Cm7 Abmaj7 Ebmaj7 Bbm7>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(2).decay(2).sustain(.6).release(3).lpf(sine.range(300,800).slow(12)).room(.95).roomsize(10).gain(.15).pan(sine.slow(14).range(.3,.7))],
-  [5, chord("<Cm7 Fm7 Abmaj7 Gm7>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(2).decay(2).sustain(.6).release(3).lpf(sine.range(350,900).slow(10)).room(.95).roomsize(10).gain(.18).pan(sine.slow(12).range(.25,.75))],
-  [3, chord("<Cm7>/2").dict('ireal').voicing().s("gm_synth_strings_1").attack(3).decay(2).sustain(.5).release(4).lpf(saw.slow(3).range(250,600)).room(.95).roomsize(10).gain(saw.slow(3).range(.14,.02))]
-)
+const chorusPad = note("<[eb3,gb3,bb3] [db3,f3,ab3] [eb3,gb3,bb3] [ab2,b2,eb3]>".slow(2))
+  .s("sawtooth").attack(.7).sustain(.4).release(2)
+  .lpf(sine.slow(16).range(250, 500)).lpq(4)
+  .phaser(1).phasersweep(1200)
+  .chorus(.6).vib(.3).vibmod(.2)
+  .room(.88).rsize(6).rlp(2000)
+  .gain(.13).orbit(1);
 
-$: arrange(
-  [3, silence],
-  [6, n("<[~ ~ 4 ~] [~ 2 ~ ~] [~ ~ ~ 3] [~ ~ ~ ~]>").scale("C6:minor:pentatonic").s("gm_celesta").attack(.01).decay(.3).sustain(.1).release(.8).room(.9).roomsize(8).delay(".6:.4:.7").gain(.14).lpf(sine.range(2000,5000).slow(16)).pan(perlin.range(.2,.8))],
-  [5, n("<[~ 0 ~ ~] [~ ~ 4 ~] [2 ~ ~ ~] [~ ~ 3 ~]>").scale("C6:minor:pentatonic").s("gm_celesta").attack(.01).decay(.25).sustain(.1).release(.6).room(.9).roomsize(8).delay(".55:.35:.65").gain(.16).lpf(sine.range(2500,5500).slow(14)).pan(perlin.range(.15,.85)).sometimes(x => x.add(note(12)).gain(.06))],
-  [3, n("<[~ ~ 4 ~] [~ ~ ~ ~] [~ ~ ~ ~] [~ ~ ~ ~]>").scale("C6:minor:pentatonic").s("gm_celesta").attack(.01).decay(.4).sustain(.05).release(1).room(.95).roomsize(10).delay(".7:.5:.8").gain(saw.slow(3).range(.12,.01)).lpf(3000)]
-)
+const bridgePad = note("<[eb3,gb3,bb3] [db3,ab3]>".slow(2))
+  .s("sawtooth").attack(1).sustain(.3).release(2.5)
+  .lpf(sine.slow(8).range(200, 380)).lpq(3)
+  .phaser(.5).phasersweep(800)
+  .chorus(.7)
+  .room(.88).rsize(6).rlp(1500)
+  .gain(.06).orbit(1);
 
-$: arrange(
-  [3, silence],
-  [6, n("<[~ ~ 0 ~] [~ ~ ~ ~] [~ 2 ~ ~] [~ ~ ~ 1]>/2").scale("C4:minor:pentatonic").s("gm_flute").attack(.4).decay(1).sustain(.5).release(2).room(.9).roomsize(8).delay(".5:.4:.6").gain(.12).lpf(sine.range(500,1200).slow(18)).vib(2).vibmod(.6).pan(sine.slow(20))],
-  [5, n("<[~ 0 ~ ~] [~ ~ 2 ~] [~ ~ ~ 4] [~ 3 ~ ~]>/2").scale("C4:minor:pentatonic").s("gm_flute").attack(.3).decay(.8).sustain(.5).release(2).room(.85).roomsize(8).delay(".45:.35:.55").gain(.15).lpf(sine.range(600,1400).slow(14)).vib(2.5).vibmod(.7).pan(sine.slow(16))],
-  [3, silence]
-)
+const chorusMelody = n("<[0 ~ 2 ~] [4 ~ 3 1] [2 ~ 0 ~] [~ 3 ~ 5]>")
+  .scale("Eb3:minor:pentatonic").s("triangle")
+  .attack(.2).release(1.2)
+  .lpf(sine.slow(8).range(450, 800)).lpq(3)
+  .vib(2.5).vibmod(.4)
+  .delay("0.55:0.375:0.65")
+  .room(.7).rsize(3)
+  .gain(.2).orbit(2);
 
-$: arrange(
-  [3, silence],
-  [6, silence],
-  [5, note("<c3 eb3>/5").s("sawtooth").attack(4).decay(3).sustain(.4).release(5).lpf(sine.range(150,450).slow(10)).room(.95).roomsize(10).gain(.05).pan(sine.slow(18).range(.2,.8))],
-  [3, note("c3").s("sawtooth").attack(4).decay(3).sustain(.3).release(6).lpf(sine.range(100,300).slow(6)).room(.95).roomsize(10).gain(saw.slow(3).range(.04,.0)).pan(.5)]
+const bridgeBell = n("<2 4 3 0>")
+  .scale("Eb4:minor").s("sine")
+  .attack(.5).release(2)
+  .fm(2).fmh(2.01).fmdecay(1).fmsustain(.2)
+  .lpf(450).delay("0.6:0.5:0.7")
+  .room(.8).rsize(3)
+  .gain(.16).orbit(2);
+
+const chorusBubbles = s("~ hh ~ [~ hh] ~ hh [hh ~] ~")
+  .speed(rand.range(1.5, 3)).lpf(1800).pan(rand)
+  .delay("0.3:0.2:0.5").room(.5)
+  .gain(.1).orbit(3);
+
+const bridgeBubbles = s("~ ~ hh ~ ~ ~ [~ hh] ~")
+  .speed(rand.range(1.8, 2.5)).lpf(1200).pan(rand)
+  .delay("0.4:0.25:0.6").room(.6)
+  .gain(.04).orbit(3);
+
+const chorusKick = s("bd ~ ~ ~ ~ bd ~ ~")
+  .lpf(180).room(.55).rsize(4)
+  .gain(.28).orbit(4);
+
+const introShimmer = note("<eb5 ~ ~ gb5 ~ ~>".slow(3))
+  .s("sine").attack(.5).release(2)
+  .tremolosync(3).tremolodepth(.25)
+  .lpf(sine.slow(8).range(500, 1200))
+  .room(.9).delay("0.6:0.5:0.7")
+  .gain(.03).orbit(5);
+
+const shimmer = note("<eb5 ~ gb5 ~ bb5 ~ ab5 ~ gb5 ~ eb5 ~>".slow(3))
+  .s("sine").attack(.3).release(1.5)
+  .tremolosync(4).tremolodepth(.3)
+  .lpf(sine.slow(10).range(700, 1800))
+  .room(.88).delay("0.5:0.33:0.6")
+  .gain(.06).orbit(5);
+
+stack(
+  arrange([2, introDrone], [10, chorusDrone], [4, bridgeDrone], [12, chorusDrone]),
+  arrange([2, silence], [10, chorusPad], [4, bridgePad], [12, chorusPad]),
+  arrange([2, silence], [10, chorusMelody], [4, silence], [12, chorusMelody]),
+  arrange([2, silence], [10, silence], [4, bridgeBell], [12, silence]),
+  arrange([2, silence], [10, chorusBubbles], [4, bridgeBubbles], [12, chorusBubbles]),
+  arrange([2, silence], [10, chorusKick], [4, silence], [12, chorusKick]),
+  arrange([2, introShimmer], [10, shimmer], [4, shimmer], [12, shimmer])
 )

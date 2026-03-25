@@ -1,36 +1,126 @@
-// 🎵 "Five/Four Friction" — gritty polyrhythmic club pressure
-setcps(0.75)
+// "Five In The Frame" — raw polyrhythmic five-against-four pulse ritual
 samples('github:tidalcycles/dirt-samples')
-$: s("bd*4")
-  .gain(1.05)
-  .lpf(perlin.slow(8).range(120,1400))
-  .room(0.18)
-  .stack(
-    s("cp*5")
-      .gain(0.78)
-      .hpf(perlin.slow(6).range(500,2200))
-      .room(0.35)
-      .pan(sine.slow(5)),
-    s("<hh(5,8) hh(4,8)>")
-      .fast(2)
-      .gain(0.42)
-      .lpf(sine.slow(9).range(4000,12000))
-      .delay(sine.slow(7).range(0,0.35)),
-    s("[oh ~ oh] [~ oh] [oh ~ ~ oh] [~ oh ~]")
-      .fast("<1 5/4 1 4/5>")
-      .gain(0.33)
-      .room(0.55)
-      .delay(0.25),
-    s("<[perc(5,16) ~ perc(5,16)] [perc(4,16) perc(5,16)]>")
-      .gain(0.5)
-      .pan(perlin.slow(4))
-      .lpf(perlin.slow(11).range(900,6000)),
-    s("<bd(5,16) [~ bd bd] [bd ~] [~ bd]>")
-      .gain(0.55)
-      .speed("<1 0.5 1.5 1>")
-      .hpf(220)
-      .delay(0.18)
-  )
-  .delay(sine.slow(13).range(0,0.28))
-  .room(sine.slow(16).range(0.2,0.7))
-  .reset(64)
+setcps(29/70)
+
+const low = sine.slow(9).range(130,360)
+const mid = sine.slow(7).range(900,2800)
+const air = sine.slow(11).range(6500,12000)
+
+const intro = stack(
+  note("d2 ~ a1 ~").slow(2)
+    .s("sine")
+    .attack(.02).release(1.3)
+    .lpf(low)
+    .room(".55:.94")
+    .gain(.18),
+  note("d4 f4 a4 c5 e5")
+    .s("triangle")
+    .attack(.01).release(.28)
+    .lpf(mid)
+    .delay(".34:.25:.42")
+    .room(".36:.82")
+    .pan(sine.slow(6))
+    .gain(".04 .07 .05 .08 .06")
+    .reset("<x ~ ~ ~>"),
+  s("hh*5")
+    .gain(".02 .03 .02 .04 .03")
+    .hpf(air)
+    .room(.24)
+)
+
+const chorus = stack(
+  s("bd*4")
+    .gain(.95)
+    .duckorbit("2:3:4")
+    .duckattack("0.24:0.18:0.14")
+    .duckdepth(".95:.58:.28"),
+  s("~ cp ~ cp")
+    .gain(.44)
+    .room(.18),
+  s("hh*5")
+    .gain(".14 .08 .11 .09 .12")
+    .hpf(air)
+    .delay(".18:.125:.22")
+    .room(.28)
+    .pan(isaw.slow(5)),
+  s("~ ~ oh ~")
+    .gain(.16)
+    .end(.25)
+    .delay(".22:.25:.3"),
+  note("d2 a1 c2 g1")
+    .s("square")
+    .attack(.01).decay(.22).sustain(.12).release(.1)
+    .lpf(low)
+    .gain(.46)
+    .orbit(2)
+    .reset("<x ~ ~ x>"),
+  note("d4 f4 a4 c5 e5")
+    .s("pulse")
+    .attack(.01).release(.16)
+    .lpf(mid)
+    .delay(".38:.25:.46")
+    .room(".22:.82")
+    .pan(sine.slow(7))
+    .gain(".18 .12 .16 .13 .17")
+    .orbit(3)
+    .reset("<x ~ x ~>"),
+  note("<[d5 a5] [f5 c6] [a5 e6] [c6 g6] [e6 a6]>")
+    .s("supersaw")
+    .attack(.03).release(.6)
+    .lpf(sine.slow(8).range(1200,3400))
+    .chorus(.3)
+    .room(".36:.9")
+    .delay(".42:.375:.62")
+    .gain(".12 .09 .13 .1 .14")
+    .orbit(4)
+    .reset("<x ~ ~ ~ x ~ ~ ~>")
+)
+
+const bridge = stack(
+  s("bd ~ ~ bd")
+    .gain(.72)
+    .duckorbit("2:3:4")
+    .duckattack("0.34:0.24:0.18")
+    .duckdepth(".76:.46:.18"),
+  s("[~ hh]*4")
+    .gain(".05 .09 .04 .08")
+    .hpf(9000)
+    .room(.46),
+  s("hh*5")
+    .gain(".09 .14 .1 .13 .11")
+    .hpf(air)
+    .delay(".3:.25:.4")
+    .room(".52:.95")
+    .pan(sine.slow(4)),
+  note("d2 ~ c2 ~ a1 ~ g1 ~")
+    .s("sine")
+    .attack(.02).release(.42)
+    .lpf(sine.slow(6).range(120,280))
+    .gain(.22)
+    .orbit(2)
+    .reset("<x ~ x ~>"),
+  note("d4 f4 a4 c5 e5").slow(2)
+    .s("triangle")
+    .attack(.03).release(.8)
+    .lpf(sine.slow(5).range(700,2200))
+    .delay(".52:.5:.7")
+    .room(".6:.98")
+    .gain(".1 .08 .12 .09 .11")
+    .orbit(3),
+  note("<a4 c5 d5 e5 g5>").slow(2)
+    .s("sawtooth")
+    .attack(.02).release(.7)
+    .hpf(sine.slow(9).range(500,1800))
+    .delay(".46:.375:.66")
+    .room(".7:.98")
+    .gain(.1)
+    .orbit(4)
+    .reset("<x ~ x ~>")
+)
+
+arrange(
+  [1, intro],
+  [12, chorus],
+  [4, bridge],
+  [12, chorus]
+).postgain(.98)

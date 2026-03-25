@@ -1,12 +1,44 @@
-// 🎵 "Sautéing in Solitude" — Lo-fi Jazzy Kitchen Groove
-setcps(0.45);
+// 🎵 "Solo Chef's Waltz" — Chill Lo-fi Jazz for Solo Cooking
+
+setcps(0.6);
+
 stack(
-  note("<[f3,a3,c4,e4] [d3,f3,a3,c4] [g2,bb2,d3,f3] [c3,e3,g3,bb3]>")
-    .s("sine").gain(0.3).adsr(0.3,0.5,0.4,1).room(0.9)
-    .lpf(sine.slow(16).range(600, 1800)).delay(0.5).delayfb(0.5),
-  s("bd <[~ bd] bd> [~ bd] bd").bank("linndrum").gain(0.75),
-  s("[~ sd] ~ [~ sd] <~ [~ sd]>").bank("linndrum").gain(0.5).room(0.3),
-  s("hh*16").gain(perlin.slow(3).range(0.05, 0.25)).pan(sine.slow(9)),
-  note("<f2 d2 g1 c2>").s("sawtooth").lpf(sine.slow(8).range(120, 400)).gain(0.6).adsr(0.05,0.2,0.4,0.3),
-  s("~ <~ [hardcore:4*2]> ~ hardcore:4").gain(0.15).hpf(4000).room(0.2)
-).reset(16)
+  // Warm Electric Piano Chords
+  note("<[f3,a3,c4,e4] [d3,f3,a3,c4] [g3,bb3,d4,f4] [c3,e3,g3,b3]>")
+    .s("gm_electric_piano_1")
+    .gain(0.7)
+    .velocity(0.6)
+    .lpf(perlin.range(800, 1500).slow(4))
+    .room(0.5).size(0.8)
+    .mask("<1!44>/44"),
+
+  // Smooth Sine Bass for depth
+  note("<f1 d1 g1 c1>")
+    .s("sine")
+    .gain(0.8)
+    .adsr("0.12:0.4:0.6:0.3")
+    .mask("<0!4 1!16 0!8 1!16>/44"),
+
+  // Dusty Lo-fi Beat
+  s("[bd:3 [~ bd:3]] [sd:2] [~ bd:3] [sd:2]")
+    .bank("tr808")
+    .gain(0.55)
+    .lpf(1800)
+    .mask("<1!4 1!16 0!8 1!16>/44"),
+
+  // Rhythmic Kitchen Elements (Chopping and Clicks)
+  stack(
+    s("hh*8").gain(perlin.range(0.2, 0.4)),
+    s("rim(3,8,2)").gain(0.35).room(0.7)
+  )
+  .mask("<0!4 1!16 1!8 1!16>/44"),
+
+  // Ambient Sizzling Texture (Pink Noise)
+  s("pink")
+    .gain(0.08)
+    .lpf(sine.range(4000, 8000).slow(6))
+    .mask("<0!20 1!8 0!16>/44")
+)
+.reset(4)
+.jux(x => x.delay(0.2).gain(0.8).room(0.3))
+.distort(0.2)

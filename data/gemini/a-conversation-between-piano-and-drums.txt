@@ -1,21 +1,16 @@
-// 🎵 "Dialogue in Felt and Skin" — A jazz-inflected conversation between an expressive piano and a dynamic drum kit
-setcps(0.5)
+// 🎵 "Dialogue in Felt and Skin" — A rhythmic call-and-response between a jazz piano and a crisp breakbeat kit
+setcps(0.45);
 stack(
-  note("<[c3,e3,g3,b3] [f3,a3,c4,e4] [d3,f3,a3,c4] [g2,b2,d3,f3]>")
-    .s("superpiano")
-    .velocity(perlin.slow(4).range(0.3, 0.7))
-    .room(0.8).size(0.9)
-    .struct("<t(3,8) [~ t(3,8)] t(5,8,1) [~ t]>")
-    .lpf(sine.slow(16).range(400, 4000)),
-  note("<[~ c5,e5,g5] [~ a4,c5,e5] [~ d5,f5,a5] [~ g4,b4,d5]>".add("[0, 12]"))
-    .s("superpiano")
-    .velocity(0.5)
-    .delay(0.3).delayfb(0.6)
-    .struct("<[~ t] t(3,8,2) [~ t(2,4)] t(5,8)>")
-    .pan(perlin.slow(4)),
-  s("<[bd ~ sd ~] [bd [~ bd] sd [~ sd]] [~ bd ~ sd] [[bd sd]*2]>")
-    .bank("drum")
-    .gain(perlin.slow(10).range(0.3, 0.9))
-    .room(0.2)
-    .hpf(sine.slow(14).range(100, 1200))
-).reset(16)
+  arrange(
+    [2, silence],
+    [12, s("[bd [~ sd] [bd bd] sd, hh*16]").bank("tr909").gain(0.8).degradeBy(0.1)],
+    [4, s("[bd(5,8) [~ sd*2] [bd!3] [sd hh]]").bank("tr808").gain(0.7).fast(2).delay(0.2).delaytime(0.125)],
+    [12, s("[bd [~ sd:2] [bd!2] sd:2, [hh*4, oh(3,8)]]").bank("tr909").gain(0.9).room(0.2)]
+  ),
+  arrange(
+    [2, note("c4 [eb4 g4] <bb4 ab4> g4").s("piano").room(0.8).gain(0.9)],
+    [12, note("<[c3,g3,bb3,c4] [f3,ab3,c4,f4] [eb3,bb3,d4,eb4] [g3,d4,g4,bb4]>").struct("x ~ x x ~ x ~ ~").s("piano").gain(0.85).jux(rev).room(0.4)],
+    [4, note("c5 bb4 g4 f4 eb4 c4".shuffle(6)).fast(3).s("piano").delay(0.4).delaytime(0.25).gain(0.7).lpf(perlin.range(1000, 3000))],
+    [12, note("<[c3,g3,bb3,c4] [f3,ab3,c4,f4] [eb3,bb3,d4,eb4] [g3,d4,g4,bb4]>").struct("x x x ~ x x ~ x").s("piano").gain(1).room(0.6).jux(iter(4))]
+  )
+).slow(1)

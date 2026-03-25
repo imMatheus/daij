@@ -1,33 +1,97 @@
-// 🎵 "Glass Loop Drift" — minimalist repetition with subtle variations
-setcps(0.75)
+// "Small Differences" - minimalist repetition with subtle variations
 samples('github:tidalcycles/dirt-samples')
-$: note("<[0 0 2 0] [0 0 3 0] [0 0 2 5] [0 0 3 7]>")
-  .scale("c:minor")
-  .s("sine")
-  .octave("<4 4 4 5>")
-  .legato(0.92)
-  .gain(0.22)
-  .lpf(perlin.slow(6).range(500,1800))
-  .room(sine.slow(12).range(0.18,0.42))
-  .delay(0.25)
-  .stack(
-    s("<bd(3,8) bd(3,8,1)>")
-      .gain(0.9)
-      .lpf(900)
-      .room(0.08),
-    s("[~ hh]*2 hh(5,8,<0 1>)")
-      .gain(0.22)
-      .lpf(perlin.slow(9).range(4000,9000))
-      .room(0.2),
-    s("<~ cp ~ cp [~ cp]>")
-      .gain(0.3)
-      .room(0.35)
-      .delay(0.125),
-    note("<[-12 ~ -12 ~] [-12 ~ -10 ~]>")
-      .s("square")
-      .slow(4)
-      .gain(0.16)
-      .lpf(sine.slow(10).range(120,260))
-      .room(0.4)
-  )
-  .reset(48)
+setcps(5/14)
+
+const intro = 1
+const chorus = 10
+const bridge = 4
+
+const low = sine.slow(9).range(120,260)
+const mid = sine.slow(11).range(900,2400)
+const high = sine.slow(13).range(3200,8800)
+
+const introPulse = note("<[c4 g4 d5] [c4 g4 eb5]>")
+  .slow(2).struct("x ~ x ~").s("triangle").orbit(2)
+  .attack(.03).decay(.32).sustain(.22).release(1.4)
+  .lpf(sine.slow(6).range(700,1600))
+  .room(.88).delay(".22:.375:.34")
+  .gain(".08 .1")
+  .reset("<x ~ ~ ~>")
+
+const chorusPulse = note("<[c4 g4 d5] [c4 g4 eb5] [c4 g4 d5] [bb3 f4 d5]>")
+  .slow(2).struct("x ~ x ~").s("triangle").orbit(2)
+  .attack(.02).decay(.28).sustain(.18).release(1.1)
+  .lpf(mid)
+  .room(.58).delay(".18:.25:.3")
+  .gain(".16 .15 .17 .14")
+  .reset("<x ~ ~ x>")
+
+const bridgePulse = note("<[c4 g4 d5] [d4 a4 e5] [bb3 f4 d5] [c4 g4 d5]>")
+  .slow(2).struct("x ~ ~ x").s("sine").orbit(2)
+  .attack(.04).decay(.34).sustain(.2).release(1.9)
+  .lpf(sine.slow(5).range(650,1800))
+  .room(.9).delay(".42:.5:.66")
+  .gain(".12 .1 .11 .09")
+  .reset("<x ~ x ~>")
+
+const chorusHalo = note("<g5 ~ d5 ~ g5 ~ [f5 g5] ~>").fast(2).s("sine").orbit(3)
+  .attack(.04).decay(.18).sustain(.08).release(.8)
+  .tremolosync(6).tremolodepth(.08)
+  .lpf(sine.slow(7).range(1800,5200))
+  .room(.82).delay(".35:.5:.52")
+  .gain(".04 .05 .04 .06")
+  .reset("<x ~ ~ x>")
+
+const bridgeHalo = note("<g5 ~ ~ d5 ~ ~ f5 ~>").fast(2).s("sine").orbit(3)
+  .attack(.05).decay(.2).sustain(.06).release(1.2)
+  .tremolosync(4).tremolodepth(.06)
+  .lpf(sine.slow(4).range(1500,3800))
+  .room(.92).delay(".48:.5:.72")
+  .gain(".03 .02 .04 .03")
+
+const chorusBass = note("<c2 ~ c2 ~ c2 ~ bb1 ~>").fast(2).s("sine").orbit(4)
+  .attack(.01).decay(.2).sustain(.14).release(.25)
+  .lpf(low)
+  .gain(".2 .18 .2 .16")
+  .reset("<x ~ ~ x>")
+
+const bridgeBass = note("<c2 ~ ~ ~ bb1 ~ ~ ~>").fast(2).s("sine").orbit(4)
+  .attack(.01).decay(.24).sustain(.12).release(.5)
+  .lpf(sine.slow(5).range(110,220))
+  .room(.18).gain(".14 .12")
+  .reset("<x ~ x ~>")
+
+const chorusKick = s("bd ~ ~ ~")
+  .lpf(720).room(.16).gain(".42 .38 .4 .36")
+
+const bridgeKick = s("bd ~ ~ ~")
+  .lpf(520).room(.34).gain(".18 .16")
+
+const chorusHat = s("[~ hh]*4").orbit(5)
+  .begin(".01 .015").end(".04 .06")
+  .bpf(high).bpq(5)
+  .room(.7).delay(".08:.125:.18")
+  .gain(sine.slow(8).range(.01,.03))
+  .reset("<x ~ ~ x>")
+
+const bridgeHat = s("[~ hh]*2").orbit(5)
+  .begin(.01).end(.05)
+  .bpf(sine.slow(6).range(2800,6800)).bpq(6)
+  .room(.9).delay(".16:.25:.3")
+  .gain(sine.slow(5).range(.008,.018))
+
+const chorusDuck = s("bd ~ ~ ~")
+  .duckorbit("2:3:4:5").duckattack("0.34:0.18:0.16:0.12")
+  .duckdepth(".38:.12:.18:.14").postgain(0)
+
+const bridgeDuck = s("bd ~ ~ ~")
+  .duckorbit("2:3:4:5").duckattack("0.46:0.24:0.2:0.16")
+  .duckdepth(".24:.08:.12:.1").postgain(0)
+
+arrange([intro, introPulse], [chorus, chorusPulse], [bridge, bridgePulse], [chorus, chorusPulse])
+  .stack(arrange([intro, silence], [chorus, chorusHalo], [bridge, bridgeHalo], [chorus, chorusHalo]))
+  .stack(arrange([intro, silence], [chorus, chorusBass], [bridge, bridgeBass], [chorus, chorusBass]))
+  .stack(arrange([intro, silence], [chorus, chorusKick], [bridge, bridgeKick], [chorus, chorusKick]))
+  .stack(arrange([intro, chorusHat.gain(.012)], [chorus, chorusHat], [bridge, bridgeHat], [chorus, chorusHat]))
+  .stack(arrange([intro, silence], [chorus, chorusDuck], [bridge, bridgeDuck], [chorus, chorusDuck]))
+  .postgain(.98)

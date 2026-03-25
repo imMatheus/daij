@@ -1,42 +1,84 @@
-// "Souk at Noon" — bustling North African street market with hand drums, oud melodies and spice-scented air
-setcps(118/60/4)
+// "Souk at Sundown" — dusty phrygian groove for a bustling market at golden hour
+samples('github:tidalcycles/dirt-samples')
+setcps(0.44)
+
+let atmo = s("oh").slow(2).begin(".03 .08").end(".22 .32").speed("<-1 -.8>")
+  .hpf(sine.slow(3).range(2400,7200)).room(.92).delay(.42).delaytime(.7).delayfeedback(.64).gain(.08)
+
+let introRim = s("~ rim ~ ~ rim ~ ~ ~").end(.06).hpf(2600).room(.6).delay(".16:.25:.3").gain(.07)
+
+let cl = s("rim").struct("x ~ ~ x ~ ~ x ~ ~ ~ x ~ ~ x ~ ~").slow(2)
+  .lpf(3200).room(.16).gain(.13).reset("<x ~ x ~>")
+
+let darb = stack(
+  s("lt").struct("x ~ ~ x ~ x ~ ~").gain(".13 ~ ~ .11 ~ .09 ~ ~").pan(.36),
+  s("mt").struct("~ x ~ ~ ~ ~ x x").gain("~ .11 ~ ~ ~ ~ .09 .1").pan(.62),
+  s("ht").struct("~ ~ x ~ x ~ ~ ~").gain("~ ~ .06 ~ .05 ~ ~ ~").pan(.72)
+).lpf(perlin.slow(5).range(700,2100)).room(.18).swingBy(1/6,4).reset("<x ~ x ~>")
+
+let shak = s("hh*16").end(.03).bpf(sine.slow(5).range(5800,9600)).bpq(4)
+  .room(.14).gain("0.024 0.011 0.019 0.01 0.023 0.012 0.019 0.011 0.024 0.011 0.019 0.01 0.023 0.012 0.02 0.011")
+  .swingBy(1/6,4).reset("<x ~ x ~>")
+
+let kick = s("bd").struct("x ~ ~ ~ x ~ ~ ~").lpf(750).room(.05).gain(.18)
+  .swingBy(1/6,4).reset("<x ~ x ~>")
+
+let introChord = note("[d4 a4 d5]").s("triangle")
+  .attack(.7).decay(.4).sustain(.78).release(2.2)
+  .lpf(sine.slow(3).range(380,1300)).room(.86).delay(.28).delaytime(.5).delayfeedback(.48).gain(.14)
+
+let chords = note("<[d4 f4 a4 e5] [c4 eb4 g4 bb4] [bb3 d4 f4 a4] [a3 c#4 e4 g4]>").slow(2)
+  .struct("[x ~ x ~] [~ x ~ x]").s("supersaw")
+  .attack(.03).decay(.22).sustain(.4).release(.24)
+  .lpf(sine.slow(7).range(900,3800)).lpq(.12)
+  .room(.34).delay(".12:.25:.2").gain(.24).swingBy(1/6,4).reset("<x ~ x ~>")
+
+let bass = note("<d2 c2 bb1 a1>").slow(2).struct("[x ~ x ~] [~ ~ x ~]")
+  .s("sawtooth").attack(.01).decay(.14).sustain(.24).release(.08)
+  .lpf(sine.slow(6).range(150,480)).lpq(.16).room(.08).gain(.48)
+  .swingBy(1/6,4).reset("<x ~ x ~>")
+
+let melody = note("<f5 e5 d5 c#5 d5 ~ a4 ~ c5 d5 e5 f5 e5 d5 c#5 a4>").fast(2)
+  .s("triangle").attack(.02).decay(.12).sustain(.18).release(.14)
+  .vib(5).vibmod(.45).lpf(sine.slow(4).range(1600,5800))
+  .delay(".22:.25:.34").room(.24).gain(.16).reset("<x ~ x ~>")
+
+let reply = note("<a4 ~ c5 ~ d5 ~ f5 ~ e5 ~ d5 ~ c#5 ~ a4 ~>").fast(2)
+  .s("pulse").attack(.02).decay(.1).sustain(.14).release(.12)
+  .lpf(perlin.slow(5).range(1800,5200)).delay(".28:.375:.38")
+  .room(.3).gain(.09).reset("<x ~ x ~>")
+
+let bridgeChords = note("<[g3 bb3 d4 f4] [a3 c#4 e4 g4] [bb3 d4 f4 a4] [a3 c#4 e4 g4]>").slow(2)
+  .struct("[x ~ ~ x]").s("pulse").attack(.05).decay(.3).sustain(.48).release(.44)
+  .lpf(sine.slow(3).range(700,2600)).room(.6).delay(".2:.375:.38")
+  .gain(.16).reset("<x ~ x ~>")
+
+let bridgeBass = note("<g1 a1 bb1 a1>").slow(2).struct("[x ~ ~ ~] [~ ~ x ~]")
+  .s("sawtooth").attack(.02).decay(.16).sustain(.2).release(.1)
+  .lpf(240).room(.12).gain(.36).swingBy(1/6,4).reset("<x ~ x ~>")
+
+let bridgePerc = stack(
+  s("lt").struct("~ ~ x ~ ~ ~ x ~").gain("~ ~ .09 ~ ~ ~ .08 ~").pan(.35),
+  s("mt").struct("~ x ~ ~ x ~ ~ ~").gain("~ .09 ~ ~ .08 ~ ~ ~").pan(.65)
+).lpf(sine.slow(4).range(480,1300)).room(.28).delay(".07:.25:.12")
+  .swingBy(1/6,4).reset("<x ~ x ~>")
+
+let bridgeMel = note("<d5 c5 bb4 a4 g4 a4 bb4 d5>").fast(2)
+  .s("gm_flute").attack(.04).decay(.12).sustain(.12).release(.55)
+  .vib(5.5).vibmod(.38).lpf(sine.slow(3).range(1100,3000))
+  .delay(".3:.375:.4").room(.48).gain(.09).reset("<x ~ x ~>")
+
+let bridgeShak = s("hh").euclidRot(5,8,2).end(.05).bpf(7000).bpq(5)
+  .delay(".07:.125:.14").room(.24).gain(.028).swingBy(1/6,4).reset("<x ~ x ~>")
 
 stack(
-  s("<[bd ~ [~ bd] ~] [bd [~ bd] ~ bd]>, <[~ cp ~ ~] [~ ~ cp ~]>, [~ hh]*4")
-    .bank("RolandTR808").swing(3)
-    .gain(".78 .6 .72 .58").room(.22),
-  s("hh(9,16)").bank("RolandTR808")
-    .gain(perlin.range(.12,.34)).pan(sine.slow(5).range(.25,.75)).hpf(6000),
-  s("<[rim ~ rim ~] [~ rim ~ rim]>").bank("RolandTR808")
-    .speed(1.4).gain(.32).room(.35).pan(.7).delay(".08:.06:.12"),
-  note("<[e3 ~ f3 g#3] [a3 ~ b3 c4] [b3 ~ a3 g#3] [f3 ~ e3 ~] [e3 f3 ~ g#3] [a3 ~ c4 b3] [a3 g#3 ~ f3] [e3 ~ ~ ~]>")
-    .s("gm_acoustic_guitar_nylon")
-    .attack(.01).decay(.18).sustain(.4).release(.25)
-    .lpf(sine.range(2400,5200).slow(9))
-    .room(.42).delay(".18:.12:.25").gain(.52),
-  n("<[0 ~ 2 ~] [3 ~ 5 ~] [~ 4 ~ 3] [2 ~ 0 ~] [~ 0 ~ 3] [5 ~ 4 ~] [3 ~ 2 0] [~ ~ ~ ~]>")
-    .scale("E4:phrygian")
-    .s("gm_flute")
-    .lpf(sine.range(1800,4200).slow(7))
-    .room(.55).delay(".3:.22:.38").gain(.34)
-    .attack(.02).decay(.2).sustain(.55).release(.4)
-    .sometimes(x => x.add(note(12)).gain(.18)),
-  chord("<Em Am <Bb Em> Am>")
-    .dict('ireal').voicing()
-    .s("gm_synth_strings_1")
-    .attack(1.2).decay(1).sustain(.5).release(2)
-    .lpf(sine.range(600,1800).slow(16))
-    .room(.7).gain(.2),
-  note("<[~ e2 ~ a1] [~ a1 ~ e2] [bb1 ~ e2 ~] [a1 ~ ~ e1]>")
-    .s("gm_acoustic_bass").decay(.25).sustain(.45)
-    .room(.15).gain(.72).swing(3),
-  n("<[~ ~ 4 ~] [5 ~ ~ 3] [~ 4 ~ ~] [2 ~ 0 ~]>")
-    .scale("E5:phrygian")
-    .s("gm_epiano1")
-    .struct("[~ x] [x ~] [~ x] [x ~]")
-    .lpf(perlin.range(1400,3200).slow(6))
-    .room(.48).delay(".14:.1:.2").gain(.3).swing(3),
-  note("<e1 a1 bb0 a1>/4")
-    .s("sine").gain(.15).lpf(150)
-    .attack(1.5).sustain(.7).release(2).room(.4)
-)
+  arrange([2, atmo], [12, atmo.gain(sine.slow(5).range(.06,.1))], [5, atmo.gain(sine.slow(3).range(.04,.08))], [12, atmo.gain(sine.slow(5).range(.06,.1))]),
+  arrange([2, introRim], [12, silence], [5, silence], [12, silence]),
+  arrange([2, introChord], [12, chords], [5, bridgeChords], [12, chords]),
+  arrange([2, silence], [12, bass], [5, bridgeBass], [12, bass]),
+  arrange([2, silence], [12, kick], [5, kick.gain(.1)], [12, kick]),
+  arrange([2, silence], [12, cl.stack(darb)], [5, cl.stack(bridgePerc)], [12, cl.stack(darb)]),
+  arrange([2, silence], [12, shak], [5, bridgeShak], [12, shak]),
+  arrange([2, silence], [12, melody], [5, bridgeMel], [12, melody]),
+  arrange([2, silence], [12, reply], [5, silence], [12, reply])
+).postgain(1.04)

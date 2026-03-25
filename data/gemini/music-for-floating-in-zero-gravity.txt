@@ -1,29 +1,27 @@
-// 🎵 "Void Suspension" — Drifting Zero-Gravity Ambient
+// 🎵 "Zero Gravity Drift" — Ethereal ambient textures for floating in zero gravity
 
-samples('github:tidalcycles/dirt-samples');
-setcps(0.12);
-stack(
-  note("<[c2,g2,b2] [f2,c3,e3] [d2,a2,c3] [g2,d3,f#3]>")
-    .s("sine")
-    .lpf(sine.range(300, 1200).slow(20))
-    .gain(0.5)
-    .room(0.9).sz(0.9)
-    .attack(2).release(2),
-  note("c5(5,12)".scale("lydian").shuffle().slow(4))
-    .s("superfm")
-    .gain(perlin.range(0, 0.3).slow(12))
-    .delay(0.8).dfb(0.8)
-    .room(1)
-    .pan(sine.slow(24)),
-  s("bd:5")
-    .struct("1(1,4)")
-    .gain(0.1)
-    .lpf(100)
-    .room(0.8),
-  s("glitch:5")
-    .struct("~ 1?")
-    .gain(0.1)
-    .room(1)
-    .delay(0.9).dfb(0.6)
-    .pan(perlin.slow(6))
-).reset(16)
+setcps(0.2).stack(
+  // Deep Space Pad: Shifting sine chords with perlin-modulated filters
+  note("<[c3, g3, d4] [eb3, bb3, f4] [f3, c4, g4] [ab3, eb4, bb4]>")
+    .s("sine").adsr("2.5:0:1:2.5").gain(0.35)
+    .lpf(perlin.slow(8).range(200, 1200)).room(1.2).roomsize(0.8)
+    .reset("<~!6 x*2!2 ~!6>"),
+
+  // Crystalline Dust: Soft triangle melody drifting through delay
+  note("<c5 d5 f5 g5 bb5 c6>".shuffle(8).segment("<8 16 4 16>").degradeBy(0.4))
+    .s("triangle").gain(0.18).adsr("0.1:0.5:0.3:2")
+    .pan(sine.slow(10)).lpf(perlin.slow(3).range(1000, 4000))
+    .delay(0.6).dt(0.75).dfb(0.6).room(0.4)
+    .mask("<0 1!5 0.4!2 1!6>"),
+
+  // Cosmic Wind: Weightless modulated noise floor
+  s("pink").gain(perlin.slow(16).mul(0.12))
+    .lpf(perlin.slow(5).range(100, 3000)).lpq(12)
+    .room(1.5).pan(perlin.slow(7)),
+
+  // Haptic Feedback: High-passed rhythmic pulse with jux effect
+  s("hh*16").gain(sine.slow(4).range(0, 0.12))
+    .hpf(sine.slow(12).range(4000, 9000))
+    .jux(rev).room(0.6).delay(0.3).dt(1/16)
+    .mask("<0 1!5 0!2 1!6>")
+)
