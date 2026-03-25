@@ -90,8 +90,6 @@ export const Arena = () => {
     hoveredOutcome === 'tie' ||
     hoveredOutcome === 'both_bad'
 
-  console.log({ hoveredOutcome })
-
   const {
     data: arenaData,
     isLoading,

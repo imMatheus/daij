@@ -1,7 +1,7 @@
 // generate-songs.ts
 // Takes prompts from data/prompts.json, combines them with the Strudel system
 // prompt, and sends them to AI providers (Claude, ChatGPT, Gemini) to generate
-// Strudel.cc music code. Outputs .txt files to web/public/{provider}/.
+// Strudel.cc music code. Outputs .txt files to data/{provider}/.
 //
 // Usage: bun scripts/generate-songs.ts --provider claude|chatgpt|gemini|all [--concurrency 3] [--start 0] [--dry-run]
 
@@ -11,7 +11,7 @@ import { existsSync, mkdirSync } from "fs"
 const PROJECT_ROOT = resolve(dirname(new URL(import.meta.url).pathname), "..")
 const PROMPTS_PATH = resolve(PROJECT_ROOT, "data/prompts.json")
 const SYSTEM_PROMPT_PATH = resolve(PROJECT_ROOT, "data/strudel-system-prompt.txt")
-const PUBLIC_DIR = resolve(PROJECT_ROOT, "web/public")
+const PUBLIC_DIR = resolve(PROJECT_ROOT, "data")
 const DEFAULT_CONCURRENCY = 3
 
 type Prompt = { slug: string; text: string; category: string }

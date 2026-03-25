@@ -10,7 +10,7 @@ import { resolve, dirname, basename } from "path"
 import { renderSong, estimateDuration } from "./lib/renderer"
 
 const PROJECT_ROOT = resolve(dirname(new URL(import.meta.url).pathname), "..")
-const PUBLIC_DIR = resolve(PROJECT_ROOT, "web/public")
+const PUBLIC_DIR = resolve(PROJECT_ROOT, "data")
 const PROVIDERS = ["claude", "chatgpt", "gemini"]
 const DEFAULT_CONCURRENCY = 3
 
@@ -64,34 +64,32 @@ async function main() {
 
   let completed = 0
   let failed = 0
+  let nextIndex = 0
 
-  // Process in chunks of `concurrency`
-  for (let i = 0; i < toRender.length; i += concurrency) {
-    const batch = toRender.slice(i, i + concurrency)
+  async function renderNext(): Promise<void> {
+    const index = nextIndex++
+    if (index >= toRender.length) return
 
-    const results = await Promise.allSettled(
-      batch.map(async (song) => {
-        const label = `${song.provider}/${song.slug}`
-        console.log(`[start] ${label} (${completed + 1}-${Math.min(completed + batch.length, toRender.length)}/${toRender.length})`)
+    const song = toRender[index]
+    const label = `${song.provider}/${song.slug}`
+    console.log(`[start] ${label} (${index + 1}/${toRender.length})`)
 
-        const code = readFileSync(song.txtPath, "utf-8")
-        const duration = estimateDuration(code)
-        await renderSong(code, song.mp3Path, duration)
-        return label
-      }),
-    )
-
-    for (const result of results) {
-      if (result.status === "fulfilled") {
-        completed++
-        console.log(`[done] ${result.value} (${completed}/${toRender.length})`)
-      } else {
-        failed++
-        completed++
-        console.error(`[FAILED] ${result.reason}`)
-      }
+    try {
+      const code = readFileSync(song.txtPath, "utf-8")
+      const duration = estimateDuration(code)
+      await renderSong(code, song.mp3Path, duration)
+      completed++
+      console.log(`[done] ${label} (${completed + failed}/${toRender.length})`)
+    } catch (err) {
+      failed++
+      console.error(`[FAILED] ${label} (${completed + failed}/${toRender.length}):`, err)
     }
+
+    await renderNext()
   }
+
+  const workers = Array.from({ length: Math.min(concurrency, toRender.length) }, () => renderNext())
+  await Promise.all(workers)
 
   console.log(`\nBatch rendering complete. ${completed - failed} succeeded, ${failed} failed.`)
 }

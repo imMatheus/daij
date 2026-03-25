@@ -292,5 +292,5 @@ export function estimateDuration(code: string): number {
     }
   }
 
-  return 150 // default 2.5 minutes
+  return 70 // default 2.5 minutes
 }

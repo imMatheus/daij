@@ -13,7 +13,7 @@ import { songs } from "../server/db/schema"
 
 const PROJECT_ROOT = resolve(dirname(new URL(import.meta.url).pathname), "..")
 const PROMPTS_PATH = resolve(PROJECT_ROOT, "data/prompts.json")
-const PUBLIC_DIR = resolve(PROJECT_ROOT, "web/public")
+const PUBLIC_DIR = resolve(PROJECT_ROOT, "data")
 const PROVIDERS = ["claude", "chatgpt", "gemini"]
 
 type PromptEntry = { slug: string; text: string; category: string }

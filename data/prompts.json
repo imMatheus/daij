@@ -65,11 +65,6 @@
     "slug": "a-romantic-and-tender-melody"
   },
   {
-    "text": "a chaotic and unpredictable piece",
-    "category": "mood",
-    "slug": "a-chaotic-and-unpredictable-piece"
-  },
-  {
     "text": "a serene and meditative track",
     "category": "mood",
     "slug": "a-serene-and-meditative-track"
@@ -198,106 +193,6 @@
     "text": "a latin salsa rhythm",
     "category": "genre",
     "slug": "a-latin-salsa-rhythm"
-  },
-  {
-    "text": "a song in the style of Billie Eilish with dark, layered vocals",
-    "category": "artist-style",
-    "slug": "a-song-in-the-style-of-billie-eilish-with-dark-layered-vocal"
-  },
-  {
-    "text": "a song in the style of Kendrick Lamar with intricate storytelling",
-    "category": "artist-style",
-    "slug": "a-song-in-the-style-of-kendrick-lamar-with-intricate-storyte"
-  },
-  {
-    "text": "a song in the style of Tyler, The Creator with quirky production",
-    "category": "artist-style",
-    "slug": "a-song-in-the-style-of-tyler-the-creator-with-quirky-product"
-  },
-  {
-    "text": "a song in the style of FKA twigs with experimental art pop elements",
-    "category": "artist-style",
-    "slug": "a-song-in-the-style-of-fka-twigs-with-experimental-art-pop-e"
-  },
-  {
-    "text": "a song in the style of SZA with soulful alt-R&B vibes",
-    "category": "artist-style",
-    "slug": "a-song-in-the-style-of-sza-with-soulful-alt-rb-vibes"
-  },
-  {
-    "text": "a song in the style of Rosalía blending flamenco and modern beats",
-    "category": "artist-style",
-    "slug": "a-song-in-the-style-of-rosala-blending-flamenco-and-modern-b"
-  },
-  {
-    "text": "a song in the style of Fred again.. with emotive sample-based dance music",
-    "category": "artist-style",
-    "slug": "a-song-in-the-style-of-fred-again-with-emotive-sample-based"
-  },
-  {
-    "text": "a song in the style of Drake with introspective rap and melodic hooks",
-    "category": "artist-style",
-    "slug": "a-song-in-the-style-of-drake-with-introspective-rap-and-melo"
-  },
-  {
-    "text": "a song in the style of Arca with glitchy avant-garde electronics",
-    "category": "artist-style",
-    "slug": "a-song-in-the-style-of-arca-with-glitchy-avant-garde-electro"
-  },
-  {
-    "text": "a song in the style of James Blake with sparse, emotional production",
-    "category": "artist-style",
-    "slug": "a-song-in-the-style-of-james-blake-with-sparse-emotional-pro"
-  },
-  {
-    "text": "a song in the style of Doja Cat blending pop, hip hop, and retro sounds",
-    "category": "artist-style",
-    "slug": "a-song-in-the-style-of-doja-cat-blending-pop-hip-hop-and-ret"
-  },
-  {
-    "text": "a song in the style of Rina Sawayama with genre-blending pop maximalism",
-    "category": "artist-style",
-    "slug": "a-song-in-the-style-of-rina-sawayama-with-genre-blending-pop"
-  },
-  {
-    "text": "a song in the style of JID with rapid-fire, clever lyricism",
-    "category": "artist-style",
-    "slug": "a-song-in-the-style-of-jid-with-rapid-fire-clever-lyricism"
-  },
-  {
-    "text": "a song in the style of Caroline Polachek with ethereal art-pop vocals",
-    "category": "artist-style",
-    "slug": "a-song-in-the-style-of-caroline-polachek-with-ethereal-art-p"
-  },
-  {
-    "text": "a song in the style of BADBADNOTGOOD merging jazz and hip-hop",
-    "category": "artist-style",
-    "slug": "a-song-in-the-style-of-badbadnotgood-merging-jazz-and-hip-ho"
-  },
-  {
-    "text": "a song in the style of Tash Sultana with layered live looping",
-    "category": "artist-style",
-    "slug": "a-song-in-the-style-of-tash-sultana-with-layered-live-loopin"
-  },
-  {
-    "text": "a song in the style of Justin Bieber",
-    "category": "artist-style",
-    "slug": "a-song-in-the-style-of-justin-bieber"
-  },
-  {
-    "text": "a song in the style of Yves Tumor with psychedelic experimental rock",
-    "category": "artist-style",
-    "slug": "a-song-in-the-style-of-yves-tumor-with-psychedelic-experimen"
-  },
-  {
-    "text": "a song in the style of Joey Bada$$ with classic boom bap influences",
-    "category": "artist-style",
-    "slug": "a-song-in-the-style-of-joey-bada-with-classic-boom-bap-influ"
-  },
-  {
-    "text": "a song in the style of ODESZA with widescreen electronic beats",
-    "category": "artist-style",
-    "slug": "a-song-in-the-style-of-odesza-with-widescreen-electronic-bea"
   },
   {
     "text": "music for a sunrise on the beach",

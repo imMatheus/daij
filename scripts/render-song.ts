@@ -34,13 +34,13 @@ async function main() {
 
   const inputPath = resolve(
     PROJECT_ROOT,
-    "web/public",
+    "data",
     provider,
     `${songName}.txt`,
   )
   const outputPath = resolve(
     PROJECT_ROOT,
-    "web/public",
+    "data",
     provider,
     `${songName}.mp3`,
   )
