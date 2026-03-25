@@ -7,189 +7,203 @@
     "prompt": "a bittersweet song about endings"
   },
   {
-    "name": "Whiskey Frets",
+    "name": "Dusty Crossroads",
     "provider": "claude",
     "audioUrl": "/claude/a-blues-shuffle-with-gritty-guitar.mp3",
     "duration": 70,
     "prompt": "a blues shuffle with gritty guitar"
   },
   {
-    "name": "Noite Carioca",
+    "name": "Noite de Ipanema",
     "provider": "claude",
     "audioUrl": "/claude/a-bossa-nova-track.mp3",
     "duration": 70,
     "prompt": "a bossa nova track"
   },
   {
-    "name": "Slice Machine",
+    "name": "Chopped & Rewired",
     "provider": "claude",
     "audioUrl": "/claude/a-breakbeat-with-chopped-samples.mp3",
     "duration": 70,
     "prompt": "a breakbeat with chopped samples"
   },
   {
-    "name": "Golden Hour",
+    "name": "Echoes in Time",
+    "provider": "claude",
+    "audioUrl": "/claude/a-canon-where-the-same-melody-echoes-with-delay.mp3",
+    "duration": 70,
+    "prompt": "a canon where the same melody echoes with delay"
+  },
+  {
+    "name": "Endless August",
     "provider": "claude",
     "audioUrl": "/claude/a-carefree-summer-vibe.mp3",
     "duration": 70,
     "prompt": "a carefree summer vibe"
   },
   {
-    "name": "Nerve Swarm",
-    "provider": "claude",
-    "audioUrl": "/claude/a-chaotic-and-unpredictable-piece.mp3",
-    "duration": 70,
-    "prompt": "a chaotic and unpredictable piece"
-  },
-  {
-    "name": "Moonlit Ballroom",
+    "name": "Vienna Dreams",
     "provider": "claude",
     "audioUrl": "/claude/a-classical-waltz-in-three-four-time.mp3",
     "duration": 70,
     "prompt": "a classical waltz in three-four time"
   },
   {
-    "name": "Call & Response",
+    "name": "Midnight Dialogue",
     "provider": "claude",
     "audioUrl": "/claude/a-conversation-between-piano-and-drums.mp3",
     "duration": 70,
     "prompt": "a conversation between piano and drums"
   },
   {
-    "name": "Porch Light Fading",
+    "name": "Front Porch Sunset",
     "provider": "claude",
     "audioUrl": "/claude/a-country-folk-song-with-acoustic-guitar.mp3",
     "duration": 70,
     "prompt": "a country folk song with acoustic guitar"
   },
   {
-    "name": "Mirror Ball Bounce",
+    "name": "Midnight Pulse",
+    "provider": "claude",
+    "audioUrl": "/claude/a-deep-house-track-with-a-four-on-the-floor-kick.mp3",
+    "duration": 70,
+    "prompt": "a deep house track with a four on the floor kick"
+  },
+  {
+    "name": "Velvet Strobe",
     "provider": "claude",
     "audioUrl": "/claude/a-disco-track-with-groovy-bassline.mp3",
     "duration": 70,
     "prompt": "a disco track with groovy bassline"
   },
   {
-    "name": "Midnight Underpass",
+    "name": "Concrete Ghosts",
     "provider": "claude",
     "audioUrl": "/claude/a-downtempo-trip-hop-beat.mp3",
     "duration": 70,
     "prompt": "a downtempo trip hop beat"
   },
   {
-    "name": "Moonlit Veil",
+    "name": "Dissolving Light",
     "provider": "claude",
     "audioUrl": "/claude/a-dreamy-and-ethereal-song.mp3",
     "duration": 70,
     "prompt": "a dreamy and ethereal song"
   },
   {
-    "name": "Concrete Lung",
+    "name": "Dark Roller",
     "provider": "claude",
     "audioUrl": "/claude/a-drum-and-bass-roller.mp3",
     "duration": 70,
     "prompt": "a drum and bass roller"
   },
   {
-    "name": "Ascension",
+    "name": "Solar Flare",
     "provider": "claude",
     "audioUrl": "/claude/a-euphoric-and-ecstatic-dance-track.mp3",
     "duration": 70,
     "prompt": "a euphoric and ecstatic dance track"
   },
   {
-    "name": "Pocket Funk",
+    "name": "Slap City",
     "provider": "claude",
     "audioUrl": "/claude/a-funk-groove-with-slap-bass.mp3",
     "duration": 70,
     "prompt": "a funk groove with slap bass"
   },
   {
-    "name": "Fuzz Riot",
+    "name": "Basement Fury",
     "provider": "claude",
     "audioUrl": "/claude/a-garage-rock-song.mp3",
     "duration": 70,
     "prompt": "a garage rock song"
   },
   {
-    "name": "Smoke & Velvet",
+    "name": "Midnight in Blue",
     "provider": "claude",
     "audioUrl": "/claude/a-jazz-ballad-with-walking-bass.mp3",
     "duration": 70,
     "prompt": "a jazz ballad with walking bass"
   },
   {
-    "name": "Sabor de la Noche",
+    "name": "Calle Caliente",
     "provider": "claude",
     "audioUrl": "/claude/a-latin-salsa-rhythm.mp3",
-    "duration": 61,
+    "duration": 70,
     "prompt": "a latin salsa rhythm"
   },
   {
-    "name": "2AM Instant Noodles",
+    "name": "Midnight Study Session",
     "provider": "claude",
     "audioUrl": "/claude/a-lo-fi-hip-hop-beat.mp3",
     "duration": 70,
     "prompt": "a lo-fi hip hop beat"
   },
   {
-    "name": "Hollow Rooms",
+    "name": "Echoes of Absence",
     "provider": "claude",
     "audioUrl": "/claude/a-lonely-and-isolated-soundscape.mp3",
     "duration": 70,
     "prompt": "a lonely and isolated soundscape"
   },
   {
-    "name": "Goodnight, Static",
+    "name": "Goodnight, Dissolving",
     "provider": "claude",
     "audioUrl": "/claude/a-lullaby-that-slowly-distorts-into-noise.mp3",
     "duration": 70,
     "prompt": "a lullaby that slowly distorts into noise"
   },
   {
-    "name": "Empty Rooms",
+    "name": "Fading Light",
     "provider": "claude",
     "audioUrl": "/claude/a-melancholic-song.mp3",
     "duration": 70,
     "prompt": "a melancholic song"
   },
   {
-    "name": "Pulse Vault",
+    "name": "Nachtschicht",
     "provider": "claude",
     "audioUrl": "/claude/a-minimal-techno-loop.mp3",
     "duration": 70,
     "prompt": "a minimal techno loop"
   },
   {
-    "name": "Polaroid Summer",
+    "name": "Obsidian Descent",
+    "provider": "claude",
+    "audioUrl": "/claude/a-mysterious-and-dark-atmosphere.mp3",
+    "duration": 70,
+    "prompt": "a mysterious and dark atmosphere"
+  },
+  {
+    "name": "Fading Photographs",
     "provider": "claude",
     "audioUrl": "/claude/a-nostalgic-track-that-feels-like-old-memories.mp3",
     "duration": 70,
     "prompt": "a nostalgic track that feels like old memories"
   },
   {
-    "name": "Morning Dew",
+    "name": "Breath of Still Air",
     "provider": "claude",
     "audioUrl": "/claude/a-peaceful-ambient-piece.mp3",
     "duration": 70,
     "prompt": "a peaceful ambient piece"
   },
   {
-    "name": "Pixie Garden",
+    "name": "Tinker's Garden",
     "provider": "claude",
     "audioUrl": "/claude/a-playful-and-whimsical-tune.mp3",
     "duration": 70,
     "prompt": "a playful and whimsical tune"
   },
   {
-    "name": "Dub Pressure",
+    "name": "Dubwise Pressure",
     "provider": "claude",
     "audioUrl": "/claude/a-reggae-dub-track-with-heavy-delay.mp3",
     "duration": 70,
     "prompt": "a reggae dub track with heavy delay"
   },
   {
-    "name": "Closer Still",
+    "name": "Whispered Vows",
     "provider": "claude",
     "audioUrl": "/claude/a-romantic-and-tender-melody.mp3",
     "duration": 70,
@@ -203,123 +217,39 @@
     "prompt": "a serene and meditative track"
   },
   {
-    "name": "Procession of Ash",
+    "name": "Requiem in Grey",
     "provider": "claude",
     "audioUrl": "/claude/a-somber-funeral-march.mp3",
     "duration": 70,
     "prompt": "a somber funeral march"
   },
   {
-    "name": "Tongues of Glass",
+    "name": "Mouth Music",
     "provider": "claude",
     "audioUrl": "/claude/a-song-built-entirely-from-vocal-samples.mp3",
     "duration": 70,
     "prompt": "a song built entirely from vocal samples"
   },
   {
-    "name": "Smoke Break",
-    "provider": "claude",
-    "audioUrl": "/claude/a-song-in-the-style-of-badbadnotgood-merging-jazz-and-hip-ho.mp3",
-    "duration": 70,
-    "prompt": "a song in the style of BADBADNOTGOOD merging jazz and hip-hop"
-  },
-  {
-    "name": "Liquid Mirror",
-    "provider": "claude",
-    "audioUrl": "/claude/a-song-in-the-style-of-caroline-polachek-with-ethereal-art-p.mp3",
-    "duration": 70,
-    "prompt": "a song in the style of Caroline Polachek with ethereal art-pop vocals"
-  },
-  {
-    "name": "Hot Girl Satellite",
-    "provider": "claude",
-    "audioUrl": "/claude/a-song-in-the-style-of-doja-cat-blending-pop-hip-hop-and-ret.mp3",
-    "duration": 70,
-    "prompt": "a song in the style of Doja Cat blending pop, hip hop, and retro sounds"
-  },
-  {
-    "name": "Midnight Confessions",
-    "provider": "claude",
-    "audioUrl": "/claude/a-song-in-the-style-of-drake-with-introspective-rap-and-melo.mp3",
-    "duration": 70,
-    "prompt": "a song in the style of Drake with introspective rap and melodic hooks"
-  },
-  {
-    "name": "Glass Vein",
-    "provider": "claude",
-    "audioUrl": "/claude/a-song-in-the-style-of-fka-twigs-with-experimental-art-pop-e.mp3",
-    "duration": 70,
-    "prompt": "a song in the style of FKA twigs with experimental art pop elements"
-  },
-  {
-    "name": "All I Keep",
-    "provider": "claude",
-    "audioUrl": "/claude/a-song-in-the-style-of-james-blake-with-sparse-emotional-pro.mp3",
-    "duration": 70,
-    "prompt": "a song in the style of James Blake with sparse, emotional production"
-  },
-  {
-    "name": "Never Lackn'",
-    "provider": "claude",
-    "audioUrl": "/claude/a-song-in-the-style-of-jid-with-rapid-fire-clever-lyricism.mp3",
-    "duration": 70,
-    "prompt": "a song in the style of JID with rapid-fire, clever lyricism"
-  },
-  {
-    "name": "One More Chance",
-    "provider": "claude",
-    "audioUrl": "/claude/a-song-in-the-style-of-justin-bieber.mp3",
-    "duration": 70,
-    "prompt": "a song in the style of Justin Bieber"
-  },
-  {
-    "name": "Blood Ledger",
-    "provider": "claude",
-    "audioUrl": "/claude/a-song-in-the-style-of-kendrick-lamar-with-intricate-storyte.mp3",
-    "duration": 70,
-    "prompt": "a song in the style of Kendrick Lamar with intricate storytelling"
-  },
-  {
-    "name": "Dynasty XS",
-    "provider": "claude",
-    "audioUrl": "/claude/a-song-in-the-style-of-rina-sawayama-with-genre-blending-pop.mp3",
-    "duration": 70,
-    "prompt": "a song in the style of Rina Sawayama with genre-blending pop maximalism"
-  },
-  {
-    "name": "Malquerer",
-    "provider": "claude",
-    "audioUrl": "/claude/a-song-in-the-style-of-rosala-blending-flamenco-and-modern-b.mp3",
-    "duration": 70,
-    "prompt": "a song in the style of Rosalía blending flamenco and modern beats"
-  },
-  {
-    "name": "Loop Temple",
-    "provider": "claude",
-    "audioUrl": "/claude/a-song-in-the-style-of-tash-sultana-with-layered-live-loopin.mp3",
-    "duration": 70,
-    "prompt": "a song in the style of Tash Sultana with layered live looping"
-  },
-  {
-    "name": "Goblin Garden",
-    "provider": "claude",
-    "audioUrl": "/claude/a-song-in-the-style-of-tyler-the-creator-with-quirky-product.mp3",
-    "duration": 70,
-    "prompt": "a song in the style of Tyler, The Creator with quirky production"
-  },
-  {
-    "name": "Gospel for No One",
-    "provider": "claude",
-    "audioUrl": "/claude/a-song-in-the-style-of-yves-tumor-with-psychedelic-experimen.mp3",
-    "duration": 70,
-    "prompt": "a song in the style of Yves Tumor with psychedelic experimental rock"
-  },
-  {
-    "name": "Half-Life",
+    "name": "Unraveling",
     "provider": "claude",
     "audioUrl": "/claude/a-song-that-deconstructs-itself-halfway-through.mp3",
     "duration": 70,
     "prompt": "a song that deconstructs itself halfway through"
+  },
+  {
+    "name": "Abyssal Drift",
+    "provider": "claude",
+    "audioUrl": "/claude/a-song-that-feels-like-its-underwater.mp3",
+    "duration": 70,
+    "prompt": "a song that feels like it's underwater"
+  },
+  {
+    "name": "Runaway Clock",
+    "provider": "claude",
+    "audioUrl": "/claude/a-song-that-gradually-speeds-up-over-time.mp3",
+    "duration": 70,
+    "prompt": "a song that gradually speeds up over time"
   },
   {
     "name": "Boot Sequence",
@@ -329,39 +259,67 @@
     "prompt": "a song that sounds like a machine waking up"
   },
   {
-    "name": "Hollow Bones",
+    "name": "Four Winds",
+    "provider": "claude",
+    "audioUrl": "/claude/a-song-that-transitions-through-four-seasons.mp3",
+    "duration": 70,
+    "prompt": "a song that transitions through four seasons"
+  },
+  {
+    "name": "Ritual Grounds",
     "provider": "claude",
     "audioUrl": "/claude/a-song-using-only-percussion-instruments.mp3",
     "duration": 70,
     "prompt": "a song using only percussion instruments"
   },
   {
-    "name": "Bone Dust",
+    "name": "Pulse & Grain",
     "provider": "claude",
     "audioUrl": "/claude/a-song-with-no-melody-just-rhythm-and-texture.mp3",
     "duration": 70,
     "prompt": "a song with no melody just rhythm and texture"
   },
   {
-    "name": "The Crossing",
+    "name": "The Watcher",
     "provider": "claude",
-    "audioUrl": "/claude/a-three-act-story-told-through-music.mp3",
+    "audioUrl": "/claude/a-suspenseful-and-eerie-track.mp3",
     "duration": 70,
-    "prompt": "a three-act story told through music"
+    "prompt": "a suspenseful and eerie track"
   },
   {
-    "name": "Concrete Baptism",
+    "name": "Midnight Chrome",
+    "provider": "claude",
+    "audioUrl": "/claude/a-synthwave-retro-track.mp3",
+    "duration": 70,
+    "prompt": "a synthwave retro track"
+  },
+  {
+    "name": "808 Murk",
     "provider": "claude",
     "audioUrl": "/claude/a-trap-beat-with-heavy-808s.mp3",
     "duration": 70,
     "prompt": "a trap beat with heavy 808s"
   },
   {
-    "name": "Crown of Glory",
+    "name": "Rise Victorious",
     "provider": "claude",
     "audioUrl": "/claude/a-triumphant-and-victorious-anthem.mp3",
     "duration": 70,
     "prompt": "a triumphant and victorious anthem"
+  },
+  {
+    "name": "Raindrops on Glass",
+    "provider": "claude",
+    "audioUrl": "/claude/a-warm-and-cozy-song-for-a-rainy-day.mp3",
+    "duration": 70,
+    "prompt": "a warm and cozy song for a rainy day"
+  },
+  {
+    "name": "Pixel Quest",
+    "provider": "claude",
+    "audioUrl": "/claude/an-8-bit-chiptune-adventure-theme.mp3",
+    "duration": 70,
+    "prompt": "an 8-bit chiptune adventure theme"
   },
   {
     "name": "Skull Crusher",
@@ -371,39 +329,39 @@
     "prompt": "an aggressive and intense beat"
   },
   {
-    "name": "Tectonic Breath",
+    "name": "Abyssal Light",
     "provider": "claude",
     "audioUrl": "/claude/an-ambient-drone-piece.mp3",
     "duration": 70,
     "prompt": "an ambient drone piece"
   },
   {
-    "name": "Cortisol",
+    "name": "Paranoia",
     "provider": "claude",
     "audioUrl": "/claude/an-anxious-and-tense-composition.mp3",
     "duration": 70,
     "prompt": "an anxious and tense composition"
   },
   {
-    "name": "3AM Pages",
+    "name": "Solar Rise",
+    "provider": "claude",
+    "audioUrl": "/claude/an-uplifting-energetic-track.mp3",
+    "duration": 70,
+    "prompt": "an uplifting energetic track"
+  },
+  {
+    "name": "Late Night Pages",
     "provider": "claude",
     "audioUrl": "/claude/background-music-for-studying-late-at-night.mp3",
     "duration": 70,
     "prompt": "background music for studying late at night"
   },
   {
-    "name": "Conversation",
+    "name": "Two Tongues",
     "provider": "claude",
     "audioUrl": "/claude/call-and-response-between-two-melodic-voices.mp3",
     "duration": 70,
     "prompt": "call and response between two melodic voices"
-  },
-  {
-    "name": "Emergent Patterns",
-    "provider": "claude",
-    "audioUrl": "/claude/generative-music-that-evolves-with-randomness.mp3",
-    "duration": 70,
-    "prompt": "generative music that evolves with randomness"
   },
   {
     "name": "Segfault Serenade",
@@ -413,14 +371,14 @@
     "prompt": "glitchy and broken digital artifacts as music"
   },
   {
-    "name": "The Gathering",
+    "name": "The Grand Ascent",
     "provider": "claude",
     "audioUrl": "/claude/layers-that-enter-one-by-one-until-full-orchestra.mp3",
     "duration": 70,
     "prompt": "layers that enter one by one until full orchestra"
   },
   {
-    "name": "Still Turning",
+    "name": "Phase Study No. 1",
     "provider": "claude",
     "audioUrl": "/claude/minimalist-repetition-with-subtle-variations.mp3",
     "duration": 70,
@@ -434,42 +392,21 @@
     "prompt": "music for a midnight train ride"
   },
   {
-    "name": "Fogged Glass",
-    "provider": "claude",
-    "audioUrl": "/claude/music-for-a-rainy-window-coffee-shop.mp3",
-    "duration": 70,
-    "prompt": "music for a rainy window coffee shop"
-  },
-  {
-    "name": "Concrete Paradise",
-    "provider": "claude",
-    "audioUrl": "/claude/music-for-a-skateboard-montage.mp3",
-    "duration": 70,
-    "prompt": "music for a skateboard montage"
-  },
-  {
-    "name": "Souk at Noon",
+    "name": "Souk at Sundown",
     "provider": "claude",
     "audioUrl": "/claude/music-for-a-street-market-in-a-foreign-city.mp3",
     "duration": 70,
     "prompt": "music for a street market in a foreign city"
   },
   {
-    "name": "Amber Tide",
-    "provider": "claude",
-    "audioUrl": "/claude/music-for-a-sunrise-on-the-beach.mp3",
-    "duration": 70,
-    "prompt": "music for a sunrise on the beach"
-  },
-  {
-    "name": "Skyline Glow",
+    "name": "Amber Skyline",
     "provider": "claude",
     "audioUrl": "/claude/music-for-a-sunset-rooftop-party.mp3",
     "duration": 70,
     "prompt": "music for a sunset rooftop party"
   },
   {
-    "name": "Mise en Place",
+    "name": "Simmering Thoughts",
     "provider": "claude",
     "audioUrl": "/claude/music-for-cooking-dinner-alone.mp3",
     "duration": 70,
@@ -483,21 +420,21 @@
     "prompt": "music for floating in zero gravity"
   },
   {
-    "name": "Duvet Fog",
+    "name": "Sunday Morning Light",
     "provider": "claude",
     "audioUrl": "/claude/music-for-waking-up-on-a-lazy-sunday.mp3",
     "duration": 70,
     "prompt": "music for waking up on a lazy sunday"
   },
   {
-    "name": "Moss & Canopy",
+    "name": "Canopy Walk",
     "provider": "claude",
     "audioUrl": "/claude/music-for-walking-through-a-forest.mp3",
     "duration": 70,
     "prompt": "music for walking through a forest"
   },
   {
-    "name": "Palindrome",
+    "name": "Temporal Inversion",
     "provider": "claude",
     "audioUrl": "/claude/music-made-from-reversed-and-pitch-shifted-sounds.mp3",
     "duration": 70,
@@ -511,42 +448,42 @@
     "prompt": "polyrhythmic patterns in five against four"
   },
   {
-    "name": "Burnout Protocol",
+    "name": "Asphalt Fury",
     "provider": "claude",
     "audioUrl": "/claude/soundtrack-for-a-car-chase-scene.mp3",
     "duration": 70,
     "prompt": "soundtrack for a car chase scene"
   },
   {
-    "name": "Clean Getaway",
+    "name": "The Score",
     "provider": "claude",
     "audioUrl": "/claude/soundtrack-for-a-heist-movie.mp3",
     "duration": 70,
     "prompt": "soundtrack for a heist movie"
   },
   {
-    "name": "Quarter Muncher",
+    "name": "Coin Rush",
     "provider": "claude",
     "audioUrl": "/claude/soundtrack-for-a-retro-arcade.mp3",
     "duration": 70,
     "prompt": "soundtrack for a retro arcade"
   },
   {
-    "name": "Genesis Protocol",
+    "name": "Awakening Protocol",
     "provider": "claude",
     "audioUrl": "/claude/soundtrack-for-a-robot-coming-to-life.mp3",
     "duration": 70,
     "prompt": "soundtrack for a robot coming to life"
   },
   {
-    "name": "First Snow",
+    "name": "City Snow",
     "provider": "claude",
     "audioUrl": "/claude/soundtrack-for-a-snowfall-in-the-city.mp3",
     "duration": 70,
     "prompt": "soundtrack for a snowfall in the city"
   },
   {
-    "name": "Shadows on the Wall",
+    "name": "The Projectionist's Waltz",
     "provider": "claude",
     "audioUrl": "/claude/soundtrack-for-an-old-silent-film.mp3",
     "duration": 70,
@@ -560,340 +497,263 @@
     "prompt": "soundtrack for an underwater adventure"
   },
   {
-    "name": "Aurora Veil",
-    "provider": "claude",
-    "audioUrl": "/claude/soundtrack-for-watching-the-northern-lights.mp3",
-    "duration": 70,
-    "prompt": "soundtrack for watching the northern lights"
-  },
-  {
-    "name": "Parallel Lives",
+    "name": "Parallel Worlds",
     "provider": "claude",
     "audioUrl": "/claude/two-songs-playing-simultaneously-that-harmonize.mp3",
     "duration": 70,
     "prompt": "two songs playing simultaneously that harmonize"
   },
   {
-    "name": "Last Light on the Platform",
+    "name": "Last Train Goodbye",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/a-bittersweet-song-about-endings.mp3",
     "duration": 70,
     "prompt": "a bittersweet song about endings"
   },
   {
-    "name": "Rust Belt Shuffle",
+    "name": "Smoke On Seventh Street",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/a-blues-shuffle-with-gritty-guitar.mp3",
     "duration": 70,
     "prompt": "a blues shuffle with gritty guitar"
   },
   {
-    "name": "Saudade Pulse",
+    "name": "Luz de Varanda",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/a-bossa-nova-track.mp3",
     "duration": 70,
     "prompt": "a bossa nova track"
   },
   {
-    "name": "Razor Tape",
+    "name": "Dustline Cut-Up",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/a-breakbeat-with-chopped-samples.mp3",
     "duration": 70,
     "prompt": "a breakbeat with chopped samples"
   },
   {
-    "name": "Lemonade Drift",
+    "name": "Passing Lanterns",
+    "provider": "chatgpt",
+    "audioUrl": "/chatgpt/a-canon-where-the-same-melody-echoes-with-delay.mp3",
+    "duration": 70,
+    "prompt": "a canon where the same melody echoes with delay"
+  },
+  {
+    "name": "Sun Soda",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/a-carefree-summer-vibe.mp3",
     "duration": 70,
     "prompt": "a carefree summer vibe"
   },
   {
-    "name": "Fractured Pulse",
-    "provider": "chatgpt",
-    "audioUrl": "/chatgpt/a-chaotic-and-unpredictable-piece.mp3",
-    "duration": 70,
-    "prompt": "a chaotic and unpredictable piece"
-  },
-  {
-    "name": "Blue Danube Shadows",
+    "name": "Blue Salon Waltz",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/a-classical-waltz-in-three-four-time.mp3",
     "duration": 70,
     "prompt": "a classical waltz in three-four time"
   },
   {
-    "name": "Call and Answer",
+    "name": "Keys in Reply",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/a-conversation-between-piano-and-drums.mp3",
     "duration": 70,
     "prompt": "a conversation between piano and drums"
   },
   {
-    "name": "Front Porch Dust",
+    "name": "Fencepost Hymn",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/a-country-folk-song-with-acoustic-guitar.mp3",
     "duration": 70,
     "prompt": "a country folk song with acoustic guitar"
   },
   {
-    "name": "Neon Roller",
+    "name": "Blue Hour Pressure",
+    "provider": "chatgpt",
+    "audioUrl": "/chatgpt/a-deep-house-track-with-a-four-on-the-floor-kick.mp3",
+    "duration": 70,
+    "prompt": "a deep house track with a four on the floor kick"
+  },
+  {
+    "name": "Mirrorball Fever",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/a-disco-track-with-groovy-bassline.mp3",
     "duration": 70,
     "prompt": "a disco track with groovy bassline"
   },
   {
-    "name": "Tar Smoke Lullaby",
+    "name": "Blue Smoke Delay",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/a-downtempo-trip-hop-beat.mp3",
     "duration": 70,
     "prompt": "a downtempo trip hop beat"
   },
   {
-    "name": "Moonmist",
+    "name": "Noctilucent Veil",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/a-dreamy-and-ethereal-song.mp3",
     "duration": 70,
     "prompt": "a dreamy and ethereal song"
   },
   {
-    "name": "Roller Pressure",
+    "name": "Nightbus Roller",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/a-drum-and-bass-roller.mp3",
     "duration": 70,
     "prompt": "a drum and bass roller"
   },
   {
-    "name": "Euphoria Surge",
+    "name": "Skybreak Rapture",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/a-euphoric-and-ecstatic-dance-track.mp3",
     "duration": 70,
     "prompt": "a euphoric and ecstatic dance track"
   },
   {
-    "name": "Thumb & Pocket",
+    "name": "Thumbprint Heat",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/a-funk-groove-with-slap-bass.mp3",
     "duration": 70,
     "prompt": "a funk groove with slap bass"
   },
   {
-    "name": "Greasefire",
+    "name": "Alleyway Ignition",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/a-garage-rock-song.mp3",
     "duration": 70,
     "prompt": "a garage rock song"
   },
   {
-    "name": "Blue Street Lanterns",
+    "name": "Midnight Steps",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/a-jazz-ballad-with-walking-bass.mp3",
     "duration": 70,
     "prompt": "a jazz ballad with walking bass"
   },
   {
-    "name": "Barrio Candela",
+    "name": "Barrio de Candela",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/a-latin-salsa-rhythm.mp3",
     "duration": 70,
     "prompt": "a latin salsa rhythm"
   },
   {
-    "name": "Dust Tape Reverie",
+    "name": "Tape Dust Reverie",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/a-lo-fi-hip-hop-beat.mp3",
     "duration": 70,
     "prompt": "a lo-fi hip hop beat"
   },
   {
-    "name": "Cold Room Echo",
+    "name": "Solitary Window",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/a-lonely-and-isolated-soundscape.mp3",
     "duration": 70,
     "prompt": "a lonely and isolated soundscape"
   },
   {
-    "name": "Cradle Static",
+    "name": "Quiet Static",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/a-lullaby-that-slowly-distorts-into-noise.mp3",
     "duration": 70,
     "prompt": "a lullaby that slowly distorts into noise"
   },
   {
-    "name": "Ash Over Water",
+    "name": "Ash Tide",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/a-melancholic-song.mp3",
     "duration": 70,
     "prompt": "a melancholic song"
   },
   {
-    "name": "Quartz Loop",
+    "name": "Concrete Circuit",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/a-minimal-techno-loop.mp3",
     "duration": 70,
     "prompt": "a minimal techno loop"
   },
   {
-    "name": "Dusty Polaroids",
+    "name": "Black Veil Engine",
+    "provider": "chatgpt",
+    "audioUrl": "/chatgpt/a-mysterious-and-dark-atmosphere.mp3",
+    "duration": 70,
+    "prompt": "a mysterious and dark atmosphere"
+  },
+  {
+    "name": "Polaroids in Rain",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/a-nostalgic-track-that-feels-like-old-memories.mp3",
     "duration": 70,
     "prompt": "a nostalgic track that feels like old memories"
   },
   {
-    "name": "Still Water",
+    "name": "Still Water Rooms",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/a-peaceful-ambient-piece.mp3",
     "duration": 70,
     "prompt": "a peaceful ambient piece"
   },
   {
-    "name": "Clockwork Kites",
+    "name": "Clockwork Confetti",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/a-playful-and-whimsical-tune.mp3",
     "duration": 70,
     "prompt": "a playful and whimsical tune"
   },
   {
-    "name": "Concrete River Dub",
+    "name": "Kingston Smoke",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/a-reggae-dub-track-with-heavy-delay.mp3",
     "duration": 70,
     "prompt": "a reggae dub track with heavy delay"
   },
   {
-    "name": "Velvet Promise",
+    "name": "Velvet Letters",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/a-romantic-and-tender-melody.mp3",
     "duration": 70,
     "prompt": "a romantic and tender melody"
   },
   {
-    "name": "Still Water Breath",
+    "name": "Still Water Breathing",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/a-serene-and-meditative-track.mp3",
     "duration": 70,
     "prompt": "a serene and meditative track"
   },
   {
-    "name": "Black Procession",
+    "name": "Ashes in Procession",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/a-somber-funeral-march.mp3",
     "duration": 70,
     "prompt": "a somber funeral march"
   },
   {
-    "name": "Cipher Choir",
+    "name": "Tongues In Neon",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/a-song-built-entirely-from-vocal-samples.mp3",
     "duration": 70,
     "prompt": "a song built entirely from vocal samples"
   },
   {
-    "name": "Midnight Ink",
-    "provider": "chatgpt",
-    "audioUrl": "/chatgpt/a-song-in-the-style-of-badbadnotgood-merging-jazz-and-hip-ho.mp3",
-    "duration": 70,
-    "prompt": "a song in the style of BADBADNOTGOOD merging jazz and hip-hop"
-  },
-  {
-    "name": "Glass Orbit",
-    "provider": "chatgpt",
-    "audioUrl": "/chatgpt/a-song-in-the-style-of-caroline-polachek-with-ethereal-art-p.mp3",
-    "duration": 70,
-    "prompt": "a song in the style of Caroline Polachek with ethereal art-pop vocals"
-  },
-  {
-    "name": "Velvet Arcade",
-    "provider": "chatgpt",
-    "audioUrl": "/chatgpt/a-song-in-the-style-of-doja-cat-blending-pop-hip-hop-and-ret.mp3",
-    "duration": 70,
-    "prompt": "a song in the style of Doja Cat blending pop, hip hop, and retro sounds"
-  },
-  {
-    "name": "Midnight Voicemail",
-    "provider": "chatgpt",
-    "audioUrl": "/chatgpt/a-song-in-the-style-of-drake-with-introspective-rap-and-melo.mp3",
-    "duration": 70,
-    "prompt": "a song in the style of Drake with introspective rap and melodic hooks"
-  },
-  {
-    "name": "Glass Veins",
-    "provider": "chatgpt",
-    "audioUrl": "/chatgpt/a-song-in-the-style-of-fka-twigs-with-experimental-art-pop-e.mp3",
-    "duration": 70,
-    "prompt": "a song in the style of FKA twigs with experimental art pop elements"
-  },
-  {
-    "name": "Fractured Blue",
-    "provider": "chatgpt",
-    "audioUrl": "/chatgpt/a-song-in-the-style-of-james-blake-with-sparse-emotional-pro.mp3",
-    "duration": 70,
-    "prompt": "a song in the style of James Blake with sparse, emotional production"
-  },
-  {
-    "name": "Switchblade Syllables",
-    "provider": "chatgpt",
-    "audioUrl": "/chatgpt/a-song-in-the-style-of-jid-with-rapid-fire-clever-lyricism.mp3",
-    "duration": 70,
-    "prompt": "a song in the style of JID with rapid-fire, clever lyricism"
-  },
-  {
-    "name": "Neon Apology",
-    "provider": "chatgpt",
-    "audioUrl": "/chatgpt/a-song-in-the-style-of-justin-bieber.mp3",
-    "duration": 70,
-    "prompt": "a song in the style of Justin Bieber"
-  },
-  {
-    "name": "good kid, city scars",
-    "provider": "chatgpt",
-    "audioUrl": "/chatgpt/a-song-in-the-style-of-kendrick-lamar-with-intricate-storyte.mp3",
-    "duration": 70,
-    "prompt": "a song in the style of Kendrick Lamar with intricate storytelling"
-  },
-  {
-    "name": "Chrome Heart Riot",
-    "provider": "chatgpt",
-    "audioUrl": "/chatgpt/a-song-in-the-style-of-rina-sawayama-with-genre-blending-pop.mp3",
-    "duration": 70,
-    "prompt": "a song in the style of Rina Sawayama with genre-blending pop maximalism"
-  },
-  {
-    "name": "Luna de Acero",
-    "provider": "chatgpt",
-    "audioUrl": "/chatgpt/a-song-in-the-style-of-rosala-blending-flamenco-and-modern-b.mp3",
-    "duration": 70,
-    "prompt": "a song in the style of Rosalía blending flamenco and modern beats"
-  },
-  {
-    "name": "One-Man Loop Bloom",
-    "provider": "chatgpt",
-    "audioUrl": "/chatgpt/a-song-in-the-style-of-tash-sultana-with-layered-live-loopin.mp3",
-    "duration": 70,
-    "prompt": "a song in the style of Tash Sultana with layered live looping"
-  },
-  {
-    "name": "Neon Goblin",
-    "provider": "chatgpt",
-    "audioUrl": "/chatgpt/a-song-in-the-style-of-tyler-the-creator-with-quirky-product.mp3",
-    "duration": 70,
-    "prompt": "a song in the style of Tyler, The Creator with quirky production"
-  },
-  {
-    "name": "Neon Halo Wreck",
-    "provider": "chatgpt",
-    "audioUrl": "/chatgpt/a-song-in-the-style-of-yves-tumor-with-psychedelic-experimen.mp3",
-    "duration": 70,
-    "prompt": "a song in the style of Yves Tumor with psychedelic experimental rock"
-  },
-  {
-    "name": "Entropy Bloom",
+    "name": "Half-Remembered Hook",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/a-song-that-deconstructs-itself-halfway-through.mp3",
     "duration": 70,
     "prompt": "a song that deconstructs itself halfway through"
+  },
+  {
+    "name": "Pressure Bloom",
+    "provider": "chatgpt",
+    "audioUrl": "/chatgpt/a-song-that-feels-like-its-underwater.mp3",
+    "duration": 70,
+    "prompt": "a song that feels like it's underwater"
+  },
+  {
+    "name": "Runaway Clock",
+    "provider": "chatgpt",
+    "audioUrl": "/chatgpt/a-song-that-gradually-speeds-up-over-time.mp3",
+    "duration": 70,
+    "prompt": "a song that gradually speeds up over time"
   },
   {
     "name": "Cold Boot Ritual",
@@ -903,294 +763,294 @@
     "prompt": "a song that sounds like a machine waking up"
   },
   {
-    "name": "Skin and Steel",
+    "name": "Solstice Carousel",
+    "provider": "chatgpt",
+    "audioUrl": "/chatgpt/a-song-that-transitions-through-four-seasons.mp3",
+    "duration": 70,
+    "prompt": "a song that transitions through four seasons"
+  },
+  {
+    "name": "Hide and Hammer",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/a-song-using-only-percussion-instruments.mp3",
     "duration": 70,
     "prompt": "a song using only percussion instruments"
   },
   {
-    "name": "Rust Pulse",
+    "name": "Friction Ritual",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/a-song-with-no-melody-just-rhythm-and-texture.mp3",
     "duration": 70,
     "prompt": "a song with no melody just rhythm and texture"
   },
   {
-    "name": "Triptych of Sparks",
+    "name": "Cold Hallway Signal",
     "provider": "chatgpt",
-    "audioUrl": "/chatgpt/a-three-act-story-told-through-music.mp3",
+    "audioUrl": "/chatgpt/a-suspenseful-and-eerie-track.mp3",
     "duration": 70,
-    "prompt": "a three-act story told through music"
+    "prompt": "a suspenseful and eerie track"
   },
   {
-    "name": "Subway Crown",
+    "name": "Neon Afterimage",
+    "provider": "chatgpt",
+    "audioUrl": "/chatgpt/a-synthwave-retro-track.mp3",
+    "duration": 70,
+    "prompt": "a synthwave retro track"
+  },
+  {
+    "name": "Trunkline Pressure",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/a-trap-beat-with-heavy-808s.mp3",
     "duration": 70,
     "prompt": "a trap beat with heavy 808s"
   },
   {
-    "name": "Banner of Dawn",
+    "name": "Crown of Dawn",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/a-triumphant-and-victorious-anthem.mp3",
     "duration": 70,
     "prompt": "a triumphant and victorious anthem"
   },
   {
-    "name": "Riot Pulse",
+    "name": "Lamp by the Window",
+    "provider": "chatgpt",
+    "audioUrl": "/chatgpt/a-warm-and-cozy-song-for-a-rainy-day.mp3",
+    "duration": 70,
+    "prompt": "a warm and cozy song for a rainy day"
+  },
+  {
+    "name": "Pixel Quest",
+    "provider": "chatgpt",
+    "audioUrl": "/chatgpt/an-8-bit-chiptune-adventure-theme.mp3",
+    "duration": 70,
+    "prompt": "an 8-bit chiptune adventure theme"
+  },
+  {
+    "name": "Riot Pressure",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/an-aggressive-and-intense-beat.mp3",
     "duration": 70,
     "prompt": "an aggressive and intense beat"
   },
   {
-    "name": "Fogbound Monolith",
+    "name": "Tidal Fog",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/an-ambient-drone-piece.mp3",
     "duration": 70,
     "prompt": "an ambient drone piece"
   },
   {
-    "name": "Nervewire",
+    "name": "Pulse Under Glass",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/an-anxious-and-tense-composition.mp3",
     "duration": 70,
     "prompt": "an anxious and tense composition"
   },
   {
-    "name": "Neon Notebook",
+    "name": "Skybound Sprint",
+    "provider": "chatgpt",
+    "audioUrl": "/chatgpt/an-uplifting-energetic-track.mp3",
+    "duration": 70,
+    "prompt": "an uplifting energetic track"
+  },
+  {
+    "name": "Afterhours Margins",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/background-music-for-studying-late-at-night.mp3",
     "duration": 70,
     "prompt": "background music for studying late at night"
   },
   {
-    "name": "Mirrored Lanterns",
+    "name": "Across the Hall",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/call-and-response-between-two-melodic-voices.mp3",
     "duration": 70,
     "prompt": "call and response between two melodic voices"
   },
   {
-    "name": "Entropy Bloom",
-    "provider": "chatgpt",
-    "audioUrl": "/chatgpt/generative-music-that-evolves-with-randomness.mp3",
-    "duration": 70,
-    "prompt": "generative music that evolves with randomness"
-  },
-  {
-    "name": "CRC Tearline",
+    "name": "Checksum Ghosts",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/glitchy-and-broken-digital-artifacts-as-music.mp3",
     "duration": 70,
     "prompt": "glitchy and broken digital artifacts as music"
   },
   {
-    "name": "Conductor of Shadows",
+    "name": "Ascending Hall",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/layers-that-enter-one-by-one-until-full-orchestra.mp3",
     "duration": 70,
     "prompt": "layers that enter one by one until full orchestra"
   },
   {
-    "name": "Glass Loop Drift",
+    "name": "Small Differences",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/minimalist-repetition-with-subtle-variations.mp3",
     "duration": 70,
     "prompt": "minimalist repetition with subtle variations"
   },
   {
-    "name": "Midnight Rail",
+    "name": "Sleeper Window",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/music-for-a-midnight-train-ride.mp3",
     "duration": 70,
     "prompt": "music for a midnight train ride"
   },
   {
-    "name": "Rain on Glass",
-    "provider": "chatgpt",
-    "audioUrl": "/chatgpt/music-for-a-rainy-window-coffee-shop.mp3",
-    "duration": 70,
-    "prompt": "music for a rainy window coffee shop"
-  },
-  {
-    "name": "Kickflip Heatwave",
-    "provider": "chatgpt",
-    "audioUrl": "/chatgpt/music-for-a-skateboard-montage.mp3",
-    "duration": 70,
-    "prompt": "music for a skateboard montage"
-  },
-  {
-    "name": "Bazaar After Rain",
+    "name": "Lantern Bargain",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/music-for-a-street-market-in-a-foreign-city.mp3",
     "duration": 70,
     "prompt": "music for a street market in a foreign city"
   },
   {
-    "name": "First Light Tide",
-    "provider": "chatgpt",
-    "audioUrl": "/chatgpt/music-for-a-sunrise-on-the-beach.mp3",
-    "duration": 70,
-    "prompt": "music for a sunrise on the beach"
-  },
-  {
-    "name": "Sunset Glass",
+    "name": "Golden Hour Lift",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/music-for-a-sunset-rooftop-party.mp3",
     "duration": 70,
     "prompt": "music for a sunset rooftop party"
   },
   {
-    "name": "One Pan Twilight",
+    "name": "Kitchen Light",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/music-for-cooking-dinner-alone.mp3",
     "duration": 70,
     "prompt": "music for cooking dinner alone"
   },
   {
-    "name": "Orbital Drift",
+    "name": "Drift Halo",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/music-for-floating-in-zero-gravity.mp3",
     "duration": 70,
     "prompt": "music for floating in zero gravity"
   },
   {
-    "name": "Soft Alarm Sunlight",
+    "name": "Curtains Half Open",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/music-for-waking-up-on-a-lazy-sunday.mp3",
     "duration": 70,
     "prompt": "music for waking up on a lazy sunday"
   },
   {
-    "name": "Moss Path",
+    "name": "Under Cedar Steps",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/music-for-walking-through-a-forest.mp3",
     "duration": 70,
     "prompt": "music for walking through a forest"
   },
   {
-    "name": "Backmask Mirage",
+    "name": "Retrograde Bloom",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/music-made-from-reversed-and-pitch-shifted-sounds.mp3",
     "duration": 70,
     "prompt": "music made from reversed and pitch-shifted sounds"
   },
   {
-    "name": "Five/Four Friction",
+    "name": "Five In The Frame",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/polyrhythmic-patterns-in-five-against-four.mp3",
     "duration": 70,
     "prompt": "polyrhythmic patterns in five against four"
   },
   {
-    "name": "Redline Pulse",
+    "name": "Redline Escape",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/soundtrack-for-a-car-chase-scene.mp3",
     "duration": 70,
     "prompt": "soundtrack for a car chase scene"
   },
   {
-    "name": "Blueprint in Neon",
+    "name": "Midnight Safecracker",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/soundtrack-for-a-heist-movie.mp3",
     "duration": 70,
     "prompt": "soundtrack for a heist movie"
   },
   {
-    "name": "Insert Coin Overdrive",
+    "name": "1UP Fever",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/soundtrack-for-a-retro-arcade.mp3",
     "duration": 70,
     "prompt": "soundtrack for a retro arcade"
   },
   {
-    "name": "Boot Sequence Heartbeat",
+    "name": "Servo Dawn",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/soundtrack-for-a-robot-coming-to-life.mp3",
     "duration": 70,
     "prompt": "soundtrack for a robot coming to life"
   },
   {
-    "name": "City Snowfall Score",
+    "name": "Snowlit Crosswalks",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/soundtrack-for-a-snowfall-in-the-city.mp3",
     "duration": 70,
     "prompt": "soundtrack for a snowfall in the city"
   },
   {
-    "name": "Flicker Reels",
+    "name": "Flicker Palace",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/soundtrack-for-an-old-silent-film.mp3",
     "duration": 70,
     "prompt": "soundtrack for an old silent film"
   },
   {
-    "name": "Abyssal Drift",
+    "name": "Abyssal Lanterns",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/soundtrack-for-an-underwater-adventure.mp3",
     "duration": 70,
     "prompt": "soundtrack for an underwater adventure"
   },
   {
-    "name": "Aurora Drift",
-    "provider": "chatgpt",
-    "audioUrl": "/chatgpt/soundtrack-for-watching-the-northern-lights.mp3",
-    "duration": 70,
-    "prompt": "soundtrack for watching the northern lights"
-  },
-  {
-    "name": "Parallel Hearts",
+    "name": "Split-Screen Hearts",
     "provider": "chatgpt",
     "audioUrl": "/chatgpt/two-songs-playing-simultaneously-that-harmonize.mp3",
     "duration": 70,
     "prompt": "two songs playing simultaneously that harmonize"
   },
   {
-    "name": "The Last Echo",
+    "name": "Final Sunset",
     "provider": "gemini",
     "audioUrl": "/gemini/a-bittersweet-song-about-endings.mp3",
     "duration": 70,
     "prompt": "a bittersweet song about endings"
   },
   {
-    "name": "Gritty Delta Shuffle",
+    "name": "Rusty Fender Shuffle",
     "provider": "gemini",
     "audioUrl": "/gemini/a-blues-shuffle-with-gritty-guitar.mp3",
     "duration": 70,
     "prompt": "a blues shuffle with gritty guitar"
   },
   {
-    "name": "Bossa de Bit",
+    "name": "Copacabana Drift",
     "provider": "gemini",
     "audioUrl": "/gemini/a-bossa-nova-track.mp3",
     "duration": 70,
     "prompt": "a bossa nova track"
   },
   {
-    "name": "Fractured Breaks",
+    "name": "Fractured Pulse",
     "provider": "gemini",
     "audioUrl": "/gemini/a-breakbeat-with-chopped-samples.mp3",
     "duration": 70,
     "prompt": "a breakbeat with chopped samples"
   },
   {
-    "name": "Golden Hour",
+    "name": "Recursive Echoes",
+    "provider": "gemini",
+    "audioUrl": "/gemini/a-canon-where-the-same-melody-echoes-with-delay.mp3",
+    "duration": 70,
+    "prompt": "a canon where the same melody echoes with delay"
+  },
+  {
+    "name": "Azure Breeze",
     "provider": "gemini",
     "audioUrl": "/gemini/a-carefree-summer-vibe.mp3",
     "duration": 70,
     "prompt": "a carefree summer vibe"
   },
   {
-    "name": "Entropic Drift",
-    "provider": "gemini",
-    "audioUrl": "/gemini/a-chaotic-and-unpredictable-piece.mp3",
-    "duration": 70,
-    "prompt": "a chaotic and unpredictable piece"
-  },
-  {
-    "name": "Grand Vienna Waltz",
+    "name": "Vienna Gold",
     "provider": "gemini",
     "audioUrl": "/gemini/a-classical-waltz-in-three-four-time.mp3",
     "duration": 70,
@@ -1204,511 +1064,448 @@
     "prompt": "a conversation between piano and drums"
   },
   {
-    "name": "Dusty Boots",
+    "name": "Autumn Valley",
     "provider": "gemini",
     "audioUrl": "/gemini/a-country-folk-song-with-acoustic-guitar.mp3",
     "duration": 70,
     "prompt": "a country folk song with acoustic guitar"
   },
   {
-    "name": "Electric Disco",
+    "name": "Midnight Velocity",
+    "provider": "gemini",
+    "audioUrl": "/gemini/a-deep-house-track-with-a-four-on-the-floor-kick.mp3",
+    "duration": 70,
+    "prompt": "a deep house track with a four on the floor kick"
+  },
+  {
+    "name": "Velvet Skyline",
     "provider": "gemini",
     "audioUrl": "/gemini/a-disco-track-with-groovy-bassline.mp3",
     "duration": 70,
     "prompt": "a disco track with groovy bassline"
   },
   {
-    "name": "Midnight Dust",
+    "name": "Midnight Haze",
     "provider": "gemini",
     "audioUrl": "/gemini/a-downtempo-trip-hop-beat.mp3",
     "duration": 70,
     "prompt": "a downtempo trip hop beat"
   },
   {
-    "name": "Luminous Drift",
+    "name": "Nebula Sigh",
     "provider": "gemini",
     "audioUrl": "/gemini/a-dreamy-and-ethereal-song.mp3",
     "duration": 70,
     "prompt": "a dreamy and ethereal song"
   },
   {
-    "name": "Iron Current",
+    "name": "Velocity Roller",
     "provider": "gemini",
     "audioUrl": "/gemini/a-drum-and-bass-roller.mp3",
     "duration": 70,
     "prompt": "a drum and bass roller"
   },
   {
-    "name": "Ecstatic Radiance",
+    "name": "Aura of Ecstasy",
     "provider": "gemini",
     "audioUrl": "/gemini/a-euphoric-and-ecstatic-dance-track.mp3",
     "duration": 70,
     "prompt": "a euphoric and ecstatic dance track"
   },
   {
-    "name": "Slapback Groove",
+    "name": "Thump & Pop",
     "provider": "gemini",
     "audioUrl": "/gemini/a-funk-groove-with-slap-bass.mp3",
     "duration": 70,
     "prompt": "a funk groove with slap bass"
   },
   {
-    "name": "Blue Hour",
+    "name": "Rusty Transmission",
+    "provider": "gemini",
+    "audioUrl": "/gemini/a-garage-rock-song.mp3",
+    "duration": 70,
+    "prompt": "a garage rock song"
+  },
+  {
+    "name": "Velvet Dusk",
     "provider": "gemini",
     "audioUrl": "/gemini/a-jazz-ballad-with-walking-bass.mp3",
     "duration": 70,
     "prompt": "a jazz ballad with walking bass"
   },
   {
-    "name": "Salsa de la Calle",
+    "name": "Ritmo de Salsa",
     "provider": "gemini",
     "audioUrl": "/gemini/a-latin-salsa-rhythm.mp3",
     "duration": 70,
     "prompt": "a latin salsa rhythm"
   },
   {
-    "name": "Midnight Dust",
+    "name": "Midnight Coffee",
     "provider": "gemini",
     "audioUrl": "/gemini/a-lo-fi-hip-hop-beat.mp3",
     "duration": 70,
     "prompt": "a lo-fi hip hop beat"
   },
   {
-    "name": "Desolate Horizon",
+    "name": "The Hollow Reach",
     "provider": "gemini",
     "audioUrl": "/gemini/a-lonely-and-isolated-soundscape.mp3",
     "duration": 70,
     "prompt": "a lonely and isolated soundscape"
   },
   {
-    "name": "Fractured Lullaby",
+    "name": "Fractured Sleep",
     "provider": "gemini",
     "audioUrl": "/gemini/a-lullaby-that-slowly-distorts-into-noise.mp3",
     "duration": 70,
     "prompt": "a lullaby that slowly distorts into noise"
   },
   {
-    "name": "The Weight of Silence",
+    "name": "Echoes of a Long Gone Autumn",
     "provider": "gemini",
     "audioUrl": "/gemini/a-melancholic-song.mp3",
     "duration": 70,
     "prompt": "a melancholic song"
   },
   {
-    "name": "Silicon Pulse",
+    "name": "Static Drift",
     "provider": "gemini",
     "audioUrl": "/gemini/a-minimal-techno-loop.mp3",
     "duration": 70,
     "prompt": "a minimal techno loop"
   },
   {
-    "name": "Echoes of a Polaroid",
+    "name": "Echoes of the Void",
+    "provider": "gemini",
+    "audioUrl": "/gemini/a-mysterious-and-dark-atmosphere.mp3",
+    "duration": 70,
+    "prompt": "a mysterious and dark atmosphere"
+  },
+  {
+    "name": "Faded Polaroid",
     "provider": "gemini",
     "audioUrl": "/gemini/a-nostalgic-track-that-feels-like-old-memories.mp3",
     "duration": 70,
     "prompt": "a nostalgic track that feels like old memories"
   },
   {
-    "name": "Celestial Sigh",
+    "name": "Eternal Calm",
     "provider": "gemini",
     "audioUrl": "/gemini/a-peaceful-ambient-piece.mp3",
     "duration": 70,
     "prompt": "a peaceful ambient piece"
   },
   {
-    "name": "The Juggling Jester",
+    "name": "The Giggling Gadget",
     "provider": "gemini",
     "audioUrl": "/gemini/a-playful-and-whimsical-tune.mp3",
     "duration": 70,
     "prompt": "a playful and whimsical tune"
   },
   {
-    "name": "Dub Pressure",
+    "name": "Echoes of Kingston",
     "provider": "gemini",
     "audioUrl": "/gemini/a-reggae-dub-track-with-heavy-delay.mp3",
     "duration": 70,
     "prompt": "a reggae dub track with heavy delay"
   },
   {
-    "name": "Ethereal Devotion",
+    "name": "Velvet Whispers",
     "provider": "gemini",
     "audioUrl": "/gemini/a-romantic-and-tender-melody.mp3",
     "duration": 70,
     "prompt": "a romantic and tender melody"
   },
   {
-    "name": "Serene Silence",
+    "name": "Eternal Breath",
     "provider": "gemini",
     "audioUrl": "/gemini/a-serene-and-meditative-track.mp3",
     "duration": 70,
     "prompt": "a serene and meditative track"
   },
   {
-    "name": "The Silent Procession",
+    "name": "The Last Procession",
     "provider": "gemini",
     "audioUrl": "/gemini/a-somber-funeral-march.mp3",
     "duration": 70,
     "prompt": "a somber funeral march"
   },
   {
-    "name": "Oral Architecture",
+    "name": "Phonetic Loop",
     "provider": "gemini",
     "audioUrl": "/gemini/a-song-built-entirely-from-vocal-samples.mp3",
     "duration": 70,
     "prompt": "a song built entirely from vocal samples"
   },
   {
-    "name": "Sour Soul Sessions",
-    "provider": "gemini",
-    "audioUrl": "/gemini/a-song-in-the-style-of-badbadnotgood-merging-jazz-and-hip-ho.mp3",
-    "duration": 70,
-    "prompt": "a song in the style of BADBADNOTGOOD merging jazz and hip-hop"
-  },
-  {
-    "name": "Gilded Breath",
-    "provider": "gemini",
-    "audioUrl": "/gemini/a-song-in-the-style-of-caroline-polachek-with-ethereal-art-p.mp3",
-    "duration": 70,
-    "prompt": "a song in the style of Caroline Polachek with ethereal art-pop vocals"
-  },
-  {
-    "name": "Planet Retro",
-    "provider": "gemini",
-    "audioUrl": "/gemini/a-song-in-the-style-of-doja-cat-blending-pop-hip-hop-and-ret.mp3",
-    "duration": 70,
-    "prompt": "a song in the style of Doja Cat blending pop, hip hop, and retro sounds"
-  },
-  {
-    "name": "6ix Side Blues",
-    "provider": "gemini",
-    "audioUrl": "/gemini/a-song-in-the-style-of-drake-with-introspective-rap-and-melo.mp3",
-    "duration": 70,
-    "prompt": "a song in the style of Drake with introspective rap and melodic hooks"
-  },
-  {
-    "name": "Cellophane Veins",
-    "provider": "gemini",
-    "audioUrl": "/gemini/a-song-in-the-style-of-fka-twigs-with-experimental-art-pop-e.mp3",
-    "duration": 70,
-    "prompt": "a song in the style of FKA twigs with experimental art pop elements"
-  },
-  {
-    "name": "Submerged Echoes",
-    "provider": "gemini",
-    "audioUrl": "/gemini/a-song-in-the-style-of-james-blake-with-sparse-emotional-pro.mp3",
-    "duration": 70,
-    "prompt": "a song in the style of James Blake with sparse, emotional production"
-  },
-  {
-    "name": "Paraffin",
-    "provider": "gemini",
-    "audioUrl": "/gemini/a-song-in-the-style-of-jid-with-rapid-fire-clever-lyricism.mp3",
-    "duration": 70,
-    "prompt": "a song in the style of JID with rapid-fire, clever lyricism"
-  },
-  {
-    "name": "Peachy State",
-    "provider": "gemini",
-    "audioUrl": "/gemini/a-song-in-the-style-of-justin-bieber.mp3",
-    "duration": 70,
-    "prompt": "a song in the style of Justin Bieber"
-  },
-  {
-    "name": "Compton Narrative",
-    "provider": "gemini",
-    "audioUrl": "/gemini/a-song-in-the-style-of-kendrick-lamar-with-intricate-storyte.mp3",
-    "duration": 70,
-    "prompt": "a song in the style of Kendrick Lamar with intricate storytelling"
-  },
-  {
-    "name": "Dynasty Glitch",
-    "provider": "gemini",
-    "audioUrl": "/gemini/a-song-in-the-style-of-rina-sawayama-with-genre-blending-pop.mp3",
-    "duration": 70,
-    "prompt": "a song in the style of Rina Sawayama with genre-blending pop maximalism"
-  },
-  {
-    "name": "Canto de Algoritmo",
-    "provider": "gemini",
-    "audioUrl": "/gemini/a-song-in-the-style-of-rosala-blending-flamenco-and-modern-b.mp3",
-    "duration": 70,
-    "prompt": "a song in the style of Rosalía blending flamenco and modern beats"
-  },
-  {
-    "name": "Cigarette Soul",
-    "provider": "gemini",
-    "audioUrl": "/gemini/a-song-in-the-style-of-tash-sultana-with-layered-live-loopin.mp3",
-    "duration": 70,
-    "prompt": "a song in the style of Tash Sultana with layered live looping"
-  },
-  {
-    "name": "Golf Radio",
-    "provider": "gemini",
-    "audioUrl": "/gemini/a-song-in-the-style-of-tyler-the-creator-with-quirky-product.mp3",
-    "duration": 70,
-    "prompt": "a song in the style of Tyler, The Creator with quirky production"
-  },
-  {
-    "name": "Neon Hemlock",
-    "provider": "gemini",
-    "audioUrl": "/gemini/a-song-in-the-style-of-yves-tumor-with-psychedelic-experimen.mp3",
-    "duration": 70,
-    "prompt": "a song in the style of Yves Tumor with psychedelic experimental rock"
-  },
-  {
-    "name": "The Heat Death of a Groove",
+    "name": "Entropy Protocol",
     "provider": "gemini",
     "audioUrl": "/gemini/a-song-that-deconstructs-itself-halfway-through.mp3",
     "duration": 70,
     "prompt": "a song that deconstructs itself halfway through"
   },
   {
-    "name": "Neural Bootstrap",
+    "name": "Abyssal Drift",
+    "provider": "gemini",
+    "audioUrl": "/gemini/a-song-that-feels-like-its-underwater.mp3",
+    "duration": 70,
+    "prompt": "a song that feels like it's underwater"
+  },
+  {
+    "name": "Kinetic Shift",
+    "provider": "gemini",
+    "audioUrl": "/gemini/a-song-that-gradually-speeds-up-over-time.mp3",
+    "duration": 70,
+    "prompt": "a song that gradually speeds up over time"
+  },
+  {
+    "name": "System.Boot(Neural)",
     "provider": "gemini",
     "audioUrl": "/gemini/a-song-that-sounds-like-a-machine-waking-up.mp3",
     "duration": 70,
     "prompt": "a song that sounds like a machine waking up"
   },
   {
-    "name": "Kinetic Friction",
+    "name": "Seasonal Flux",
+    "provider": "gemini",
+    "audioUrl": "/gemini/a-song-that-transitions-through-four-seasons.mp3",
+    "duration": 70,
+    "prompt": "a song that transitions through four seasons"
+  },
+  {
+    "name": "Kinetics",
     "provider": "gemini",
     "audioUrl": "/gemini/a-song-using-only-percussion-instruments.mp3",
     "duration": 70,
     "prompt": "a song using only percussion instruments"
   },
   {
-    "name": "Static Tectonics",
+    "name": "Static Pulse",
     "provider": "gemini",
     "audioUrl": "/gemini/a-song-with-no-melody-just-rhythm-and-texture.mp3",
     "duration": 70,
     "prompt": "a song with no melody just rhythm and texture"
   },
   {
-    "name": "The Hero's Passage",
+    "name": "The Hollow Corridor",
     "provider": "gemini",
-    "audioUrl": "/gemini/a-three-act-story-told-through-music.mp3",
+    "audioUrl": "/gemini/a-suspenseful-and-eerie-track.mp3",
     "duration": 70,
-    "prompt": "a three-act story told through music"
+    "prompt": "a suspenseful and eerie track"
   },
   {
-    "name": "Void Runner",
+    "name": "Neon Night Drive",
+    "provider": "gemini",
+    "audioUrl": "/gemini/a-synthwave-retro-track.mp3",
+    "duration": 70,
+    "prompt": "a synthwave retro track"
+  },
+  {
+    "name": "Obsidian Core",
     "provider": "gemini",
     "audioUrl": "/gemini/a-trap-beat-with-heavy-808s.mp3",
     "duration": 70,
     "prompt": "a trap beat with heavy 808s"
   },
   {
-    "name": "Eternal Zenith",
+    "name": "Crown of the Victor",
     "provider": "gemini",
     "audioUrl": "/gemini/a-triumphant-and-victorious-anthem.mp3",
     "duration": 70,
     "prompt": "a triumphant and victorious anthem"
   },
   {
-    "name": "Obsidian Pulse",
+    "name": "Amber Glow",
+    "provider": "gemini",
+    "audioUrl": "/gemini/a-warm-and-cozy-song-for-a-rainy-day.mp3",
+    "duration": 70,
+    "prompt": "a warm and cozy song for a rainy day"
+  },
+  {
+    "name": "Quest for the Golden Pixel",
+    "provider": "gemini",
+    "audioUrl": "/gemini/an-8-bit-chiptune-adventure-theme.mp3",
+    "duration": 70,
+    "prompt": "an 8-bit chiptune adventure theme"
+  },
+  {
+    "name": "Kinetik Fury",
     "provider": "gemini",
     "audioUrl": "/gemini/an-aggressive-and-intense-beat.mp3",
     "duration": 70,
     "prompt": "an aggressive and intense beat"
   },
   {
-    "name": "Void Echoes",
+    "name": "Eternal Resonances",
     "provider": "gemini",
     "audioUrl": "/gemini/an-ambient-drone-piece.mp3",
     "duration": 70,
     "prompt": "an ambient drone piece"
   },
   {
-    "name": "Adrenaline spike",
+    "name": "Neural Tremor",
     "provider": "gemini",
     "audioUrl": "/gemini/an-anxious-and-tense-composition.mp3",
     "duration": 70,
     "prompt": "an anxious and tense composition"
   },
   {
-    "name": "Midnight Oil",
+    "name": "Radiant Surge",
+    "provider": "gemini",
+    "audioUrl": "/gemini/an-uplifting-energetic-track.mp3",
+    "duration": 70,
+    "prompt": "an uplifting energetic track"
+  },
+  {
+    "name": "Midnight Ink",
     "provider": "gemini",
     "audioUrl": "/gemini/background-music-for-studying-late-at-night.mp3",
     "duration": 70,
     "prompt": "background music for studying late at night"
   },
   {
-    "name": "Spectral Dialogue",
+    "name": "Binary Dialogue",
     "provider": "gemini",
     "audioUrl": "/gemini/call-and-response-between-two-melodic-voices.mp3",
     "duration": 70,
     "prompt": "call and response between two melodic voices"
   },
   {
-    "name": "Stochastic Dreams",
-    "provider": "gemini",
-    "audioUrl": "/gemini/generative-music-that-evolves-with-randomness.mp3",
-    "duration": 70,
-    "prompt": "generative music that evolves with randomness"
-  },
-  {
-    "name": "Data Corruption",
+    "name": "Buffer Overrun",
     "provider": "gemini",
     "audioUrl": "/gemini/glitchy-and-broken-digital-artifacts-as-music.mp3",
     "duration": 70,
     "prompt": "glitchy and broken digital artifacts as music"
   },
   {
-    "name": "Grand Genesis",
+    "name": "Orchestral Ascension",
     "provider": "gemini",
     "audioUrl": "/gemini/layers-that-enter-one-by-one-until-full-orchestra.mp3",
     "duration": 70,
     "prompt": "layers that enter one by one until full orchestra"
   },
   {
-    "name": "Circular Logic",
+    "name": "Shifted Symmetry",
     "provider": "gemini",
     "audioUrl": "/gemini/minimalist-repetition-with-subtle-variations.mp3",
     "duration": 70,
     "prompt": "minimalist repetition with subtle variations"
   },
   {
-    "name": "Sleeper Car",
+    "name": "Nocturnal Transit",
     "provider": "gemini",
     "audioUrl": "/gemini/music-for-a-midnight-train-ride.mp3",
     "duration": 70,
     "prompt": "music for a midnight train ride"
   },
   {
-    "name": "Rainy Window Sips",
-    "provider": "gemini",
-    "audioUrl": "/gemini/music-for-a-rainy-window-coffee-shop.mp3",
-    "duration": 70,
-    "prompt": "music for a rainy window coffee shop"
-  },
-  {
-    "name": "Asphalt Speed",
-    "provider": "gemini",
-    "audioUrl": "/gemini/music-for-a-skateboard-montage.mp3",
-    "duration": 70,
-    "prompt": "music for a skateboard montage"
-  },
-  {
-    "name": "Dust and Spices",
+    "name": "Medina Mirage",
     "provider": "gemini",
     "audioUrl": "/gemini/music-for-a-street-market-in-a-foreign-city.mp3",
     "duration": 70,
     "prompt": "music for a street market in a foreign city"
   },
   {
-    "name": "Glistening Shore",
-    "provider": "gemini",
-    "audioUrl": "/gemini/music-for-a-sunrise-on-the-beach.mp3",
-    "duration": 70,
-    "prompt": "music for a sunrise on the beach"
-  },
-  {
-    "name": "Rooftop Solstice",
+    "name": "Golden Hour Chill",
     "provider": "gemini",
     "audioUrl": "/gemini/music-for-a-sunset-rooftop-party.mp3",
     "duration": 70,
     "prompt": "music for a sunset rooftop party"
   },
   {
-    "name": "Sautéing in Solitude",
+    "name": "Solo Chef's Waltz",
     "provider": "gemini",
     "audioUrl": "/gemini/music-for-cooking-dinner-alone.mp3",
     "duration": 70,
     "prompt": "music for cooking dinner alone"
   },
   {
-    "name": "Void Suspension",
+    "name": "Zero Gravity Drift",
     "provider": "gemini",
     "audioUrl": "/gemini/music-for-floating-in-zero-gravity.mp3",
     "duration": 70,
     "prompt": "music for floating in zero gravity"
   },
   {
-    "name": "Sunday Morning Haze",
+    "name": "Sunday Slumber",
     "provider": "gemini",
     "audioUrl": "/gemini/music-for-waking-up-on-a-lazy-sunday.mp3",
     "duration": 70,
     "prompt": "music for waking up on a lazy sunday"
   },
   {
-    "name": "Timber Shadow",
+    "name": "Verdant Steps",
     "provider": "gemini",
     "audioUrl": "/gemini/music-for-walking-through-a-forest.mp3",
     "duration": 70,
     "prompt": "music for walking through a forest"
   },
   {
-    "name": "Reversed Horizon",
+    "name": "Retrograde Flux",
     "provider": "gemini",
     "audioUrl": "/gemini/music-made-from-reversed-and-pitch-shifted-sounds.mp3",
     "duration": 70,
     "prompt": "music made from reversed and pitch-shifted sounds"
   },
   {
-    "name": "Quintuple Pulse",
+    "name": "Quintessential Pulse",
     "provider": "gemini",
     "audioUrl": "/gemini/polyrhythmic-patterns-in-five-against-four.mp3",
     "duration": 70,
     "prompt": "polyrhythmic patterns in five against four"
   },
   {
-    "name": "High Speed Pursuit",
+    "name": "Asphalt Burnout",
     "provider": "gemini",
     "audioUrl": "/gemini/soundtrack-for-a-car-chase-scene.mp3",
     "duration": 70,
     "prompt": "soundtrack for a car chase scene"
   },
   {
-    "name": "The Midnight Vault",
+    "name": "The Vault Breach",
     "provider": "gemini",
     "audioUrl": "/gemini/soundtrack-for-a-heist-movie.mp3",
     "duration": 70,
     "prompt": "soundtrack for a heist movie"
   },
   {
-    "name": "Insert Coin",
+    "name": "Neon Circuit",
     "provider": "gemini",
     "audioUrl": "/gemini/soundtrack-for-a-retro-arcade.mp3",
     "duration": 70,
     "prompt": "soundtrack for a retro arcade"
   },
   {
-    "name": "Automata Awakening",
+    "name": "Silicon Awakening",
     "provider": "gemini",
     "audioUrl": "/gemini/soundtrack-for-a-robot-coming-to-life.mp3",
     "duration": 70,
     "prompt": "soundtrack for a robot coming to life"
   },
   {
-    "name": "Snowfall Over 5th Ave",
+    "name": "Asphalt Snowfall",
     "provider": "gemini",
     "audioUrl": "/gemini/soundtrack-for-a-snowfall-in-the-city.mp3",
     "duration": 70,
     "prompt": "soundtrack for a snowfall in the city"
   },
   {
-    "name": "The Flickering Projector",
+    "name": "The Nickelodeon Chase",
     "provider": "gemini",
     "audioUrl": "/gemini/soundtrack-for-an-old-silent-film.mp3",
     "duration": 70,
     "prompt": "soundtrack for an old silent film"
   },
   {
-    "name": "Abyssal Expedition",
+    "name": "Abyssal Voyage",
     "provider": "gemini",
     "audioUrl": "/gemini/soundtrack-for-an-underwater-adventure.mp3",
     "duration": 70,
     "prompt": "soundtrack for an underwater adventure"
   },
   {
-    "name": "Emerald Shimmer",
-    "provider": "gemini",
-    "audioUrl": "/gemini/soundtrack-for-watching-the-northern-lights.mp3",
-    "duration": 70,
-    "prompt": "soundtrack for watching the northern lights"
-  },
-  {
-    "name": "Bifurcated Resonance",
+    "name": "Synchronous Contrast",
     "provider": "gemini",
     "audioUrl": "/gemini/two-songs-playing-simultaneously-that-harmonize.mp3",
     "duration": 70,
