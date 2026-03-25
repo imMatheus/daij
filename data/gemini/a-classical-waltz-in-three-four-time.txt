@@ -1,39 +1,30 @@
-// 🎵 "Viennese Moonlight" — A classical waltz in three-four time for piano and strings
+// 🎵 "Vienna Gold" — Classical Waltz in Three-Four Time
 
-setcps(165/60/3);
+setcps(0.6);
 
-stack(
-  // Main Waltz Piano (Oom-pah-pah)
-  s("superpiano")
-    .note("<[c2 [e3 g3] [e3 g3]] [f2 [f3 a3] [f3 a3]] [g2 [g3 b3] [g3 b3]] [c2 [e3 g3] [e3 g3]]>")
-    .velocity(sine.range(0.4, 0.7).slow(4))
-    .gain(0.95),
+arrange(
+  [2, stack(
+    note("g2").struct("x ~ ~"),
+    note("g4:maj").struct("~ x x").gain(0.6)
+  ).s("piano").room(0.5)],
 
-  // Orchestral Strings (Chorus Sections)
-  s("superreese")
-    .lpf(sine.range(1200, 2500).slow(8))
-    .attack(0.3).release(1.2)
-    .note("<[c5 e5 g5] [f5 a5 c6] [g5 f5 d5] [e5 d5 b4]>".scale("C:major"))
-    .mask("<0*3 1*24 0*10 1*27>".slow(64))
-    .room(0.8).size(0.9).gain(0.45)
-    .jux(rev),
+  [16, stack(
+    note("<g5 a5 b5 d6 ~ ~ c6 b5 a5 g5 ~ ~ e6 f#6 g6 b6 ~ ~ a6 g6 f#6 g6 ~ ~>".slow(8))
+      .velocity(perlin.range(0.75, 0.95)).gain(0.95).jux(rev),
+    note("<g2 c2 d2 g2 e2 a1 d2 g2>".slow(8)).struct("x ~ ~").gain(1.1),
+    note("<g4:maj c4:maj d4:dom7 g4:maj e4:min a4:min d4:dom7 g4:maj>".slow(8)).struct("~ x x").gain(0.65)
+  ).s("piano").room(0.6).delay(0.2).delayfeedback(0.3)],
 
-  // Cello Counter-melody (Minor Bridge)
-  s("superreese")
-    .lpf(600)
-    .attack(0.4).release(1.5)
-    .note("<c3 g3 eb3 f3 c3 d3 g2 c3>".scale("C:minor"))
-    .struct("1*3")
-    .mask("<0*27 1*10 0*27>".slow(64))
-    .gain(0.6).room(0.6).pan(-0.3),
+  [8, stack(
+    note("<b5 c6 d6 f#6 ~ ~ e6 d6 c6 b5 ~ ~>".slow(4)).velocity(0.7).gain(0.85).jux(rev),
+    note("<b1 e2 a1 d2>".slow(4)).struct("x ~ ~").gain(1.1),
+    note("<b3:min e4:min a3:min d4:maj>".slow(4)).struct("~ x x").gain(0.55)
+  ).s("piano").lpf(perlin.slow(4).range(1500, 3000)).room(0.8)],
 
-  // High Woodwind Ornaments
-  s("supervibe")
-    .lpf(4000)
-    .attack(0.1).release(0.4)
-    .note("<[~ ~ c6] [e6 d6 c6] [~ ~ g6] [f6 e6 d6]>".scale("C:major"))
-    .mask("<0*10 1*17 0*10 1*27>".slow(64))
-    .gain(0.35).pan(perlin.slow(4))
-    .delay(0.4).delayfb(0.3)
-
-).reset(64)
+  [16, stack(
+    note("<g5 a5 b5 d6 ~ ~ c6 b5 a5 g5 ~ ~ e6 f#6 g6 b6 ~ ~ a6 g6 f#6 g6 ~ ~>".slow(8))
+      .velocity(perlin.range(0.8, 1)).gain(1).jux(rev),
+    note("<g2 c2 d2 g2 e2 a1 d2 g2>".slow(8)).struct("x ~ ~").gain(1.2),
+    note("<g4:maj c4:maj d4:dom7 g4:maj e4:min a4:min d4:dom7 g4:maj>".slow(8)).struct("~ x x").gain(0.7)
+  ).s("piano").room(0.7).delay(0.2).delayfeedback(0.4)]
+)

@@ -1,20 +1,52 @@
-// 🎵 "The Flickering Reel" — Old Silent Film Ragtime
-setcps(150/60/4);
+// 🎵 "The Nickelodeon Chase" — Ragtime Stride Piano for an Old Silent Film
+setcps(0.65);
+
 stack(
-  s("noise").lpf(perlin.range(600,1000)).gain(0.04).crush(3).pan(perlin),
-  s("noise").fast(16).lpf(5000).hpf(2000).gain(perlin.range(0.02,0.06)).crush(16),
-  note(cat(
-    ...Array(2).fill("c2"),
-    ...Array(18).fill("[c3, [~ <[e4,g4,c5] [g4,c5,e5] [c4,e4,g4] [e4,g4,c5]>] , g2, [~ <[f4,a4,d5] [d4,f4,a4] [a4,d5,f5] [f4,a4,d5]>]]"),
-    ...Array(6).fill("[<[f2,a3,c4,e4] [e2,g3,b3,d4] [d2,f3,a3,c4] [g2,b3,d4,f4]>]"),
-    ...Array(18).fill("[c3, [~ <[e4,g4,c5] [g4,c5,e5] [c4,e4,g4] [e4,g4,c5]>] , g2, [~ <[f4,a4,d5] [d4,f4,a4] [a4,d5,f5] [f4,a4,d5]>]]")
-  ))
-  .s("superpiano")
-  .velocity(perlin.range(0.4,0.7))
-  .detune(sine.range(12,28))
-  .room(0.5)
-  .lpf(2600)
-  .gain(0.8)
-  .sustain(0.3)
-  .swing(0.08)
-).reset(44)
+  // Atmosphere: Vintage Vinyl Crackle & Projector Hum
+  s("crackle*16")
+    .gain(perlin.range(0.03, 0.1).slow(8))
+    .lpf(1200),
+
+  // The Piano
+  s("piano")
+    .stack(
+      // Left Hand: Classic Stride (Bass-Chord-Bass-Chord)
+      n("<[c2 [c3,e3,g3] g1 [c3,e3,g3]]!8 [f1 [f2,a2,c3] c2 [f2,a2,c3]]!4 [g1 [g2,b2,d3] d2 [g2,b2,d3]]!4 [c2 [c3,e3,g3] g1 [c3,e3,g3]]!8 [b1 [d2,f2,ab2] b1 [d2,f2,ab2]]!6 [c2 [c3,e3,g3] g1 [c3,e3,g3]]!12>")
+        .scale("c:major")
+        .velocity(0.55)
+        .pan(0.45),
+
+      // Right Hand: Playful Syncopated Melody
+      n("<[c4,e4] [g4,c5] [f4,a4] [d4,g4] [e4,c5] [b4,d5] [c5,e5] [g4,c5]>")
+        .scale("c:major")
+        .struct("x [~ x] x . x [x x] x ~")
+        .fast(2)
+        .velocity(0.8)
+        .jux(rev)
+        .mask("<0!2 1!16 0!6 1!18>") // Intro 2c, Chorus 16c, Bridge 6c, Chorus 18c
+        .pan(0.55),
+
+      // Bridge: Dramatic Suspense Section (The Villain Approaches)
+      n("<b2 d3 f3 ab3 c3 eb3 gb3 a3>".slow(3))
+        .scale("c:chromatic")
+        .struct("x*4")
+        .velocity(0.6)
+        .adsr(0.2, 0.1, 0.5, 0.3)
+        .mask("<0!18 1!6 0!18>")
+        .detune(perlin.range(0, 5).slow(2)),
+
+      // Intro: Simple Chromatic Run
+      n("c3 d3 e3 f3 g3 a3 b3 c4").slow(2)
+        .scale("c:major")
+        .struct("x(7,8)")
+        .velocity(0.7)
+        .mask("<1!2 0!40>")
+    )
+    // Aging Effects
+    .vib(6).vibmod(sine.range(0.02, 0.08).slow(4)) // Tape-like pitch flutter
+    .lpf(perlin.range(1200, 2800).slow(5)) // Shifting muffled tone
+    .distort(0.15) // Slight harmonic saturation
+    .room(0.25).size(0.8) // Small theater reverb
+    .gain(0.9)
+)
+.reset(42) // Wrap up around 70 seconds (42 cycles * ~1.6s)

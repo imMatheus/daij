@@ -1,13 +1,18 @@
-// "Emerald Calm" — A serene and meditative ambient track
-setcps(0.4);
+// 🎵 "Eternal Breath" — Serene and meditative ambient soundscape
+samples('github:tidalcycles/dirt-samples');
+setcps(0.2);
 stack(
-  s("superpiano").chord("<[Fmaj9,C2]@1 [G6,D2]@11 [Am7,E2]@5 [Em7,B1]@11>").slow(28)
-    .lpf(perlin.range(400, 1000).slow(14)).lpq(8).room(0.9).size(0.9)
-    .gain("<0.3@1 0.7@11 0.4@5 0.7@11>"),
-  note("C5 G5 B5 E6".slow(3).scramble()).s("supervibe").decay(0.3).sustain(0)
-    .room(1).size(0.9).delay(0.6).delayfb(0.5).pan(sine.range(0.1,0.9).slow(7))
-    .gain("<0@2 0.4@10 0.2@5 0.4@11>"),
-  note("F4 A4 C5 E5".struct("1(3,8)").scale("F:major")).s("superchip")
-    .decay(0.1).sustain(0).room(0.7).gain("<0@12 0.3@5 0@11>"),
-  s("supernoise").lpf(sine.range(600,1800).slow(20)).gain("<0.05@1 0.12@11 0.05@5 0.12@11>").pan(perlin)
-).reset(28)
+  note("<[c3, g3, b3] [f3, c4, e4] [g3, d4, f4] [a3, e4, g4]>".sub(24))
+    .s("sine").attack(3).release(5).gain(0.8)
+    .lpf(perlin.range(400, 1500).slow(20))
+    .vib(0.5).vibmod(0.1),
+  note("<0 [2 4] [7 5] 4>".scale("C:major:pentatonic").scramble(4).add(12))
+    .s("folkharp").gain(0.5).attack(0.8).release(2.5)
+    .mask("<0 1!6 0!2 1!6>")
+    .delay(0.6).delaytime(0.5).delayfeedback(0.85)
+    .jux(rev),
+  s("hh(3,8,2)").gain(0.12).lpf(2000).room(1).mask("<0 1!6 0!2 1!6>"),
+  s("bd:4").gain(0.1).room(1).struct("x ~ ~ ~ ~ ~ ~ ~").mask("<0 0 1!5 0!2 1!6>")
+)
+.reset("<x!4 x(5,8)!4>")
+.room(0.9, 12).delay(0.4)

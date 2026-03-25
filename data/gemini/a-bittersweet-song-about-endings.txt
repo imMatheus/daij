@@ -1,30 +1,49 @@
-// 🎵 "The Last Page" — Bittersweet Melancholic Ambient
+// 🎵 "Final Sunset" — A bittersweet lo-fi ambient track about endings
 
 setcps(0.7);
+
 stack(
-  note("<[g2,bb2,d3,f3] [eb2,g2,bb2,d3] [bb1,d2,f2,a2] [d2,f2,a2,c3]>")
-    .s("<superpiano@24 superpad@8 superpiano@18>".slow(50))
-    .gain("<[0,0.6]@6 0.7@18 0.4@8 0.7@18>".slow(50))
+  // 🎹 Dusty Electric Piano Chords
+  note("<[d3,f3,a3,c4] [c3,e3,g3,b3] [bb2,d3,f3,a3] [a2,c3,e3,g3]>")
+    .s("piano")
+    .adsr(".2:.1:.6:2")
+    .gain(".4 .35 .4 .3")
+    .lpf(sine.range(400, 1200).slow(8))
     .room(0.8)
-    .lpf(sine.range(600, 2500).slow(8)),
-  note("~ <g4(3,8) d5(5,8) f5(3,8) a4(5,8)>")
-    .s("superpiano")
-    .velocity(0.6)
-    .delay(0.4)
-    .room(0.8)
-    .mask("<0@6 1@18 0.3@8 1@11 [1,0]@7>".slow(50)),
-  note("<g1 eb1 bb0 d1>")
-    .s("superreese")
-    .lpf(300)
-    .gain(0.4)
-    .mask("<0@6 1@18 0.5@8 1@11 [1,0]@7>".slow(50)),
-  s("[bd:4, [~ <sd:5 [sd:5 sd:2]>] ]")
-    .gain(0.6)
+    .delay(0.5).dt(1/3).dfb(0.7)
+    .reset("<x!4 ~!4 x(3,8,1)!8 x!8>")
+    .pan(perlin.slow(4)),
+
+  // 🎻 Ethereal Pad Layer
+  note("<d4 c4 bb3 a3>")
+    .s("supersaw")
+    .detune(perlin.range(0.1, 0.5).slow(2))
+    .adsr("2:1:.4:4")
+    .gain(0.15)
+    .lpf(sine.range(200, 800).slow(12))
+    .chorus(0.6)
+    .room(1.5),
+
+  // 🥁 Distant Bittersweet Beats
+  s("<[bd:3 [~ bd:3]] [~ sd:2] [bd:3 [~ bd:3]] [~ sd:2]>")
+    .gain("<0!4 .6!28 .2!12 .7!32>") // Intro 4 cycles, Bridge drop, Final Chorus
+    .bank("tr808")
+    .lpf(800)
     .room(0.4)
-    .mask("<0@6 1@18 0@8 1@11 [1,0]@7>".slow(50)),
-  s("cpu*16")
-    .n(irand(8))
-    .gain(perlin.range(0, 0.4))
-    .mask("<0@40 1@10>".slow(50))
-    .pan(sine.slow(4))
-).reset(50)
+    .jux(rev),
+
+  // 🔔 Flickering Highs
+  note("d5(3,8,<0 2 4 6>)".scale("d:minor"))
+    .s("triangle")
+    .gain("<0!8 .3!24 .1!8 .3!32>")
+    .decay(0.05).sustain(0).release(0.1)
+    .echo(4, 1/16, 0.6)
+    .room(1)
+    .pan(sine.slow(2)),
+
+  // 🌫️ Ending Crackle & Hiss
+  s("crackle*8")
+    .gain(perlin.range(0.05, 0.15).slow(5))
+    .lpf(2000)
+    .room(0.2)
+).mask("<1!68 0>") // Fades out at ~70s given cps and cycle count
