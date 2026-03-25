@@ -1,5 +1,3 @@
-Now I have a good understanding of the Strudel API. Let me compose the song.
-
 // "Raindrop Reverie" — Lo-fi jazz for a rainy window coffee shop
 setcps(0.5)
 

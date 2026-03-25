@@ -91,7 +91,7 @@ async function main() {
   const workers = Array.from({ length: Math.min(concurrency, toRender.length) }, () => renderNext())
   await Promise.all(workers)
 
-  console.log(`\nBatch rendering complete. ${completed - failed} succeeded, ${failed} failed.`)
+  console.log(`\nBatch rendering complete. ${completed} succeeded, ${failed} failed.`)
 }
 
 main().catch((err) => {

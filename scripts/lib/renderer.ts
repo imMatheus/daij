@@ -1,7 +1,9 @@
 // renderer.ts
 // Core rendering engine. Opens strudel.cc in a headless browser via Puppeteer,
 // injects Strudel code through the CodeMirror API, captures audio output by
-// monkey-patching AudioNode, and encodes the result as a 48kHz stereo WAV file.
+// monkey-patching AudioNode with a ScriptProcessor, and encodes the result as
+// a 48kHz stereo WAV file. The main thread is left completely idle during
+// recording to avoid audio capture artifacts.
 // Also exports estimateDuration() to guess song length from code comments/BPM.
 
 import puppeteer, { type Page } from "puppeteer"
@@ -186,33 +188,32 @@ export async function renderSong(
       }
     }
 
+    // Start capture
     await page.evaluate(() => {
-      ; (window as any).__isCapturing = true
+      ;(window as any).__isCapturing = true
     })
     console.log("  Recording started")
 
+    // Wait for full duration — NO browser polling during capture to avoid
+    // main-thread interference with ScriptProcessor audio callbacks
     const totalWait = (duration + 5) * 1000
     const start = Date.now()
-
-    while (Date.now() - start < totalWait) {
-      await new Promise((r) => setTimeout(r, 3000))
+    const progressInterval = setInterval(() => {
       const elapsed = Math.floor((Date.now() - start) / 1000)
-      const stats = await page.evaluate(
-        () =>
-          (window as any).__captureStats as {
-            connects: number
-            destConnects: number
-            chunks: number
-          },
-      )
       process.stdout.write(
-        `\r  ${elapsed}s | chunks=${stats.chunks} connects=${stats.connects}  `,
+        `\r  ${elapsed}s / ${Math.ceil(totalWait / 1000)}s  `,
       )
-    }
+    }, 5000)
 
+    await new Promise((r) => setTimeout(r, totalWait))
+    clearInterval(progressInterval)
+
+    // Stop capture
     await page.evaluate(() => {
-      ; (window as any).__isCapturing = false
+      ;(window as any).__isCapturing = false
     })
+
+    // Stop Strudel playback
     await page.keyboard.down("Control")
     await page.keyboard.press(".")
     await page.keyboard.up("Control")
@@ -244,10 +245,21 @@ export async function renderSong(
       const tempWav = outputPath.replace(/\.mp3$/, ".tmp.wav")
       writeFileSync(tempWav, wavBuffer)
       console.log(`  Converting to MP3...`)
-      const result = spawnSync("ffmpeg", ["-y", "-v", "error", "-i", tempWav, "-b:a", "192k", outputPath])
+      const result = spawnSync("ffmpeg", [
+        "-y",
+        "-v",
+        "error",
+        "-i",
+        tempWav,
+        "-b:a",
+        "192k",
+        outputPath,
+      ])
       unlinkSync(tempWav)
       if (result.status !== 0) {
-        throw new Error(`ffmpeg conversion failed: ${result.stderr?.toString()}`)
+        throw new Error(
+          `ffmpeg conversion failed: ${result.stderr?.toString()}`,
+        )
       }
     } else {
       writeFileSync(outputPath, wavBuffer)
@@ -268,7 +280,10 @@ export function estimateDuration(code: string): number {
 
   const durationMatch = code.match(/[≈~]\s*(\d+):(\d+)/)
   if (durationMatch) {
-    return Math.min(parseInt(durationMatch[1]) * 60 + parseInt(durationMatch[2]), MAX_DURATION)
+    return Math.min(
+      parseInt(durationMatch[1]) * 60 + parseInt(durationMatch[2]),
+      MAX_DURATION,
+    )
   }
 
   // Try to parse BPM and bar counts from arrange()
@@ -282,7 +297,8 @@ export function estimateDuration(code: string): number {
       const barCounts = arrangeMatches.map((m) => parseInt(m[1]))
       const totalBars = barCounts.reduce((a, b) => a + b, 0)
       const patternCount = (code.match(/\$:/g) || []).length
-      const barsPerPattern = patternCount > 0 ? totalBars / patternCount : totalBars
+      const barsPerPattern =
+        patternCount > 0 ? totalBars / patternCount : totalBars
       const durationSec = (barsPerPattern / cpm) * 60
       if (durationSec > 30 && durationSec < 600) {
         return Math.min(Math.ceil(durationSec), MAX_DURATION)

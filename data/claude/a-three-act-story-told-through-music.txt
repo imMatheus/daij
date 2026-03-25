@@ -47,13 +47,3 @@ arrange(
   [3, n("[0,2,4,7]").scale("D4:major").s("triangle")
     .lpf(600).rel(3).room(.7).delay(".4:.2:.5").gain(.3).att(.8)]
 )
-
-**Structure:** 35 cycles at `setcps(20/70)` ≈ 70 seconds
-
-- **Intro** (4s): Sparse triangle and pad drone in D dorian
-- **Act I / Chorus** (24s): Main theme emerges — melodic triangle lead, dorian chord pads, euclidean drums, sub bass
-- **Act II / Bridge** (12s): The storm — shifts to Bb phrygian, aggressive sawtooth with distortion, driving double-time drums, resonant filter sweeps
-- **Act III / Chorus Return** (24s): Resolution — same melody now in D major (bright), doubled an octave up, fuller arrangement with open hats
-- **Outro** (6s): Final major chord dissolves into reverb and delay
-
-The harmonic journey (D dorian → Bb phrygian → D major) tells the story: hopeful ambiguity → dark conflict → triumphant resolution.
