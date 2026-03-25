@@ -1,5 +1,3 @@
-Here's the song:
-
 // "Breath of Still Air" — Peaceful ambient meditation with warm FM pads and drifting glass tones
 setcps(0.4)
 arrange(

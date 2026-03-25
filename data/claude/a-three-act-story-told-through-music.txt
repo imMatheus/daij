@@ -1,5 +1,3 @@
-It seems file write permissions need to be granted. Here's the song:
-
 // "The Arc" — Three-act cinematic narrative: awakening, storm, resolution
 setcps(20/70)
 arrange(

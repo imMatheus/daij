@@ -1,5 +1,3 @@
-Here's the song:
-
 // "Front Porch Sunset" — Country folk with fingerpicked acoustic guitar and gentle swing
 setcps(108/60/4)
 
