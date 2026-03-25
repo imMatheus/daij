@@ -11,6 +11,7 @@ type VoteOutcome = 'left_wins' | 'right_wins' | 'tie' | 'both_bad'
 type ArenaPair = {
   songs: Song[]
   prompt: string
+  sessionId: string
 }
 
 function SongCard({
@@ -105,8 +106,7 @@ export const Arena = () => {
   const voteMutation = useMutation({
     mutationFn: (outcome: VoteOutcome) =>
       postJson('/arena/vote', {
-        songAId: pair![0].id,
-        songBId: pair![1].id,
+        sessionId: arenaData!.sessionId,
         outcome,
       }),
     onSuccess: () => {

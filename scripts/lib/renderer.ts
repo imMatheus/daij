@@ -264,9 +264,11 @@ export async function renderSong(
 
 export function estimateDuration(code: string): number {
   // Try to parse duration comment like "≈ 2:42" or "~ 2:42"
+  const MAX_DURATION = 70
+
   const durationMatch = code.match(/[≈~]\s*(\d+):(\d+)/)
   if (durationMatch) {
-    return parseInt(durationMatch[1]) * 60 + parseInt(durationMatch[2])
+    return Math.min(parseInt(durationMatch[1]) * 60 + parseInt(durationMatch[2]), MAX_DURATION)
   }
 
   // Try to parse BPM and bar counts from arrange()
@@ -277,20 +279,16 @@ export function estimateDuration(code: string): number {
     // Find bar counts in arrange() calls
     const arrangeMatches = [...code.matchAll(/\[(\d+),\s/g)]
     if (arrangeMatches.length > 0) {
-      // Group consecutive bar counts (they belong to the same arrange call)
-      // Take the max total from any single arrange block
       const barCounts = arrangeMatches.map((m) => parseInt(m[1]))
-      // Sum all bars (assuming they're from one arrange)
       const totalBars = barCounts.reduce((a, b) => a + b, 0)
-      // Divide by number of $: patterns (each arrange has its own set of bars)
       const patternCount = (code.match(/\$:/g) || []).length
       const barsPerPattern = patternCount > 0 ? totalBars / patternCount : totalBars
       const durationSec = (barsPerPattern / cpm) * 60
       if (durationSec > 30 && durationSec < 600) {
-        return Math.max(Math.ceil(durationSec), 70)
+        return Math.min(Math.ceil(durationSec), MAX_DURATION)
       }
     }
   }
 
-  return 70 // default 2.5 minutes
+  return MAX_DURATION
 }

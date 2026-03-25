@@ -1,4 +1,4 @@
-import { pgTable, serial, text, integer, real, timestamp, index } from 'drizzle-orm/pg-core'
+import { pgTable, serial, text, integer, real, timestamp, index, uuid } from 'drizzle-orm/pg-core'
 
 export const songs = pgTable('songs', {
   id: serial('id').primaryKey(),
@@ -22,14 +22,16 @@ export const listens = pgTable('listens', {
   index('listens_rate_limit_idx').on(t.songId, t.ip, t.createdAt),
 ])
 
-export const votes = pgTable('votes', {
-  id: serial('id').primaryKey(),
+export const voteSessions = pgTable('vote_sessions', {
+  id: uuid('id').primaryKey().defaultRandom(),
   songAId: integer('song_a_id')
     .notNull()
     .references(() => songs.id),
   songBId: integer('song_b_id')
     .notNull()
     .references(() => songs.id),
-  outcome: text('outcome').notNull(),
+  ip: text('ip').notNull(),
+  outcome: text('outcome'),
   createdAt: timestamp('created_at').notNull().defaultNow(),
+  votedAt: timestamp('voted_at'),
 })

@@ -1,8 +1,8 @@
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 import { db } from './db'
-import { songs, votes, listens } from './db/schema'
-import { eq, ne, sql, desc, isNotNull, sum, count, avg, and, gte } from 'drizzle-orm'
+import { songs, voteSessions, listens } from './db/schema'
+import { eq, ne, sql, desc, isNotNull, isNull, sum, count, avg, and, gte } from 'drizzle-orm'
 import { getConnInfo } from 'hono/bun'
 import { logger as honoLogger } from "hono/logger";
 import { rateLimiter } from "hono-rate-limiter";
@@ -32,6 +32,10 @@ app.get('/songs', async (c) => {
 })
 
 app.get('/arena/pair', async (c) => {
+  const ip = c.req.header('x-forwarded-for')?.split(',')[0]?.trim()
+    || getConnInfo(c).remote.address
+    || 'unknown'
+
   // Try to find a prompt with songs from 2+ providers
   const [matched] = await db
     .select({ prompt: songs.prompt })
@@ -41,6 +45,9 @@ app.get('/arena/pair', async (c) => {
     .having(sql`COUNT(DISTINCT ${songs.provider}) >= 2`)
     .orderBy(sql`RANDOM()`)
     .limit(1)
+
+  let pair: typeof songsForPrompt
+  let prompt: string | null = null
 
   if (matched?.prompt) {
     const songsForPrompt = await db
@@ -58,36 +65,54 @@ app.get('/arena/pair', async (c) => {
     const providers = [...byProvider.keys()].sort(() => Math.random() - 0.5)
     const listA = byProvider.get(providers[0]!)!
     const listB = byProvider.get(providers[1]!)!
-    const songA = listA[Math.floor(Math.random() * listA.length)]
-    const songB = listB[Math.floor(Math.random() * listB.length)]
+    const songA = listA[Math.floor(Math.random() * listA.length)]!
+    const songB = listB[Math.floor(Math.random() * listB.length)]!
 
-    const pair = Math.random() > 0.5 ? [songA, songB] : [songB, songA]
-    return c.json({ songs: pair, prompt: matched.prompt })
+    pair = Math.random() > 0.5 ? [songA, songB] : [songB, songA]
+    prompt = matched.prompt
+  } else {
+    // Fallback: pick random songs from different providers
+    const [songA] = await db.select().from(songs).orderBy(sql`RANDOM()`).limit(1)
+    if (!songA) return c.json({ error: 'No songs' }, 404)
+
+    const [songB] = await db
+      .select()
+      .from(songs)
+      .where(ne(songs.provider, songA.provider))
+      .orderBy(sql`RANDOM()`)
+      .limit(1)
+    if (!songB) return c.json({ error: 'Need songs from 2+ providers' }, 404)
+
+    pair = Math.random() > 0.5 ? [songA, songB] : [songB, songA]
   }
 
-  // Fallback: pick random songs from different providers
-  const [songA] = await db.select().from(songs).orderBy(sql`RANDOM()`).limit(1)
-  if (!songA) return c.json({ error: 'No songs' }, 404)
+  // Create a vote session
+  const [session] = await db.insert(voteSessions).values({
+    songAId: pair[0]!.id,
+    songBId: pair[1]!.id,
+    ip,
+  }).returning({ id: voteSessions.id })
 
-  const [songB] = await db
-    .select()
-    .from(songs)
-    .where(ne(songs.provider, songA.provider))
-    .orderBy(sql`RANDOM()`)
-    .limit(1)
-  if (!songB) return c.json({ error: 'Need songs from 2+ providers' }, 404)
-
-  const pair = Math.random() > 0.5 ? [songA, songB] : [songB, songA]
-  return c.json({ songs: pair, prompt: null })
+  return c.json({ songs: pair, prompt, sessionId: session!.id })
 })
 
 app.post('/arena/vote', async (c) => {
-  const { songAId, songBId, outcome } = await c.req.json<{
-    songAId: number
-    songBId: number
+  const { sessionId, outcome } = await c.req.json<{
+    sessionId: string
     outcome: 'left_wins' | 'right_wins' | 'tie' | 'both_bad'
   }>()
 
+  // Validate session exists and hasn't been voted on
+  const [session] = await db
+    .select()
+    .from(voteSessions)
+    .where(and(eq(voteSessions.id, sessionId), isNull(voteSessions.outcome)))
+
+  if (!session) {
+    return c.json({ error: 'Invalid or already voted session' }, 400)
+  }
+
+  const { songAId, songBId } = session
   const K = 4
   const actualA = outcome === 'left_wins' ? 1 : outcome === 'right_wins' ? 0 : 0.5
   const actualB = outcome === 'right_wins' ? 1 : outcome === 'left_wins' ? 0 : 0.5
@@ -114,7 +139,11 @@ app.post('/arena/vote', async (c) => {
     })
     .where(eq(songs.id, songBId))
 
-  await db.insert(votes).values({ songAId, songBId, outcome })
+  // Mark session as voted
+  await db
+    .update(voteSessions)
+    .set({ outcome, votedAt: new Date() })
+    .where(eq(voteSessions.id, sessionId))
 
   return c.json({ ok: true })
 })

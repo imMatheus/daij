@@ -7,6 +7,7 @@
     "start": "bun src/index.ts",
     "dev": "bun --hot src/index.ts",
     "db:push": "bunx drizzle-kit push",
+    "db:migrate": "bunx drizzle-kit migrate",
     "db:seed": "bun src/db/seed.ts"
   },
   "devDependencies": {
